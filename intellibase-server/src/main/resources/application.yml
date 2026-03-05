@@ -23,6 +23,10 @@ spring:
     username: admin
     password: guest
 
+jwt:
+  secret: Y2hhbmdlLXRoaXMtdG8tYS1sb25nLXNlY3VyZS1rZXktaW4tcHJvZHVjdGlvbi0yMDI2
+  expiration: 86400000  # 24 hours in milliseconds
+
 mybatis-plus:
   mapper-locations: classpath:mapper/**/*.xml
   configuration:
