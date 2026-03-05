@@ -26,3 +26,5 @@ target/
 
 ### Logs ###
 *.log
+
+.env
