@@ -44,6 +44,8 @@ rag:
   retrieval-top-k: 5
   similarity-threshold: 0.7
   cache-similarity-threshold: 0.95
+  l2-retrieval-cache-ttl-minutes: 30
+  l3-chunk-cache-ttl-hours: 2
 
 embedding:
   api-key: ${OPENAI_API_KEY}
@@ -68,3 +70,14 @@ management:
     web:
       exposure:
         include: health,info,metrics
+  endpoint:
+    health:
+      show-details: when-authorized
+      show-components: when-authorized
+  health:
+    redis:
+      enabled: true
+    rabbit:
+      enabled: true
+    db:
+      enabled: true

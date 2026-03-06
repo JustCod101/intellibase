@@ -121,9 +121,9 @@ public class RagService {
             return;
         }
 
-        // ===== [3] 向量检索 (基于 pgvector) =====
-        // 在指定的知识库里，搜索与问题向量最接近的 Top K 个文档片段
-        List<RetrievalResult> contexts = retrievalService.retrieve(queryVector, kbId);
+        // ===== [3] 向量检索 (L2 缓存 → L3 缓存 → pgvector DB) =====
+        // 传入 question 用于 L2 检索缓存的 Key 计算
+        List<RetrievalResult> contexts = retrievalService.retrieve(queryVector, kbId, question);
         log.info("RAG 检索完成: kbId={}, 命中 {} 条上下文", kbId, contexts.size());
 
         // ===== [4] Prompt 组装 =====

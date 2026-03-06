@@ -36,10 +36,11 @@ public class SemanticCacheService {
     private final StringRedisTemplate redisTemplate;
     // 复用聊天记录表或专门的缓存表进行向量检索
     private final ChatMessageMapper chatMessageMapper;
+    private final CacheStatsService cacheStatsService;
 
     /**
-     * 尝试从缓存中获取答案
-     * 
+     * 尝试从缓存中获取答案（L1 语义缓存）
+     *
      * @param question 用户当前提问
      * @param kbId     所属知识库
      * @param vector   提问的向量指纹
@@ -47,13 +48,13 @@ public class SemanticCacheService {
     public Optional<String> tryGetCachedAnswer(String question, Long kbId, float[] vector) {
         String vectorStr = EmbeddingService.toVectorString(vector);
 
-        // 1. 去数据库里搜寻之前回答过的、且语义极其相似的问题
-        // SQL 逻辑：SELECT answer FROM chat_message WHERE kb_id = ? AND question <=> ? < (1 - threshold)
         String cachedAnswer = chatMessageMapper.findCachedAnswer(vectorStr, kbId, cacheThreshold);
 
         if (cachedAnswer != null) {
+            cacheStatsService.recordL1Hit();
             return Optional.of(cachedAnswer);
         }
+        cacheStatsService.recordL1Miss();
         return Optional.empty();
     }
 
