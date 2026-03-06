@@ -14,13 +14,16 @@ import java.util.Arrays;
 import java.util.List;
 
 /**
- * 向量化服务
- * 使用 LangChain4j 调用 OpenAI Embedding API，支持单条和批量向量化
+ * 向量化 (Embedding) 服务
+ * <p>
+ * 核心原理：使用大模型（如 text-embedding-3-small）将一段文字转成一串固定维度的数字（向量）。
+ * 作用：让机器能通过数学计算，判断两个词或句子的“语义”是否相近。
  */
 @Slf4j
 @Service
 public class EmbeddingService {
 
+    // 读取 API 密钥和地址
     @Value("${embedding.api-key}")
     private String apiKey;
 
@@ -30,11 +33,16 @@ public class EmbeddingService {
     @Value("${embedding.model-name}")
     private String modelName;
 
+    // 向量的维度（如：1536），代表语义特征的精细程度
     @Value("${embedding.dimensions}")
     private int dimensions;
 
+    // LangChain4j 提供的统一模型接口
     private EmbeddingModel embeddingModel;
 
+    /**
+     * 初始化：在项目启动后创建 Embedding 模型客户端
+     */
     @PostConstruct
     public void init() {
         this.embeddingModel = OpenAiEmbeddingModel.builder()
@@ -43,11 +51,15 @@ public class EmbeddingService {
                 .modelName(modelName)
                 .dimensions(dimensions)
                 .build();
-        log.info("EmbeddingService 初始化完成: model={}, dimensions={}", modelName, dimensions);
+        log.info("EmbeddingService 初始化完成: 使用模型={}, 维度={}", modelName, dimensions);
     }
 
     /**
-     * 单条文本向量化
+     * 将单段文本向量化
+     * 常用场景：处理用户提问
+     * 
+     * @param text 输入文本
+     * @return 返回浮点数组（即向量）
      */
     public float[] embed(String text) {
         Response<Embedding> response = embeddingModel.embed(text);
@@ -56,15 +68,18 @@ public class EmbeddingService {
 
     /**
      * 批量文本向量化
+     * 常用场景：上传文档时，对成百上千个文档分块进行批量转换
      *
      * @param texts 文本列表
-     * @return 对应的向量列表（顺序与输入一致）
+     * @return 对应的向量列表，顺序与输入严格一致
      */
     public List<float[]> embedBatch(List<String> texts) {
+        // 将普通字符串包装成 LangChain4j 的 TextSegment 对象
         List<TextSegment> segments = texts.stream()
                 .map(TextSegment::from)
                 .toList();
 
+        // 批量发送网络请求，提升处理效率
         Response<List<Embedding>> response = embeddingModel.embedAll(segments);
 
         return response.content().stream()
@@ -73,7 +88,9 @@ public class EmbeddingService {
     }
 
     /**
-     * 将 float[] 向量转为 pgvector 所需的字符串格式 "[0.1,0.2,...]"
+     * 向量格式转换工具
+     * 
+     * 数据库（pgvector）存储向量时，SQL 语法要求是字符串格式："[0.1, 0.2, 0.3...]"
      */
     public static String toVectorString(float[] vector) {
         StringBuilder sb = new StringBuilder("[");

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.intellibase.server.mapper.SemanticCacheMapper">
+
+    <!-- 向量相似度查找缓存 -->
+    <select id="findSimilar" resultType="com.intellibase.server.domain.entity.SemanticCache">
+        SELECT id, kb_id, query_text, response_text, hit_count, created_at, expires_at,
+               1 - (query_embedding &lt;=&gt; #{queryEmbedding}::vector) AS similarity
+        FROM semantic_cache
+        WHERE kb_id = #{kbId}
+          AND (expires_at IS NULL OR expires_at &gt; NOW())
+          AND 1 - (query_embedding &lt;=&gt; #{queryEmbedding}::vector) &gt; #{threshold}
+        ORDER BY query_embedding &lt;=&gt; #{queryEmbedding}::vector
+        LIMIT #{limit}
+    </select>
+
+    <!-- 插入缓存（含向量） -->
+    <insert id="insertWithVector">
+        INSERT INTO semantic_cache (kb_id, query_embedding, query_text, response_text, hit_count, expires_at)
+        VALUES (#{cache.kbId}, #{embedding}::vector, #{cache.queryText}, #{cache.responseText}, 0, #{cache.expiresAt})
+    </insert>
+
+    <!-- 命中计数 +1 -->
+    <update id="incrementHitCount">
+        UPDATE semantic_cache SET hit_count = hit_count + 1 WHERE id = #{id}
+    </update>
+
+</mapper>
