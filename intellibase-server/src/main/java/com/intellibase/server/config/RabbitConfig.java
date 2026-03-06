@@ -3,11 +3,21 @@ package com.intellibase.server.config;
 import com.intellibase.server.common.Constants;
 import org.springframework.amqp.core.Queue;
 import org.springframework.amqp.core.QueueBuilder;
+import org.springframework.amqp.support.converter.Jackson2JsonMessageConverter;
+import org.springframework.amqp.support.converter.MessageConverter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
 public class RabbitConfig {
+
+    /**
+     * MQ 消息序列化：使用 JSON 替代默认的 JDK 序列化
+     */
+    @Bean
+    public MessageConverter jackson2JsonMessageConverter() {
+        return new Jackson2JsonMessageConverter();
+    }
 
     /**
      * 文档解析队列 — 限制并发防止 OOM
