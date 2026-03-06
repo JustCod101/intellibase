@@ -33,6 +33,12 @@ mybatis-plus:
     map-underscore-to-camel-case: true
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
 
+embedding:
+  api-key: ${OPENAI_API_KEY}
+  base-url: ${OPENAI_BASE_URL}
+  model-name: text-embedding-v4
+  dimensions: 1536
+
 minio:
   endpoint: http://localhost:9000
   access-key: minioadmin

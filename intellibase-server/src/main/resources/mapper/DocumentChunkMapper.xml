@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.intellibase.server.mapper.DocumentChunkMapper">
+
+    <!-- 批量插入文档分块（含 pgvector 向量） -->
+    <insert id="batchInsertWithVector">
+        INSERT INTO document_chunk (doc_id, kb_id, chunk_index, content, token_count, embedding, metadata)
+        VALUES
+        <foreach collection="list" item="chunk" index="idx" separator=",">
+            (
+                #{chunk.docId},
+                #{chunk.kbId},
+                #{chunk.chunkIndex},
+                #{chunk.content},
+                #{chunk.tokenCount},
+                #{embeddings[${idx}]}::vector,
+                #{chunk.metadata}
+            )
+        </foreach>
+    </insert>
+
+    <!-- 向量相似度检索：先按 kb_id 过滤，再做余弦相似度排序 -->
+    <select id="findSimilar" resultType="com.intellibase.server.domain.entity.DocumentChunk">
+        SELECT
+            id, doc_id, kb_id, chunk_index, content, token_count, metadata, created_at,
+            1 - (embedding &lt;=&gt; #{queryEmbedding}::vector) AS similarity
+        FROM document_chunk
+        WHERE kb_id = #{kbId}
+          AND 1 - (embedding &lt;=&gt; #{queryEmbedding}::vector) &gt; #{threshold}
+        ORDER BY embedding &lt;=&gt; #{queryEmbedding}::vector
+        LIMIT #{limit}
+    </select>
+
+</mapper>
