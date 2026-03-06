@@ -19,13 +19,13 @@ public class CacheStatsController {
 
     @GetMapping("/stats")
     public Result<Map<String, Object>> getStats() {
-        return Result.success(cacheStatsService.getStats());
+        return Result.ok(cacheStatsService.getStats());
     }
 
     @PostMapping("/stats/reset")
     public Result<Void> resetStats() {
         cacheStatsService.reset();
-        return Result.success(null);
+        return Result.ok();
     }
 
 }

@@ -38,7 +38,7 @@ public class SecurityConfig {
                         .requestMatchers("/api/v1/kb/**").hasAnyRole("ADMIN", "USER")
                         // Swagger / Actuator 放行
                         .requestMatchers(
-                                "/swagger-ui/**",
+                                "/swagger-ui.html",
                                 "/v3/api-docs/**",
                                 "/actuator/health"
                         ).permitAll()

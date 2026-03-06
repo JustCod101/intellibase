@@ -31,10 +31,10 @@ public class RetrievalService {
     private final ChunkCacheService chunkCacheService;
     private final CacheStatsService cacheStatsService;
 
-    @Value(“${rag.retrieval-top-k}”)
+    @Value("${rag.retrieval-top-k}")
     private int topK;
 
-    @Value(“${rag.similarity-threshold}”)
+    @Value("${rag.similarity-threshold}")
     private double similarityThreshold;
 
     /**
@@ -51,7 +51,7 @@ public class RetrievalService {
             Optional<List<RetrievalResult>> l2Cached = retrievalCacheService.tryGetCachedResults(query, kbId);
             if (l2Cached.isPresent()) {
                 cacheStatsService.recordL2Hit();
-                log.info(“L2 检索缓存命中: kbId={}, 结果数={}”, kbId, l2Cached.get().size());
+                log.info("L2 检索缓存命中: kbId={}, 结果数={}", kbId, l2Cached.get().size());
                 return l2Cached.get();
             }
             cacheStatsService.recordL2Miss();
@@ -78,7 +78,7 @@ public class RetrievalService {
             retrievalCacheService.cacheResults(query, kbId, results);
         }
 
-        log.info(“向量检索完成: kbId={}, 命中数={}”, kbId, results.size());
+        log.info("向量检索完成: kbId={}, 命中数={}", kbId, results.size());
         return results;
     }
 
@@ -91,7 +91,7 @@ public class RetrievalService {
 
     private RetrievalResult toResult(DocumentChunk chunk) {
         String content = chunk.getContent();
-        String snippet = content.length() > 200 ? content.substring(0, 200) + “...” : content;
+        String snippet = content.length() > 200 ? content.substring(0, 200) + "..." : content;
 
         return RetrievalResult.builder()
                 .chunkId(chunk.getId())
