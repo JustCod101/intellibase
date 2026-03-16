@@ -1,5 +1,6 @@
 package com.intellibase.server.mapper;
 
+import com.baomidou.mybatisplus.annotation.InterceptorIgnore;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.intellibase.server.domain.entity.SemanticCache;
 import org.apache.ibatis.annotations.Mapper;
@@ -8,6 +9,7 @@ import org.apache.ibatis.annotations.Param;
 import java.util.List;
 
 @Mapper
+@InterceptorIgnore(tenantLine = "true")
 public interface SemanticCacheMapper extends BaseMapper<SemanticCache> {
 
     /**

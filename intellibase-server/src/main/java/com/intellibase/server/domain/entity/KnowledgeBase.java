@@ -1,12 +1,13 @@
 package com.intellibase.server.domain.entity;
 
 import com.baomidou.mybatisplus.annotation.*;
+import com.intellibase.server.config.JsonbTypeHandler;
 import lombok.Data;
 
-import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 
 @Data
-@TableName("knowledge_base")
+@TableName(value = "knowledge_base", autoResultMap = true)
 public class KnowledgeBase {
 
     @TableId(type = IdType.AUTO)
@@ -20,6 +21,7 @@ public class KnowledgeBase {
 
     private String embeddingModel;
 
+    @TableField(typeHandler = JsonbTypeHandler.class)
     private String chunkStrategy;
 
     private Integer docCount;
@@ -28,10 +30,10 @@ public class KnowledgeBase {
 
     private Long createdBy;
 
-    @TableField(fill = FieldFill.INSERT)
-    private LocalDateTime createdAt;
+    @TableField(insertStrategy = FieldStrategy.NEVER, updateStrategy = FieldStrategy.NEVER)
+    private OffsetDateTime createdAt;
 
-    @TableField(fill = FieldFill.INSERT_UPDATE)
-    private LocalDateTime updatedAt;
+    @TableField(insertStrategy = FieldStrategy.NEVER, updateStrategy = FieldStrategy.NEVER)
+    private OffsetDateTime updatedAt;
 
 }

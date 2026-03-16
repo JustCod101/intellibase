@@ -3,7 +3,7 @@ package com.intellibase.server.domain.entity;
 import com.baomidou.mybatisplus.annotation.*;
 import lombok.Data;
 
-import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 
 @Data
 @TableName("sys_user")
@@ -24,10 +24,10 @@ public class SysUser {
 
     private Integer status;
 
-    @TableField(fill = FieldFill.INSERT)
-    private LocalDateTime createdAt;
+    @TableField(insertStrategy = FieldStrategy.NEVER, updateStrategy = FieldStrategy.NEVER)
+    private OffsetDateTime createdAt;
 
-    @TableField(fill = FieldFill.INSERT_UPDATE)
-    private LocalDateTime updatedAt;
+    @TableField(insertStrategy = FieldStrategy.NEVER, updateStrategy = FieldStrategy.NEVER)
+    private OffsetDateTime updatedAt;
 
 }

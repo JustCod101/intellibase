@@ -6,7 +6,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 
 @Data
 @Builder
@@ -29,6 +29,6 @@ public class KnowledgeBaseVO {
 
     private String status;
 
-    private LocalDateTime createdAt;
+    private OffsetDateTime createdAt;
 
 }

@@ -1,12 +1,13 @@
 package com.intellibase.server.domain.entity;
 
 import com.baomidou.mybatisplus.annotation.*;
+import com.intellibase.server.config.JsonbTypeHandler;
 import lombok.Data;
 
-import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 
 @Data
-@TableName("document")
+@TableName(value = "document", autoResultMap = true)
 public class Document {
 
     @TableId(type = IdType.AUTO)
@@ -33,14 +34,15 @@ public class Document {
     private Integer chunkCount;
 
     /** JSONB — 自定义元数据（作者、版本等） */
+    @TableField(typeHandler = JsonbTypeHandler.class)
     private String metadata;
 
     private Long createdBy;
 
-    @TableField(fill = FieldFill.INSERT)
-    private LocalDateTime createdAt;
+    @TableField(insertStrategy = FieldStrategy.NEVER, updateStrategy = FieldStrategy.NEVER)
+    private OffsetDateTime createdAt;
 
-    @TableField(fill = FieldFill.INSERT_UPDATE)
-    private LocalDateTime updatedAt;
+    @TableField(insertStrategy = FieldStrategy.NEVER, updateStrategy = FieldStrategy.NEVER)
+    private OffsetDateTime updatedAt;
 
 }

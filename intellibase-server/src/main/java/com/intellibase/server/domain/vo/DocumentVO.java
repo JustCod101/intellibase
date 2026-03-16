@@ -6,7 +6,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 
 @Data
 @Builder
@@ -32,6 +32,6 @@ public class DocumentVO {
     @JsonRawValue
     private String metadata;
 
-    private LocalDateTime createdAt;
+    private OffsetDateTime createdAt;
 
 }

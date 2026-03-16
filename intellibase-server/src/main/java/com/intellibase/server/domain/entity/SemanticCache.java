@@ -3,7 +3,7 @@ package com.intellibase.server.domain.entity;
 import com.baomidou.mybatisplus.annotation.*;
 import lombok.Data;
 
-import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 
 @Data
 @TableName("semantic_cache")
@@ -24,9 +24,9 @@ public class SemanticCache {
 
     private Integer hitCount;
 
-    @TableField(fill = FieldFill.INSERT)
-    private LocalDateTime createdAt;
+    @TableField(insertStrategy = FieldStrategy.NEVER, updateStrategy = FieldStrategy.NEVER)
+    private OffsetDateTime createdAt;
 
-    private LocalDateTime expiresAt;
+    private OffsetDateTime expiresAt;
 
 }

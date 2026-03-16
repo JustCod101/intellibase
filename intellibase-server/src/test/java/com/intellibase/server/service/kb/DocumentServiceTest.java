@@ -18,7 +18,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.mock.web.MockMultipartFile;
 
-import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 import java.util.Collections;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -138,7 +138,7 @@ class DocumentServiceTest {
         doc.setKbId(kbId);
         doc.setTitle("report.docx");
         doc.setParseStatus(Constants.DOC_STATUS_COMPLETED);
-        doc.setCreatedAt(LocalDateTime.now());
+        doc.setCreatedAt(OffsetDateTime.now());
 
         Page<Document> mockPage = new Page<>(1, 10);
         mockPage.setRecords(Collections.singletonList(doc));

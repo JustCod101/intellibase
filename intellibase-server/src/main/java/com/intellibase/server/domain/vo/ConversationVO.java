@@ -6,7 +6,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 
 @Data
 @Builder
@@ -25,8 +25,8 @@ public class ConversationVO {
     @JsonRawValue
     private String config;
 
-    private LocalDateTime createdAt;
+    private OffsetDateTime createdAt;
 
-    private LocalDateTime updatedAt;
+    private OffsetDateTime updatedAt;
 
 }

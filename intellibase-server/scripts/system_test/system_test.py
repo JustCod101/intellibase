@@ -73,7 +73,7 @@ def test_system_flow():
         
         doc = next((d for d in status_json['data']['records'] if d['id'] == doc_id), None)
         if doc:
-            doc_status = doc['status']
+            doc_status = doc['parseStatus']
             logger.info(f"Attempt {i+1}: Document status is {doc_status}")
             if doc_status == 'COMPLETED':
                 break
@@ -112,14 +112,15 @@ def test_system_flow():
     client = sseclient.SSEClient(response)
     full_answer = ""
     logger.info("Receiving stream response:")
-    for event in client.events():
-        if event.data:
-            # Depending on how SseEmitter sends data, it might be raw text or JSON
-            # Typically it's the chunk of text
-            full_answer += event.data
-            sys.stdout.write(event.data)
-            sys.stdout.flush()
-    
+    try:
+        for event in client.events():
+            if event.data:
+                full_answer += event.data
+                sys.stdout.write(event.data)
+                sys.stdout.flush()
+    except (requests.exceptions.ChunkedEncodingError, requests.exceptions.ConnectionError):
+        pass  # SSE stream closed by server after completion
+
     print("\n")
     logger.info("Stream finished.")
     

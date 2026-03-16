@@ -1,12 +1,13 @@
 package com.intellibase.server.domain.entity;
 
 import com.baomidou.mybatisplus.annotation.*;
+import com.intellibase.server.config.JsonbTypeHandler;
 import lombok.Data;
 
-import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 
 @Data
-@TableName("document_chunk")
+@TableName(value = "document_chunk", autoResultMap = true)
 public class DocumentChunk {
 
     @TableId(type = IdType.AUTO)
@@ -33,9 +34,10 @@ public class DocumentChunk {
     private float[] embedding;
 
     /** JSONB — 页码、标题层级等 */
+    @TableField(typeHandler = JsonbTypeHandler.class)
     private String metadata;
 
-    @TableField(fill = FieldFill.INSERT)
-    private LocalDateTime createdAt;
+    @TableField(insertStrategy = FieldStrategy.NEVER, updateStrategy = FieldStrategy.NEVER)
+    private OffsetDateTime createdAt;
 
 }

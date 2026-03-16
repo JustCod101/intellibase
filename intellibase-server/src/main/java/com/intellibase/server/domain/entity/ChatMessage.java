@@ -1,12 +1,13 @@
 package com.intellibase.server.domain.entity;
 
 import com.baomidou.mybatisplus.annotation.*;
+import com.intellibase.server.config.JsonbTypeHandler;
 import lombok.Data;
 
-import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 
 @Data
-@TableName("chat_message")
+@TableName(value = "chat_message", autoResultMap = true)
 public class ChatMessage {
 
     @TableId(type = IdType.AUTO)
@@ -20,15 +21,17 @@ public class ChatMessage {
     private String content;
 
     /** JSONB — {promptTokens, completionTokens} */
+    @TableField(typeHandler = JsonbTypeHandler.class)
     private String tokenUsage;
 
     /** JSONB — [{chunkId, score, snippet}] */
+    @TableField(typeHandler = JsonbTypeHandler.class)
     private String sources;
 
     /** 响应耗时（毫秒） */
     private Integer latencyMs;
 
-    @TableField(fill = FieldFill.INSERT)
-    private LocalDateTime createdAt;
+    @TableField(insertStrategy = FieldStrategy.NEVER, updateStrategy = FieldStrategy.NEVER)
+    private OffsetDateTime createdAt;
 
 }

@@ -6,7 +6,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 
 @Data
 @Builder
@@ -31,6 +31,6 @@ public class ChatMessageVO {
 
     private Integer latencyMs;
 
-    private LocalDateTime createdAt;
+    private OffsetDateTime createdAt;
 
 }
