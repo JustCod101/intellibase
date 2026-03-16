@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-hot-toast';
 import { getKbList, createKb } from '../api/kb';
 import { Plus, Search, Book, Database, Clock, X } from 'lucide-react';
@@ -6,6 +7,7 @@ import type { KnowledgeBase as KbType, ApiResponse, PageResult } from '../types'
 import '../styles/kb.css';
 
 const KnowledgeBase: React.FC = () => {
+  const navigate = useNavigate();
   const [kbList, setKbList] = useState<KbType[]>([]);
   const [loading, setLoading] = useState(true);
   const [showModal, setShowModal] = useState(false);
@@ -50,7 +52,7 @@ const KnowledgeBase: React.FC = () => {
     try {
       await createKb({
         ...newKb,
-        chunkStrategy: { size: 512, overlap: 64 }
+        chunkStrategy: JSON.stringify({ size: 512, overlap: 64 })
       });
       toast.success('创建知识库成功');
       setShowModal(false);
@@ -100,7 +102,7 @@ const KnowledgeBase: React.FC = () => {
       ) : (
         <div className="kb-grid">
           {kbList.map((kb) => (
-            <div key={kb.id} className="kb-card">
+            <div key={kb.id} className="kb-card" onClick={() => navigate(`/knowledge/${kb.id}`)}>
               <div className="kb-card-header">
                 <div className="kb-icon">
                   <Database size={24} />

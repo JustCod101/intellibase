@@ -5,6 +5,7 @@ import Layout from './components/Layout/Layout';
 import Login from './pages/Login';
 import Register from './pages/Register';
 import KnowledgeBase from './pages/KnowledgeBase';
+import KnowledgeBaseDetail from './pages/KnowledgeBaseDetail';
 import Chat from './pages/Chat';
 import './styles/global.css';
 
@@ -52,7 +53,16 @@ function App() {
             } 
           />
           
-          <Route 
+          <Route
+            path="/knowledge/:kbId"
+            element={
+              <ProtectedRoute>
+                <KnowledgeBaseDetail />
+              </ProtectedRoute>
+            }
+          />
+
+          <Route
             path="/chat" 
             element={
               <ProtectedRoute>
