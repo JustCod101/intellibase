@@ -1,8 +1,12 @@
 package com.intellibase.server.service.doc;
 
 import lombok.extern.slf4j.Slf4j;
-import org.apache.tika.Tika;
 import org.apache.tika.exception.TikaException;
+import org.apache.tika.metadata.Metadata;
+import org.apache.tika.parser.AutoDetectParser;
+import org.apache.tika.parser.ParseContext;
+import org.apache.tika.parser.Parser;
+import org.apache.tika.sax.BodyContentHandler;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -16,7 +20,7 @@ import java.io.InputStream;
 @Service
 public class DocParseService {
 
-    private final Tika tika = new Tika();
+    private final Parser parser = new AutoDetectParser();
 
     /**
      * 解析文档，提取纯文本内容
@@ -28,10 +32,18 @@ public class DocParseService {
     public String parse(InputStream inputStream, String fileType) throws IOException, TikaException {
         log.debug("开始 Tika 解析, fileType={}", fileType);
 
-        // Tika 会根据文件内容自动识别格式并提取文本
-        // 支持 PDF、Word(docx/doc)、PPT、HTML、Markdown、TXT 等 1000+ 种格式
-        String text = tika.parseToString(inputStream);
+        // writeLimit = -1 表示不限制提取文本长度（默认 100,000 字符会截断大文档）
+        BodyContentHandler handler = new BodyContentHandler(-1);
+        Metadata metadata = new Metadata();
+        ParseContext context = new ParseContext();
 
+        try {
+            parser.parse(inputStream, handler, metadata, context);
+        } catch (org.xml.sax.SAXException e) {
+            throw new TikaException("SAX parsing error", e);
+        }
+
+        String text = handler.toString();
         log.debug("Tika 解析完成, 提取文本长度={}", text.length());
         return text;
     }
