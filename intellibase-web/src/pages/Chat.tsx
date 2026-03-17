@@ -1,9 +1,10 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Send, Plus, User, Bot, Paperclip, Loader2 } from 'lucide-react';
+import { Send, Plus, User, Bot, Loader2, Trash2, Database } from 'lucide-react';
 import { toast } from 'react-hot-toast';
-import { getConversations, getMessages, getChatStreamUrl } from '../api/chat';
+import { getConversations, getMessages, getChatStreamUrl, createConversation, deleteConversation } from '../api/chat';
+import { getKbList } from '../api/kb';
 import { fetchSSE } from '../utils/sse';
-import type { Conversation, ChatMessage } from '../types';
+import type { Conversation, ChatMessage, KnowledgeBase as KbType, ApiResponse, PageResult } from '../types';
 import '../styles/chat.css';
 
 const Chat: React.FC = () => {
@@ -15,8 +16,14 @@ const Chat: React.FC = () => {
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const abortControllerRef = useRef<AbortController | null>(null);
 
+  // New conversation flow state
+  const [showNewChat, setShowNewChat] = useState(false);
+  const [kbList, setKbList] = useState<KbType[]>([]);
+  const [selectedKbId, setSelectedKbId] = useState<number | null>(null);
+  const [creating, setCreating] = useState(false);
+
   useEffect(() => {
-    fetchConversations();
+    fetchConversationList();
     return () => {
       if (abortControllerRef.current) {
         abortControllerRef.current.abort();
@@ -27,6 +34,9 @@ const Chat: React.FC = () => {
   useEffect(() => {
     if (currentConv) {
       fetchMessages(currentConv.id);
+      setShowNewChat(false);
+    } else {
+      setMessages([]);
     }
   }, [currentConv]);
 
@@ -38,14 +48,14 @@ const Chat: React.FC = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   };
 
-  const fetchConversations = async () => {
+  const fetchConversationList = async () => {
     try {
       const response: any = await getConversations();
       setConversations(response.data.records);
       if (response.data.records.length > 0) {
         setCurrentConv(response.data.records[0]);
       }
-    } catch (err: any) {
+    } catch {
       toast.error('加载会话列表失败');
     }
   };
@@ -54,8 +64,56 @@ const Chat: React.FC = () => {
     try {
       const response: any = await getMessages(id.toString());
       setMessages(response.data.records.reverse());
-    } catch (err) {
+    } catch {
       toast.error('加载历史消息失败');
+    }
+  };
+
+  const handleNewChat = async () => {
+    setShowNewChat(true);
+    setCurrentConv(null);
+    setSelectedKbId(null);
+    try {
+      const res = await getKbList() as unknown as ApiResponse<PageResult<KbType>>;
+      setKbList(res.data.records);
+    } catch {
+      toast.error('加载知识库列表失败');
+    }
+  };
+
+  const handleCreateConversation = async () => {
+    if (!selectedKbId) {
+      toast.error('请选择一个知识库');
+      return;
+    }
+    setCreating(true);
+    try {
+      const res: any = await createConversation({ kbId: selectedKbId });
+      const newConv = res.data as Conversation;
+      setConversations(prev => [newConv, ...prev]);
+      setCurrentConv(newConv);
+      setShowNewChat(false);
+      toast.success('会话已创建');
+    } catch (err: any) {
+      toast.error(err.response?.data?.message || '创建会话失败');
+    } finally {
+      setCreating(false);
+    }
+  };
+
+  const handleDeleteConv = async (e: React.MouseEvent, convId: number) => {
+    e.stopPropagation();
+    if (!confirm('确认删除该会话？')) return;
+    try {
+      await deleteConversation(String(convId));
+      setConversations(prev => prev.filter(c => c.id !== convId));
+      if (currentConv?.id === convId) {
+        setCurrentConv(null);
+        setMessages([]);
+      }
+      toast.success('会话已删除');
+    } catch {
+      toast.error('删除会话失败');
     }
   };
 
@@ -66,36 +124,36 @@ const Chat: React.FC = () => {
     const userMsgId = Date.now();
     const assistantMsgId = Date.now() + 1;
 
-    setMessages(prev => [...prev, { 
-      id: userMsgId, 
+    setMessages(prev => [...prev, {
+      id: userMsgId,
       conversationId: currentConv.id,
-      role: 'user', 
-      content: userQuestion 
+      role: 'user',
+      content: userQuestion
     }]);
-    
+
     setInput('');
     setLoading(true);
 
-    setMessages(prev => [...prev, { 
-      id: assistantMsgId, 
+    setMessages(prev => [...prev, {
+      id: assistantMsgId,
       conversationId: currentConv.id,
-      role: 'assistant', 
-      content: '' 
+      role: 'assistant',
+      content: ''
     }]);
 
     const url = getChatStreamUrl(currentConv.id.toString(), userQuestion);
-    
+
     abortControllerRef.current = new AbortController();
 
     await fetchSSE(url, {
       signal: abortControllerRef.current.signal,
       onMessage: ({ event, data }) => {
         if (event === 'token' || !event) {
-          setMessages(prev => prev.map(msg => 
+          setMessages(prev => prev.map(msg =>
             msg.id === assistantMsgId ? { ...msg, content: msg.content + data } : msg
           ));
         } else if (event === 'sources') {
-          setMessages(prev => prev.map(msg => 
+          setMessages(prev => prev.map(msg =>
             msg.id === assistantMsgId ? { ...msg, sources: Array.isArray(data) ? data : [data] } : msg
           ));
         }
@@ -121,48 +179,92 @@ const Chat: React.FC = () => {
   return (
     <div className="chat-page">
       <div className="chat-sidebar">
-        <button className="new-chat-btn" onClick={() => setCurrentConv(null)}>
+        <button className="new-chat-btn" onClick={handleNewChat}>
           <Plus size={18} />
           <span>新会话</span>
         </button>
         <div className="conv-list">
           {conversations.map(conv => (
-            <div 
-              key={conv.id} 
+            <div
+              key={conv.id}
               className={`conv-item ${currentConv?.id === conv.id ? 'active' : ''}`}
               onClick={() => setCurrentConv(conv)}
             >
-              <p className="conv-title" title={conv.title}>{conv.title || '新对话'}</p>
+              <div className="conv-item-header">
+                <p className="conv-title" title={conv.title}>{conv.title || '新对话'}</p>
+                <button
+                  className="conv-delete-btn"
+                  onClick={(e) => handleDeleteConv(e, conv.id)}
+                  title="删除会话"
+                >
+                  <Trash2 size={14} />
+                </button>
+              </div>
               <p className="conv-date">{new Date(conv.createdAt).toLocaleDateString()}</p>
             </div>
           ))}
         </div>
       </div>
 
-      <div className="chat-main flex-1 flex flex-col relative h-full">
-        <div className="chat-messages flex-1 overflow-y-auto p-4 md:p-8 space-y-6">
-          {messages.length === 0 ? (
-            <div className="h-full flex flex-col items-center justify-center text-gray-400">
-              <Bot size={48} className="mb-4 text-gray-300" />
+      <div className="chat-main">
+        <div className="chat-messages">
+          {showNewChat ? (
+            <div className="new-chat-panel">
+              <Database size={48} style={{ color: '#d1d5db', marginBottom: '1rem' }} />
+              <h2>选择知识库开始对话</h2>
+              <p style={{ color: '#6b7280', marginBottom: '1.5rem' }}>请选择一个知识库作为对话的知识来源</p>
+              {kbList.length === 0 ? (
+                <p style={{ color: '#9ca3af' }}>暂无可用知识库，请先创建知识库</p>
+              ) : (
+                <>
+                  <div className="kb-select-grid">
+                    {kbList.map(kb => (
+                      <div
+                        key={kb.id}
+                        className={`kb-select-card ${selectedKbId === kb.id ? 'selected' : ''}`}
+                        onClick={() => setSelectedKbId(kb.id)}
+                      >
+                        <Database size={20} />
+                        <div>
+                          <p className="kb-select-name">{kb.name}</p>
+                          <p className="kb-select-desc">{kb.description || '暂无描述'}</p>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                  <button
+                    className="btn btn-primary"
+                    style={{ marginTop: '1.5rem' }}
+                    onClick={handleCreateConversation}
+                    disabled={!selectedKbId || creating}
+                  >
+                    {creating ? '创建中...' : '开始对话'}
+                  </button>
+                </>
+              )}
+            </div>
+          ) : messages.length === 0 ? (
+            <div className="empty-chat">
+              <Bot size={48} style={{ color: '#d1d5db', marginBottom: '1rem' }} />
               <p>向 IntelliBase 提问，开始智能探索</p>
             </div>
           ) : (
             messages.map(msg => (
-              <div key={msg.id} className={`message-wrapper flex gap-4 max-w-4xl mx-auto w-full ${msg.role}`}>
-                <div className={`message-avatar w-10 h-10 rounded-full flex items-center justify-center shrink-0 ${msg.role === 'user' ? 'bg-blue-100 text-blue-600' : 'bg-green-100 text-green-600'}`}>
+              <div key={msg.id} className={`message-wrapper ${msg.role}`}>
+                <div className="message-avatar">
                   {msg.role === 'user' ? <User size={20} /> : <Bot size={20} />}
                 </div>
-                <div className="message-content flex-1 text-base leading-relaxed text-gray-800">
-                  <p className="whitespace-pre-wrap">{msg.content || (loading && msg.role === 'assistant' ? '正在思考...' : '')}</p>
-                  
+                <div className="message-content">
+                  <p style={{ whiteSpace: 'pre-wrap' }}>{msg.content || (loading && msg.role === 'assistant' ? '正在思考...' : '')}</p>
+
                   {msg.sources && msg.sources.length > 0 && (
-                    <div className="message-sources mt-4 p-4 bg-gray-50 rounded-lg border-l-4 border-blue-500">
-                      <p className="sources-title text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2">参考来源：</p>
-                      <div className="space-y-2">
+                    <div className="message-sources">
+                      <p className="sources-title">参考来源：</p>
+                      <div className="sources-list">
                         {msg.sources.map((s: any, idx: number) => (
-                          <div key={idx} className="source-item text-sm text-gray-600 bg-white p-2 rounded border border-gray-100 shadow-sm">
-                            <span className="text-blue-500 font-medium mr-1">[{idx + 1}]</span>
-                            {s.snippet}
+                          <div key={idx} className="source-item">
+                            <span style={{ color: 'var(--primary)', fontWeight: 500, marginRight: '0.25rem' }}>[{idx + 1}]</span>
+                            {s.snippet || s}
                           </div>
                         ))}
                       </div>
@@ -172,19 +274,15 @@ const Chat: React.FC = () => {
               </div>
             ))
           )}
-          <div ref={messagesEndRef} className="h-4" />
+          <div ref={messagesEndRef} />
         </div>
 
-        <div className="chat-input-area p-4 md:p-6 bg-white border-t border-gray-100">
-          <div className="chat-input-wrapper max-w-4xl mx-auto flex items-end gap-3 p-3 border border-gray-200 rounded-xl shadow-sm bg-white focus-within:ring-2 focus-within:ring-blue-100 focus-within:border-blue-300 transition-all">
-            <button className="attach-btn p-2 text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded-lg transition-colors">
-              <Paperclip size={20} />
-            </button>
-            <textarea 
-              className="flex-1 max-h-[200px] min-h-[44px] resize-none outline-none py-2 bg-transparent text-gray-700 placeholder-gray-400"
+        <div className="chat-input-area">
+          <div className="chat-input-wrapper">
+            <textarea
               value={input}
               onChange={(e) => setInput(e.target.value)}
-              placeholder="输入你的问题... (Shift + Enter 换行)"
+              placeholder={currentConv ? '输入你的问题... (Shift + Enter 换行)' : '请先选择知识库创建会话'}
               onKeyDown={(e) => {
                 if (e.key === 'Enter' && !e.shiftKey) {
                   e.preventDefault();
@@ -192,26 +290,27 @@ const Chat: React.FC = () => {
                 }
               }}
               rows={1}
+              disabled={!currentConv}
             />
             {loading ? (
-              <button 
+              <button
                 onClick={stopGeneration}
-                className="send-btn p-2 text-red-500 hover:bg-red-50 rounded-lg transition-colors flex items-center justify-center"
+                className="send-btn stop"
                 title="停止生成"
               >
-                <Loader2 size={20} className="animate-spin" />
+                <Loader2 size={20} className="spin" />
               </button>
             ) : (
-              <button 
-                onClick={handleSend} 
+              <button
+                onClick={handleSend}
                 disabled={!input.trim() || !currentConv}
-                className={`send-btn p-2 rounded-lg transition-colors flex items-center justify-center ${!input.trim() || !currentConv ? 'text-gray-300' : 'text-blue-600 hover:bg-blue-50'}`}
+                className="send-btn"
               >
                 <Send size={20} />
               </button>
             )}
           </div>
-          <div className="text-center mt-2 text-xs text-gray-400">
+          <div style={{ textAlign: 'center', marginTop: '0.5rem', fontSize: '0.75rem', color: '#9ca3af' }}>
             AI 可能会犯错，请核实重要信息。
           </div>
         </div>
