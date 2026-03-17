@@ -1,6 +1,10 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Send, Plus, User, Bot, Loader2, Trash2, Database } from 'lucide-react';
 import { toast } from 'react-hot-toast';
+import ReactMarkdown from 'react-markdown';
+import remarkGfm from 'remark-gfm';
+import rehypeHighlight from 'rehype-highlight';
+import 'highlight.js/styles/github.css';
 import { getConversations, getMessages, getChatStreamUrl, createConversation, deleteConversation } from '../api/chat';
 import { getKbList } from '../api/kb';
 import { fetchSSE } from '../utils/sse';
@@ -255,7 +259,19 @@ const Chat: React.FC = () => {
                   {msg.role === 'user' ? <User size={20} /> : <Bot size={20} />}
                 </div>
                 <div className="message-content">
-                  <p style={{ whiteSpace: 'pre-wrap' }}>{msg.content || (loading && msg.role === 'assistant' ? '正在思考...' : '')}</p>
+                  {msg.role === 'assistant' ? (
+                    msg.content ? (
+                      <div className="markdown-body">
+                        <ReactMarkdown remarkPlugins={[remarkGfm]} rehypePlugins={[rehypeHighlight]}>
+                          {msg.content}
+                        </ReactMarkdown>
+                      </div>
+                    ) : (
+                      loading && <p className="thinking">正在思考...</p>
+                    )
+                  ) : (
+                    <p style={{ whiteSpace: 'pre-wrap' }}>{msg.content}</p>
+                  )}
 
                   {msg.sources && msg.sources.length > 0 && (
                     <div className="message-sources">
