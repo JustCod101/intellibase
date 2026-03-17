@@ -10,7 +10,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -73,18 +73,29 @@ public class EmbeddingService {
      * @param texts 文本列表
      * @return 对应的向量列表，顺序与输入严格一致
      */
+    private static final int MAX_BATCH_SIZE = 10;
+
     public List<float[]> embedBatch(List<String> texts) {
-        // 将普通字符串包装成 LangChain4j 的 TextSegment 对象
-        List<TextSegment> segments = texts.stream()
-                .map(TextSegment::from)
-                .toList();
+        List<float[]> allVectors = new ArrayList<>(texts.size());
 
-        // 批量发送网络请求，提升处理效率
-        Response<List<Embedding>> response = embeddingModel.embedAll(segments);
+        for (int i = 0; i < texts.size(); i += MAX_BATCH_SIZE) {
+            List<String> batch = texts.subList(i, Math.min(i + MAX_BATCH_SIZE, texts.size()));
 
-        return response.content().stream()
-                .map(Embedding::vector)
-                .toList();
+            List<TextSegment> segments = batch.stream()
+                    .map(TextSegment::from)
+                    .toList();
+
+            Response<List<Embedding>> response = embeddingModel.embedAll(segments);
+
+            response.content().stream()
+                    .map(Embedding::vector)
+                    .forEach(allVectors::add);
+
+            log.debug("Embedding 批次 {}/{} 完成", (i / MAX_BATCH_SIZE) + 1,
+                    (texts.size() + MAX_BATCH_SIZE - 1) / MAX_BATCH_SIZE);
+        }
+
+        return allVectors;
     }
 
     /**
