@@ -86,9 +86,9 @@ CREATE TABLE document_chunk (
     created_at      TIMESTAMPTZ NOT NULL DEFAULT NOW()
 );
 
--- 向量索引：IVFFlat (适合百万级数据，比HNSW更节省内存)
+-- 向量索引：HNSW (任意数据量都可靠，召回率高于 IVFFlat)
 CREATE INDEX idx_chunk_embedding ON document_chunk
-    USING ivfflat (embedding vector_cosine_ops) WITH (lists = 100);
+    USING hnsw (embedding vector_cosine_ops) WITH (m = 16, ef_construction = 64);
 
 -- 复合索引：先按知识库过滤再做向量检索（大幅提升多租户场景性能）
 CREATE INDEX idx_chunk_kb ON document_chunk(kb_id);
@@ -138,4 +138,4 @@ CREATE TABLE semantic_cache (
 );
 
 CREATE INDEX idx_cache_embedding ON semantic_cache
-    USING ivfflat (query_embedding vector_cosine_ops) WITH (lists = 50);
+    USING hnsw (query_embedding vector_cosine_ops) WITH (m = 16, ef_construction = 64);
