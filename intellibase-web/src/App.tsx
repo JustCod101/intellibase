@@ -8,6 +8,7 @@ import KnowledgeBase from './pages/KnowledgeBase';
 import KnowledgeBaseDetail from './pages/KnowledgeBaseDetail';
 import Chat from './pages/Chat';
 import Settings from './pages/Settings';
+import Dashboard from './pages/Dashboard';
 import './styles/global.css';
 
 /**
@@ -37,10 +38,7 @@ function App() {
             path="/dashboard" 
             element={
               <ProtectedRoute>
-                <div style={{ padding: '2rem' }}>
-                  <h1>控制台</h1>
-                  <p>欢迎回到 IntelliBase 智能知识库平台</p>
-                </div>
+                <Dashboard />
               </ProtectedRoute>
             } 
           />
