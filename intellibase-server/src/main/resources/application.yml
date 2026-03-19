@@ -42,11 +42,11 @@ llm:
   base-url: ${OPENAI_BASE_URL}
   model-name: ${LLM_MODEL_NAME}
   temperature: 0.7
-  max-tokens: 2048
+  max-tokens: 32768
 
 rag:
   retrieval-top-k: 5
-  similarity-threshold: 0.7
+  similarity-threshold: 0.4
   cache-similarity-threshold: 0.95
   l2-retrieval-cache-ttl-minutes: 30
   l3-chunk-cache-ttl-hours: 2
