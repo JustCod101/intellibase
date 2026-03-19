@@ -9,6 +9,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import jakarta.servlet.DispatcherType;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
@@ -34,6 +35,8 @@ public class SecurityConfig {
                 // 在 UsernamePasswordAuthenticationFilter 之前插入 JWT 过滤器
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
                 .authorizeHttpRequests(auth -> auth
+                        // SSE 异步 dispatch 放行（SseEmitter 完成时 Tomcat 会 async dispatch）
+                        .dispatcherTypeMatchers(DispatcherType.ASYNC).permitAll()
                         // 认证接口放行
                         .requestMatchers("/api/v1/auth/**").permitAll()
                         // 管理员接口
