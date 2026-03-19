@@ -1,15 +1,32 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useMemo } from 'react';
 import { Send, Plus, User, Bot, Loader2, Trash2, Database } from 'lucide-react';
 import { toast } from 'react-hot-toast';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
+import remarkMath from 'remark-math';
 import rehypeHighlight from 'rehype-highlight';
+import rehypeKatex from 'rehype-katex';
 import 'highlight.js/styles/github.css';
+import 'katex/dist/katex.min.css';
 import { getConversations, getMessages, getChatStreamUrl, createConversation, deleteConversation } from '../api/chat';
 import { getKbList } from '../api/kb';
 import { fetchSSE } from '../utils/sse';
 import type { Conversation, ChatMessage, KnowledgeBase as KbType, ApiResponse, PageResult } from '../types';
 import '../styles/chat.css';
+
+/** Markdown 渲染组件，使用 memo 避免无关消息的重渲染 */
+const MarkdownContent = React.memo(({ content }: { content: string }) => {
+  const remarkPlugins = useMemo(() => [remarkGfm, remarkMath], []);
+  const rehypePlugins = useMemo(() => [rehypeHighlight, rehypeKatex], []);
+
+  return (
+    <div className="markdown-body">
+      <ReactMarkdown remarkPlugins={remarkPlugins} rehypePlugins={rehypePlugins}>
+        {content}
+      </ReactMarkdown>
+    </div>
+  );
+});
 
 const Chat: React.FC = () => {
   const [conversations, setConversations] = useState<Conversation[]>([]);
@@ -67,7 +84,8 @@ const Chat: React.FC = () => {
   const fetchMessages = async (id: number) => {
     try {
       const response: any = await getMessages(id.toString());
-      setMessages(response.data.records.reverse());
+      // 后端已按 created_at ASC 排序，无需 reverse
+      setMessages(response.data.records);
     } catch {
       toast.error('加载历史消息失败');
     }
@@ -261,11 +279,7 @@ const Chat: React.FC = () => {
                 <div className="message-content">
                   {msg.role === 'assistant' ? (
                     msg.content ? (
-                      <div className="markdown-body">
-                        <ReactMarkdown remarkPlugins={[remarkGfm]} rehypePlugins={[rehypeHighlight]}>
-                          {msg.content}
-                        </ReactMarkdown>
-                      </div>
+                      <MarkdownContent content={msg.content} />
                     ) : (
                       loading && <p className="thinking">正在思考...</p>
                     )
