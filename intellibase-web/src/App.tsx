@@ -7,6 +7,7 @@ import Register from './pages/Register';
 import KnowledgeBase from './pages/KnowledgeBase';
 import KnowledgeBaseDetail from './pages/KnowledgeBaseDetail';
 import Chat from './pages/Chat';
+import Settings from './pages/Settings';
 import './styles/global.css';
 
 /**
@@ -69,6 +70,15 @@ function App() {
                 <Chat />
               </ProtectedRoute>
             } 
+          />
+
+          <Route
+            path="/settings"
+            element={
+              <ProtectedRoute>
+                <Settings />
+              </ProtectedRoute>
+            }
           />
 
           <Route path="/" element={<Navigate to="/dashboard" replace />} />

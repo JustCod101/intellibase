@@ -45,6 +45,8 @@ public class SecurityConfig {
                         .requestMatchers("/api/v1/kb/**").hasAnyRole("ADMIN", "USER")
                         // 聊天接口
                         .requestMatchers("/api/v1/chat/**").hasAnyRole("ADMIN", "USER")
+                        // 用户接口
+                        .requestMatchers("/api/v1/user/**").hasAnyRole("ADMIN", "USER")
                         // Swagger / Actuator 放行
                         .requestMatchers(
                                 "/swagger-ui.html",
