@@ -26,7 +26,11 @@ import java.util.concurrent.atomic.AtomicLong;
 public class CacheStatsService {
 
     // AtomicLong 是线程安全的计数器。因为可能有很多用户同时提问，普通的 long++ 会算错账。
-    
+
+    // L0 本地缓存（Caffeine JVM 内存）账本
+    private final AtomicLong l0Hits = new AtomicLong(0);   // 命中次数（零网络延迟）
+    private final AtomicLong l0Misses = new AtomicLong(0); // 未命中次数
+
     // 一级缓存（语义）账本
     private final AtomicLong l1Hits = new AtomicLong(0);   // 命中次数（省大钱了）
     private final AtomicLong l1Misses = new AtomicLong(0); // 未命中次数
@@ -43,6 +47,14 @@ public class CacheStatsService {
     private final AtomicLong dbQueries = new AtomicLong(0); // 彻底穿透缓存，去查底层数据库的次数
 
     // ===== 记账方法（供其他服务在干活时顺手调用） =====
+
+    public void recordL0Hit() {
+        l0Hits.incrementAndGet();
+    }
+
+    public void recordL0Miss() {
+        l0Misses.incrementAndGet();
+    }
 
     public void recordL1Hit() {
         l1Hits.incrementAndGet(); // 计数器 + 1
@@ -83,6 +95,7 @@ public class CacheStatsService {
         Map<String, Object> stats = new LinkedHashMap<>();
 
         // 分别汇报每一级的战况
+        stats.put("l0_local_cache", buildLevelStats(l0Hits.get(), l0Misses.get()));
         stats.put("l1_semantic_cache", buildLevelStats(l1Hits.get(), l1Misses.get()));
         stats.put("l2_retrieval_cache", buildLevelStats(l2Hits.get(), l2Misses.get()));
         stats.put("l3_chunk_cache", buildLevelStats(l3Hits.get(), l3Misses.get()));
@@ -104,6 +117,8 @@ public class CacheStatsService {
      * 账本清零（比如系统重启，或者管理员点了一下重置按钮）
      */
     public void reset() {
+        l0Hits.set(0);
+        l0Misses.set(0);
         l1Hits.set(0);
         l1Misses.set(0);
         l2Hits.set(0);
