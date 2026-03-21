@@ -6,13 +6,15 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.intellibase.server.common.Constants;
 import com.intellibase.server.domain.dto.DocParseMessage;
 import com.intellibase.server.domain.entity.Document;
+import com.intellibase.server.domain.event.DocParseEvent;
 import com.intellibase.server.domain.vo.DocumentVO;
 import com.intellibase.server.mapper.DocumentMapper;
 import com.intellibase.server.service.rag.CacheEvictionService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.amqp.rabbit.core.RabbitTemplate;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -34,14 +36,21 @@ public class DocumentServiceImpl implements DocumentService {
     private final DocumentMapper documentMapper;
     // 自定义的 MinIO 服务，用于将文件实际存储到云端/对象存储服务器
     private final MinioService minioService;
-    // Spring 提供的 RabbitMQ 操作模版，用于发送解析任务消息
-    private final RabbitTemplate rabbitTemplate;
+    // Spring 事件发布器，用于在事务提交后触发 MQ 发送
+    private final ApplicationEventPublisher eventPublisher;
     // 缓存失效服务，文档变更时主动清除关联缓存
     private final CacheEvictionService cacheEvictionService;
 
     /**
      * 上传文档流程
-     * 
+     * <p>
+     * 事务保证：DB 操作在 @Transactional 内完成，MQ 发送通过 Spring Event 延迟到事务提交后。
+     * <ul>
+     *   <li>MinIO 上传在事务外执行（不可回滚的外部 IO），失败直接抛异常</li>
+     *   <li>DB 插入在事务内，失败则整体回滚（MinIO 产生孤儿文件可通过定时清理任务兜底）</li>
+     *   <li>MQ 发送在 AFTER_COMMIT 阶段，确保 Consumer 一定能查到 document 记录</li>
+     * </ul>
+     *
      * @param kbId     知识库ID（文件属于哪个库）
      * @param file     前端上传的原始文件对象
      * @param metadata 额外的元数据（如来源URL等 JSON 字符串）
@@ -49,6 +58,7 @@ public class DocumentServiceImpl implements DocumentService {
      * @return 返回封装好的文档视图对象
      */
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public DocumentVO upload(Long kbId, MultipartFile file, String metadata, Long userId) {
         // 1. 获取文件名并提取后缀名进行格式检查
         String originalFilename = file.getOriginalFilename();
@@ -56,7 +66,7 @@ public class DocumentServiceImpl implements DocumentService {
         validateFileType(fileType); // 只允许 pdf/docx/md/txt
 
         // 2. 计算文件内容 SHA-256 哈希值
-        // 作用：像人的指纹一样，内容相同的文件哈希值一定相同。用于实现“秒传”或防止重复上传。
+        // 作用：像人的指纹一样，内容相同的文件哈希值一定相同。用于实现”秒传”或防止重复上传。
         String contentHash = computeSha256(file);
 
         // 3. 检查同一个知识库下是否已经存在完全相同内容的文档
@@ -69,45 +79,45 @@ public class DocumentServiceImpl implements DocumentService {
             throw new IllegalArgumentException("该知识库中已存在相同内容的文档");
         }
 
-        // 4. 生成在 MinIO 中的存储路径（Object Key）
+        // 4. 上传文件到 MinIO（事务外的外部 IO，失败直接抛异常，不会有脏数据）
         // 规则：目录/知识库ID/随机UUID.后缀，防止文件名冲突
         String objectKey = "kb/" + kbId + "/" + UUID.randomUUID() + "." + fileType;
         try {
-            // 调用 MinIO 服务将文件流上传到存储服务器
             minioService.uploadFile(objectKey, file);
         } catch (Exception e) {
             log.error("文件上传到 MinIO 失败", e);
             throw new RuntimeException("文件上传到 MinIO 失败", e);
         }
 
-        // 5. 将文档信息记录到数据库中
+        // 5. 将文档信息记录到数据库中（在事务内，失败则回滚）
         Document doc = new Document();
         doc.setKbId(kbId);
-        doc.setTitle(originalFilename); // 保存原始文件名作为标题
-        doc.setFileKey(objectKey);      // 记录在 MinIO 中的唯一路径
+        doc.setTitle(originalFilename);
+        doc.setFileKey(objectKey);
         doc.setFileType(fileType);
         doc.setFileSize(file.getSize());
         doc.setContentHash(contentHash);
-        doc.setParseStatus(Constants.DOC_STATUS_PENDING); // 初始状态为：待处理
-        doc.setChunkCount(0);           // 初始分块数为 0
+        doc.setParseStatus(Constants.DOC_STATUS_PENDING);
+        doc.setChunkCount(0);
         doc.setMetadata(metadata);
         doc.setCreatedBy(userId);
-        documentMapper.insert(doc);      // 执行插入，MyBatis-Plus 会回填 ID
+        documentMapper.insert(doc);
 
-        // 6. 异步处理：发送解析消息到消息队列 (RabbitMQ)
-        // 为什么用异步？解析大文件非常耗时，不能让用户在上传界面一直转圈等待。
-        // 后台会有专门的消费者 (DocParseConsumer) 接收这个消息并开始切分文档。
+        // 6. 发布事件：MQ 消息将在事务提交后由 DocParseEventListener 发送
+        // 为什么不直接发 MQ？如果在事务内发 MQ，有两个风险：
+        //   - MQ 发送成功但事务回滚 → Consumer 收到消息但 DB 中无记录（幻读消息）
+        //   - DB 写入成功但 MQ 发送失败 → 文档永远停在 PENDING（僵尸文档）
         DocParseMessage message = DocParseMessage.builder()
                 .messageId(UUID.randomUUID().toString())
                 .docId(doc.getId())
                 .kbId(kbId)
                 .fileKey(objectKey)
                 .fileType(fileType)
-                .chunkSize(512)   // 默认每个切片 512 字符
-                .chunkOverlap(64) // 切片之间重叠 64 字符，保证语义连贯
+                .chunkSize(512)
+                .chunkOverlap(64)
                 .build();
-        rabbitTemplate.convertAndSend(Constants.QUEUE_DOC_PARSE, message);
-        log.info("文档上传成功，已发送解析消息: docId={}, title={}", doc.getId(), originalFilename);
+        eventPublisher.publishEvent(new DocParseEvent(this, message));
+        log.info("文档上传成功，解析消息将在事务提交后发送: docId={}, title={}", doc.getId(), originalFilename);
 
         return toVO(doc);
     }
@@ -143,6 +153,7 @@ public class DocumentServiceImpl implements DocumentService {
      * @param docId 文档ID
      */
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public void delete(Long kbId, Long docId) {
         // 1. 先查询文档信息
         Document doc = documentMapper.selectById(docId);
