@@ -145,14 +145,30 @@ public class RabbitConfig {
         return QueueBuilder.durable(DLQ_DOC_EMBED).build();
     }
 
+    // RepublishMessageRecoverer 路径（应用层重试耗尽）
     @Bean
     public Binding docParseDlqBinding() {
-        return BindingBuilder.bind(docParseDlq()).to(dlxExchange()).with(Constants.QUEUE_DOC_PARSE);
+        return BindingBuilder.bind(docParseDlq()).to(dlxExchange())
+                .with("error." + Constants.QUEUE_DOC_PARSE);
     }
 
     @Bean
     public Binding docEmbedDlqBinding() {
-        return BindingBuilder.bind(docEmbedDlq()).to(dlxExchange()).with(Constants.QUEUE_DOC_EMBED);
+        return BindingBuilder.bind(docEmbedDlq()).to(dlxExchange())
+                .with("error." + Constants.QUEUE_DOC_EMBED);
+    }
+
+    // RabbitMQ 原生 DLX 路径（队列溢出 x-max-length）
+    @Bean
+    public Binding docParseDlqNativeBinding() {
+        return BindingBuilder.bind(docParseDlq()).to(dlxExchange())
+                .with(Constants.QUEUE_DOC_PARSE);
+    }
+
+    @Bean
+    public Binding docEmbedDlqNativeBinding() {
+        return BindingBuilder.bind(docEmbedDlq()).to(dlxExchange())
+                .with(Constants.QUEUE_DOC_EMBED);
     }
 
     // ==================== 业务队列 ====================
