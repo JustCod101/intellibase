@@ -6,6 +6,8 @@ import com.intellibase.server.domain.dto.TextChunk;
 import com.intellibase.server.domain.entity.DocumentChunk;
 import com.intellibase.server.mapper.DocumentChunkMapper;
 import com.intellibase.server.mapper.DocumentMapper;
+import com.intellibase.server.service.rag.CacheEvictionService;
+import com.intellibase.server.service.rag.EmbedBatchTracker;
 import com.intellibase.server.service.rag.EmbeddingService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -49,6 +51,14 @@ class EmbedConsumerTest {
     @Mock
     private DocumentMapper documentMapper;
 
+    // 模拟缓存清除服务
+    @Mock
+    private CacheEvictionService cacheEvictionService;
+
+    // 模拟 Redis 批次追踪器
+    @Mock
+    private EmbedBatchTracker embedBatchTracker;
+
     // 被测试的消费者实例
     @InjectMocks
     private EmbedConsumer embedConsumer;
@@ -67,23 +77,24 @@ class EmbedConsumerTest {
         chunks.add(new TextChunk(1, "Chunk content 1", 30));
         chunks.add(new TextChunk(2, "Chunk content 2", 20));
 
-        // 构建 MQ 消息：docId=200, kbId=10, 包含 3 个分块，总计 3 个分块
+        // 构建 MQ 消息：docId=200, kbId=10, 包含 3 个分块，总计 3 个分块，共 2 个批次
         message = EmbedBatchMessage.builder()
                 .docId(200L)
                 .kbId(10L)
                 .chunks(chunks)
                 .totalChunks(3)
-                .lastBatch(false) // 默认先测试非最后一批的情况
+                .totalBatches(2)
+                .lastBatch(false)
                 .build();
     }
 
     /**
-     * 测试场景：普通批次向量化成功（非最后一批）
-     * 预期：调用 Embedding API，批量存入数据库，但不更新文档为 COMPLETED 状态
+     * 测试场景：普通批次向量化成功（尚有其他批次未完成）
+     * 预期：调用 Embedding API，批量存入数据库，但 Redis 计数器未达标，不触发 COMPLETED
      */
     @Test
-    @DisplayName("向量化处理 - 普通批次成功逻辑")
-    void handleEmbed_Success_NotLastBatch() {
+    @DisplayName("向量化处理 - 普通批次成功逻辑（计数器未达标）")
+    void handleEmbed_Success_NotAllBatchesDone() {
         // 1. 设置模拟返回值：模拟 Embedding API 返回 3 个向量 (维度假设为 3)
         List<float[]> mockVectors = List.of(
                 new float[]{0.1f, 0.2f, 0.3f},
@@ -92,6 +103,9 @@ class EmbedConsumerTest {
         );
         when(embeddingService.embedBatch(anyList())).thenReturn(mockVectors);
 
+        // Redis 计数器返回 false — 还有其他批次未完成
+        when(embedBatchTracker.incrementAndCheck(200L, 2)).thenReturn(false);
+
         // --- 执行被测方法 ---
         embedConsumer.handleEmbed(message);
 
@@ -99,7 +113,6 @@ class EmbedConsumerTest {
         verify(embeddingService).embedBatch(argThat(list -> list.size() == 3));
 
         // 3. 验证行为：是否调用了批量入库方法
-        // 我们通过 ArgumentCaptor 捕获参数，进一步验证数据是否拼装正确
         ArgumentCaptor<List<DocumentChunk>> chunksCaptor = ArgumentCaptor.forClass(List.class);
         ArgumentCaptor<List<String>> vectorsCaptor = ArgumentCaptor.forClass(List.class);
         verify(documentChunkMapper).batchInsertWithVector(chunksCaptor.capture(), vectorsCaptor.capture());
@@ -107,23 +120,20 @@ class EmbedConsumerTest {
         List<DocumentChunk> capturedChunks = chunksCaptor.getValue();
         assertEquals(3, capturedChunks.size());
         assertEquals(200L, capturedChunks.get(0).getDocId());
-        assertEquals(0, capturedChunks.get(0).getChunkIndex()); // 验证索引顺序
+        assertEquals(0, capturedChunks.get(0).getChunkIndex());
 
-        // 4. 验证行为：因为非最后一批，不应该调用 updateChunkCount
+        // 4. 验证行为：Redis 计数器未达标，不应该调用 updateChunkCount
         verify(documentMapper, never()).updateChunkCount(anyLong(), anyInt(), anyString());
     }
 
     /**
-     * 测试场景：最后一批向量化成功
-     * 预期：除正常入库外，还需将文档状态标记为 COMPLETED
+     * 测试场景：当前批次是最后一个完成的（所有批次均已处理完毕）
+     * 预期：除正常入库外，Redis 计数器返回 true，触发 COMPLETED 状态更新
      */
     @Test
-    @DisplayName("向量化处理 - 最后一批次成功并完成文档状态更新")
-    void handleEmbed_Success_LastBatch() {
-        // 标记为最后一批
-        message.setLastBatch(true);
-
-        // 设置模拟返回值：确保向量数量与消息中的分块数量 (3个) 一致
+    @DisplayName("向量化处理 - 所有批次完成后触发状态更新（Redis 原子计数）")
+    void handleEmbed_Success_AllBatchesDone() {
+        // 设置模拟返回值
         List<float[]> mockVectors = List.of(
                 new float[]{0.1f},
                 new float[]{0.2f},
@@ -131,12 +141,16 @@ class EmbedConsumerTest {
         );
         when(embeddingService.embedBatch(anyList())).thenReturn(mockVectors);
 
+        // Redis 计数器返回 true — 所有批次均已完成
+        when(embedBatchTracker.incrementAndCheck(200L, 2)).thenReturn(true);
+
         // --- 执行 ---
         embedConsumer.handleEmbed(message);
 
-        // 验证：是否触发了文档完成的状态更新
-        // 预期调用 documentMapper.updateChunkCount(docId, totalChunks, "COMPLETED")
+        // 验证：所有批次完成后触发文档完成的状态更新
         verify(documentMapper).updateChunkCount(eq(200L), eq(3), eq(Constants.DOC_STATUS_COMPLETED));
+        // 验证：缓存被清除
+        verify(cacheEvictionService).evictByDocument(eq(200L), eq(10L));
     }
 
     /**

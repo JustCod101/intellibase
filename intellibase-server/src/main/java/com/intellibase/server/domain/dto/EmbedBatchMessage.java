@@ -21,11 +21,14 @@ public class EmbedBatchMessage implements Serializable {
 
     private Long kbId;
 
-    /** 该批次是否为最后一批（用于最终状态更新） */
+    /** @deprecated 保留兼容，完成判断已改用 Redis 原子计数器 */
     private boolean lastBatch;
 
-    /** 文档总分块数（仅 lastBatch=true 时有意义） */
+    /** 文档总分块数 */
     private int totalChunks;
+
+    /** 该文档的总批次数（每个批次消息都携带，用于 Redis 原子计数比对） */
+    private int totalBatches;
 
     /** 本批次的文本块列表 */
     private List<TextChunk> chunks;

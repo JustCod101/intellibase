@@ -125,6 +125,7 @@ class DocParseConsumerTest {
         EmbedBatchMessage sentMsg = batchCaptor.getValue();
         assertEquals(101L, sentMsg.getDocId());
         assertEquals(3, sentMsg.getChunks().size());
+        assertEquals(1, sentMsg.getTotalBatches(), "分块少于100个，总批次数应为1");
         assertTrue(sentMsg.isLastBatch(), "由于分块少于100个，该批次应标记为最后一批");
     }
 
@@ -157,8 +158,10 @@ class DocParseConsumerTest {
         verify(rabbitTemplate, atLeast(2)).convertAndSend(anyString(), batchCaptor.capture());
         
         List<EmbedBatchMessage> batches = batchCaptor.getAllValues();
+        assertEquals(2, batches.get(0).getTotalBatches(), "每个批次消息都应携带总批次数=2");
+        assertEquals(2, batches.get(1).getTotalBatches());
         assertFalse(batches.get(0).isLastBatch(), "第一批次 (100个) 不应标记为结束");
-        assertTrue(batches.get(1).isLastBatch(), "第二批次 (20个) 应标记为结束，触发下游最终状态更新");
+        assertTrue(batches.get(1).isLastBatch(), "第二批次 (20个) 应标记为结束");
     }
 
     /**

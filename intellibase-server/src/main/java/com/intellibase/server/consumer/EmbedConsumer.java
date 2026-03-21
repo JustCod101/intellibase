@@ -7,6 +7,7 @@ import com.intellibase.server.domain.entity.DocumentChunk;
 import com.intellibase.server.mapper.DocumentChunkMapper;
 import com.intellibase.server.mapper.DocumentMapper;
 import com.intellibase.server.service.rag.CacheEvictionService;
+import com.intellibase.server.service.rag.EmbedBatchTracker;
 import com.intellibase.server.service.rag.EmbeddingService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -26,11 +27,18 @@ import java.util.List;
  *   <li>重试耗尽 —— 消息被 RepublishMessageRecoverer 发送到 DLQ，由 DlqConsumer 标记 FAILED</li>
  * </ul>
  *
+ * <p>完成判定策略（解决并发竞态）：
+ * <ul>
+ *   <li>每个批次处理完成后，通过 {@link EmbedBatchTracker} 原子递增 Redis 计数器</li>
+ *   <li>当已完成批次数 == 总批次数时，当前线程负责标记 COMPLETED</li>
+ *   <li>不再依赖 lastBatch 标志，消除乱序消费导致的竞态条件</li>
+ * </ul>
+ *
  * 流程：
  * 1. 从消息中取出文本块列表
  * 2. 批量调用 Embedding API 获取向量
  * 3. 组装 DocumentChunk 实体，批量写入 document_chunk 表（含 pgvector vector 类型）
- * 4. 如果是最后一批，更新 document 状态为 COMPLETED 并记录总分块数
+ * 4. 原子递增 Redis 计数器，当所有批次完成时更新 document 状态为 COMPLETED
  */
 @Slf4j
 @Component
@@ -41,11 +49,12 @@ public class EmbedConsumer {
     private final DocumentChunkMapper documentChunkMapper;
     private final DocumentMapper documentMapper;
     private final CacheEvictionService cacheEvictionService;
+    private final EmbedBatchTracker embedBatchTracker;
 
     @RabbitListener(queues = Constants.QUEUE_DOC_EMBED, concurrency = "2-3")
     public void handleEmbed(EmbedBatchMessage msg) {
-        log.info("收到向量化消息: docId={}, kbId={}, chunkCount={}, lastBatch={}",
-                msg.getDocId(), msg.getKbId(), msg.getChunks().size(), msg.isLastBatch());
+        log.info("收到向量化消息: docId={}, kbId={}, chunkCount={}, totalBatches={}",
+                msg.getDocId(), msg.getKbId(), msg.getChunks().size(), msg.getTotalBatches());
 
         List<TextChunk> textChunks = msg.getChunks();
 
@@ -80,8 +89,11 @@ public class EmbedConsumer {
         documentChunkMapper.batchInsertWithVector(chunks, embeddings);
         log.info("分块向量写入完成: docId={}, 写入数={}", msg.getDocId(), chunks.size());
 
-        // ===== 4. 如果是最后一批，更新文档状态为 COMPLETED，并清除缓存 =====
-        if (msg.isLastBatch()) {
+        // ===== 4. 原子递增已完成批次计数器，判断是否所有批次均已完成 =====
+        boolean allBatchesDone = embedBatchTracker.incrementAndCheck(
+                msg.getDocId(), msg.getTotalBatches());
+
+        if (allBatchesDone) {
             documentMapper.updateChunkCount(
                     msg.getDocId(), msg.getTotalChunks(), Constants.DOC_STATUS_COMPLETED);
             // 新文档入库后，清除 L1/L2 缓存，确保后续查询能检索到新内容

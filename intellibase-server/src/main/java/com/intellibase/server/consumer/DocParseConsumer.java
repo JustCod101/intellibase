@@ -61,6 +61,7 @@ public class DocParseConsumer {
         if (text.isBlank()) {
             log.warn("文档内容为空: docId={}", msg.getDocId());
             documentMapper.updateStatus(msg.getDocId(), Constants.DOC_STATUS_FAILED);
+            stream.close();
             // 内容为空属于不可重试的业务错误，跳过重试直接进入 DLQ
             throw new AmqpRejectAndDontRequeueException("文档内容为空, docId=" + msg.getDocId());
         }
@@ -89,6 +90,7 @@ public class DocParseConsumer {
                     .kbId(msg.getKbId())
                     .lastBatch(isLast)
                     .totalChunks(chunks.size())
+                    .totalBatches(batches.size())
                     .chunks(batches.get(i))
                     .build();
             rabbitTemplate.convertAndSend(Constants.QUEUE_DOC_EMBED, embedMsg);
