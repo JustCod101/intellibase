@@ -1,6 +1,7 @@
 package com.intellibase.server.config;
 
 import com.intellibase.server.common.Constants;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.core.*;
 import org.springframework.amqp.rabbit.config.SimpleRabbitListenerContainerFactory;
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;
@@ -13,6 +14,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.retry.interceptor.MethodInvocationRecoverer;
 import org.springframework.retry.interceptor.RetryInterceptorBuilder;
 
+@Slf4j
 @Configuration
 public class RabbitConfig {
 
@@ -35,6 +37,52 @@ public class RabbitConfig {
     @Bean
     public MessageConverter jackson2JsonMessageConverter() {
         return new Jackson2JsonMessageConverter();
+    }
+
+    // ==================== 发送方确认（Publisher Confirms & Returns） ====================
+
+    /**
+     * 配置 RabbitTemplate：开启 mandatory 模式 + 注册 ConfirmCallback / ReturnsCallback。
+     *
+     * <ul>
+     *   <li><b>ConfirmCallback</b> — Broker 确认消息是否成功写入队列/交换机。
+     *       nack 表示 Broker 拒绝（如磁盘满），此处记录 ERROR 日志供告警系统捕获。</li>
+     *   <li><b>ReturnsCallback</b> — 消息路由到交换机但无法匹配任何队列时触发
+     *       （需配合 mandatory=true）。常见原因：routing key 写错或队列被意外删除。</li>
+     * </ul>
+     *
+     * 依赖 yml 配置：
+     * <pre>
+     * spring.rabbitmq.publisher-confirm-type: correlated
+     * spring.rabbitmq.publisher-returns: true
+     * </pre>
+     */
+    @Bean
+    public RabbitTemplate rabbitTemplate(ConnectionFactory connectionFactory,
+                                        MessageConverter jackson2JsonMessageConverter) {
+        RabbitTemplate template = new RabbitTemplate(connectionFactory);
+        template.setMessageConverter(jackson2JsonMessageConverter);
+        template.setMandatory(true);
+
+        // Broker 确认回调：消息是否成功到达交换机
+        template.setConfirmCallback((correlationData, ack, cause) -> {
+            if (!ack) {
+                log.error("[Publisher Confirm] 消息未被 Broker 确认! correlationData={}, cause={}",
+                        correlationData, cause);
+            }
+        });
+
+        // 消息退回回调：到达交换机但无法路由到任何队列
+        template.setReturnsCallback(returned -> {
+            log.error("[Publisher Return] 消息无法路由! exchange={}, routingKey={}, replyCode={}, replyText={}, message={}",
+                    returned.getExchange(),
+                    returned.getRoutingKey(),
+                    returned.getReplyCode(),
+                    returned.getReplyText(),
+                    returned.getMessage());
+        });
+
+        return template;
     }
 
     /**

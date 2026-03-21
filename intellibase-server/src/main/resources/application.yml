@@ -26,6 +26,8 @@ spring:
     port: 5672
     username: admin
     password: guest
+    publisher-confirm-type: correlated
+    publisher-returns: true
 
 jwt:
   secret: Y2hhbmdlLXRoaXMtdG8tYS1sb25nLXNlY3VyZS1rZXktaW4tcHJvZHVjdGlvbi0yMDI2
