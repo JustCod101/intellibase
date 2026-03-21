@@ -27,6 +27,15 @@ class RetrievalServiceTest {
     @Mock
     private DocumentChunkMapper documentChunkMapper;
 
+    @Mock
+    private RetrievalCacheService retrievalCacheService;
+
+    @Mock
+    private ChunkCacheService chunkCacheService;
+
+    @Mock
+    private CacheStatsService cacheStatsService;
+
     @InjectMocks
     private RetrievalService retrievalService;
 
@@ -48,8 +57,11 @@ class RetrievalServiceTest {
         chunk.setId(100L);
         chunk.setDocId(10L);
         chunk.setContent("这是一个很长的文本内容，用于测试 RetrievalService 是否能正确生成摘要。摘要通常只保留前200个字符。");
+        chunk.setSimilarity(0.85);
 
         when(documentChunkMapper.findSimilar(anyString(), eq(kbId), anyDouble(), anyInt()))
+                .thenReturn(List.of(chunk));
+        when(chunkCacheService.getChunks(anyList()))
                 .thenReturn(List.of(chunk));
 
         // 2. 执行检索
@@ -61,6 +73,7 @@ class RetrievalServiceTest {
         RetrievalResult result = results.get(0);
         assertEquals(100L, result.getChunkId());
         assertEquals(chunk.getContent(), result.getContent());
+        assertEquals(0.85, result.getScore(), 0.001);
         assertNotNull(result.getSnippet());
         
         // 验证调用参数

@@ -76,19 +76,23 @@ public class RetrievalService {
         }
 
         // ===== L3: 通过文档块缓存解析内容（read-through: Redis → DB → 回填 Redis）=====
-        // 保存 chunkId → docId 的映射（向量检索提供的元数据）
+        // 保存 chunkId → docId / similarity 的映射（向量检索提供的元数据）
         Map<Long, Long> chunkDocIdMap = new HashMap<>();
+        Map<Long, Double> chunkSimilarityMap = new HashMap<>();
         List<Long> chunkIds = new ArrayList<>();
         for (DocumentChunk hit : searchHits) {
             chunkIds.add(hit.getId());
             chunkDocIdMap.put(hit.getId(), hit.getDocId());
+            chunkSimilarityMap.put(hit.getId(), hit.getSimilarity() != null ? hit.getSimilarity() : 0.0);
         }
 
         // 通过 L3 缓存获取 chunk 内容（命中 Redis 则跳过 DB，未命中则从 DB 加载并回填）
         List<DocumentChunk> chunks = chunkCacheService.getChunks(chunkIds);
 
         List<RetrievalResult> results = chunks.stream()
-                .map(chunk -> toResult(chunk, chunkDocIdMap.getOrDefault(chunk.getId(), chunk.getDocId())))
+                .map(chunk -> toResult(chunk,
+                        chunkDocIdMap.getOrDefault(chunk.getId(), chunk.getDocId()),
+                        chunkSimilarityMap.getOrDefault(chunk.getId(), 0.0)))
                 .toList();
 
         // 写入 L2 缓存供后续相同查询使用
@@ -107,14 +111,14 @@ public class RetrievalService {
         return retrieve(queryVector, kbId, null);
     }
 
-    private RetrievalResult toResult(DocumentChunk chunk, Long docId) {
+    private RetrievalResult toResult(DocumentChunk chunk, Long docId, double similarity) {
         String content = chunk.getContent();
         String snippet = content.length() > 200 ? content.substring(0, 200) + "..." : content;
 
         return RetrievalResult.builder()
                 .chunkId(chunk.getId())
                 .docId(docId)
-                .score(0)
+                .score(similarity)
                 .content(content)
                 .snippet(snippet)
                 .build();

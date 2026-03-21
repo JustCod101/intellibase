@@ -37,6 +37,10 @@ public class DocumentChunk {
     @TableField(typeHandler = JsonbTypeHandler.class)
     private String metadata;
 
+    /** 向量检索时由 SQL 计算的相似度分数（非持久化字段） */
+    @TableField(exist = false)
+    private Double similarity;
+
     @TableField(insertStrategy = FieldStrategy.NEVER, updateStrategy = FieldStrategy.NEVER)
     private OffsetDateTime createdAt;
 
