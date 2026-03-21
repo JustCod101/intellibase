@@ -4,10 +4,12 @@ import com.intellibase.server.common.Constants;
 import com.intellibase.server.domain.dto.DocParseMessage;
 import com.intellibase.server.domain.dto.EmbedBatchMessage;
 import com.intellibase.server.domain.dto.TextChunk;
+import com.intellibase.server.mapper.DocumentChunkMapper;
 import com.intellibase.server.mapper.DocumentMapper;
 import com.intellibase.server.service.doc.DocParseService;
 import com.intellibase.server.service.doc.TextSplitter;
 import com.intellibase.server.service.kb.MinioService;
+import com.intellibase.server.service.mq.IdempotencyService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -60,9 +62,17 @@ class DocParseConsumerTest {
     @Mock
     private DocumentMapper documentMapper;
 
+    // 模拟文档分块映射层，用于清理旧分块数据
+    @Mock
+    private DocumentChunkMapper documentChunkMapper;
+
     // 模拟 RabbitMQ 模板，验证是否向后端队列发送了后续任务
     @Mock
     private RabbitTemplate rabbitTemplate;
+
+    // 模拟幂等性服务
+    @Mock
+    private IdempotencyService idempotencyService;
 
     // 将上述 Mock 对象自动注入到被测试类中
     @InjectMocks
@@ -77,6 +87,7 @@ class DocParseConsumerTest {
     void setUp() {
         // 构建一条模拟的 RabbitMQ 消息，代表有一个 PDF 需要解析
         message = DocParseMessage.builder()
+                .messageId("test-msg-001")
                 .docId(101L)        // 文档主键 ID
                 .kbId(10L)          // 所属知识库 ID
                 .fileKey("kb/10/test.pdf") // 文件在存储中的路径
@@ -93,6 +104,9 @@ class DocParseConsumerTest {
     @Test
     @DisplayName("解析成功 - 验证完整流水线逻辑")
     void handleDocParse_Success() throws Exception {
+        // 幂等检查放行
+        when(idempotencyService.tryAcquire("test-msg-001")).thenReturn(true);
+
         // 1. 设置模拟返回值：MinIO 返回一个假的文件流
         InputStream mockStream = new ByteArrayInputStream("fake pdf content".getBytes());
         when(minioService.downloadFile(message.getFileKey())).thenReturn(mockStream);
@@ -126,6 +140,7 @@ class DocParseConsumerTest {
         assertEquals(101L, sentMsg.getDocId());
         assertEquals(3, sentMsg.getChunks().size());
         assertEquals(1, sentMsg.getTotalBatches(), "分块少于100个，总批次数应为1");
+        assertNotNull(sentMsg.getMessageId(), "每个 embed 消息应携带 messageId");
         assertTrue(sentMsg.isLastBatch(), "由于分块少于100个，该批次应标记为最后一批");
     }
 
@@ -137,6 +152,8 @@ class DocParseConsumerTest {
     @Test
     @DisplayName("分批发送 - 验证大文档切分后的 MQ 批量分送逻辑")
     void handleDocParse_MultiBatch_Success() throws Exception {
+        when(idempotencyService.tryAcquire("test-msg-001")).thenReturn(true);
+
         // 模拟产生 120 个分块，这将导致 MQ 发送 2 次 (100 + 20)
         List<TextChunk> mockChunks = new ArrayList<>();
         for (int i = 0; i < 120; i++) {
@@ -171,6 +188,8 @@ class DocParseConsumerTest {
     @Test
     @DisplayName("容错处理 - 提取文本为空时应标记失败并抛出不可重试异常")
     void handleDocParse_EmptyText_SetsStatusFailed() throws Exception {
+        when(idempotencyService.tryAcquire("test-msg-001")).thenReturn(true);
+
         // 模拟文件内容提取结果为空白字符串
         when(minioService.downloadFile(anyString())).thenReturn(new ByteArrayInputStream("".getBytes()));
         when(docParseService.parse(any(), anyString())).thenReturn("  ");
@@ -192,11 +211,35 @@ class DocParseConsumerTest {
     @Test
     @DisplayName("健壮性 - 瞬时异常应抛出以触发 RetryInterceptor 重试")
     void handleDocParse_TransientException_ThrowsForRetry() throws Exception {
+        when(idempotencyService.tryAcquire("test-msg-001")).thenReturn(true);
+
         // 模拟 MinIO 网络连接失败
         when(minioService.downloadFile(anyString())).thenThrow(new RuntimeException("Cloud Storage Unreachable"));
 
         // 瞬时异常应该直接抛出（不再内部 catch），由容器级重试机制处理
         assertThrows(RuntimeException.class,
                 () -> docParseConsumer.handleDocParse(message));
+
+        // 验证：失败时应释放幂等锁，允许重试消息重新消费
+        verify(idempotencyService).release("test-msg-001");
+    }
+
+    /**
+     * 测试场景：重复消息（幂等性拦截）
+     * 预期：直接跳过，不执行任何业务逻辑
+     */
+    @Test
+    @DisplayName("幂等性 - 重复消息应被跳过")
+    void handleDocParse_DuplicateMessage_Skipped() throws Exception {
+        // 幂等检查拦截：该 messageId 已被处理过
+        when(idempotencyService.tryAcquire("test-msg-001")).thenReturn(false);
+
+        // --- 执行 ---
+        docParseConsumer.handleDocParse(message);
+
+        // 验证：不应执行任何业务逻辑
+        verify(documentMapper, never()).updateStatus(anyLong(), anyString());
+        verify(minioService, never()).downloadFile(anyString());
+        verify(rabbitTemplate, never()).convertAndSend(anyString(), any(EmbedBatchMessage.class));
     }
 }

@@ -98,6 +98,7 @@ public class DocumentServiceImpl implements DocumentService {
         // 为什么用异步？解析大文件非常耗时，不能让用户在上传界面一直转圈等待。
         // 后台会有专门的消费者 (DocParseConsumer) 接收这个消息并开始切分文档。
         DocParseMessage message = DocParseMessage.builder()
+                .messageId(UUID.randomUUID().toString())
                 .docId(doc.getId())
                 .kbId(kbId)
                 .fileKey(objectKey)

@@ -6,6 +6,7 @@ import com.intellibase.server.domain.dto.TextChunk;
 import com.intellibase.server.domain.entity.DocumentChunk;
 import com.intellibase.server.mapper.DocumentChunkMapper;
 import com.intellibase.server.mapper.DocumentMapper;
+import com.intellibase.server.service.mq.IdempotencyService;
 import com.intellibase.server.service.rag.CacheEvictionService;
 import com.intellibase.server.service.rag.EmbedBatchTracker;
 import com.intellibase.server.service.rag.EmbeddingService;
@@ -59,6 +60,10 @@ class EmbedConsumerTest {
     @Mock
     private EmbedBatchTracker embedBatchTracker;
 
+    // 模拟幂等性服务
+    @Mock
+    private IdempotencyService idempotencyService;
+
     // 被测试的消费者实例
     @InjectMocks
     private EmbedConsumer embedConsumer;
@@ -79,6 +84,7 @@ class EmbedConsumerTest {
 
         // 构建 MQ 消息：docId=200, kbId=10, 包含 3 个分块，总计 3 个分块，共 2 个批次
         message = EmbedBatchMessage.builder()
+                .messageId("embed-msg-001")
                 .docId(200L)
                 .kbId(10L)
                 .chunks(chunks)
@@ -95,6 +101,8 @@ class EmbedConsumerTest {
     @Test
     @DisplayName("向量化处理 - 普通批次成功逻辑（计数器未达标）")
     void handleEmbed_Success_NotAllBatchesDone() {
+        when(idempotencyService.tryAcquire("embed-msg-001")).thenReturn(true);
+
         // 1. 设置模拟返回值：模拟 Embedding API 返回 3 个向量 (维度假设为 3)
         List<float[]> mockVectors = List.of(
                 new float[]{0.1f, 0.2f, 0.3f},
@@ -133,6 +141,8 @@ class EmbedConsumerTest {
     @Test
     @DisplayName("向量化处理 - 所有批次完成后触发状态更新（Redis 原子计数）")
     void handleEmbed_Success_AllBatchesDone() {
+        when(idempotencyService.tryAcquire("embed-msg-001")).thenReturn(true);
+
         // 设置模拟返回值
         List<float[]> mockVectors = List.of(
                 new float[]{0.1f},
@@ -160,6 +170,8 @@ class EmbedConsumerTest {
     @Test
     @DisplayName("容错处理 - Embedding 接口报错时应抛出异常以触发重试")
     void handleEmbed_EmbeddingServiceFails_ThrowsForRetry() {
+        when(idempotencyService.tryAcquire("embed-msg-001")).thenReturn(true);
+
         // 模拟 Embedding 服务抛出超时异常
         when(embeddingService.embedBatch(anyList())).thenThrow(new RuntimeException("OpenAI API Timeout"));
 
@@ -177,6 +189,8 @@ class EmbedConsumerTest {
     @Test
     @DisplayName("容错处理 - 数据库写入失败时应抛出异常以触发重试")
     void handleEmbed_DatabaseFails_ThrowsForRetry() {
+        when(idempotencyService.tryAcquire("embed-msg-001")).thenReturn(true);
+
         // 1. Embedding 成功（返回 3 个向量以匹配 3 个分块）
         List<float[]> mockVectors = List.of(
                 new float[]{0.1f},
@@ -191,5 +205,25 @@ class EmbedConsumerTest {
 
         // 瞬时异常应抛出，由容器级重试机制处理
         assertThrows(RuntimeException.class, () -> embedConsumer.handleEmbed(message));
+
+        // 验证：失败时应释放幂等锁，允许重试
+        verify(idempotencyService).release("embed-msg-001");
+    }
+
+    /**
+     * 测试场景：重复消息（幂等性拦截）
+     * 预期：直接跳过，不执行任何业务逻辑
+     */
+    @Test
+    @DisplayName("幂等性 - 重复消息应被跳过")
+    void handleEmbed_DuplicateMessage_Skipped() {
+        when(idempotencyService.tryAcquire("embed-msg-001")).thenReturn(false);
+
+        embedConsumer.handleEmbed(message);
+
+        // 验证：不应执行任何业务逻辑
+        verify(embeddingService, never()).embedBatch(anyList());
+        verify(documentChunkMapper, never()).batchInsertWithVector(anyList(), anyList());
+        verify(embedBatchTracker, never()).incrementAndCheck(anyLong(), anyInt());
     }
 }

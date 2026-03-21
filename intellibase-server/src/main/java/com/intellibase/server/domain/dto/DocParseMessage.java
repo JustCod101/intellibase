@@ -16,6 +16,9 @@ import java.io.Serializable;
 @AllArgsConstructor
 public class DocParseMessage implements Serializable {
 
+    /** 消息唯一标识（UUID），用于消费端幂等去重 */
+    private String messageId;
+
     private Long docId;
 
     private Long kbId;

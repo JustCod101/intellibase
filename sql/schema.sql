@@ -90,6 +90,9 @@ CREATE TABLE document_chunk (
 CREATE INDEX idx_chunk_embedding ON document_chunk
     USING hnsw (embedding vector_cosine_ops) WITH (m = 16, ef_construction = 64);
 
+-- 唯一约束：防止消息重复投递导致同一文档的同一分块被重复写入
+CREATE UNIQUE INDEX uk_chunk_doc_index ON document_chunk(doc_id, chunk_index);
+
 -- 复合索引：先按知识库过滤再做向量检索（大幅提升多租户场景性能）
 CREATE INDEX idx_chunk_kb ON document_chunk(kb_id);
 CREATE INDEX idx_chunk_doc ON document_chunk(doc_id);

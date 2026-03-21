@@ -6,6 +6,7 @@ import com.intellibase.server.domain.dto.TextChunk;
 import com.intellibase.server.domain.entity.DocumentChunk;
 import com.intellibase.server.mapper.DocumentChunkMapper;
 import com.intellibase.server.mapper.DocumentMapper;
+import com.intellibase.server.service.mq.IdempotencyService;
 import com.intellibase.server.service.rag.CacheEvictionService;
 import com.intellibase.server.service.rag.EmbedBatchTracker;
 import com.intellibase.server.service.rag.EmbeddingService;
@@ -50,12 +51,29 @@ public class EmbedConsumer {
     private final DocumentMapper documentMapper;
     private final CacheEvictionService cacheEvictionService;
     private final EmbedBatchTracker embedBatchTracker;
+    private final IdempotencyService idempotencyService;
 
     @RabbitListener(queues = Constants.QUEUE_DOC_EMBED, concurrency = "2-3")
     public void handleEmbed(EmbedBatchMessage msg) {
-        log.info("收到向量化消息: docId={}, kbId={}, chunkCount={}, totalBatches={}",
-                msg.getDocId(), msg.getKbId(), msg.getChunks().size(), msg.getTotalBatches());
+        log.info("收到向量化消息: docId={}, messageId={}, kbId={}, chunkCount={}, totalBatches={}",
+                msg.getDocId(), msg.getMessageId(), msg.getKbId(), msg.getChunks().size(), msg.getTotalBatches());
 
+        // ===== 0. 幂等性检查：防止消息重复投递导致重复写入 =====
+        if (!idempotencyService.tryAcquire(msg.getMessageId())) {
+            log.info("向量化消息已处理过，跳过: docId={}, messageId={}", msg.getDocId(), msg.getMessageId());
+            return;
+        }
+
+        try {
+            doHandleEmbed(msg);
+        } catch (Exception e) {
+            // 处理失败时释放幂等锁，允许重试消息重新消费
+            idempotencyService.release(msg.getMessageId());
+            throw e;
+        }
+    }
+
+    private void doHandleEmbed(EmbedBatchMessage msg) {
         List<TextChunk> textChunks = msg.getChunks();
 
         // ===== 1. 提取所有文本，批量调用 Embedding API =====

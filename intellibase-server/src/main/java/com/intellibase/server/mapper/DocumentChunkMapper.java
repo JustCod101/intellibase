@@ -3,6 +3,7 @@ package com.intellibase.server.mapper;
 import com.baomidou.mybatisplus.annotation.InterceptorIgnore;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.intellibase.server.domain.entity.DocumentChunk;
+import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -11,6 +12,12 @@ import java.util.List;
 @Mapper
 @InterceptorIgnore(tenantLine = "true")
 public interface DocumentChunkMapper extends BaseMapper<DocumentChunk> {
+
+    /**
+     * 按文档ID删除所有分块（用于重新解析前的清理）
+     */
+    @Delete("DELETE FROM document_chunk WHERE doc_id = #{docId}")
+    int deleteByDocId(@Param("docId") Long docId);
 
     /**
      * 批量插入文档分块（含 pgvector 向量）

@@ -3,7 +3,7 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.intellibase.server.mapper.DocumentChunkMapper">
 
-    <!-- 批量插入文档分块（含 pgvector 向量） -->
+    <!-- 批量插入文档分块（含 pgvector 向量），遇到重复 (doc_id, chunk_index) 则跳过 -->
     <insert id="batchInsertWithVector">
         INSERT INTO document_chunk (doc_id, kb_id, chunk_index, content, token_count, embedding, metadata)
         VALUES
@@ -18,6 +18,7 @@
                 #{chunk.metadata}
             )
         </foreach>
+        ON CONFLICT (doc_id, chunk_index) DO NOTHING
     </insert>
 
     <!-- 向量相似度检索：先按 kb_id 过滤，再做余弦相似度排序 -->

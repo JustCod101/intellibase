@@ -17,6 +17,9 @@ import java.util.List;
 @AllArgsConstructor
 public class EmbedBatchMessage implements Serializable {
 
+    /** 消息唯一标识（UUID），用于消费端幂等去重 */
+    private String messageId;
+
     private Long docId;
 
     private Long kbId;
