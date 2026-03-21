@@ -3,26 +3,4 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.intellibase.server.mapper.ChatMessageMapper">
 
-    <!-- 语义缓存查询：从 semantic_cache 表中按向量相似度检索已缓存的回答 -->
-    <select id="findCachedAnswer" resultType="java.lang.String">
-        SELECT response_text
-        FROM semantic_cache
-        WHERE kb_id = #{kbId}
-          AND (expires_at IS NULL OR expires_at &gt; NOW())
-          AND 1 - (query_embedding &lt;=&gt; #{queryEmbedding}::vector) &gt; #{threshold}
-        ORDER BY query_embedding &lt;=&gt; #{queryEmbedding}::vector
-        LIMIT 1
-    </select>
-
-    <!-- 语义缓存写入：将问答对写入 semantic_cache 表 -->
-    <insert id="insertCache">
-        INSERT INTO semantic_cache (kb_id, query_embedding, query_text, response_text, hit_count, expires_at)
-        VALUES (#{kbId}, #{embedding}::vector, #{queryText}, #{responseText}, 0, NOW() + INTERVAL '6 hours')
-    </insert>
-
-    <!-- 按知识库ID清除语义缓存 -->
-    <delete id="deleteCacheByKbId">
-        DELETE FROM semantic_cache WHERE kb_id = #{kbId}
-    </delete>
-
 </mapper>

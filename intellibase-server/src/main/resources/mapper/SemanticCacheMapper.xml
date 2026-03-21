@@ -26,4 +26,9 @@
         UPDATE semantic_cache SET hit_count = hit_count + 1 WHERE id = #{id}
     </update>
 
+    <!-- 按知识库ID清除语义缓存 -->
+    <delete id="deleteCacheByKbId">
+        DELETE FROM semantic_cache WHERE kb_id = #{kbId}
+    </delete>
+
 </mapper>

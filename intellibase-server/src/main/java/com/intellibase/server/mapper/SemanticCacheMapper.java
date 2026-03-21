@@ -31,4 +31,9 @@ public interface SemanticCacheMapper extends BaseMapper<SemanticCache> {
      */
     void incrementHitCount(@Param("id") Long id);
 
+    /**
+     * 按知识库ID清除语义缓存
+     */
+    void deleteCacheByKbId(@Param("kbId") Long kbId);
+
 }
