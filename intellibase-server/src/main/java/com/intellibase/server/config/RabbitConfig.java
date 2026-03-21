@@ -11,8 +11,7 @@ import org.springframework.amqp.support.converter.Jackson2JsonMessageConverter;
 import org.springframework.amqp.support.converter.MessageConverter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.retry.interceptor.MethodInvocationRecoverer;
-import org.springframework.retry.interceptor.RetryInterceptorBuilder;
+import org.springframework.amqp.rabbit.config.RetryInterceptorBuilder;
 
 @Slf4j
 @Configuration
@@ -114,7 +113,7 @@ public class RabbitConfig {
                 RetryInterceptorBuilder.stateless()
                         .maxAttempts(MAX_ATTEMPTS)
                         .backOffOptions(INITIAL_INTERVAL, MULTIPLIER, MAX_INTERVAL)
-                        .recoverer((MethodInvocationRecoverer<?>) republishMessageRecoverer)
+                        .recoverer(republishMessageRecoverer)
                         .build()
         );
         return factory;
