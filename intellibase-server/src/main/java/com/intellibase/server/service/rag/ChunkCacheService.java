@@ -122,7 +122,7 @@ public class ChunkCacheService {
             cacheStatsService.recordL3Miss(cacheMissIds.size());
         }
 
-        log.debug(“L3 文档缓存: 请求={}, 命中={}, 穿透={}”,
+        log.debug("L3 文档缓存: 请求={}, 命中={}, 穿透={}",
                 chunkIds.size(), cacheHitCount, cacheMissIds.size());
 
         result.removeIf(Objects::isNull);
