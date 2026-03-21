@@ -23,6 +23,8 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.amqp.AmqpRejectAndDontRequeueException;
+
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.*;
@@ -161,16 +163,18 @@ class DocParseConsumerTest {
 
     /**
      * 测试场景：文本内容为空
-     * 预期：中断流程，将状态直接置为 FAILED，避免浪费向量化算力
+     * 预期：标记 FAILED 并抛出 AmqpRejectAndDontRequeueException（跳过重试直接进入 DLQ）
      */
     @Test
-    @DisplayName("容错处理 - 提取文本为空时应正确报错并置为失败状态")
+    @DisplayName("容错处理 - 提取文本为空时应标记失败并抛出不可重试异常")
     void handleDocParse_EmptyText_SetsStatusFailed() throws Exception {
         // 模拟文件内容提取结果为空白字符串
         when(minioService.downloadFile(anyString())).thenReturn(new ByteArrayInputStream("".getBytes()));
-        when(docParseService.parse(any(), anyString())).thenReturn("  "); 
+        when(docParseService.parse(any(), anyString())).thenReturn("  ");
 
-        docParseConsumer.handleDocParse(message);
+        // 空内容属于不可重试的业务错误，应抛出 AmqpRejectAndDontRequeueException
+        assertThrows(AmqpRejectAndDontRequeueException.class,
+                () -> docParseConsumer.handleDocParse(message));
 
         // 验证：最终数据库状态是否为 FAILED
         verify(documentMapper).updateStatus(101L, Constants.DOC_STATUS_FAILED);
@@ -179,18 +183,17 @@ class DocParseConsumerTest {
     }
 
     /**
-     * 测试场景：运行期系统异常
-     * 预期：捕获所有未知异常，防止 MQ 消息丢失且在数据库中标记失败，方便用户排查
+     * 测试场景：运行期瞬时异常（如 MinIO 网络不可达）
+     * 预期：异常向上抛出，由 Spring AMQP RetryInterceptor 进行指数退避重试
      */
     @Test
-    @DisplayName("健壮性 - 处理过程中抛出异常时能自动捕获并记录失败")
-    void handleDocParse_Exception_SetsStatusFailed() throws Exception {
+    @DisplayName("健壮性 - 瞬时异常应抛出以触发 RetryInterceptor 重试")
+    void handleDocParse_TransientException_ThrowsForRetry() throws Exception {
         // 模拟 MinIO 网络连接失败
         when(minioService.downloadFile(anyString())).thenThrow(new RuntimeException("Cloud Storage Unreachable"));
 
-        docParseConsumer.handleDocParse(message);
-
-        // 验证：系统是否在捕获异常后将文档标记为 FAILED，防止任务永远卡在 PARSING 状态
-        verify(documentMapper).updateStatus(101L, Constants.DOC_STATUS_FAILED);
+        // 瞬时异常应该直接抛出（不再内部 catch），由容器级重试机制处理
+        assertThrows(RuntimeException.class,
+                () -> docParseConsumer.handleDocParse(message));
     }
 }

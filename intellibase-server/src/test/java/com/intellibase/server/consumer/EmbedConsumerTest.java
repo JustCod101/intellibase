@@ -140,31 +140,29 @@ class EmbedConsumerTest {
     }
 
     /**
-     * 测试场景：Embedding 接口调用异常
-     * 预期：捕获异常，并将文档状态置为 FAILED
+     * 测试场景：Embedding 接口调用异常（API 超时/限流等瞬时故障）
+     * 预期：异常向上抛出，由 Spring AMQP RetryInterceptor 进行指数退避重试
      */
     @Test
-    @DisplayName("容错处理 - Embedding 接口报错时文档状态应标记为失败")
-    void handleEmbed_EmbeddingServiceFails_SetsStatusFailed() {
+    @DisplayName("容错处理 - Embedding 接口报错时应抛出异常以触发重试")
+    void handleEmbed_EmbeddingServiceFails_ThrowsForRetry() {
         // 模拟 Embedding 服务抛出超时异常
         when(embeddingService.embedBatch(anyList())).thenThrow(new RuntimeException("OpenAI API Timeout"));
 
-        // --- 执行 ---
-        embedConsumer.handleEmbed(message);
+        // 瞬时异常应抛出，由容器级重试机制处理；重试耗尽后由 DlqConsumer 标记 FAILED
+        assertThrows(RuntimeException.class, () -> embedConsumer.handleEmbed(message));
 
-        // 验证：最终数据库状态是否被标记为 FAILED，以便前端向用户展示错误
-        verify(documentMapper).updateStatus(200L, Constants.DOC_STATUS_FAILED);
         // 验证：不应该尝试执行任何数据库插入操作
         verify(documentChunkMapper, never()).batchInsertWithVector(anyList(), anyList());
     }
 
     /**
      * 测试场景：数据库批量插入异常
-     * 预期：捕获异常，并将文档状态置为 FAILED
+     * 预期：异常向上抛出，触发重试
      */
     @Test
-    @DisplayName("容错处理 - 数据库写入失败时能正确处理异常状态")
-    void handleEmbed_DatabaseFails_SetsStatusFailed() {
+    @DisplayName("容错处理 - 数据库写入失败时应抛出异常以触发重试")
+    void handleEmbed_DatabaseFails_ThrowsForRetry() {
         // 1. Embedding 成功（返回 3 个向量以匹配 3 个分块）
         List<float[]> mockVectors = List.of(
                 new float[]{0.1f},
@@ -177,10 +175,7 @@ class EmbedConsumerTest {
         doThrow(new RuntimeException("DB Connection Error"))
                 .when(documentChunkMapper).batchInsertWithVector(anyList(), anyList());
 
-        // --- 执行 ---
-        embedConsumer.handleEmbed(message);
-
-        // 验证：虽然 Embedding 成功了，但由于存库失败，文档最终仍需标记为 FAILED
-        verify(documentMapper).updateStatus(200L, Constants.DOC_STATUS_FAILED);
+        // 瞬时异常应抛出，由容器级重试机制处理
+        assertThrows(RuntimeException.class, () -> embedConsumer.handleEmbed(message));
     }
 }

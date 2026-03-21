@@ -81,6 +81,12 @@
             <artifactId>spring-boot-starter-amqp</artifactId>
         </dependency>
 
+        <!-- Spring Retry — 用于 RabbitMQ 消费者重试 -->
+        <dependency>
+            <groupId>org.springframework.retry</groupId>
+            <artifactId>spring-retry</artifactId>
+        </dependency>
+
         <!-- MinIO -->
         <dependency>
             <groupId>io.minio</groupId>
