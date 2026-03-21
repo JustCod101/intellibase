@@ -8,8 +8,15 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 
+import org.springframework.dao.DataAccessException;
+import org.springframework.data.redis.core.RedisOperations;
+import org.springframework.data.redis.core.SessionCallback;
+
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -56,52 +63,54 @@ public class ChunkCacheService {
      * @return 文档块列表（顺序和你要的顺序一样）
      */
     public List<DocumentChunk> getChunks(List<Long> chunkIds) {
-        // 这个箱子用来装最后找齐的所有货物
         List<DocumentChunk> result = new ArrayList<>(chunkIds.size());
-        // 这个小本本用来记录：哪些货物前台（Redis）没有，需要去后方大仓库（数据库）拿
         List<Long> cacheMissIds = new ArrayList<>();
-        int cacheHitCount = 0; // 记录一下我们在前台直接找到了多少件，年底好汇报业绩
+        int cacheHitCount = 0;
 
-        // 1. 先去前台柜台（Redis）挨个问问有没有货
-        for (Long chunkId : chunkIds) {
-            String cached = redisTemplate.opsForValue().get(KEY_PREFIX + chunkId);
+        // 1. 批量读取 Redis（一次 MGET 代替 N 次 GET，只需 1 次网络往返）
+        List<String> keys = chunkIds.stream()
+                .map(id -> KEY_PREFIX + id)
+                .toList();
+        List<String> cachedValues = redisTemplate.opsForValue().multiGet(keys);
+
+        for (int i = 0; i < chunkIds.size(); i++) {
+            String cached = cachedValues != null ? cachedValues.get(i) : null;
             if (cached != null) {
-                // 运气好，前台有货（命中）！
-                // 因为为了省内存，Redis 里只存了文字内容，所以我们这里临时拼装一个对象
                 DocumentChunk chunk = new DocumentChunk();
-                chunk.setId(chunkId);
+                chunk.setId(chunkIds.get(i));
                 chunk.setContent(cached);
-                result.add(chunk); // 把找到的货放进大箱子里
+                result.add(chunk);
                 cacheHitCount++;
             } else {
-                // 没运气，前台没货（未命中）
-                result.add(null); // 先在大箱子里占个空位，免得待会顺序乱了
-                cacheMissIds.add(chunkId); // 记在小本本上，待会一起去后方大仓库拿
+                result.add(null); // 占位，保持顺序
+                cacheMissIds.add(chunkIds.get(i));
             }
         }
 
-        // 2. 如果小本本上记了需要去大仓库拿的货（说明前台没找齐）
+        // 2. 未命中的从数据库批量加载，并通过 Pipeline 批量回填 Redis
         if (!cacheMissIds.isEmpty()) {
-            // 开个卡车，把小本本上的货一次性从大仓库（底层数据库）拉回来
             List<DocumentChunk> dbChunks = documentChunkMapper.selectBatchIds(cacheMissIds);
 
-            // 为了方便分发，把拉回来的货摆在架子上，按 ID 贴上标签
-            java.util.Map<Long, DocumentChunk> dbMap = new java.util.HashMap<>();
+            Map<Long, DocumentChunk> dbMap = new HashMap<>();
             for (DocumentChunk c : dbChunks) {
                 dbMap.put(c.getId(), c);
             }
 
-            // 开始把后方拿回来的货，填补到刚才大箱子里的空位上
+            // 收集需要回填的 chunk，稍后一次性写入
+            List<DocumentChunk> toCache = new ArrayList<>();
             for (int i = 0; i < chunkIds.size(); i++) {
-                if (result.get(i) == null) { // 找到刚才留的空位
+                if (result.get(i) == null) {
                     DocumentChunk dbChunk = dbMap.get(chunkIds.get(i));
                     if (dbChunk != null) {
-                        result.set(i, dbChunk); // 把货放进去
-                        // 最重要的一步：顺手把这件货放到前台（Redis）一份！
-                        // 这样下次别人再要，前台就直接有现货了（回填缓存）
-                        cacheChunk(dbChunk);
+                        result.set(i, dbChunk);
+                        toCache.add(dbChunk);
                     }
                 }
+            }
+
+            // Pipeline 批量写入 Redis（一次网络往返写入所有 miss 的 chunk）
+            if (!toCache.isEmpty()) {
+                pipelineSetChunks(toCache);
             }
         }
 
@@ -113,28 +122,33 @@ public class ChunkCacheService {
             cacheStatsService.recordL3Miss(cacheMissIds.size());
         }
 
-        // 打印一条内部日志，记录一下这次取货的战况
-        log.debug("L3 文档缓存: 请求={}, 命中={}, 穿透={}",
+        log.debug(“L3 文档缓存: 请求={}, 命中={}, 穿透={}”,
                 chunkIds.size(), cacheHitCount, cacheMissIds.size());
 
-        // 过滤掉那些既不在前台，也不在大仓库里的“幽灵货物”（正常情况不会发生，写了防患于未然）
-        result.removeIf(java.util.Objects::isNull);
-        return result; // 满载而归
+        result.removeIf(Objects::isNull);
+        return result;
     }
 
     /**
-     * 把单独一个文档碎块摆到前台（写入 Redis 缓存）
+     * 通过 Redis Pipeline 批量写入多个 chunk 到缓存（一次网络往返代替 N 次 SET）
      */
-    public void cacheChunk(DocumentChunk chunk) {
+    private void pipelineSetChunks(List<DocumentChunk> chunks) {
         try {
-            // 放进 Redis，并定个闹钟（默认2小时后自动扔掉）
-            redisTemplate.opsForValue().set(
-                    KEY_PREFIX + chunk.getId(),
-                    chunk.getContent(),
-                    ttlHours, TimeUnit.HOURS);
+            redisTemplate.executePipelined(new SessionCallback<>() {
+                @Override
+                @SuppressWarnings("unchecked")
+                public Object execute(RedisOperations operations) throws DataAccessException {
+                    for (DocumentChunk chunk : chunks) {
+                        operations.opsForValue().set(
+                                KEY_PREFIX + chunk.getId(),
+                                chunk.getContent(),
+                                ttlHours, TimeUnit.HOURS);
+                    }
+                    return null;
+                }
+            });
         } catch (Exception e) {
-            // 放失败了也别影响主流程，默默记下这笔烂账
-            log.warn("L3 文档缓存写入失败: chunkId={}", chunk.getId(), e);
+            log.warn("L3 文档缓存 Pipeline 批量写入失败: count={}", chunks.size(), e);
         }
     }
 
