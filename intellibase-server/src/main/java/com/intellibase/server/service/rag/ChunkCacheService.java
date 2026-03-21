@@ -39,6 +39,8 @@ public class ChunkCacheService {
     private final StringRedisTemplate redisTemplate;
     // 操作底层数据库（PostgreSQL）去捞真实碎块的工具人
     private final DocumentChunkMapper documentChunkMapper;
+    // 缓存命中统计
+    private final CacheStatsService cacheStatsService;
 
     // 所有存进 Redis 的三级缓存钥匙（Key），都必须带上这个前缀
     private static final String KEY_PREFIX = "chunk:";
@@ -103,6 +105,14 @@ public class ChunkCacheService {
             }
         }
 
+        // 记录 L3 缓存命中统计
+        if (cacheHitCount > 0) {
+            cacheStatsService.recordL3Hit(cacheHitCount);
+        }
+        if (!cacheMissIds.isEmpty()) {
+            cacheStatsService.recordL3Miss(cacheMissIds.size());
+        }
+
         // 打印一条内部日志，记录一下这次取货的战况
         log.debug("L3 文档缓存: 请求={}, 命中={}, 穿透={}",
                 chunkIds.size(), cacheHitCount, cacheMissIds.size());
@@ -125,15 +135,6 @@ public class ChunkCacheService {
         } catch (Exception e) {
             // 放失败了也别影响主流程，默默记下这笔烂账
             log.warn("L3 文档缓存写入失败: chunkId={}", chunk.getId(), e);
-        }
-    }
-
-    /**
-     * 批量预热缓存（在检索出匹配的文档片段后，趁热打铁把它们都摆到前台去）
-     */
-    public void warmUp(List<DocumentChunk> chunks) {
-        for (DocumentChunk chunk : chunks) {
-            cacheChunk(chunk); // 挨个调用上面的方法摆货
         }
     }
 
