@@ -24,7 +24,7 @@ public class CacheEvictionService {
     private final DocumentChunkMapper documentChunkMapper;
 
     /**
-     * 清除指定知识库的所有缓存（L1 + L2 + L3）
+     * 清除指定知识库的所有缓存（L0 + L1 + L2 + L3）
      * 适用场景：删除知识库
      *
      * @param kbId 知识库ID
@@ -35,10 +35,10 @@ public class CacheEvictionService {
         // L1：清除语义缓存（数据库中的问答对）
         semanticCacheService.invalidateByKbId(kbId);
 
-        // L2：清除检索结果缓存（Redis 中按 kbId 前缀匹配）
+        // L0 + L2：清除检索结果缓存（Caffeine 本地 + Redis）
         retrievalCacheService.invalidateByKbId(kbId);
 
-        // L3：清除文档块缓存（先查出该知识库的所有 chunkId，再批量删除 Redis 缓存）
+        // L0 + L3：清除文档块缓存（Caffeine 本地 + Redis）
         try {
             List<Long> chunkIds = documentChunkMapper.selectChunkIdsByKbId(kbId);
             chunkCacheService.invalidateByChunkIds(chunkIds);
@@ -50,7 +50,7 @@ public class CacheEvictionService {
     }
 
     /**
-     * 清除指定文档关联的所有缓存（L1 + L2 + L3）
+     * 清除指定文档关联的所有缓存（L0 + L1 + L2 + L3）
      * 适用场景：删除文档、文档重新上传/处理
      *
      * @param docId 文档ID
@@ -62,10 +62,10 @@ public class CacheEvictionService {
         // L1：清除该知识库的语义缓存（因为答案可能引用了该文档的内容）
         semanticCacheService.invalidateByKbId(kbId);
 
-        // L2：清除该知识库的检索缓存（因为检索结果可能包含该文档的分块）
+        // L0 + L2：清除该知识库的检索缓存（Caffeine 本地 + Redis）
         retrievalCacheService.invalidateByKbId(kbId);
 
-        // L3：只清除该文档对应的分块缓存
+        // L0 + L3：只清除该文档对应的分块缓存（Caffeine 本地 + Redis）
         try {
             List<Long> chunkIds = documentChunkMapper.selectChunkIdsByDocId(docId);
             chunkCacheService.invalidateByChunkIds(chunkIds);

@@ -48,6 +48,8 @@ rag:
   retrieval-top-k: 5
   similarity-threshold: 0.4
   cache-similarity-threshold: 0.95
+  l0-local-cache-ttl-minutes: 10      # L0 JVM 本地缓存 TTL（分钟）
+  l0-local-cache-max-size: 1000       # L0 本地缓存最大条目数
   l2-retrieval-cache-ttl-minutes: 30
   l3-chunk-cache-ttl-hours: 2
 
