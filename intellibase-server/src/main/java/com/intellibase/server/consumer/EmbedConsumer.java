@@ -6,6 +6,7 @@ import com.intellibase.server.domain.dto.TextChunk;
 import com.intellibase.server.domain.entity.DocumentChunk;
 import com.intellibase.server.mapper.DocumentChunkMapper;
 import com.intellibase.server.mapper.DocumentMapper;
+import com.intellibase.server.service.rag.CacheEvictionService;
 import com.intellibase.server.service.rag.EmbeddingService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -33,6 +34,7 @@ public class EmbedConsumer {
     private final EmbeddingService embeddingService;
     private final DocumentChunkMapper documentChunkMapper;
     private final DocumentMapper documentMapper;
+    private final CacheEvictionService cacheEvictionService;
 
     @RabbitListener(queues = Constants.QUEUE_DOC_EMBED, concurrency = "2-3")
     public void handleEmbed(EmbedBatchMessage msg) {
@@ -73,10 +75,12 @@ public class EmbedConsumer {
             documentChunkMapper.batchInsertWithVector(chunks, embeddings);
             log.info("分块向量写入完成: docId={}, 写入数={}", msg.getDocId(), chunks.size());
 
-            // ===== 4. 如果是最后一批，更新文档状态为 COMPLETED =====
+            // ===== 4. 如果是最后一批，更新文档状态为 COMPLETED，并清除缓存 =====
             if (msg.isLastBatch()) {
                 documentMapper.updateChunkCount(
                         msg.getDocId(), msg.getTotalChunks(), Constants.DOC_STATUS_COMPLETED);
+                // 新文档入库后，清除 L1/L2 缓存，确保后续查询能检索到新内容
+                cacheEvictionService.evictByDocument(msg.getDocId(), msg.getKbId());
                 log.info("文档向量化全部完成: docId={}, totalChunks={}", msg.getDocId(), msg.getTotalChunks());
             }
 

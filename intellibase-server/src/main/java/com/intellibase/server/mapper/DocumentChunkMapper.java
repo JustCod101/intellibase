@@ -33,4 +33,14 @@ public interface DocumentChunkMapper extends BaseMapper<DocumentChunk> {
                                     @Param("threshold") double threshold,
                                     @Param("limit") int limit);
 
+    /**
+     * 按文档ID查询所有分块ID（用于缓存失效）
+     */
+    List<Long> selectChunkIdsByDocId(@Param("docId") Long docId);
+
+    /**
+     * 按知识库ID查询所有分块ID（用于缓存失效）
+     */
+    List<Long> selectChunkIdsByKbId(@Param("kbId") Long kbId);
+
 }

@@ -137,4 +137,25 @@ public class ChunkCacheService {
         }
     }
 
+    /**
+     * 按分块ID列表批量清除缓存（L3 缓存失效）
+     * 当文档被删除或更新时，其对应的分块缓存应当被清除。
+     *
+     * @param chunkIds 需要清除的分块ID列表
+     */
+    public void invalidateByChunkIds(List<Long> chunkIds) {
+        if (chunkIds == null || chunkIds.isEmpty()) {
+            return;
+        }
+        try {
+            List<String> keys = chunkIds.stream()
+                    .map(id -> KEY_PREFIX + id)
+                    .toList();
+            redisTemplate.delete(keys);
+            log.info("L3 文档缓存已清除: 清除数量={}", keys.size());
+        } catch (Exception e) {
+            log.warn("L3 文档缓存清除失败", e);
+        }
+    }
+
 }

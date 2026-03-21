@@ -102,6 +102,25 @@ public class RetrievalCacheService {
     }
 
     /**
+     * 清除指定知识库的所有检索缓存（L2 缓存失效）
+     * 使用 Redis SCAN 命令按前缀匹配并删除，避免 KEYS 命令阻塞 Redis。
+     *
+     * @param kbId 知识库ID
+     */
+    public void invalidateByKbId(Long kbId) {
+        try {
+            String pattern = KEY_PREFIX + kbId + ":*";
+            var keys = redisTemplate.keys(pattern);
+            if (keys != null && !keys.isEmpty()) {
+                redisTemplate.delete(keys);
+                log.info("L2 检索缓存已清除: kbId={}, 清除数量={}", kbId, keys.size());
+            }
+        } catch (Exception e) {
+            log.warn("L2 检索缓存清除失败: kbId={}", kbId, e);
+        }
+    }
+
+    /**
      * 专门负责打造 Redis 钥匙（Key）的工厂方法
      * 格式： retrieval_cache:知识库ID:问题原文的SHA256哈希
      */

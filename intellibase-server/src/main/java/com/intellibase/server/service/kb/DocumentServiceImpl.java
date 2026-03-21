@@ -8,6 +8,7 @@ import com.intellibase.server.domain.dto.DocParseMessage;
 import com.intellibase.server.domain.entity.Document;
 import com.intellibase.server.domain.vo.DocumentVO;
 import com.intellibase.server.mapper.DocumentMapper;
+import com.intellibase.server.service.rag.CacheEvictionService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
@@ -35,6 +36,8 @@ public class DocumentServiceImpl implements DocumentService {
     private final MinioService minioService;
     // Spring 提供的 RabbitMQ 操作模版，用于发送解析任务消息
     private final RabbitTemplate rabbitTemplate;
+    // 缓存失效服务，文档变更时主动清除关联缓存
+    private final CacheEvictionService cacheEvictionService;
 
     /**
      * 上传文档流程
@@ -146,7 +149,10 @@ public class DocumentServiceImpl implements DocumentService {
             throw new IllegalArgumentException("文档不存在");
         }
 
-        // 2. 物理删除：从 MinIO 存储中删除文件，节省磁盘空间
+        // 2. 主动清除该文档关联的所有缓存（在删除数据库记录之前，因为需要查询 chunkId）
+        cacheEvictionService.evictByDocument(docId, kbId);
+
+        // 3. 物理删除：从 MinIO 存储中删除文件，节省磁盘空间
         try {
             minioService.deleteFile(doc.getFileKey());
         } catch (Exception e) {
@@ -154,7 +160,7 @@ public class DocumentServiceImpl implements DocumentService {
             log.warn("MinIO 文件删除失败: {}", doc.getFileKey(), e);
         }
 
-        // 3. 逻辑/物理删除：从数据库中删除记录
+        // 4. 逻辑/物理删除：从数据库中删除记录
         // 注意：底层 document_chunk 表通常设置了外键级联删除，所以分块记录会自动清理
         documentMapper.deleteById(docId);
         log.info("文档已删除: docId={}, title={}", docId, doc.getTitle());

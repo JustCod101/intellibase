@@ -89,4 +89,19 @@ public class SemanticCacheService {
         }
     }
 
+    /**
+     * 清除指定知识库的所有语义缓存（L1 缓存失效）
+     * 当知识库文档发生变更时调用，确保不会返回基于旧文档生成的过时答案。
+     *
+     * @param kbId 知识库ID
+     */
+    public void invalidateByKbId(Long kbId) {
+        try {
+            chatMessageMapper.deleteCacheByKbId(kbId);
+            log.info("L1 语义缓存已清除: kbId={}", kbId);
+        } catch (Exception e) {
+            log.warn("L1 语义缓存清除失败: kbId={}", kbId, e);
+        }
+    }
+
 }

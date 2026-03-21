@@ -8,6 +8,7 @@ import com.intellibase.server.domain.dto.UpdateKbRequest;
 import com.intellibase.server.domain.entity.KnowledgeBase;
 import com.intellibase.server.domain.vo.KnowledgeBaseVO;
 import com.intellibase.server.mapper.KnowledgeBaseMapper;
+import com.intellibase.server.service.rag.CacheEvictionService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -19,6 +20,7 @@ import org.springframework.util.StringUtils;
 public class KnowledgeBaseServiceImpl implements KnowledgeBaseService {
 
     private final KnowledgeBaseMapper knowledgeBaseMapper;
+    private final CacheEvictionService cacheEvictionService;
 
     private static final String DEFAULT_EMBEDDING_MODEL = "text-embedding-3-small";
     private static final String DEFAULT_CHUNK_STRATEGY = "{\"size\":512,\"overlap\":64}";
@@ -100,6 +102,8 @@ public class KnowledgeBaseServiceImpl implements KnowledgeBaseService {
         if (kb == null) {
             throw new IllegalArgumentException("知识库不存在: id=" + id);
         }
+        // 在删除数据库记录之前，先清除该知识库关联的所有缓存
+        cacheEvictionService.evictAllByKbId(id);
         knowledgeBaseMapper.deleteById(id);
         log.info("知识库已删除: id={}, name={}", id, kb.getName());
     }

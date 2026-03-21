@@ -25,4 +25,9 @@ public interface ChatMessageMapper extends BaseMapper<ChatMessage> {
                      @Param("kbId") Long kbId,
                      @Param("embedding") String embedding);
 
+    /**
+     * 按知识库ID清除语义缓存
+     */
+    void deleteCacheByKbId(@Param("kbId") Long kbId);
+
 }

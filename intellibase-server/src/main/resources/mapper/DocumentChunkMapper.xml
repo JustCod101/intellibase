@@ -32,4 +32,14 @@
         LIMIT #{limit}
     </select>
 
+    <!-- 按文档ID查询所有分块ID -->
+    <select id="selectChunkIdsByDocId" resultType="java.lang.Long">
+        SELECT id FROM document_chunk WHERE doc_id = #{docId}
+    </select>
+
+    <!-- 按知识库ID查询所有分块ID -->
+    <select id="selectChunkIdsByKbId" resultType="java.lang.Long">
+        SELECT id FROM document_chunk WHERE kb_id = #{kbId}
+    </select>
+
 </mapper>

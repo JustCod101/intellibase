@@ -20,4 +20,9 @@
         VALUES (#{kbId}, #{embedding}::vector, #{queryText}, #{responseText}, 0, NOW() + INTERVAL '6 hours')
     </insert>
 
+    <!-- 按知识库ID清除语义缓存 -->
+    <delete id="deleteCacheByKbId">
+        DELETE FROM semantic_cache WHERE kb_id = #{kbId}
+    </delete>
+
 </mapper>
