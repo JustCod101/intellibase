@@ -39,8 +39,10 @@ public class ChatController {
      */
     @GetMapping(value = "/stream", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
     public SseEmitter streamChat(@RequestParam Long conversationId,
-                                 @RequestParam String question) {
-        Long kbId = chatService.getKbId(conversationId);
+                                 @RequestParam String question,
+                                 Authentication authentication) {
+        Long userId = Long.valueOf(authentication.getPrincipal().toString());
+        Long kbId = chatService.getKbId(conversationId, userId);
         SseEmitter emitter = new SseEmitter(120_000L);
         ragService.streamChat(question, kbId, conversationId, emitter);
         return emitter;
@@ -66,8 +68,10 @@ public class ChatController {
     public Result<IPage<ChatMessageVO>> messages(
             @PathVariable Long id,
             @RequestParam(defaultValue = "1") Integer page,
-            @RequestParam(defaultValue = "50") Integer size) {
-        IPage<ChatMessageVO> result = chatService.getMessages(id, page, size);
+            @RequestParam(defaultValue = "50") Integer size,
+            Authentication authentication) {
+        Long userId = Long.valueOf(authentication.getPrincipal().toString());
+        IPage<ChatMessageVO> result = chatService.getMessages(id, page, size, userId);
         return Result.ok(result);
     }
 

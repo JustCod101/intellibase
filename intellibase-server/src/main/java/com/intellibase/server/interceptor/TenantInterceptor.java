@@ -8,6 +8,8 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
 
+import java.util.Map;
+
 /**
  * 多租户数据隔离拦截器
  * <p>
@@ -25,10 +27,12 @@ public class TenantInterceptor implements HandlerInterceptor {
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response,
                              Object handler) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        if (auth != null && auth.getPrincipal() != null && !"anonymousUser".equals(auth.getPrincipal())) {
-            Long tenantId = Long.parseLong(auth.getPrincipal().toString());
-            TenantContext.set(tenantId);
-            log.debug("租户上下文已设置: tenantId={}", tenantId);
+        if (auth != null && auth.getDetails() instanceof Map<?, ?> details) {
+            Object tenantIdObj = details.get("tenantId");
+            if (tenantIdObj instanceof Long tenantId) {
+                TenantContext.set(tenantId);
+                log.debug("租户上下文已设置: tenantId={}", tenantId);
+            }
         }
         return true;
     }

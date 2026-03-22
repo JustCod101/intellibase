@@ -5,6 +5,7 @@ import com.intellibase.server.common.Result;
 import com.intellibase.server.domain.vo.DocumentVO;
 import com.intellibase.server.service.kb.DocumentService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -20,6 +21,7 @@ public class DocumentController {
      * 上传文档
      */
     @PostMapping
+    @PreAuthorize("hasAnyRole('ADMIN','USER')")
     public Result<DocumentVO> upload(@PathVariable Long kbId,
                                      @RequestParam("file") MultipartFile file,
                                      @RequestParam(value = "metadata", required = false) String metadata,
@@ -45,6 +47,7 @@ public class DocumentController {
      * 删除文档
      */
     @DeleteMapping("/{docId}")
+    @PreAuthorize("hasAnyRole('ADMIN','USER')")
     public Result<Void> delete(@PathVariable Long kbId, @PathVariable Long docId) {
         documentService.delete(kbId, docId);
         return Result.ok();

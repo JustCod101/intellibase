@@ -21,9 +21,9 @@ public interface ChatService {
     IPage<ConversationVO> getConversations(Long userId, Integer page, Integer size);
 
     /**
-     * 获取会话的历史消息（分页）
+     * 获取会话的历史消息（分页），校验用户归属权
      */
-    IPage<ChatMessageVO> getMessages(Long conversationId, Integer page, Integer size);
+    IPage<ChatMessageVO> getMessages(Long conversationId, Integer page, Integer size, Long userId);
 
     /**
      * 保存一轮对话（用户问题 + 助手回答）
@@ -38,9 +38,9 @@ public interface ChatService {
                      String sources, int latencyMs);
 
     /**
-     * 获取会话所属的知识库ID
+     * 获取会话所属的知识库ID，校验用户归属权
      */
-    Long getKbId(Long conversationId);
+    Long getKbId(Long conversationId, Long userId);
 
     /**
      * 删除会话（级联删除消息）

@@ -17,6 +17,7 @@ import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 
 /**
  * JWT 认证过滤器
@@ -47,6 +48,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
                 String userId = claims.getSubject();
                 String username = claims.get("username", String.class);
                 String role = claims.get("role", String.class);
+                Long tenantId = claims.get("tenantId", Long.class);
 
                 // 构建 Spring Security 认证对象，authorities 使用 ROLE_ 前缀
                 List<SimpleGrantedAuthority> authorities =
@@ -55,8 +57,11 @@ public class JwtAuthFilter extends OncePerRequestFilter {
                 UsernamePasswordAuthenticationToken authentication =
                         new UsernamePasswordAuthenticationToken(userId, null, authorities);
 
-                // 将用户名存入 details，方便后续获取
-                authentication.setDetails(username);
+                // 将用户名和租户ID存入 details，供 TenantInterceptor 和业务层使用
+                authentication.setDetails(Map.of(
+                        "username", username,
+                        "tenantId", tenantId != null ? tenantId : 0L
+                ));
 
                 SecurityContextHolder.getContext().setAuthentication(authentication);
             } catch (Exception e) {

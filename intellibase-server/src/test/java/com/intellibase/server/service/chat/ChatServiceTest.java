@@ -98,6 +98,13 @@ class ChatServiceTest {
     void getMessages_Success() {
         // Arrange
         Long conversationId = 1L;
+        Long userId = 100L;
+
+        Conversation conversation = new Conversation();
+        conversation.setId(conversationId);
+        conversation.setUserId(userId);
+        when(conversationMapper.selectById(conversationId)).thenReturn(conversation);
+
         ChatMessage message = new ChatMessage();
         message.setId(1L);
         message.setConversationId(conversationId);
@@ -110,7 +117,7 @@ class ChatServiceTest {
         when(chatMessageMapper.selectPage(any(Page.class), any(LambdaQueryWrapper.class))).thenReturn(page);
 
         // Act
-        IPage<ChatMessageVO> result = chatService.getMessages(conversationId, 1, 50);
+        IPage<ChatMessageVO> result = chatService.getMessages(conversationId, 1, 50, userId);
 
         // Assert
         assertNotNull(result);
@@ -151,14 +158,16 @@ class ChatServiceTest {
     void getKbId_Success() {
         // Arrange
         Long conversationId = 1L;
+        Long userId = 100L;
         Conversation conversation = new Conversation();
         conversation.setId(conversationId);
+        conversation.setUserId(userId);
         conversation.setKbId(10L);
 
         when(conversationMapper.selectById(conversationId)).thenReturn(conversation);
 
         // Act
-        Long kbId = chatService.getKbId(conversationId);
+        Long kbId = chatService.getKbId(conversationId, userId);
 
         // Assert
         assertEquals(10L, kbId);
@@ -168,10 +177,11 @@ class ChatServiceTest {
     void getKbId_NotFound_ThrowsException() {
         // Arrange
         Long conversationId = 1L;
+        Long userId = 100L;
         when(conversationMapper.selectById(conversationId)).thenReturn(null);
 
         // Act & Assert
-        assertThrows(IllegalArgumentException.class, () -> chatService.getKbId(conversationId));
+        assertThrows(IllegalArgumentException.class, () -> chatService.getKbId(conversationId, userId));
     }
 
     @Test

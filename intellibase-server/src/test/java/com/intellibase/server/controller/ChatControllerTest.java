@@ -102,7 +102,7 @@ class ChatControllerTest {
         IPage<ChatMessageVO> page = new Page<>(1, 50);
         page.setRecords(Collections.singletonList(vo));
 
-        when(chatService.getMessages(eq(1L), anyInt(), anyInt())).thenReturn(page);
+        when(chatService.getMessages(eq(1L), anyInt(), anyInt(), eq(100L))).thenReturn(page);
 
         // Act & Assert
         mockMvc.perform(get("/api/v1/chat/conversations/1/messages"))
@@ -125,7 +125,7 @@ class ChatControllerTest {
     @WithMockUser(username = "100")
     void streamChat_Success() throws Exception {
         // Arrange
-        when(chatService.getKbId(eq(1L))).thenReturn(10L);
+        when(chatService.getKbId(eq(1L), eq(100L))).thenReturn(10L);
 
         // Act & Assert
         mockMvc.perform(get("/api/v1/chat/stream")

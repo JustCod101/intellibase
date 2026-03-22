@@ -7,7 +7,19 @@
 CREATE EXTENSION IF NOT EXISTS vector;
 
 -- ============================================================
--- 1. 用户与权限体系
+-- 1. 租户管理
+-- ============================================================
+
+CREATE TABLE sys_tenant (
+    id          BIGSERIAL PRIMARY KEY,
+    name        VARCHAR(128) NOT NULL,
+    status      SMALLINT NOT NULL DEFAULT 1,          -- 1=启用 0=禁用
+    created_at  TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+    updated_at  TIMESTAMPTZ NOT NULL DEFAULT NOW()
+);
+
+-- ============================================================
+-- 2. 用户与权限体系
 -- ============================================================
 
 CREATE TABLE sys_user (

@@ -53,7 +53,13 @@ public class ChatServiceImpl implements ChatService {
     }
 
     @Override
-    public IPage<ChatMessageVO> getMessages(Long conversationId, Integer page, Integer size) {
+    public IPage<ChatMessageVO> getMessages(Long conversationId, Integer page, Integer size, Long userId) {
+        // 校验会话归属权
+        Conversation conversation = conversationMapper.selectById(conversationId);
+        if (conversation == null || !conversation.getUserId().equals(userId)) {
+            throw new IllegalArgumentException("会话不存在");
+        }
+
         LambdaQueryWrapper<ChatMessage> wrapper = new LambdaQueryWrapper<ChatMessage>()
                 .eq(ChatMessage::getConversationId, conversationId)
                 .orderByAsc(ChatMessage::getCreatedAt);
@@ -89,9 +95,9 @@ public class ChatServiceImpl implements ChatService {
     }
 
     @Override
-    public Long getKbId(Long conversationId) {
+    public Long getKbId(Long conversationId, Long userId) {
         Conversation conversation = conversationMapper.selectById(conversationId);
-        if (conversation == null) {
+        if (conversation == null || !conversation.getUserId().equals(userId)) {
             throw new IllegalArgumentException("会话不存在: " + conversationId);
         }
         return conversation.getKbId();

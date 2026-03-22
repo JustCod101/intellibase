@@ -31,17 +31,20 @@ class JwtUtilsTest {
         String username = "admin";
         String role = "ADMIN";
 
+        Long tenantId = 10L;
+
         // 1. 生成 Token
-        String token = jwtUtils.generateToken(userId, username, role);
+        String token = jwtUtils.generateToken(userId, username, role, tenantId);
         assertNotNull(token);
 
         // 2. 解析 Token
         Claims claims = jwtUtils.parseToken(token);
-        
+
         // 3. 验证 Payload 内容
         assertEquals(String.valueOf(userId), claims.getSubject());
         assertEquals(username, claims.get("username"));
         assertEquals(role, claims.get("role"));
+        assertEquals(tenantId.longValue(), claims.get("tenantId", Long.class));
     }
 
     /**

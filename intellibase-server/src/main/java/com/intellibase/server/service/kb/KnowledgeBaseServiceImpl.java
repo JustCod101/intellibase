@@ -39,8 +39,7 @@ public class KnowledgeBaseServiceImpl implements KnowledgeBaseService {
         kb.setDocCount(0);
         kb.setStatus("ACTIVE");
         kb.setCreatedBy(userId);
-        // tenant_id 暂时使用 userId，后续接入多租户体系后替换
-        kb.setTenantId(userId);
+        // tenant_id 由 MyBatis-Plus TenantLineInnerInterceptor 自动填入
 
         knowledgeBaseMapper.insert(kb);
         log.info("知识库已创建: id={}, name={}", kb.getId(), kb.getName());

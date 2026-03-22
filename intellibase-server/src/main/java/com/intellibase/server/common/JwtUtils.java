@@ -50,24 +50,25 @@ public class JwtUtils {
 
     /**
      * 生成 JWT Token
-     * 
+     *
      * @param userId   用户唯一标识 ID
      * @param username 用户名
      * @param role     用户角色（用于后续权限校验）
+     * @param tenantId 租户 ID（用于多租户数据隔离）
      * @return 返回生成的加密字符串（Token）
      */
-    public String generateToken(Long userId, String username, String role) {
-        Date now = new Date(); // 当前时间
-        
-        // 使用 Jwts 构建器创建 Token
+    public String generateToken(Long userId, String username, String role, Long tenantId) {
+        Date now = new Date();
+
         return Jwts.builder()
-                .subject(String.valueOf(userId))     // 设置主题（通常存用户ID）
-                .claim("username", username)         // 自定义负载：存放用户名
-                .claim("role", role)                 // 自定义负载：存放角色
-                .issuedAt(now)                       // 设置签发时间
-                .expiration(new Date(now.getTime() + expiration)) // 设置过期时间 = 当前时间 + 配置的有效时长
-                .signWith(signingKey)                // 使用密钥进行签名加密
-                .compact();                          // 压缩并生成最终字符串
+                .subject(String.valueOf(userId))
+                .claim("username", username)
+                .claim("role", role)
+                .claim("tenantId", tenantId)
+                .issuedAt(now)
+                .expiration(new Date(now.getTime() + expiration))
+                .signWith(signingKey)
+                .compact();
     }
 
     /**

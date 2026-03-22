@@ -5,9 +5,11 @@ import com.intellibase.server.common.Constants;
 import com.intellibase.server.common.JwtUtils;
 import com.intellibase.server.domain.dto.LoginRequest;
 import com.intellibase.server.domain.dto.RegisterRequest;
+import com.intellibase.server.domain.entity.SysTenant;
 import com.intellibase.server.domain.entity.SysUser;
 import com.intellibase.server.domain.vo.LoginVO;
 import com.intellibase.server.domain.vo.UserVO;
+import com.intellibase.server.mapper.TenantMapper;
 import com.intellibase.server.mapper.UserMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -33,6 +35,9 @@ class AuthServiceTest {
     private UserMapper userMapper;
 
     @Mock
+    private TenantMapper tenantMapper;
+
+    @Mock
     private PasswordEncoder passwordEncoder;
 
     @Mock
@@ -53,6 +58,7 @@ class AuthServiceTest {
         testUser.setUsername("testuser");
         testUser.setPasswordHash("encoded_password");
         testUser.setRole(Constants.ROLE_USER);
+        testUser.setTenantId(10L);
         testUser.setStatus(1);
         testUser.setEmail("test@example.com");
 
@@ -74,7 +80,7 @@ class AuthServiceTest {
         // 配置 Mock 行为
         when(userMapper.selectOne(any(LambdaQueryWrapper.class))).thenReturn(testUser);
         when(passwordEncoder.matches(eq("password123"), eq("encoded_password"))).thenReturn(true);
-        when(jwtUtils.generateToken(anyLong(), anyString(), anyString())).thenReturn("mock_token");
+        when(jwtUtils.generateToken(anyLong(), anyString(), anyString(), anyLong())).thenReturn("mock_token");
         when(jwtUtils.getExpirationSeconds()).thenReturn(3600L);
 
         // 执行测试
@@ -150,6 +156,11 @@ class AuthServiceTest {
         // 配置 Mock 行为
         when(userMapper.selectCount(any(LambdaQueryWrapper.class))).thenReturn(0L);
         when(passwordEncoder.encode(anyString())).thenReturn("encoded_password");
+        when(tenantMapper.insert(any(SysTenant.class))).thenAnswer(invocation -> {
+            SysTenant t = invocation.getArgument(0);
+            t.setId(10L);
+            return 1;
+        });
 
         // 执行测试
         UserVO result = authService.register(registerRequest);
@@ -158,9 +169,10 @@ class AuthServiceTest {
         assertNotNull(result);
         assertEquals("newuser", result.getUsername());
         assertEquals("newuser@example.com", result.getEmail());
-        assertEquals(Constants.ROLE_USER, result.getRole());
+        assertEquals(Constants.ROLE_ADMIN, result.getRole());
 
-        // 验证数据库插入调用
+        // 验证租户和用户都被创建
+        verify(tenantMapper, times(1)).insert(any(SysTenant.class));
         verify(userMapper, times(1)).insert(any(SysUser.class));
     }
 
