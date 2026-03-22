@@ -15,5 +15,10 @@ export const uploadDoc = (kbId: string, file: File, metadata?: any) => {
   });
 };
 
+export const updateKb = (kbId: string, data: { name?: string; description?: string; status?: string }) =>
+  api.put(`/kb/${kbId}`, data);
+
+export const deleteKb = (kbId: string) => api.delete(`/kb/${kbId}`);
+
 export const getDocList = (kbId: string, params?: any) => api.get(`/kb/${kbId}/documents`, { params });
 export const deleteDoc = (kbId: string, docId: string) => api.delete(`/kb/${kbId}/documents/${docId}`);

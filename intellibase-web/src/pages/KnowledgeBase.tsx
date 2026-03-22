@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-hot-toast';
-import { getKbList, createKb } from '../api/kb';
-import { Plus, Search, Book, Database, Clock, X } from 'lucide-react';
+import { getKbList, createKb, deleteKb } from '../api/kb';
+import { Plus, Search, Book, Database, Clock, X, Trash2 } from 'lucide-react';
 import type { KnowledgeBase as KbType, ApiResponse, PageResult } from '../types';
 import '../styles/kb.css';
 
@@ -65,6 +65,18 @@ const KnowledgeBase: React.FC = () => {
     }
   };
 
+  const handleDeleteKb = async (e: React.MouseEvent, kbId: number) => {
+    e.stopPropagation();
+    if (!confirm('确认删除该知识库？关联的文档也将被删除。')) return;
+    try {
+      await deleteKb(String(kbId));
+      toast.success('知识库已删除');
+      fetchKbList();
+    } catch (err: any) {
+      toast.error(err.response?.data?.message || '删除失败');
+    }
+  };
+
   return (
     <div className="kb-page">
       <header className="page-header">
@@ -123,6 +135,13 @@ const KnowledgeBase: React.FC = () => {
                   <span>{new Date(kb.createdAt).toLocaleDateString()}</span>
                 </div>
               </div>
+              <button
+                className="kb-delete-btn"
+                onClick={(e) => handleDeleteKb(e, kb.id)}
+                title="删除知识库"
+              >
+                <Trash2 size={16} />
+              </button>
             </div>
           ))}
         </div>

@@ -36,6 +36,7 @@ export interface Conversation {
   kbId?: number;
   title: string;
   model: string;
+  config?: any;
   createdAt: string;
   updatedAt: string;
 }
@@ -62,4 +63,28 @@ export interface PageResult<T> {
   total: number;
   page: number;
   size: number;
+}
+
+export interface AdminUser {
+  id: number;
+  username: string;
+  email: string;
+  role: string;
+  status?: number;
+}
+
+export interface CacheLevelStats {
+  hits: number;
+  misses: number;
+  total: number;
+  hit_rate: string;
+}
+
+export interface CacheStats {
+  l0_local_cache: CacheLevelStats;
+  l1_semantic_cache: CacheLevelStats;
+  l2_retrieval_cache: CacheLevelStats;
+  l3_chunk_cache: CacheLevelStats;
+  db_queries: number;
+  overall_cache_hit_rate: string;
 }

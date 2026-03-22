@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { toast } from 'react-hot-toast';
 import { login } from '../api/auth';
+import { getUserProfile } from '../api/user';
 import '../styles/auth.css';
 
 const Login: React.FC = () => {
@@ -18,6 +19,16 @@ const Login: React.FC = () => {
     try {
       const response: any = await login({ username, password });
       localStorage.setItem('accessToken', response.data.accessToken);
+
+      // 获取用户信息并保存角色，供 Sidebar 等组件判断权限
+      try {
+        const profile: any = await getUserProfile();
+        localStorage.setItem('userRole', profile.data.role);
+        localStorage.setItem('username', profile.data.username);
+      } catch {
+        // 用户信息获取失败不阻塞登录
+      }
+
       toast.success('登录成功');
       navigate('/dashboard');
     } catch (err: any) {

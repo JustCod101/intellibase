@@ -1,11 +1,19 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { NavLink } from 'react-router-dom';
-import { LayoutDashboard, BookOpen, MessageSquare, LogOut, Settings } from 'lucide-react';
+import { LayoutDashboard, BookOpen, MessageSquare, LogOut, Settings, Users } from 'lucide-react';
 import './Sidebar.css';
 
 const Sidebar: React.FC = () => {
+  const [role, setRole] = useState<string | null>(null);
+
+  useEffect(() => {
+    setRole(localStorage.getItem('userRole'));
+  }, []);
+
   const handleLogout = () => {
     localStorage.removeItem('accessToken');
+    localStorage.removeItem('userRole');
+    localStorage.removeItem('username');
     window.location.href = '/login';
   };
 
@@ -27,6 +35,12 @@ const Sidebar: React.FC = () => {
           <MessageSquare size={20} />
           <span>Chat</span>
         </NavLink>
+        {role === 'ADMIN' && (
+          <NavLink to="/admin" className={({ isActive }) => `nav-item ${isActive ? 'active' : ''}`}>
+            <Users size={20} />
+            <span>用户管理</span>
+          </NavLink>
+        )}
         <NavLink to="/settings" className={({ isActive }) => `nav-item ${isActive ? 'active' : ''}`}>
           <Settings size={20} />
           <span>Settings</span>

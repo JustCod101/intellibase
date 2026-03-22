@@ -9,6 +9,7 @@ import KnowledgeBaseDetail from './pages/KnowledgeBaseDetail';
 import Chat from './pages/Chat';
 import Settings from './pages/Settings';
 import Dashboard from './pages/Dashboard';
+import AdminUsers from './pages/AdminUsers';
 import './styles/global.css';
 
 /**
@@ -75,6 +76,15 @@ function App() {
             element={
               <ProtectedRoute>
                 <Settings />
+              </ProtectedRoute>
+            }
+          />
+
+          <Route
+            path="/admin"
+            element={
+              <ProtectedRoute>
+                <AdminUsers />
               </ProtectedRoute>
             }
           />

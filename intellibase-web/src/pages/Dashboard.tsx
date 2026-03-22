@@ -20,6 +20,7 @@ interface DashboardStats {
   docProcessing: number;
   convCount: number;
   cache: {
+    l0_local_cache: CacheLevel;
     l1_semantic_cache: CacheLevel;
     l2_retrieval_cache: CacheLevel;
     l3_chunk_cache: CacheLevel;
@@ -155,8 +156,9 @@ const Dashboard: React.FC = () => {
 
         {/* 三级缓存命中率 */}
         <div className="dashboard-card">
-          <h2><Server size={18} /> 三级缓存性能</h2>
+          <h2><Server size={18} /> 四级缓存性能</h2>
           <div className="cache-levels">
+            <CacheLevelBar label="L0 本地缓存" data={cacheData.l0_local_cache} color="#f59e0b" />
             <CacheLevelBar label="L1 语义缓存" data={cacheData.l1_semantic_cache} color="var(--primary)" />
             <CacheLevelBar label="L2 检索缓存" data={cacheData.l2_retrieval_cache} color="#8b5cf6" />
             <CacheLevelBar label="L3 文档缓存" data={cacheData.l3_chunk_cache} color="#10b981" />

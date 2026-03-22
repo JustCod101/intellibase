@@ -1,8 +1,8 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { toast } from 'react-hot-toast';
-import { getKbDetail, getDocList, uploadDoc, deleteDoc } from '../api/kb';
-import { ArrowLeft, Upload, Trash2, FileText, RefreshCw } from 'lucide-react';
+import { getKbDetail, getDocList, uploadDoc, deleteDoc, updateKb } from '../api/kb';
+import { ArrowLeft, Upload, Trash2, FileText, RefreshCw, Edit3, X } from 'lucide-react';
 import type { KnowledgeBase, Document as DocType, ApiResponse, PageResult } from '../types';
 import '../styles/kb.css';
 
@@ -15,6 +15,11 @@ const KnowledgeBaseDetail: React.FC = () => {
   const [docs, setDocs] = useState<DocType[]>([]);
   const [loading, setLoading] = useState(true);
   const [uploading, setUploading] = useState(false);
+
+  // Edit modal state
+  const [showEdit, setShowEdit] = useState(false);
+  const [editForm, setEditForm] = useState({ name: '', description: '', status: 'ACTIVE' });
+  const [saving, setSaving] = useState(false);
 
   useEffect(() => {
     if (kbId) {
@@ -109,6 +114,18 @@ const KnowledgeBaseDetail: React.FC = () => {
             <RefreshCw size={16} />
           </button>
           <button
+            className="btn"
+            onClick={() => {
+              if (kb) {
+                setEditForm({ name: kb.name, description: kb.description || '', status: kb.status });
+                setShowEdit(true);
+              }
+            }}
+          >
+            <Edit3 size={16} />
+            <span>编辑</span>
+          </button>
+          <button
             className="btn btn-primary"
             onClick={() => fileInputRef.current?.click()}
             disabled={uploading}
@@ -164,6 +181,72 @@ const KnowledgeBaseDetail: React.FC = () => {
             ))}
           </tbody>
         </table>
+      )}
+
+      {/* Edit Knowledge Base Modal */}
+      {showEdit && (
+        <div className="modal-overlay" onClick={() => setShowEdit(false)}>
+          <div className="modal" onClick={e => e.stopPropagation()}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.5rem' }}>
+              <h2 style={{ margin: 0 }}>编辑知识库</h2>
+              <button
+                type="button"
+                style={{ background: 'transparent', border: 'none', cursor: 'pointer', padding: '4px' }}
+                onClick={() => setShowEdit(false)}
+              >
+                <X size={20} color="#6b7280" />
+              </button>
+            </div>
+            <form onSubmit={async (e) => {
+              e.preventDefault();
+              setSaving(true);
+              try {
+                await updateKb(kbId!, editForm);
+                toast.success('知识库已更新');
+                setShowEdit(false);
+                fetchDetail();
+              } catch (err: any) {
+                toast.error(err.response?.data?.message || '更新失败');
+              } finally {
+                setSaving(false);
+              }
+            }}>
+              <div className="form-group">
+                <label>名称</label>
+                <input
+                  type="text"
+                  value={editForm.name}
+                  onChange={(e) => setEditForm({ ...editForm, name: e.target.value })}
+                  required
+                />
+              </div>
+              <div className="form-group">
+                <label>描述</label>
+                <textarea
+                  value={editForm.description}
+                  onChange={(e) => setEditForm({ ...editForm, description: e.target.value })}
+                  rows={3}
+                />
+              </div>
+              <div className="form-group">
+                <label>状态</label>
+                <select
+                  value={editForm.status}
+                  onChange={(e) => setEditForm({ ...editForm, status: e.target.value })}
+                >
+                  <option value="ACTIVE">活跃</option>
+                  <option value="INACTIVE">离线</option>
+                </select>
+              </div>
+              <div className="modal-actions">
+                <button type="button" className="btn" onClick={() => setShowEdit(false)} disabled={saving}>取消</button>
+                <button type="submit" className="btn btn-primary" disabled={saving}>
+                  {saving ? '保存中...' : '保存'}
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
       )}
     </div>
   );
