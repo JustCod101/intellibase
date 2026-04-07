@@ -11,4 +11,6 @@ public class UpdateKbRequest {
 
     private String status;
 
+    private ChunkStrategy chunkStrategy;
+
 }

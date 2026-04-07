@@ -1,12 +1,14 @@
 package com.intellibase.server.consumer;
 
 import com.intellibase.server.common.Constants;
+import com.intellibase.server.domain.dto.ChunkStrategy;
 import com.intellibase.server.domain.dto.DocParseMessage;
 import com.intellibase.server.domain.dto.EmbedBatchMessage;
 import com.intellibase.server.domain.dto.TextChunk;
 import com.intellibase.server.mapper.DocumentChunkMapper;
 import com.intellibase.server.mapper.DocumentMapper;
 import com.intellibase.server.service.doc.DocParseService;
+import com.intellibase.server.service.doc.ChunkStrategyResolver;
 import com.intellibase.server.service.doc.TextSplitter;
 import com.intellibase.server.service.kb.MinioService;
 import com.intellibase.server.service.mq.IdempotencyService;
@@ -41,6 +43,7 @@ public class DocParseConsumer {
     private final MinioService minioService;
     private final DocParseService docParseService;
     private final TextSplitter textSplitter;
+    private final ChunkStrategyResolver chunkStrategyResolver;
     private final DocumentMapper documentMapper;
     private final DocumentChunkMapper documentChunkMapper;
     private final RabbitTemplate rabbitTemplate;
@@ -63,6 +66,8 @@ public class DocParseConsumer {
         try {
             doHandleDocParse(msg);
         } catch (Exception e) {
+            log.error("文档解析失败，将触发重试: docId={}, messageId={}, fileType={}, fileKey={}",
+                    msg.getDocId(), msg.getMessageId(), msg.getFileType(), msg.getFileKey(), e);
             // 处理失败时释放幂等锁，允许重试消息重新消费
             idempotencyService.release(msg.getMessageId());
             throw e;
@@ -74,25 +79,26 @@ public class DocParseConsumer {
         documentMapper.updateStatus(msg.getDocId(), Constants.DOC_STATUS_PARSING);
 
         // ===== 2. 从 MinIO 下载文档 =====
-        InputStream stream = minioService.downloadFile(msg.getFileKey());
-
-        // ===== 3. Apache Tika 解析，提取纯文本 =====
-        String text = docParseService.parse(stream, msg.getFileType());
+        String text;
+        try (InputStream stream = minioService.downloadFile(msg.getFileKey())) {
+            // ===== 3. Apache Tika 解析，提取纯文本 =====
+            text = docParseService.parse(stream, msg.getFileType());
+        }
         log.info("文档文本提取完成: docId={}, 文本长度={}", msg.getDocId(), text.length());
 
         if (text.isBlank()) {
             log.warn("文档内容为空: docId={}", msg.getDocId());
             documentMapper.updateStatus(msg.getDocId(), Constants.DOC_STATUS_FAILED);
-            stream.close();
             // 内容为空属于不可重试的业务错误，跳过重试直接进入 DLQ
             throw new AmqpRejectAndDontRequeueException("文档内容为空, docId=" + msg.getDocId());
         }
 
         // ===== 4. RecursiveCharacterTextSplitter 分块 =====
-        int chunkSize = msg.getChunkSize() != null ? msg.getChunkSize() : 512;
-        int chunkOverlap = msg.getChunkOverlap() != null ? msg.getChunkOverlap() : 64;
-        List<TextChunk> chunks = textSplitter.split(text, chunkSize, chunkOverlap);
-        log.info("文档分块完成: docId={}, 分块数={}", msg.getDocId(), chunks.size());
+        ChunkStrategy chunkStrategy = chunkStrategyResolver.resolve(
+                msg.getChunkStrategy(), msg.getChunkSize(), msg.getChunkOverlap());
+        List<TextChunk> chunks = textSplitter.split(text, chunkStrategy);
+        log.info("文档分块完成: docId={}, 分块数={}, strategy={}",
+                msg.getDocId(), chunks.size(), chunkStrategy);
 
         if (chunks.isEmpty()) {
             log.warn("文档分块结果为空: docId={}", msg.getDocId());

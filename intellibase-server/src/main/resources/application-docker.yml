@@ -18,6 +18,10 @@ spring:
     publisher-confirm-type: correlated
     publisher-returns: true
 
+mybatis-plus:
+  configuration:
+    log-impl: org.apache.ibatis.logging.nologging.NoLoggingImpl
+
 minio:
   endpoint: ${MINIO_ENDPOINT:http://minio:9000}
   access-key: ${MINIO_ACCESS_KEY:minioadmin}

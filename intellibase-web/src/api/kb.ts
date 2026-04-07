@@ -1,7 +1,13 @@
+import type { ChunkStrategy } from '../types';
 import api from './index';
 
 export const getKbList = (params?: any) => api.get('/kb', { params });
-export const createKb = (data: any) => api.post('/kb', data);
+export const createKb = (data: {
+  name: string;
+  description?: string;
+  embeddingModel?: string;
+  chunkStrategy: ChunkStrategy;
+}) => api.post('/kb', data);
 export const getKbDetail = (kbId: string) => api.get(`/kb/${kbId}`);
 
 export const uploadDoc = (kbId: string, file: File, metadata?: any) => {
@@ -15,7 +21,12 @@ export const uploadDoc = (kbId: string, file: File, metadata?: any) => {
   });
 };
 
-export const updateKb = (kbId: string, data: { name?: string; description?: string; status?: string }) =>
+export const updateKb = (kbId: string, data: {
+  name?: string;
+  description?: string;
+  status?: string;
+  chunkStrategy?: ChunkStrategy;
+}) =>
   api.put(`/kb/${kbId}`, data);
 
 export const deleteKb = (kbId: string) => api.delete(`/kb/${kbId}`);

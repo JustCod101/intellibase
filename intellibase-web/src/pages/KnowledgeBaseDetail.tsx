@@ -4,6 +4,8 @@ import { toast } from 'react-hot-toast';
 import { getKbDetail, getDocList, uploadDoc, deleteDoc, updateKb } from '../api/kb';
 import { ArrowLeft, Upload, Trash2, FileText, RefreshCw, Edit3, X } from 'lucide-react';
 import type { KnowledgeBase, Document as DocType, ApiResponse, PageResult } from '../types';
+import ChunkStrategyFields from '../components/ChunkStrategyFields';
+import { getChunkStrategySummary, normalizeChunkStrategy } from '../utils/chunkStrategy';
 import '../styles/kb.css';
 
 const KnowledgeBaseDetail: React.FC = () => {
@@ -18,7 +20,12 @@ const KnowledgeBaseDetail: React.FC = () => {
 
   // Edit modal state
   const [showEdit, setShowEdit] = useState(false);
-  const [editForm, setEditForm] = useState({ name: '', description: '', status: 'ACTIVE' });
+  const [editForm, setEditForm] = useState({
+    name: '',
+    description: '',
+    status: 'ACTIVE',
+    chunkStrategy: normalizeChunkStrategy(),
+  });
   const [saving, setSaving] = useState(false);
 
   useEffect(() => {
@@ -117,7 +124,12 @@ const KnowledgeBaseDetail: React.FC = () => {
             className="btn"
             onClick={() => {
               if (kb) {
-                setEditForm({ name: kb.name, description: kb.description || '', status: kb.status });
+                setEditForm({
+                  name: kb.name,
+                  description: kb.description || '',
+                  status: kb.status,
+                  chunkStrategy: normalizeChunkStrategy(kb.chunkStrategy),
+                });
                 setShowEdit(true);
               }
             }}
@@ -145,42 +157,64 @@ const KnowledgeBaseDetail: React.FC = () => {
 
       {loading ? (
         <div style={{ textAlign: 'center', padding: '3rem', color: '#6b7280' }}>加载中...</div>
-      ) : docs.length === 0 ? (
-        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', padding: '4rem', color: '#6b7280' }}>
-          <FileText size={48} style={{ marginBottom: '1rem', color: '#d1d5db' }} />
-          <p>暂无文档，点击"上传文档"添加</p>
-        </div>
       ) : (
-        <table className="doc-table">
-          <thead>
-            <tr>
-              <th>文件名</th>
-              <th>类型</th>
-              <th>大小</th>
-              <th>状态</th>
-              <th>分块数</th>
-              <th>上传时间</th>
-              <th>操作</th>
-            </tr>
-          </thead>
-          <tbody>
-            {docs.map((doc) => (
-              <tr key={doc.id}>
-                <td>{doc.title}</td>
-                <td>{doc.fileType}</td>
-                <td>{formatSize(doc.fileSize)}</td>
-                <td>{statusLabel(doc.parseStatus)}</td>
-                <td>{doc.chunkCount}</td>
-                <td>{new Date(doc.createdAt).toLocaleString()}</td>
-                <td>
-                  <button className="btn-icon btn-danger" onClick={() => handleDelete(doc.id)} title="删除">
-                    <Trash2 size={16} />
-                  </button>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
+        <>
+          {kb && (
+            <section className="strategy-panel">
+              <div className="strategy-panel-header">
+                <h3>当前 Chunk 策略</h3>
+                <p>{getChunkStrategySummary(kb.chunkStrategy)}</p>
+              </div>
+              <div className="strategy-tags">
+                <span className="strategy-chip">Version {kb.chunkStrategy.version}</span>
+                <span className="strategy-chip">Size {kb.chunkStrategy.size}</span>
+                <span className="strategy-chip">Overlap {kb.chunkStrategy.overlap}</span>
+                <span className="strategy-chip">Min {kb.chunkStrategy.minSize}</span>
+                <span className="strategy-chip">
+                  {kb.chunkStrategy.normalizeWhitespace ? '规范化空白' : '保留原始空白'}
+                </span>
+              </div>
+            </section>
+          )}
+
+          {docs.length === 0 ? (
+            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', padding: '4rem', color: '#6b7280' }}>
+              <FileText size={48} style={{ marginBottom: '1rem', color: '#d1d5db' }} />
+              <p>暂无文档，点击"上传文档"添加</p>
+            </div>
+          ) : (
+            <table className="doc-table">
+              <thead>
+                <tr>
+                  <th>文件名</th>
+                  <th>类型</th>
+                  <th>大小</th>
+                  <th>状态</th>
+                  <th>分块数</th>
+                  <th>上传时间</th>
+                  <th>操作</th>
+                </tr>
+              </thead>
+              <tbody>
+                {docs.map((doc) => (
+                  <tr key={doc.id}>
+                    <td>{doc.title}</td>
+                    <td>{doc.fileType}</td>
+                    <td>{formatSize(doc.fileSize)}</td>
+                    <td>{statusLabel(doc.parseStatus)}</td>
+                    <td>{doc.chunkCount}</td>
+                    <td>{new Date(doc.createdAt).toLocaleString()}</td>
+                    <td>
+                      <button className="btn-icon btn-danger" onClick={() => handleDelete(doc.id)} title="删除">
+                        <Trash2 size={16} />
+                      </button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          )}
+        </>
       )}
 
       {/* Edit Knowledge Base Modal */}
@@ -238,6 +272,10 @@ const KnowledgeBaseDetail: React.FC = () => {
                   <option value="INACTIVE">离线</option>
                 </select>
               </div>
+              <ChunkStrategyFields
+                value={editForm.chunkStrategy}
+                onChange={(chunkStrategy) => setEditForm({ ...editForm, chunkStrategy })}
+              />
               <div className="modal-actions">
                 <button type="button" className="btn" onClick={() => setShowEdit(false)} disabled={saving}>取消</button>
                 <button type="submit" className="btn btn-primary" disabled={saving}>

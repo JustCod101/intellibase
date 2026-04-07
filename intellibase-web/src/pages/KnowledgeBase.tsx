@@ -4,6 +4,8 @@ import { toast } from 'react-hot-toast';
 import { getKbList, createKb, deleteKb } from '../api/kb';
 import { Plus, Search, Book, Database, Clock, X, Trash2 } from 'lucide-react';
 import type { KnowledgeBase as KbType, ApiResponse, PageResult } from '../types';
+import ChunkStrategyFields from '../components/ChunkStrategyFields';
+import { DEFAULT_CHUNK_STRATEGY, normalizeChunkStrategy } from '../utils/chunkStrategy';
 import '../styles/kb.css';
 
 const KnowledgeBase: React.FC = () => {
@@ -17,7 +19,8 @@ const KnowledgeBase: React.FC = () => {
   const [newKb, setNewKb] = useState({ 
     name: '', 
     description: '', 
-    embeddingModel: 'text-embedding-3-small' 
+    embeddingModel: 'text-embedding-3-small',
+    chunkStrategy: DEFAULT_CHUNK_STRATEGY,
   });
 
   useEffect(() => {
@@ -52,11 +55,16 @@ const KnowledgeBase: React.FC = () => {
     try {
       await createKb({
         ...newKb,
-        chunkStrategy: JSON.stringify({ size: 512, overlap: 64 })
+        chunkStrategy: normalizeChunkStrategy(newKb.chunkStrategy),
       });
       toast.success('创建知识库成功');
       setShowModal(false);
-      setNewKb({ name: '', description: '', embeddingModel: 'text-embedding-3-small' });
+      setNewKb({
+        name: '',
+        description: '',
+        embeddingModel: 'text-embedding-3-small',
+        chunkStrategy: DEFAULT_CHUNK_STRATEGY,
+      });
       fetchKbList();
     } catch (err: any) {
       toast.error(err.response?.data?.message || '创建知识库失败');
@@ -192,6 +200,10 @@ const KnowledgeBase: React.FC = () => {
                   <option value="text-embedding-3-large">text-embedding-3-large (高精度, 3072维)</option>
                 </select>
               </div>
+              <ChunkStrategyFields
+                value={newKb.chunkStrategy}
+                onChange={(chunkStrategy) => setNewKb({ ...newKb, chunkStrategy })}
+              />
               <div className="modal-actions">
                 <button type="button" className="btn" onClick={() => setShowModal(false)} disabled={submitting}>
                   取消

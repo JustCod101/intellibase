@@ -5,9 +5,11 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.intellibase.server.domain.dto.CreateKbRequest;
 import com.intellibase.server.domain.dto.UpdateKbRequest;
+import com.intellibase.server.domain.dto.ChunkStrategy;
 import com.intellibase.server.domain.entity.KnowledgeBase;
 import com.intellibase.server.domain.vo.KnowledgeBaseVO;
 import com.intellibase.server.mapper.KnowledgeBaseMapper;
+import com.intellibase.server.service.doc.ChunkStrategyResolver;
 import com.intellibase.server.service.rag.CacheEvictionService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -21,9 +23,9 @@ public class KnowledgeBaseServiceImpl implements KnowledgeBaseService {
 
     private final KnowledgeBaseMapper knowledgeBaseMapper;
     private final CacheEvictionService cacheEvictionService;
+    private final ChunkStrategyResolver chunkStrategyResolver;
 
     private static final String DEFAULT_EMBEDDING_MODEL = "text-embedding-3-small";
-    private static final String DEFAULT_CHUNK_STRATEGY = "{\"size\":512,\"overlap\":64}";
 
     @Override
     public KnowledgeBaseVO create(CreateKbRequest request, Long userId) {
@@ -33,9 +35,8 @@ public class KnowledgeBaseServiceImpl implements KnowledgeBaseService {
         kb.setEmbeddingModel(
                 StringUtils.hasText(request.getEmbeddingModel())
                         ? request.getEmbeddingModel() : DEFAULT_EMBEDDING_MODEL);
-        kb.setChunkStrategy(
-                StringUtils.hasText(request.getChunkStrategy())
-                        ? request.getChunkStrategy() : DEFAULT_CHUNK_STRATEGY);
+        ChunkStrategy chunkStrategy = chunkStrategyResolver.normalize(request.getChunkStrategy());
+        kb.setChunkStrategy(chunkStrategyResolver.toJson(chunkStrategy));
         kb.setDocCount(0);
         kb.setStatus("ACTIVE");
         kb.setCreatedBy(userId);
@@ -88,6 +89,9 @@ public class KnowledgeBaseServiceImpl implements KnowledgeBaseService {
         if (StringUtils.hasText(request.getStatus())) {
             kb.setStatus(request.getStatus());
         }
+        if (request.getChunkStrategy() != null) {
+            kb.setChunkStrategy(chunkStrategyResolver.toJson(request.getChunkStrategy()));
+        }
 
         knowledgeBaseMapper.updateById(kb);
         log.info("知识库已更新: id={}", id);
@@ -113,7 +117,7 @@ public class KnowledgeBaseServiceImpl implements KnowledgeBaseService {
                 .name(kb.getName())
                 .description(kb.getDescription())
                 .embeddingModel(kb.getEmbeddingModel())
-                .chunkStrategy(kb.getChunkStrategy())
+                .chunkStrategy(chunkStrategyResolver.fromJson(kb.getChunkStrategy()))
                 .docCount(kb.getDocCount())
                 .status(kb.getStatus())
                 .createdAt(kb.getCreatedAt())

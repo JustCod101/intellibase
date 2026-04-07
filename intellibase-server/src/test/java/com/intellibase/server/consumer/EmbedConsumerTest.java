@@ -77,10 +77,9 @@ class EmbedConsumerTest {
     void setUp() {
         // 构建 3 个测试分块
         List<TextChunk> chunks = new ArrayList<>();
-        // TextChunk 构造函数顺序为 (index, content, tokenCount)
-        chunks.add(new TextChunk(0, "Chunk content 0", 25));
-        chunks.add(new TextChunk(1, "Chunk content 1", 30));
-        chunks.add(new TextChunk(2, "Chunk content 2", 20));
+        chunks.add(new TextChunk(0, "Chunk content 0", 25, "{\"blockType\":\"PARAGRAPH\"}"));
+        chunks.add(new TextChunk(1, "Chunk content 1", 30, "{\"blockType\":\"PARAGRAPH\"}"));
+        chunks.add(new TextChunk(2, "Chunk content 2", 20, "{\"blockType\":\"PARAGRAPH\"}"));
 
         // 构建 MQ 消息：docId=200, kbId=10, 包含 3 个分块，总计 3 个分块，共 2 个批次
         message = EmbedBatchMessage.builder()
@@ -129,6 +128,7 @@ class EmbedConsumerTest {
         assertEquals(3, capturedChunks.size());
         assertEquals(200L, capturedChunks.get(0).getDocId());
         assertEquals(0, capturedChunks.get(0).getChunkIndex());
+        assertEquals("{\"blockType\":\"PARAGRAPH\"}", capturedChunks.get(0).getMetadata());
 
         // 4. 验证行为：Redis 计数器未达标，不应该调用 updateChunkCount
         verify(documentMapper, never()).updateChunkCount(anyLong(), anyInt(), anyString());

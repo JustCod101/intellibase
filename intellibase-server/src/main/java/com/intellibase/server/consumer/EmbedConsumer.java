@@ -67,6 +67,8 @@ public class EmbedConsumer {
         try {
             doHandleEmbed(msg);
         } catch (Exception e) {
+            log.error("向量化处理失败，将触发重试: docId={}, messageId={}, kbId={}, chunkCount={}, totalBatches={}",
+                    msg.getDocId(), msg.getMessageId(), msg.getKbId(), msg.getChunks().size(), msg.getTotalBatches(), e);
             // 处理失败时释放幂等锁，允许重试消息重新消费
             idempotencyService.release(msg.getMessageId());
             throw e;
@@ -98,6 +100,7 @@ public class EmbedConsumer {
             chunk.setChunkIndex(tc.getIndex());
             chunk.setContent(tc.getContent());
             chunk.setTokenCount(tc.getTokenCount());
+            chunk.setMetadata(tc.getMetadata());
 
             chunks.add(chunk);
             embeddings.add(EmbeddingService.toVectorString(vector));

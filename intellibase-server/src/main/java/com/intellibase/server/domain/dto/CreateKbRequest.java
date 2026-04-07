@@ -13,6 +13,6 @@ public class CreateKbRequest {
 
     private String embeddingModel;
 
-    private String chunkStrategy;
+    private ChunkStrategy chunkStrategy;
 
 }

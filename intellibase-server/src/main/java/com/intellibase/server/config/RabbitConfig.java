@@ -73,12 +73,15 @@ public class RabbitConfig {
 
         // 消息退回回调：到达交换机但无法路由到任何队列
         template.setReturnsCallback(returned -> {
-            log.error("[Publisher Return] 消息无法路由! exchange={}, routingKey={}, replyCode={}, replyText={}, message={}",
+            Message returnedMessage = returned.getMessage();
+            int bodySize = returnedMessage.getBody() == null ? 0 : returnedMessage.getBody().length;
+            Object typeId = returnedMessage.getMessageProperties().getHeaders().get("__TypeId__");
+            log.error("[Publisher Return] 消息无法路由! exchange={}, routingKey={}, replyCode={}, replyText={}, messageInfo={}",
                     returned.getExchange(),
                     returned.getRoutingKey(),
                     returned.getReplyCode(),
                     returned.getReplyText(),
-                    returned.getMessage());
+                    "typeId=" + typeId + ", bodySize=" + bodySize);
         });
 
         return template;
@@ -116,6 +119,21 @@ public class RabbitConfig {
                         .recoverer(republishMessageRecoverer)
                         .build()
         );
+        return factory;
+    }
+
+    /**
+     * DLQ 监听器专用工厂：
+     * 死信消费者本身不再做重试和二次 republish，避免出现 error.error.* 递归死信。
+     */
+    @Bean
+    public SimpleRabbitListenerContainerFactory dlqRabbitListenerContainerFactory(
+            ConnectionFactory connectionFactory,
+            MessageConverter jackson2JsonMessageConverter) {
+        SimpleRabbitListenerContainerFactory factory = new SimpleRabbitListenerContainerFactory();
+        factory.setConnectionFactory(connectionFactory);
+        factory.setMessageConverter(jackson2JsonMessageConverter);
+        factory.setDefaultRequeueRejected(false);
         return factory;
     }
 

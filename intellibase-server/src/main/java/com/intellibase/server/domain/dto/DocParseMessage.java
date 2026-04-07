@@ -28,6 +28,9 @@ public class DocParseMessage implements Serializable {
 
     private String fileType;
 
+    /** 分块策略快照（优先使用） */
+    private ChunkStrategy chunkStrategy;
+
     /** 分块大小 */
     private Integer chunkSize;
 

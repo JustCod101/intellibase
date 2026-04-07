@@ -1,6 +1,6 @@
 package com.intellibase.server.domain.vo;
 
-import com.fasterxml.jackson.annotation.JsonRawValue;
+import com.intellibase.server.domain.dto.ChunkStrategy;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -22,8 +22,7 @@ public class KnowledgeBaseVO {
 
     private String embeddingModel;
 
-    @JsonRawValue
-    private String chunkStrategy;
+    private ChunkStrategy chunkStrategy;
 
     private Integer docCount;
 

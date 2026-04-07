@@ -15,7 +15,7 @@
                 #{chunk.content},
                 #{chunk.tokenCount},
                 #{embeddings[${idx}]}::vector,
-                #{chunk.metadata}
+                #{chunk.metadata, jdbcType=OTHER, typeHandler=com.intellibase.server.config.JsonbTypeHandler}::jsonb
             )
         </foreach>
         ON CONFLICT (doc_id, chunk_index) DO NOTHING

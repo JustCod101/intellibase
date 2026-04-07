@@ -4,11 +4,15 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.intellibase.server.common.Constants;
+import com.intellibase.server.domain.dto.ChunkStrategy;
 import com.intellibase.server.domain.dto.DocParseMessage;
 import com.intellibase.server.domain.entity.Document;
+import com.intellibase.server.domain.entity.KnowledgeBase;
 import com.intellibase.server.domain.event.DocParseEvent;
 import com.intellibase.server.domain.vo.DocumentVO;
 import com.intellibase.server.mapper.DocumentMapper;
+import com.intellibase.server.mapper.KnowledgeBaseMapper;
+import com.intellibase.server.service.doc.ChunkStrategyResolver;
 import com.intellibase.server.service.rag.CacheEvictionService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -34,12 +38,14 @@ public class DocumentServiceImpl implements DocumentService {
 
     // 数据库操作对象，用于读写 document 表
     private final DocumentMapper documentMapper;
+    private final KnowledgeBaseMapper knowledgeBaseMapper;
     // 自定义的 MinIO 服务，用于将文件实际存储到云端/对象存储服务器
     private final MinioService minioService;
     // Spring 事件发布器，用于在事务提交后触发 MQ 发送
     private final ApplicationEventPublisher eventPublisher;
     // 缓存失效服务，文档变更时主动清除关联缓存
     private final CacheEvictionService cacheEvictionService;
+    private final ChunkStrategyResolver chunkStrategyResolver;
 
     /**
      * 上传文档流程
@@ -64,6 +70,12 @@ public class DocumentServiceImpl implements DocumentService {
         String originalFilename = file.getOriginalFilename();
         String fileType = extractFileType(originalFilename);
         validateFileType(fileType); // 只允许 pdf/docx/md/txt
+
+        KnowledgeBase kb = knowledgeBaseMapper.selectById(kbId);
+        if (kb == null) {
+            throw new IllegalArgumentException("知识库不存在");
+        }
+        ChunkStrategy chunkStrategy = chunkStrategyResolver.fromJson(kb.getChunkStrategy());
 
         // 2. 计算文件内容 SHA-256 哈希值
         // 作用：像人的指纹一样，内容相同的文件哈希值一定相同。用于实现”秒传”或防止重复上传。
@@ -113,8 +125,9 @@ public class DocumentServiceImpl implements DocumentService {
                 .kbId(kbId)
                 .fileKey(objectKey)
                 .fileType(fileType)
-                .chunkSize(512)
-                .chunkOverlap(64)
+                .chunkStrategy(chunkStrategy)
+                .chunkSize(chunkStrategy.getSize())
+                .chunkOverlap(chunkStrategy.getOverlap())
                 .build();
         eventPublisher.publishEvent(new DocParseEvent(this, message));
         log.info("文档上传成功，解析消息将在事务提交后发送: docId={}, title={}", doc.getId(), originalFilename);

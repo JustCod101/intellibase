@@ -1,5 +1,6 @@
 package com.intellibase.server.consumer;
 
+import com.rabbitmq.client.LongString;
 import com.intellibase.server.common.Constants;
 import com.intellibase.server.config.RabbitConfig;
 import com.intellibase.server.mapper.DocumentMapper;
@@ -9,6 +10,7 @@ import org.springframework.amqp.core.Message;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.stereotype.Component;
 
+import java.nio.charset.StandardCharsets;
 import java.util.Map;
 
 /**
@@ -34,17 +36,22 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class DlqConsumer {
 
+    private static final int MAX_LOG_TEXT_LENGTH = 512;
+
     private final DocumentMapper documentMapper;
 
-    @RabbitListener(queues = {RabbitConfig.DLQ_DOC_PARSE, RabbitConfig.DLQ_DOC_EMBED})
+    @RabbitListener(
+            queues = {RabbitConfig.DLQ_DOC_PARSE, RabbitConfig.DLQ_DOC_EMBED},
+            containerFactory = "dlqRabbitListenerContainerFactory"
+    )
     public void handleDeadLetter(Message message) {
         Map<String, Object> headers = message.getMessageProperties().getHeaders();
 
-        String originalQueue = (String) headers.get("x-original-routingKey");
-        String exceptionMessage = (String) headers.get("x-exception-message");
+        String originalQueue = headerAsString(headers.get("x-original-routingKey"));
+        String exceptionMessage = truncate(headerAsString(headers.get("x-exception-message")));
 
         // 尝试从消息体中提取 docId
-        Long docId = extractDocId(headers, message);
+        Long docId = extractDocId(message);
 
         log.error("消息重试耗尽进入死信队列: originalQueue={}, docId={}, exception={}",
                 originalQueue, docId, exceptionMessage);
@@ -54,7 +61,7 @@ public class DlqConsumer {
             log.info("已将文档标记为 FAILED: docId={}", docId);
         } else {
             log.warn("无法从死信消息中提取 docId，消息已消费但未更新状态。body={}",
-                    new String(message.getBody()));
+                    truncate(new String(message.getBody(), StandardCharsets.UTF_8)));
         }
     }
 
@@ -63,10 +70,10 @@ public class DlqConsumer {
      * 消息格式为 Jackson 序列化的 DocParseMessage 或 EmbedBatchMessage，
      * 两者都包含 docId 字段。
      */
-    private Long extractDocId(Map<String, Object> headers, Message message) {
+    private Long extractDocId(Message message) {
         try {
             // 消息体是 JSON，简单匹配 "docId":xxx
-            String body = new String(message.getBody());
+            String body = new String(message.getBody(), StandardCharsets.UTF_8);
             int idx = body.indexOf("\"docId\"");
             if (idx < 0) return null;
 
@@ -89,5 +96,28 @@ public class DlqConsumer {
             log.warn("从死信消息中提取 docId 失败", e);
             return null;
         }
+    }
+
+    private String headerAsString(Object value) {
+        if (value == null) {
+            return null;
+        }
+        if (value instanceof String str) {
+            return str;
+        }
+        if (value instanceof LongString longString) {
+            return new String(longString.getBytes(), StandardCharsets.UTF_8);
+        }
+        if (value instanceof byte[] bytes) {
+            return new String(bytes, StandardCharsets.UTF_8);
+        }
+        return String.valueOf(value);
+    }
+
+    private String truncate(String value) {
+        if (value == null || value.length() <= MAX_LOG_TEXT_LENGTH) {
+            return value;
+        }
+        return value.substring(0, MAX_LOG_TEXT_LENGTH) + "...";
     }
 }

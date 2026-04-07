@@ -5,15 +5,21 @@ export interface User {
   role: string;
 }
 
+export interface ChunkStrategy {
+  version: number;
+  type: string;
+  size: number;
+  overlap: number;
+  minSize: number;
+  normalizeWhitespace: boolean;
+}
+
 export interface KnowledgeBase {
   id: number;
   name: string;
   description: string;
   embeddingModel: string;
-  chunkStrategy: {
-    size: number;
-    overlap: number;
-  };
+  chunkStrategy: ChunkStrategy;
   docCount: number;
   status: string;
   createdAt: string;
