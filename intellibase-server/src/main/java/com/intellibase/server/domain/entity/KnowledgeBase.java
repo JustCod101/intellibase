@@ -24,6 +24,9 @@ public class KnowledgeBase {
     @TableField(typeHandler = JsonbTypeHandler.class)
     private String chunkStrategy;
 
+    @TableField(typeHandler = JsonbTypeHandler.class)
+    private String retrievalConfig;
+
     private Integer docCount;
 
     private String status;

@@ -16,7 +16,6 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.test.util.ReflectionTestUtils;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
-import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -37,6 +36,8 @@ class RagServiceTest {
     private RetrievalService retrievalService;
     @Mock
     private PromptBuilder promptBuilder;
+    @Mock
+    private com.intellibase.server.service.chat.ChatService chatService;
     @Mock
     private ObjectMapper objectMapper;
     @Mock
@@ -72,7 +73,7 @@ class RagServiceTest {
         // 此处先尝试直接运行，若环境支持 Virtual Threads 则可。
         Thread.sleep(200); // 临时等待异步
 
-        verify(emitter, atLeastOnce()).send(Collections.singleton(any()));
+        verify(emitter, atLeastOnce()).send(any(SseEmitter.SseEventBuilder.class));
         verify(emitter).complete();
         verifyNoInteractions(retrievalService, streamingChatModel);
     }
@@ -92,7 +93,7 @@ class RagServiceTest {
                 .thenReturn(Optional.empty());
         
         List<RetrievalResult> results = List.of(new RetrievalResult());
-        when(retrievalService.retrieve(vector, kbId)).thenReturn(results);
+        when(retrievalService.retrieve(vector, kbId, question)).thenReturn(results);
         
         when(promptBuilder.buildSystemPrompt(any())).thenReturn("System Prompt");
         when(promptBuilder.buildUserMessage(any())).thenReturn("User Message");
@@ -114,10 +115,10 @@ class RagServiceTest {
 
         // 4. 验证流程
         verify(embeddingService).embed(question);
-        verify(retrievalService).retrieve(vector, kbId);
+        verify(retrievalService).retrieve(vector, kbId, question);
         verify(streamingChatModel).generate(anyList(), any());
         verify(semanticCacheService).cacheAnswer(eq(question), anyString(), eq(kbId), eq(vector));
-        verify(emitter, atLeastOnce()).send(Collections.singleton(any()));
+        verify(emitter, atLeastOnce()).send(any(SseEmitter.SseEventBuilder.class));
         verify(emitter).complete();
     }
 }

@@ -10,6 +10,7 @@ import com.intellibase.server.service.mq.IdempotencyService;
 import com.intellibase.server.service.rag.CacheEvictionService;
 import com.intellibase.server.service.rag.EmbedBatchTracker;
 import com.intellibase.server.service.rag.EmbeddingService;
+import com.intellibase.server.service.rag.LexicalTokenizer;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
@@ -52,6 +53,7 @@ public class EmbedConsumer {
     private final CacheEvictionService cacheEvictionService;
     private final EmbedBatchTracker embedBatchTracker;
     private final IdempotencyService idempotencyService;
+    private final LexicalTokenizer lexicalTokenizer;
 
     @RabbitListener(queues = Constants.QUEUE_DOC_EMBED, concurrency = "2-3")
     public void handleEmbed(EmbedBatchMessage msg) {
@@ -99,6 +101,7 @@ public class EmbedConsumer {
             chunk.setKbId(msg.getKbId());
             chunk.setChunkIndex(tc.getIndex());
             chunk.setContent(tc.getContent());
+            chunk.setLexicalContent(lexicalTokenizer.buildLexicalContent(tc.getContent()));
             chunk.setTokenCount(tc.getTokenCount());
             chunk.setMetadata(tc.getMetadata());
 

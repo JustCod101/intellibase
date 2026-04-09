@@ -1,15 +1,21 @@
 package com.intellibase.server.service.rag;
 
+import com.intellibase.server.domain.dto.RetrievalConfig;
 import com.intellibase.server.domain.entity.DocumentChunk;
+import com.intellibase.server.domain.entity.KnowledgeBase;
 import com.intellibase.server.domain.vo.RetrievalResult;
 import com.intellibase.server.mapper.DocumentChunkMapper;
+import com.intellibase.server.mapper.KnowledgeBaseMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -30,9 +36,14 @@ import java.util.Optional;
 public class RetrievalService {
 
     private final DocumentChunkMapper documentChunkMapper;
+    private final KnowledgeBaseMapper knowledgeBaseMapper;
     private final RetrievalCacheService retrievalCacheService;
     private final ChunkCacheService chunkCacheService;
     private final CacheStatsService cacheStatsService;
+    private final RetrievalConfigResolver retrievalConfigResolver;
+    private final SparseRecallService sparseRecallService;
+    private final LexicalTokenizer lexicalTokenizer;
+    private final HybridRanker hybridRanker;
 
     @Value("${rag.retrieval-top-k}")
     private int topK;
@@ -49,9 +60,12 @@ public class RetrievalService {
      * @return 返回最相关的文档片段列表
      */
     public List<RetrievalResult> retrieve(float[] queryVector, Long kbId, String query) {
+        RetrievalConfig config = resolveConfig(kbId);
+        String configHash = retrievalConfigResolver.hash(config);
+
         // ===== L2: 检索缓存（需要原始 query 文本来计算缓存 Key）=====
-        if (query != null) {
-            Optional<List<RetrievalResult>> l2Cached = retrievalCacheService.tryGetCachedResults(query, kbId);
+        if (StringUtils.hasText(query)) {
+            Optional<List<RetrievalResult>> l2Cached = retrievalCacheService.tryGetCachedResults(query, kbId, configHash);
             if (l2Cached.isPresent()) {
                 cacheStatsService.recordL2Hit();
                 log.info("L2 检索缓存命中: kbId={}, 结果数={}", kbId, l2Cached.get().size());
@@ -60,44 +74,21 @@ public class RetrievalService {
             cacheStatsService.recordL2Miss();
         }
 
-        // ===== 向量检索：从 pgvector 获取最相似的 chunkId 列表 =====
-        String vectorStr = EmbeddingService.toVectorString(queryVector);
-        List<DocumentChunk> searchHits = documentChunkMapper.findSimilar(
-                vectorStr, kbId, similarityThreshold, topK);
+        List<RetrievalResult> results = config.getHybridEnabled() && StringUtils.hasText(query)
+                ? retrieveHybrid(queryVector, kbId, query, config)
+                : retrieveDenseOnly(queryVector, kbId, config);
 
-        cacheStatsService.recordDbQuery();
-
-        if (searchHits.isEmpty()) {
-            if (query != null) {
-                retrievalCacheService.cacheResults(query, kbId, List.of());
+        if (results.isEmpty()) {
+            if (StringUtils.hasText(query)) {
+                retrievalCacheService.cacheResults(query, kbId, configHash, List.of());
             }
             log.info("向量检索完成: kbId={}, 命中数=0", kbId);
             return List.of();
         }
 
-        // ===== L3: 通过文档块缓存解析内容（read-through: Redis → DB → 回填 Redis）=====
-        // 保存 chunkId → docId / similarity 的映射（向量检索提供的元数据）
-        Map<Long, Long> chunkDocIdMap = new HashMap<>();
-        Map<Long, Double> chunkSimilarityMap = new HashMap<>();
-        List<Long> chunkIds = new ArrayList<>();
-        for (DocumentChunk hit : searchHits) {
-            chunkIds.add(hit.getId());
-            chunkDocIdMap.put(hit.getId(), hit.getDocId());
-            chunkSimilarityMap.put(hit.getId(), hit.getSimilarity() != null ? hit.getSimilarity() : 0.0);
-        }
-
-        // 通过 L3 缓存获取 chunk 内容（命中 Redis 则跳过 DB，未命中则从 DB 加载并回填）
-        List<DocumentChunk> chunks = chunkCacheService.getChunks(chunkIds);
-
-        List<RetrievalResult> results = chunks.stream()
-                .map(chunk -> toResult(chunk,
-                        chunkDocIdMap.getOrDefault(chunk.getId(), chunk.getDocId()),
-                        chunkSimilarityMap.getOrDefault(chunk.getId(), 0.0)))
-                .toList();
-
         // 写入 L2 缓存供后续相同查询使用
-        if (query != null && !results.isEmpty()) {
-            retrievalCacheService.cacheResults(query, kbId, results);
+        if (StringUtils.hasText(query)) {
+            retrievalCacheService.cacheResults(query, kbId, configHash, results);
         }
 
         log.info("向量检索完成: kbId={}, 命中数={}", kbId, results.size());
@@ -111,17 +102,126 @@ public class RetrievalService {
         return retrieve(queryVector, kbId, null);
     }
 
-    private RetrievalResult toResult(DocumentChunk chunk, Long docId, double similarity) {
+    private List<RetrievalResult> retrieveDenseOnly(float[] queryVector, Long kbId, RetrievalConfig config) {
+        List<DocumentChunk> denseHits = denseRecall(queryVector, kbId, similarityThreshold, config.getFinalTopK());
+        if (denseHits.isEmpty()) {
+            return List.of();
+        }
+
+        Map<Long, DocumentChunk> chunkMap = loadChunks(denseHits.stream().map(DocumentChunk::getId).toList());
+        return denseHits.stream()
+                .map(hit -> toResult(chunkMap.get(hit.getId()), hit.getDocId(), hit.getSimilarity(), null))
+                .filter(result -> StringUtils.hasText(result.getContent()))
+                .sorted(Comparator.comparingDouble(RetrievalResult::getScore).reversed())
+                .limit(config.getFinalTopK())
+                .toList();
+    }
+
+    private List<RetrievalResult> retrieveHybrid(float[] queryVector, Long kbId, String query, RetrievalConfig config) {
+        List<DocumentChunk> denseHits = denseRecall(queryVector, kbId,
+                retrievalConfigResolver.getDenseSimilarityThreshold(), config.getDenseTopK());
+        String lexicalQuery = lexicalTokenizer.buildLexicalQuery(query);
+        List<DocumentChunk> sparseHits = sparseRecallService.recall(lexicalQuery, kbId, config.getSparseTopK());
+        if (StringUtils.hasText(lexicalQuery)) {
+            cacheStatsService.recordDbQuery();
+        }
+
+        if (denseHits.isEmpty() && sparseHits.isEmpty()) {
+            return List.of();
+        }
+
+        Map<Long, RetrievalResult> candidates = new LinkedHashMap<>();
+        for (DocumentChunk hit : denseHits) {
+            RetrievalResult result = candidates.computeIfAbsent(hit.getId(),
+                    chunkId -> emptyCandidate(chunkId, hit.getDocId()));
+            result.setDenseScore(hit.getSimilarity());
+        }
+        for (DocumentChunk hit : sparseHits) {
+            RetrievalResult result = candidates.computeIfAbsent(hit.getId(),
+                    chunkId -> emptyCandidate(chunkId, hit.getDocId()));
+            result.setSparseScore(hit.getLexicalScore());
+        }
+
+        List<Long> unionChunkIds = new ArrayList<>(candidates.keySet());
+        Map<Long, DocumentChunk> chunkMap = loadChunks(unionChunkIds);
+        candidates.values().removeIf(candidate -> !hydrateCandidate(candidate, chunkMap));
+
+        List<RetrievalResult> ranked = hybridRanker.rank(
+                query,
+                new ArrayList<>(candidates.values()),
+                denseHits.stream().map(DocumentChunk::getId).toList(),
+                sparseHits.stream().map(DocumentChunk::getId).toList(),
+                config);
+
+        return ranked.stream()
+                .limit(config.getFinalTopK())
+                .toList();
+    }
+
+    private List<DocumentChunk> denseRecall(float[] queryVector, Long kbId, double threshold, int limit) {
+        String vectorStr = EmbeddingService.toVectorString(queryVector);
+        List<DocumentChunk> searchHits = documentChunkMapper.findSimilar(vectorStr, kbId, threshold, limit);
+        cacheStatsService.recordDbQuery();
+        return searchHits;
+    }
+
+    private Map<Long, DocumentChunk> loadChunks(List<Long> chunkIds) {
+        List<DocumentChunk> chunks = chunkCacheService.getChunks(chunkIds);
+        Map<Long, DocumentChunk> chunkMap = new HashMap<>();
+        for (DocumentChunk chunk : chunks) {
+            chunkMap.put(chunk.getId(), chunk);
+        }
+        return chunkMap;
+    }
+
+    private RetrievalResult emptyCandidate(Long chunkId, Long docId) {
+        return RetrievalResult.builder()
+                .chunkId(chunkId)
+                .docId(docId)
+                .build();
+    }
+
+    private boolean hydrateCandidate(RetrievalResult candidate, Map<Long, DocumentChunk> chunkMap) {
+        DocumentChunk chunk = chunkMap.get(candidate.getChunkId());
+        if (chunk == null || !StringUtils.hasText(chunk.getContent())) {
+            return false;
+        }
+        candidate.setDocId(chunk.getDocId() != null ? chunk.getDocId() : candidate.getDocId());
+        candidate.setContent(chunk.getContent());
+        candidate.setSnippet(buildSnippet(chunk.getContent()));
+        return true;
+    }
+
+    private RetrievalResult toResult(DocumentChunk chunk, Long docId, Double denseScore, Double sparseScore) {
+        if (chunk == null || !StringUtils.hasText(chunk.getContent())) {
+            return RetrievalResult.builder().build();
+        }
         String content = chunk.getContent();
-        String snippet = content.length() > 200 ? content.substring(0, 200) + "..." : content;
+        double finalScore = denseScore != null ? denseScore : (sparseScore != null ? sparseScore : 0D);
 
         return RetrievalResult.builder()
                 .chunkId(chunk.getId())
                 .docId(docId)
-                .score(similarity)
+                .score(finalScore)
+                .denseScore(denseScore)
+                .sparseScore(sparseScore)
+                .fusedScore(finalScore)
+                .rerankScore(finalScore)
+                .matchType(denseScore != null && sparseScore != null ? "HYBRID" : (denseScore != null ? "DENSE" : "SPARSE"))
                 .content(content)
-                .snippet(snippet)
+                .snippet(buildSnippet(content))
                 .build();
     }
 
+    private RetrievalConfig resolveConfig(Long kbId) {
+        KnowledgeBase kb = knowledgeBaseMapper.selectById(kbId);
+        if (kb == null) {
+            return retrievalConfigResolver.defaultConfig();
+        }
+        return retrievalConfigResolver.fromJson(kb.getRetrievalConfig());
+    }
+
+    private String buildSnippet(String content) {
+        return content.length() > 200 ? content.substring(0, 200) + "..." : content;
+    }
 }

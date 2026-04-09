@@ -6,7 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 /**
- * 向量检索结果
+ * 混合检索结果
  */
 @Data
 @Builder
@@ -20,8 +20,23 @@ public class RetrievalResult {
     /** 所属文档 ID */
     private Long docId;
 
-    /** 余弦相似度分数（0~1） */
+    /** 最终排序分数（保持兼容旧字段） */
     private double score;
+
+    /** 稠密召回分数 */
+    private Double denseScore;
+
+    /** 稀疏召回分数 */
+    private Double sparseScore;
+
+    /** 融合得分 */
+    private Double fusedScore;
+
+    /** 重排得分 */
+    private Double rerankScore;
+
+    /** 命中类型：DENSE / SPARSE / HYBRID */
+    private String matchType;
 
     /** 分块原始文本 */
     private String content;

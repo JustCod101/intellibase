@@ -5,7 +5,9 @@ import { getKbDetail, getDocList, uploadDoc, deleteDoc, updateKb } from '../api/
 import { ArrowLeft, Upload, Trash2, FileText, RefreshCw, Edit3, X } from 'lucide-react';
 import type { KnowledgeBase, Document as DocType, ApiResponse, PageResult } from '../types';
 import ChunkStrategyFields from '../components/ChunkStrategyFields';
+import RetrievalConfigFields from '../components/RetrievalConfigFields';
 import { getChunkStrategySummary, normalizeChunkStrategy } from '../utils/chunkStrategy';
+import { getRetrievalConfigSummary, normalizeRetrievalConfig } from '../utils/retrievalConfig';
 import '../styles/kb.css';
 
 const KnowledgeBaseDetail: React.FC = () => {
@@ -25,6 +27,7 @@ const KnowledgeBaseDetail: React.FC = () => {
     description: '',
     status: 'ACTIVE',
     chunkStrategy: normalizeChunkStrategy(),
+    retrievalConfig: normalizeRetrievalConfig(),
   });
   const [saving, setSaving] = useState(false);
 
@@ -38,7 +41,11 @@ const KnowledgeBaseDetail: React.FC = () => {
   const fetchDetail = async () => {
     try {
       const res = await getKbDetail(kbId!) as unknown as ApiResponse<KnowledgeBase>;
-      setKb(res.data);
+      setKb({
+        ...res.data,
+        chunkStrategy: normalizeChunkStrategy(res.data.chunkStrategy),
+        retrievalConfig: normalizeRetrievalConfig(res.data.retrievalConfig),
+      });
     } catch {
       toast.error('获取知识库详情失败');
     }
@@ -129,6 +136,7 @@ const KnowledgeBaseDetail: React.FC = () => {
                   description: kb.description || '',
                   status: kb.status,
                   chunkStrategy: normalizeChunkStrategy(kb.chunkStrategy),
+                  retrievalConfig: normalizeRetrievalConfig(kb.retrievalConfig),
                 });
                 setShowEdit(true);
               }
@@ -160,21 +168,40 @@ const KnowledgeBaseDetail: React.FC = () => {
       ) : (
         <>
           {kb && (
-            <section className="strategy-panel">
-              <div className="strategy-panel-header">
-                <h3>当前 Chunk 策略</h3>
-                <p>{getChunkStrategySummary(kb.chunkStrategy)}</p>
-              </div>
-              <div className="strategy-tags">
-                <span className="strategy-chip">Version {kb.chunkStrategy.version}</span>
-                <span className="strategy-chip">Size {kb.chunkStrategy.size}</span>
-                <span className="strategy-chip">Overlap {kb.chunkStrategy.overlap}</span>
-                <span className="strategy-chip">Min {kb.chunkStrategy.minSize}</span>
-                <span className="strategy-chip">
-                  {kb.chunkStrategy.normalizeWhitespace ? '规范化空白' : '保留原始空白'}
-                </span>
-              </div>
-            </section>
+            <>
+              <section className="strategy-panel">
+                <div className="strategy-panel-header">
+                  <h3>当前 Chunk 策略</h3>
+                  <p>{getChunkStrategySummary(kb.chunkStrategy)}</p>
+                </div>
+                <div className="strategy-tags">
+                  <span className="strategy-chip">Version {kb.chunkStrategy.version}</span>
+                  <span className="strategy-chip">Size {kb.chunkStrategy.size}</span>
+                  <span className="strategy-chip">Overlap {kb.chunkStrategy.overlap}</span>
+                  <span className="strategy-chip">Min {kb.chunkStrategy.minSize}</span>
+                  <span className="strategy-chip">
+                    {kb.chunkStrategy.normalizeWhitespace ? '规范化空白' : '保留原始空白'}
+                  </span>
+                </div>
+              </section>
+
+              <section className="strategy-panel">
+                <div className="strategy-panel-header">
+                  <h3>当前检索策略</h3>
+                  <p>{getRetrievalConfigSummary(kb.retrievalConfig)}</p>
+                </div>
+                <div className="strategy-tags">
+                  <span className="strategy-chip">{kb.retrievalConfig.preset}</span>
+                  <span className="strategy-chip">Dense {kb.retrievalConfig.denseTopK}</span>
+                  <span className="strategy-chip">Sparse {kb.retrievalConfig.sparseTopK}</span>
+                  <span className="strategy-chip">Fusion {kb.retrievalConfig.fusionTopK}</span>
+                  <span className="strategy-chip">Final {kb.retrievalConfig.finalTopK}</span>
+                  <span className="strategy-chip">
+                    {Math.round(kb.retrievalConfig.denseWeight * 100)}:{Math.round(kb.retrievalConfig.sparseWeight * 100)}
+                  </span>
+                </div>
+              </section>
+            </>
           )}
 
           {docs.length === 0 ? (
@@ -275,6 +302,10 @@ const KnowledgeBaseDetail: React.FC = () => {
               <ChunkStrategyFields
                 value={editForm.chunkStrategy}
                 onChange={(chunkStrategy) => setEditForm({ ...editForm, chunkStrategy })}
+              />
+              <RetrievalConfigFields
+                value={editForm.retrievalConfig}
+                onChange={(retrievalConfig) => setEditForm({ ...editForm, retrievalConfig })}
               />
               <div className="modal-actions">
                 <button type="button" className="btn" onClick={() => setShowEdit(false)} disabled={saving}>取消</button>

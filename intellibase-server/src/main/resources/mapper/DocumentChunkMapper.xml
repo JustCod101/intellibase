@@ -5,7 +5,7 @@
 
     <!-- 批量插入文档分块（含 pgvector 向量），遇到重复 (doc_id, chunk_index) 则跳过 -->
     <insert id="batchInsertWithVector">
-        INSERT INTO document_chunk (doc_id, kb_id, chunk_index, content, token_count, embedding, metadata)
+        INSERT INTO document_chunk (doc_id, kb_id, chunk_index, content, lexical_content, token_count, embedding, lexical_vector, metadata)
         VALUES
         <foreach collection="list" item="chunk" index="idx" separator=",">
             (
@@ -13,8 +13,10 @@
                 #{chunk.kbId},
                 #{chunk.chunkIndex},
                 #{chunk.content},
+                #{chunk.lexicalContent},
                 #{chunk.tokenCount},
                 #{embeddings[${idx}]}::vector,
+                to_tsvector('simple', #{chunk.lexicalContent}),
                 #{chunk.metadata, jdbcType=OTHER, typeHandler=com.intellibase.server.config.JsonbTypeHandler}::jsonb
             )
         </foreach>
@@ -24,12 +26,23 @@
     <!-- 向量相似度检索：先按 kb_id 过滤，再做余弦相似度排序 -->
     <select id="findSimilar" resultType="com.intellibase.server.domain.entity.DocumentChunk">
         SELECT
-            id, doc_id, kb_id, chunk_index, content, token_count, metadata, created_at,
+            id, doc_id, kb_id, chunk_index, content, lexical_content, token_count, metadata, created_at,
             1 - (embedding &lt;=&gt; #{queryEmbedding}::vector) AS similarity
         FROM document_chunk
         WHERE kb_id = #{kbId}
           AND 1 - (embedding &lt;=&gt; #{queryEmbedding}::vector) &gt; #{threshold}
         ORDER BY embedding &lt;=&gt; #{queryEmbedding}::vector
+        LIMIT #{limit}
+    </select>
+
+    <select id="findLexicalMatches" resultType="com.intellibase.server.domain.entity.DocumentChunk">
+        SELECT
+            id, doc_id, kb_id, chunk_index, content, lexical_content, token_count, metadata, created_at,
+            ts_rank_cd(lexical_vector, plainto_tsquery('simple', #{lexicalQuery})) AS lexical_score
+        FROM document_chunk
+        WHERE kb_id = #{kbId}
+          AND lexical_vector @@ plainto_tsquery('simple', #{lexicalQuery})
+        ORDER BY lexical_score DESC, id DESC
         LIMIT #{limit}
     </select>
 

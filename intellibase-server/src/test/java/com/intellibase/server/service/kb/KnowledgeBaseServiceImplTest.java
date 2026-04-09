@@ -3,12 +3,15 @@ package com.intellibase.server.service.kb;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.intellibase.server.domain.dto.ChunkStrategy;
 import com.intellibase.server.domain.dto.CreateKbRequest;
+import com.intellibase.server.domain.dto.RetrievalPreset;
 import com.intellibase.server.domain.dto.UpdateKbRequest;
 import com.intellibase.server.domain.entity.KnowledgeBase;
 import com.intellibase.server.domain.vo.KnowledgeBaseVO;
+import com.intellibase.server.config.HybridRetrievalProperties;
 import com.intellibase.server.mapper.KnowledgeBaseMapper;
 import com.intellibase.server.service.doc.ChunkStrategyResolver;
 import com.intellibase.server.service.rag.CacheEvictionService;
+import com.intellibase.server.service.rag.RetrievalConfigResolver;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -35,11 +38,14 @@ class KnowledgeBaseServiceImplTest {
 
     private KnowledgeBaseServiceImpl knowledgeBaseService;
     private ChunkStrategyResolver resolver;
+    private RetrievalConfigResolver retrievalConfigResolver;
 
     @BeforeEach
     void setUp() {
         resolver = new ChunkStrategyResolver(new ObjectMapper());
-        knowledgeBaseService = new KnowledgeBaseServiceImpl(knowledgeBaseMapper, cacheEvictionService, resolver);
+        retrievalConfigResolver = new RetrievalConfigResolver(new ObjectMapper(), new HybridRetrievalProperties());
+        knowledgeBaseService = new KnowledgeBaseServiceImpl(
+                knowledgeBaseMapper, cacheEvictionService, resolver, retrievalConfigResolver);
     }
 
     @Test
@@ -69,6 +75,7 @@ class KnowledgeBaseServiceImplTest {
         assertEquals("STRUCTURE_AWARE", persisted.getType());
         assertNotNull(result.getChunkStrategy());
         assertEquals(900, result.getChunkStrategy().getSize());
+        assertEquals(RetrievalPreset.GENERAL_QA, result.getRetrievalConfig().getPreset());
     }
 
     @Test
@@ -103,5 +110,6 @@ class KnowledgeBaseServiceImplTest {
         assertEquals("新描述", result.getDescription());
         assertEquals(1000, result.getChunkStrategy().getSize());
         assertFalse(result.getChunkStrategy().getNormalizeWhitespace());
+        assertEquals(RetrievalPreset.GENERAL_QA, result.getRetrievalConfig().getPreset());
     }
 }

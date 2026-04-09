@@ -14,12 +14,27 @@ export interface ChunkStrategy {
   normalizeWhitespace: boolean;
 }
 
+export type RetrievalPreset = 'GENERAL_QA' | 'EXACT_LOOKUP' | 'LONGFORM_SYNTHESIS';
+
+export interface RetrievalConfig {
+  preset: RetrievalPreset;
+  hybridEnabled: boolean;
+  rerankEnabled: boolean;
+  denseTopK: number;
+  sparseTopK: number;
+  fusionTopK: number;
+  finalTopK: number;
+  denseWeight: number;
+  sparseWeight: number;
+}
+
 export interface KnowledgeBase {
   id: number;
   name: string;
   description: string;
   embeddingModel: string;
   chunkStrategy: ChunkStrategy;
+  retrievalConfig: RetrievalConfig;
   docCount: number;
   status: string;
   createdAt: string;

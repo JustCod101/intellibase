@@ -11,6 +11,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
@@ -47,6 +48,9 @@ public class RetrievalCacheService {
     @Value("${rag.l0-local-cache-max-size:1000}")
     private int l0MaxSize;
 
+    @Value("${rag.hybrid.pipeline-version:1}")
+    private int pipelineVersion;
+
     /** L0: JVM 进程内 Caffeine 本地缓存，Key 格式同 Redis Key */
     private Cache<String, List<RetrievalResult>> localCache;
 
@@ -62,8 +66,8 @@ public class RetrievalCacheService {
     /**
      * 尝试获取缓存的检索结果：L0 (Caffeine) → L2 (Redis)
      */
-    public Optional<List<RetrievalResult>> tryGetCachedResults(String query, Long kbId) {
-        String key = buildKey(query, kbId);
+    public Optional<List<RetrievalResult>> tryGetCachedResults(String query, Long kbId, String configHash) {
+        String key = buildKey(query, kbId, configHash);
 
         // L0: 先查 JVM 本地缓存（零网络延迟）
         List<RetrievalResult> l0Result = localCache.getIfPresent(key);
@@ -94,8 +98,8 @@ public class RetrievalCacheService {
     /**
      * 写入检索结果缓存：同时写入 L0 (Caffeine) 和 L2 (Redis)
      */
-    public void cacheResults(String query, Long kbId, List<RetrievalResult> results) {
-        String key = buildKey(query, kbId);
+    public void cacheResults(String query, Long kbId, String configHash, List<RetrievalResult> results) {
+        String key = buildKey(query, kbId, configHash);
 
         // 写入 L0 本地缓存
         localCache.put(key, results);
@@ -131,8 +135,9 @@ public class RetrievalCacheService {
         }
     }
 
-    private String buildKey(String query, Long kbId) {
-        return KEY_PREFIX + kbId + ":" + sha256(query);
+    private String buildKey(String query, Long kbId, String configHash) {
+        String effectiveConfigHash = StringUtils.hasText(configHash) ? configHash : "default";
+        return KEY_PREFIX + kbId + ":" + pipelineVersion + ":" + effectiveConfigHash + ":" + sha256(query);
     }
 
     private String sha256(String text) {

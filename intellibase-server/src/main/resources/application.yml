@@ -40,9 +40,9 @@ mybatis-plus:
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
 
 llm:
-  api-key: ${OPENAI_API_KEY}
-  base-url: ${OPENAI_BASE_URL}
-  model-name: ${LLM_MODEL_NAME}
+  api-key: ${OPENAI_API_KEY:test-openai-key}
+  base-url: ${OPENAI_BASE_URL:http://localhost:11434/v1}
+  model-name: ${LLM_MODEL_NAME:gpt-4o-mini}
   temperature: 0.7
   max-tokens: 32768
 
@@ -54,10 +54,42 @@ rag:
   l0-local-cache-max-size: 1000       # L0 本地缓存最大条目数
   l2-retrieval-cache-ttl-minutes: 30
   l3-chunk-cache-ttl-hours: 2
+  hybrid:
+    default-preset: GENERAL_QA
+    pipeline-version: 2
+    dense-similarity-threshold: 0.25
+    rrf-k: 60
+    general-qa:
+      hybrid-enabled: true
+      rerank-enabled: true
+      dense-top-k: 20
+      sparse-top-k: 20
+      fusion-top-k: 15
+      final-top-k: 5
+      dense-weight: 0.55
+      sparse-weight: 0.45
+    exact-lookup:
+      hybrid-enabled: true
+      rerank-enabled: true
+      dense-top-k: 10
+      sparse-top-k: 30
+      fusion-top-k: 15
+      final-top-k: 5
+      dense-weight: 0.35
+      sparse-weight: 0.65
+    longform-synthesis:
+      hybrid-enabled: true
+      rerank-enabled: true
+      dense-top-k: 30
+      sparse-top-k: 15
+      fusion-top-k: 20
+      final-top-k: 8
+      dense-weight: 0.65
+      sparse-weight: 0.35
 
 embedding:
-  api-key: ${OPENAI_API_KEY}
-  base-url: ${OPENAI_BASE_URL}
+  api-key: ${OPENAI_API_KEY:test-openai-key}
+  base-url: ${OPENAI_BASE_URL:http://localhost:11434/v1}
   model-name: text-embedding-v4
   dimensions: 1536
 

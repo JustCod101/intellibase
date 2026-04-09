@@ -23,6 +23,9 @@ public class DocumentChunk {
     /** 原始文本 */
     private String content;
 
+    /** 预分词后的检索文本 */
+    private String lexicalContent;
+
     /** Token 数量 */
     private Integer tokenCount;
 
@@ -40,6 +43,10 @@ public class DocumentChunk {
     /** 向量检索时由 SQL 计算的相似度分数（非持久化字段） */
     @TableField(exist = false)
     private Double similarity;
+
+    /** 稀疏召回时由 SQL 计算的 lexical score（非持久化字段） */
+    @TableField(exist = false)
+    private Double lexicalScore;
 
     @TableField(insertStrategy = FieldStrategy.NEVER, updateStrategy = FieldStrategy.NEVER)
     private OffsetDateTime createdAt;

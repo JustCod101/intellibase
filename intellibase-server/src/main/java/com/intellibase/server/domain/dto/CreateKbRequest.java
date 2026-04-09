@@ -15,4 +15,6 @@ public class CreateKbRequest {
 
     private ChunkStrategy chunkStrategy;
 
+    private RetrievalConfig retrievalConfig;
+
 }

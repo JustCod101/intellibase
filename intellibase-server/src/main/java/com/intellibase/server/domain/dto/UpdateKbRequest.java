@@ -13,4 +13,6 @@ public class UpdateKbRequest {
 
     private ChunkStrategy chunkStrategy;
 
+    private RetrievalConfig retrievalConfig;
+
 }

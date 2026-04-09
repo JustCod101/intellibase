@@ -48,6 +48,7 @@ CREATE TABLE knowledge_base (
     tenant_id       BIGINT NOT NULL,
     embedding_model VARCHAR(64) NOT NULL DEFAULT 'text-embedding-3-small',
     chunk_strategy  JSONB NOT NULL DEFAULT '{"size":512,"overlap":64}',
+    retrieval_config JSONB NOT NULL DEFAULT '{"preset":"GENERAL_QA","hybridEnabled":true,"rerankEnabled":true,"denseTopK":20,"sparseTopK":20,"fusionTopK":15,"finalTopK":5,"denseWeight":0.55,"sparseWeight":0.45}',
     doc_count       INT NOT NULL DEFAULT 0,
     status          VARCHAR(16) NOT NULL DEFAULT 'ACTIVE',
     created_by      BIGINT REFERENCES sys_user(id),
@@ -92,8 +93,10 @@ CREATE TABLE document_chunk (
     kb_id           BIGINT NOT NULL,
     chunk_index     INT NOT NULL,                   -- 块序号
     content         TEXT NOT NULL,                   -- 原始文本
+    lexical_content TEXT,                            -- 预分词后的检索文本
     token_count     INT NOT NULL,
     embedding       vector(1536),                   -- OpenAI ada-002: 1536维
+    lexical_vector  TSVECTOR,                       -- PostgreSQL FTS 词项向量
     metadata        JSONB,                          -- 页码、标题层级等
     created_at      TIMESTAMPTZ NOT NULL DEFAULT NOW()
 );
@@ -108,6 +111,45 @@ CREATE UNIQUE INDEX uk_chunk_doc_index ON document_chunk(doc_id, chunk_index);
 -- 复合索引：先按知识库过滤再做向量检索（大幅提升多租户场景性能）
 CREATE INDEX idx_chunk_kb ON document_chunk(kb_id);
 CREATE INDEX idx_chunk_doc ON document_chunk(doc_id);
+CREATE INDEX idx_chunk_lexical_vector ON document_chunk USING gin (lexical_vector);
+
+-- 一次性回填示例：为历史数据补齐 retrieval_config / lexical 索引字段
+UPDATE knowledge_base
+SET retrieval_config = COALESCE(
+    retrieval_config,
+    '{"preset":"GENERAL_QA","hybridEnabled":true,"rerankEnabled":true,"denseTopK":20,"sparseTopK":20,"fusionTopK":15,"finalTopK":5,"denseWeight":0.55,"sparseWeight":0.45}'::jsonb
+);
+
+UPDATE document_chunk
+SET lexical_content = COALESCE(
+        lexical_content,
+        lower(
+            regexp_replace(
+                regexp_replace(content, '[./:-]+', '_', 'g'),
+                '\s+',
+                ' ',
+                'g'
+            )
+        )
+    ),
+    lexical_vector = COALESCE(
+        lexical_vector,
+        to_tsvector(
+            'simple',
+            COALESCE(
+                lexical_content,
+                lower(
+                    regexp_replace(
+                        regexp_replace(content, '[./:-]+', '_', 'g'),
+                        '\s+',
+                        ' ',
+                        'g'
+                    )
+                )
+            )
+        )
+    )
+WHERE lexical_content IS NULL OR lexical_vector IS NULL;
 
 -- ============================================================
 -- 5. 对话管理

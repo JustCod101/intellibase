@@ -10,6 +10,7 @@ import com.intellibase.server.service.mq.IdempotencyService;
 import com.intellibase.server.service.rag.CacheEvictionService;
 import com.intellibase.server.service.rag.EmbedBatchTracker;
 import com.intellibase.server.service.rag.EmbeddingService;
+import com.intellibase.server.service.rag.LexicalTokenizer;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -64,6 +65,9 @@ class EmbedConsumerTest {
     @Mock
     private IdempotencyService idempotencyService;
 
+    @Mock
+    private LexicalTokenizer lexicalTokenizer;
+
     // 被测试的消费者实例
     @InjectMocks
     private EmbedConsumer embedConsumer;
@@ -109,6 +113,7 @@ class EmbedConsumerTest {
                 new float[]{0.7f, 0.8f, 0.9f}
         );
         when(embeddingService.embedBatch(anyList())).thenReturn(mockVectors);
+        when(lexicalTokenizer.buildLexicalContent(anyString())).thenAnswer(invocation -> invocation.getArgument(0));
 
         // Redis 计数器返回 false — 还有其他批次未完成
         when(embedBatchTracker.incrementAndCheck(200L, 2)).thenReturn(false);
@@ -129,6 +134,7 @@ class EmbedConsumerTest {
         assertEquals(200L, capturedChunks.get(0).getDocId());
         assertEquals(0, capturedChunks.get(0).getChunkIndex());
         assertEquals("{\"blockType\":\"PARAGRAPH\"}", capturedChunks.get(0).getMetadata());
+        assertEquals("Chunk content 0", capturedChunks.get(0).getLexicalContent());
 
         // 4. 验证行为：Redis 计数器未达标，不应该调用 updateChunkCount
         verify(documentMapper, never()).updateChunkCount(anyLong(), anyInt(), anyString());
@@ -150,6 +156,7 @@ class EmbedConsumerTest {
                 new float[]{0.3f}
         );
         when(embeddingService.embedBatch(anyList())).thenReturn(mockVectors);
+        when(lexicalTokenizer.buildLexicalContent(anyString())).thenAnswer(invocation -> invocation.getArgument(0));
 
         // Redis 计数器返回 true — 所有批次均已完成
         when(embedBatchTracker.incrementAndCheck(200L, 2)).thenReturn(true);
@@ -198,6 +205,7 @@ class EmbedConsumerTest {
                 new float[]{0.3f}
         );
         when(embeddingService.embedBatch(anyList())).thenReturn(mockVectors);
+        when(lexicalTokenizer.buildLexicalContent(anyString())).thenAnswer(invocation -> invocation.getArgument(0));
 
         // 2. 模拟数据库写入主键冲突或网络中断
         doThrow(new RuntimeException("DB Connection Error"))

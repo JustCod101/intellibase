@@ -1,4 +1,4 @@
-import type { ChunkStrategy } from '../types';
+import type { ChunkStrategy, RetrievalConfig } from '../types';
 import api from './index';
 
 export const getKbList = (params?: any) => api.get('/kb', { params });
@@ -7,6 +7,7 @@ export const createKb = (data: {
   description?: string;
   embeddingModel?: string;
   chunkStrategy: ChunkStrategy;
+  retrievalConfig: RetrievalConfig;
 }) => api.post('/kb', data);
 export const getKbDetail = (kbId: string) => api.get(`/kb/${kbId}`);
 
@@ -26,6 +27,7 @@ export const updateKb = (kbId: string, data: {
   description?: string;
   status?: string;
   chunkStrategy?: ChunkStrategy;
+  retrievalConfig?: RetrievalConfig;
 }) =>
   api.put(`/kb/${kbId}`, data);
 

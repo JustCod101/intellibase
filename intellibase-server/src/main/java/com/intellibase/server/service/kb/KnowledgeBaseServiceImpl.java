@@ -11,6 +11,7 @@ import com.intellibase.server.domain.vo.KnowledgeBaseVO;
 import com.intellibase.server.mapper.KnowledgeBaseMapper;
 import com.intellibase.server.service.doc.ChunkStrategyResolver;
 import com.intellibase.server.service.rag.CacheEvictionService;
+import com.intellibase.server.service.rag.RetrievalConfigResolver;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -24,6 +25,7 @@ public class KnowledgeBaseServiceImpl implements KnowledgeBaseService {
     private final KnowledgeBaseMapper knowledgeBaseMapper;
     private final CacheEvictionService cacheEvictionService;
     private final ChunkStrategyResolver chunkStrategyResolver;
+    private final RetrievalConfigResolver retrievalConfigResolver;
 
     private static final String DEFAULT_EMBEDDING_MODEL = "text-embedding-3-small";
 
@@ -37,6 +39,7 @@ public class KnowledgeBaseServiceImpl implements KnowledgeBaseService {
                         ? request.getEmbeddingModel() : DEFAULT_EMBEDDING_MODEL);
         ChunkStrategy chunkStrategy = chunkStrategyResolver.normalize(request.getChunkStrategy());
         kb.setChunkStrategy(chunkStrategyResolver.toJson(chunkStrategy));
+        kb.setRetrievalConfig(retrievalConfigResolver.toJson(request.getRetrievalConfig()));
         kb.setDocCount(0);
         kb.setStatus("ACTIVE");
         kb.setCreatedBy(userId);
@@ -92,6 +95,10 @@ public class KnowledgeBaseServiceImpl implements KnowledgeBaseService {
         if (request.getChunkStrategy() != null) {
             kb.setChunkStrategy(chunkStrategyResolver.toJson(request.getChunkStrategy()));
         }
+        if (request.getRetrievalConfig() != null) {
+            kb.setRetrievalConfig(retrievalConfigResolver.toJson(request.getRetrievalConfig()));
+            cacheEvictionService.evictAllByKbId(id);
+        }
 
         knowledgeBaseMapper.updateById(kb);
         log.info("知识库已更新: id={}", id);
@@ -118,6 +125,7 @@ public class KnowledgeBaseServiceImpl implements KnowledgeBaseService {
                 .description(kb.getDescription())
                 .embeddingModel(kb.getEmbeddingModel())
                 .chunkStrategy(chunkStrategyResolver.fromJson(kb.getChunkStrategy()))
+                .retrievalConfig(retrievalConfigResolver.fromJson(kb.getRetrievalConfig()))
                 .docCount(kb.getDocCount())
                 .status(kb.getStatus())
                 .createdAt(kb.getCreatedAt())

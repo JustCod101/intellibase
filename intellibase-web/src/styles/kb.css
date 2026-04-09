@@ -232,6 +232,97 @@
   border-top: 1px solid var(--border);
 }
 
+.retrieval-config-card {
+  border: 1px solid var(--border);
+  border-radius: 0.75rem;
+  background: #f8fafc;
+  margin-top: 0.75rem;
+}
+
+.retrieval-config-card-collapsible summary {
+  list-style: none;
+}
+
+.retrieval-config-card-collapsible summary::-webkit-details-marker {
+  display: none;
+}
+
+.retrieval-config-summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.9rem 1rem;
+  cursor: pointer;
+}
+
+.retrieval-config-summary-main {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  min-width: 0;
+}
+
+.retrieval-config-title {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--text-main);
+}
+
+.retrieval-config-summary-text {
+  color: var(--text-muted);
+  font-size: 0.84rem;
+  line-height: 1.4;
+}
+
+.retrieval-config-toggle {
+  flex-shrink: 0;
+  font-size: 0;
+  color: var(--primary);
+}
+
+.retrieval-config-toggle::after {
+  font-size: 0.78rem;
+  font-weight: 600;
+}
+
+.retrieval-config-card-collapsible:not([open]) .retrieval-config-toggle::after {
+  content: '展开配置';
+}
+
+.retrieval-config-card-collapsible[open] .retrieval-config-toggle::after {
+  content: '收起';
+  color: var(--text-muted);
+}
+
+.retrieval-config-content {
+  padding: 0 1rem 1rem;
+  border-top: 1px solid var(--border);
+}
+
+.retrieval-config-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin: 0.9rem 0 0.75rem;
+}
+
+.retrieval-config-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.9rem;
+}
+
+.retrieval-config-grid .form-group {
+  margin-bottom: 0;
+}
+
+.retrieval-config-hint {
+  margin: 0;
+  color: var(--text-muted);
+  font-size: 0.82rem;
+}
+
 .chunk-strategy-meta {
   display: flex;
   flex-wrap: wrap;

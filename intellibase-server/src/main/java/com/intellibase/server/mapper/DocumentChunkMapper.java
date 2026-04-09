@@ -41,6 +41,13 @@ public interface DocumentChunkMapper extends BaseMapper<DocumentChunk> {
                                     @Param("limit") int limit);
 
     /**
+     * 稀疏关键词召回。
+     */
+    List<DocumentChunk> findLexicalMatches(@Param("lexicalQuery") String lexicalQuery,
+                                           @Param("kbId") Long kbId,
+                                           @Param("limit") int limit);
+
+    /**
      * 按文档ID查询所有分块ID（用于缓存失效）
      */
     List<Long> selectChunkIdsByDocId(@Param("docId") Long docId);

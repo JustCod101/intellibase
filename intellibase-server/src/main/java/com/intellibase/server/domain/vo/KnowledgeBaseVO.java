@@ -1,6 +1,7 @@
 package com.intellibase.server.domain.vo;
 
 import com.intellibase.server.domain.dto.ChunkStrategy;
+import com.intellibase.server.domain.dto.RetrievalConfig;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -23,6 +24,8 @@ public class KnowledgeBaseVO {
     private String embeddingModel;
 
     private ChunkStrategy chunkStrategy;
+
+    private RetrievalConfig retrievalConfig;
 
     private Integer docCount;
 

@@ -5,7 +5,9 @@ import { getKbList, createKb, deleteKb } from '../api/kb';
 import { Plus, Search, Book, Database, Clock, X, Trash2 } from 'lucide-react';
 import type { KnowledgeBase as KbType, ApiResponse, PageResult } from '../types';
 import ChunkStrategyFields from '../components/ChunkStrategyFields';
+import RetrievalConfigFields from '../components/RetrievalConfigFields';
 import { DEFAULT_CHUNK_STRATEGY, normalizeChunkStrategy } from '../utils/chunkStrategy';
+import { DEFAULT_RETRIEVAL_CONFIG, normalizeRetrievalConfig } from '../utils/retrievalConfig';
 import '../styles/kb.css';
 
 const KnowledgeBase: React.FC = () => {
@@ -21,6 +23,7 @@ const KnowledgeBase: React.FC = () => {
     description: '', 
     embeddingModel: 'text-embedding-3-small',
     chunkStrategy: DEFAULT_CHUNK_STRATEGY,
+    retrievalConfig: DEFAULT_RETRIEVAL_CONFIG,
   });
 
   useEffect(() => {
@@ -56,6 +59,7 @@ const KnowledgeBase: React.FC = () => {
       await createKb({
         ...newKb,
         chunkStrategy: normalizeChunkStrategy(newKb.chunkStrategy),
+        retrievalConfig: normalizeRetrievalConfig(newKb.retrievalConfig),
       });
       toast.success('创建知识库成功');
       setShowModal(false);
@@ -64,6 +68,7 @@ const KnowledgeBase: React.FC = () => {
         description: '',
         embeddingModel: 'text-embedding-3-small',
         chunkStrategy: DEFAULT_CHUNK_STRATEGY,
+        retrievalConfig: DEFAULT_RETRIEVAL_CONFIG,
       });
       fetchKbList();
     } catch (err: any) {
@@ -203,6 +208,10 @@ const KnowledgeBase: React.FC = () => {
               <ChunkStrategyFields
                 value={newKb.chunkStrategy}
                 onChange={(chunkStrategy) => setNewKb({ ...newKb, chunkStrategy })}
+              />
+              <RetrievalConfigFields
+                value={newKb.retrievalConfig}
+                onChange={(retrievalConfig) => setNewKb({ ...newKb, retrievalConfig })}
               />
               <div className="modal-actions">
                 <button type="button" className="btn" onClick={() => setShowModal(false)} disabled={submitting}>

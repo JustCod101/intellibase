@@ -163,7 +163,17 @@ public class RagService {
                         try {
                             // ===== [6] 发送引用来源 =====
                             String sourcesJson = objectMapper.writeValueAsString(
-                                    contexts.stream().map(c -> new SourceRef(c.getChunkId(), c.getScore(), c.getSnippet())).toList()
+                                    contexts.stream()
+                                            .map(c -> new SourceRef(
+                                                    c.getChunkId(),
+                                                    c.getScore(),
+                                                    c.getSnippet(),
+                                                    c.getDenseScore(),
+                                                    c.getSparseScore(),
+                                                    c.getFusedScore(),
+                                                    c.getRerankScore(),
+                                                    c.getMatchType()))
+                                            .toList()
                             );
                             sendSseEvent(emitter, "sources", sourcesJson);
 
@@ -206,6 +216,13 @@ public class RagService {
     /**
      * 引用来源的精简结构体，用于 JSON 序列化返回给前端
      */
-    private record SourceRef(Long chunkId, double score, String snippet) {}
+    private record SourceRef(Long chunkId,
+                             double score,
+                             String snippet,
+                             Double denseScore,
+                             Double sparseScore,
+                             Double fusedScore,
+                             Double rerankScore,
+                             String matchType) {}
 
 }
