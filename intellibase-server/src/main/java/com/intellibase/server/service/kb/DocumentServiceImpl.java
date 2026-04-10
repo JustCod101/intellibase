@@ -224,8 +224,8 @@ public class DocumentServiceImpl implements DocumentService {
      * 校验文件格式是否在系统允许范围内
      */
     private void validateFileType(String fileType) {
-        if (!fileType.matches("pdf|docx|md|txt")) {
-            throw new IllegalArgumentException("不支持的文件类型: " + fileType + "，仅支持 pdf/docx/md/txt");
+        if (!fileType.matches("pdf|docx|md|txt|jpg|jpeg|png")) {
+            throw new IllegalArgumentException("不支持的文件类型: " + fileType + "，仅支持 pdf/docx/md/txt/jpg/jpeg/png");
         }
     }
 

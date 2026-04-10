@@ -10,6 +10,7 @@ import com.intellibase.server.mapper.DocumentMapper;
 import com.intellibase.server.service.doc.DocParseService;
 import com.intellibase.server.service.doc.ChunkStrategyResolver;
 import com.intellibase.server.service.doc.TextSplitter;
+import com.intellibase.server.service.doc.ocr.OcrException;
 import com.intellibase.server.service.kb.MinioService;
 import com.intellibase.server.service.mq.IdempotencyService;
 import lombok.RequiredArgsConstructor;
@@ -79,10 +80,22 @@ public class DocParseConsumer {
         documentMapper.updateStatus(msg.getDocId(), Constants.DOC_STATUS_PARSING);
 
         // ===== 2. 从 MinIO 下载文档 =====
-        String text;
+        byte[] bytes;
         try (InputStream stream = minioService.downloadFile(msg.getFileKey())) {
-            // ===== 3. Apache Tika 解析，提取纯文本 =====
-            text = docParseService.parse(stream, msg.getFileType());
+            bytes = stream.readAllBytes();
+        }
+
+        // ===== 3. 文档解析（Tika / OCR 自动路由） =====
+        String text;
+        try {
+            text = docParseService.parse(bytes, msg.getFileType());
+        } catch (OcrException e) {
+            if (!e.isRetryable()) {
+                log.error("OCR 永久性失败: docId={}, reason={}", msg.getDocId(), e.getMessage());
+                documentMapper.updateStatus(msg.getDocId(), Constants.DOC_STATUS_FAILED);
+                throw new AmqpRejectAndDontRequeueException("OCR failed, docId=" + msg.getDocId(), e);
+            }
+            throw e;
         }
         log.info("文档文本提取完成: docId={}, 文本长度={}", msg.getDocId(), text.length());
 

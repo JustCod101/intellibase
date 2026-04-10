@@ -93,6 +93,20 @@ embedding:
   model-name: text-embedding-v4
   dimensions: 1536
 
+ocr:
+  enabled: ${OCR_ENABLED:true}
+  provider: aliyun
+  aliyun:
+    access-key-id: ${ALIYUN_OCR_AK:}
+    access-key-secret: ${ALIYUN_OCR_SK:}
+    endpoint: ocr-api.cn-shanghai.aliyuncs.com
+  pdf-fallback:
+    min-chars-per-page: 50
+  image:
+    max-dimension: 4096
+    max-size-mb: 4
+    render-dpi: 200
+
 minio:
   endpoint: http://localhost:9000
   access-key: minioadmin

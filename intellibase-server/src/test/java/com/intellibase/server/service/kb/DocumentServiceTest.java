@@ -72,6 +72,9 @@ class DocumentServiceTest {
                 "dummy content to calculate hash".getBytes()
         );
 
+    }
+
+    private void stubKnowledgeBase() {
         KnowledgeBase kb = new KnowledgeBase();
         kb.setId(kbId);
         kb.setChunkStrategy("""
@@ -82,6 +85,7 @@ class DocumentServiceTest {
 
     @Test
     void upload_Success_UsesKnowledgeBaseChunkStrategySnapshot() throws Exception {
+        stubKnowledgeBase();
         when(documentMapper.selectCount(any(LambdaQueryWrapper.class))).thenReturn(0L);
         doAnswer(invocation -> {
             Document doc = invocation.getArgument(0);
@@ -125,6 +129,7 @@ class DocumentServiceTest {
 
     @Test
     void upload_DuplicateContent_ThrowsException() {
+        stubKnowledgeBase();
         when(documentMapper.selectCount(any(LambdaQueryWrapper.class))).thenReturn(1L);
 
         IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () ->

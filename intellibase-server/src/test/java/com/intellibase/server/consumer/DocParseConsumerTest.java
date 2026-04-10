@@ -10,6 +10,7 @@ import com.intellibase.server.mapper.DocumentMapper;
 import com.intellibase.server.service.doc.ChunkStrategyResolver;
 import com.intellibase.server.service.doc.DocParseService;
 import com.intellibase.server.service.doc.TextSplitter;
+import com.intellibase.server.service.doc.ocr.OcrException;
 import com.intellibase.server.service.kb.MinioService;
 import com.intellibase.server.service.mq.IdempotencyService;
 import org.junit.jupiter.api.BeforeEach;
@@ -97,7 +98,7 @@ class DocParseConsumerTest {
         when(minioService.downloadFile(message.getFileKey())).thenReturn(mockStream);
 
         String extractedText = "This is the content parsed from a PDF.";
-        when(docParseService.parse(any(InputStream.class), eq("pdf"))).thenReturn(extractedText);
+        when(docParseService.parse(any(byte[].class), eq("pdf"))).thenReturn(extractedText);
         when(chunkStrategyResolver.resolve(strategy, 500, 50)).thenReturn(strategy);
 
         List<TextChunk> mockChunks = new ArrayList<>();
@@ -212,5 +213,33 @@ class DocParseConsumerTest {
         verify(documentMapper, never()).updateStatus(anyLong(), anyString());
         verify(minioService, never()).downloadFile(anyString());
         verify(rabbitTemplate, never()).convertAndSend(anyString(), any(EmbedBatchMessage.class));
+    }
+
+    @Test
+    @DisplayName("OCR 永久性失败 - 应标记 FAILED 并抛出不可重试异常")
+    void handleDocParse_OcrPermanentFailure_SetsStatusFailed() throws Exception {
+        when(idempotencyService.tryAcquire("test-msg-001")).thenReturn(true);
+        when(minioService.downloadFile(anyString())).thenReturn(new ByteArrayInputStream("fake".getBytes()));
+        when(docParseService.parse(any(byte[].class), anyString()))
+                .thenThrow(new OcrException("InvalidAccessKey", false));
+
+        assertThrows(AmqpRejectAndDontRequeueException.class,
+                () -> docParseConsumer.handleDocParse(message));
+
+        verify(documentMapper).updateStatus(101L, Constants.DOC_STATUS_FAILED);
+    }
+
+    @Test
+    @DisplayName("OCR 瞬时失败 - 应抛出异常触发重试")
+    void handleDocParse_OcrTransientFailure_ThrowsForRetry() throws Exception {
+        when(idempotencyService.tryAcquire("test-msg-001")).thenReturn(true);
+        when(minioService.downloadFile(anyString())).thenReturn(new ByteArrayInputStream("fake".getBytes()));
+        when(docParseService.parse(any(byte[].class), anyString()))
+                .thenThrow(new OcrException("ServerUnreachable", true));
+
+        assertThrows(OcrException.class,
+                () -> docParseConsumer.handleDocParse(message));
+
+        verify(idempotencyService).release("test-msg-001");
     }
 }

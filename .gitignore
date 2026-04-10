@@ -26,3 +26,4 @@
 *.env
 .python-version
 .remember/
+.omx/
