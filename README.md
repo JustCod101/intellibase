@@ -20,7 +20,7 @@
 │       │            │            │               │            │
 │  ┌────▼────────────▼────────────▼───────────────▼────────┐  │
 │  │              两层缓存体系                               │  │
-│  │  L1: 语义缓存 (pgvector, >0.95 相似度直接返回)          │  │
+│  │  L1: 语义缓存 (pgvector >0.95 + 词面锚点校验)           │  │
 │  │  L2: 检索缓存 (Redis, query hash → 检索结果, 30min)    │  │
 │  └───────────────────────────────────────────────────────┘  │
 └──┬──────────┬──────────┬──────────┬─────────────────────────┘
@@ -247,7 +247,7 @@ intellibase/
 - **智能文本分块** — RecursiveCharacterTextSplitter，支持多级分隔符 + 重叠窗口
 - **异步处理流水线** — RabbitMQ 两阶段异步（解析 → 向量化），上传即返回
 - **pgvector 向量检索** — HNSW 向量索引 + 余弦相似度，知识库级别隔离
-- **两层缓存** — L1 语义缓存 / L2 检索结果缓存；已删除 L0 本地缓存与 L3 文档块缓存以降低一致性复杂度
+- **两层缓存** — L1 语义缓存（向量阈值 + sanity check）/ L2 检索结果缓存；已删除 L0 本地缓存与 L3 文档块缓存以降低一致性复杂度
 - **SSE 流式输出** — LLM 逐 Token 推送，含引用来源
 - **SHA-256 秒传去重** — 相同内容文档自动跳过
 - **RBAC 权限** — Spring Security + JWT，ADMIN / USER / VIEWER 三级角色
@@ -281,7 +281,7 @@ JAVA_HOME=$(/usr/libexec/java_home -v 17.0.18) mvn -Dtest=RetrievalEvaluationTes
 - Rerank：支持外部 rerank API（默认关闭，配置 `RAG_RERANK_EXTERNAL_ENABLED=true` 后启用），失败自动回退本地排序。
 - Query Rewrite：支持 OpenAI-compatible `/chat/completions` 查询改写与可选 HyDE（默认关闭）。
 - Parent-Child Chunking：子块用于检索，命中后使用父块上下文进入 Prompt，可在知识库 chunk strategy 中配置。
-- Cache：保留 L1 语义缓存与 L2 Redis 检索结果缓存；删除 L0 本地缓存和 L3 文档块缓存。
+- Cache：保留 L1 语义缓存与 L2 Redis 检索结果缓存；L1 命中需同时满足向量相似度阈值和轻量 token overlap sanity check；删除 L0 本地缓存和 L3 文档块缓存。
 
 ## 性能基准与可复现口径
 

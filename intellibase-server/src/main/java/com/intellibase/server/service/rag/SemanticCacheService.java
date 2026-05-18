@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import java.time.OffsetDateTime;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 /**
  * 【一级缓存】语义缓存服务 (Semantic Cache Service)
@@ -37,10 +38,24 @@ public class SemanticCacheService {
     @Value("${rag.cache-similarity-threshold:0.95}")
     private double cacheThreshold;
 
+    // 缓存命中后的词面锚点校验：向量足够相似后，还要确认当前问题与历史问题共享足够关键词，降低假阳性。
+    @Value("${rag.cache-sanity-check-enabled:true}")
+    private boolean cacheSanityCheckEnabled;
+
+    // 当前问题 tokens 中至少有多少比例能在历史问题中找到；默认 0.25 兼顾中文 bigram 与短问句。
+    @Value("${rag.cache-sanity-min-token-overlap:0.25}")
+    private double cacheSanityMinTokenOverlap;
+
+    // 多取几个候选：如果最相似的一条词面校验失败，可以继续尝试下一条，而不是直接穿透。
+    @Value("${rag.cache-sanity-candidate-limit:3}")
+    private int cacheSanityCandidateLimit;
+
     // 使用专门的 SemanticCacheMapper 操作 semantic_cache 表
     private final SemanticCacheMapper semanticCacheMapper;
     // 用来统计"省了多少次大模型调用"，给老板看我们的优化成果
     private final CacheStatsService cacheStatsService;
+    // 复用检索链路里的轻量分词器，做命中后的 lexical sanity check
+    private final LexicalTokenizer lexicalTokenizer;
 
     /**
      * 步骤一：尝试白嫖之前的答案（L1 语义缓存检索）
@@ -54,21 +69,54 @@ public class SemanticCacheService {
         // 把浮点数数组转成数据库能认识的字符串格式："[0.1, -0.2, 0.5...]"
         String vectorStr = EmbeddingService.toVectorString(vector);
 
-        // 去数据库里执行相似度搜索，找相似度大于阈值的老问题的答案（只取最相似的 1 条）
-        List<SemanticCache> results = semanticCacheMapper.findSimilar(vectorStr, kbId, cacheThreshold, 1);
+        // 去数据库里执行相似度搜索，找相似度大于阈值的老问题答案。
+        // 开启 sanity check 时多取几个候选，避免 Top-1 向量假阳性直接污染答案。
+        int limit = Math.max(1, cacheSanityCheckEnabled ? cacheSanityCandidateLimit : 1);
+        List<SemanticCache> results = semanticCacheMapper.findSimilar(vectorStr, kbId, cacheThreshold, limit);
 
         // 如果找到了
         if (results != null && !results.isEmpty()) {
-            SemanticCache hit = results.get(0);
-            // 命中计数 +1，方便后续分析哪些缓存最有价值
-            semanticCacheMapper.incrementHitCount(hit.getId());
-            // 记录一次"命中"，证明我们的缓存立功了！
-            cacheStatsService.recordL1Hit();
-            return Optional.of(hit.getResponseText());
+            for (SemanticCache hit : results) {
+                if (!passesSanityCheck(question, hit.getQueryText())) {
+                    log.debug("L1 语义缓存候选被 sanity check 拒绝: kbId={}, cacheId={}, question={}, cachedQuestion={}",
+                            kbId, hit.getId(), question, hit.getQueryText());
+                    continue;
+                }
+                // 命中计数 +1，方便后续分析哪些缓存最有价值
+                semanticCacheMapper.incrementHitCount(hit.getId());
+                // 记录一次"命中"，证明我们的缓存立功了！
+                cacheStatsService.recordL1Hit();
+                return Optional.of(hit.getResponseText());
+            }
         }
         // 没找到相似的问题，记录一次"未命中"，老老实实去走后面的流程
         cacheStatsService.recordL1Miss();
         return Optional.empty();
+    }
+
+    /**
+     * 向量缓存的二次校验。
+     * <p>
+     * 设计取舍：不再调用 LLM 做额外判定（避免缓存命中反而变慢变贵），而是用轻量词面锚点兜底。
+     * 向量阈值负责"语义相似"，token overlap 负责过滤明显串题的假阳性。
+     */
+    private boolean passesSanityCheck(String question, String cachedQuestion) {
+        if (!cacheSanityCheckEnabled) {
+            return true;
+        }
+
+        List<String> queryTokens = lexicalTokenizer.tokenizeForMatch(question);
+        Set<String> cachedTokens = lexicalTokenizer.tokenSet(cachedQuestion);
+        if (queryTokens.isEmpty() || cachedTokens.isEmpty()) {
+            return false;
+        }
+
+        long matched = queryTokens.stream()
+                .filter(cachedTokens::contains)
+                .count();
+        double overlap = (double) matched / queryTokens.size();
+        double requiredOverlap = Math.max(0.0, Math.min(1.0, cacheSanityMinTokenOverlap));
+        return overlap >= requiredOverlap;
     }
 
     /**

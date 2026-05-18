@@ -9,7 +9,7 @@ IntelliBase 是一个基于 Spring Boot 3.2、LangChain4j、PostgreSQL/pgvector�
 - 设计并实现 RAG 检索链路：pgvector 语义召回 + PostgreSQL `tsvector`/GIN 全文召回，通过 RRF 融合排序；支持可配置 Query Rewrite / HyDE 和外部 rerank API 二阶段精排。
 - 建立离线评测体系：构造 60 条 golden QA，覆盖 Spring/RabbitMQ、PostgreSQL/pgvector/RAG、Java/JVM 并发 3 个知识域；JUnit 一键输出 Recall@5、MRR、Hit Rate 与 RAGAS 风格 faithfulness / answer relevance。
 - 落地父子分块策略：子块用于向量检索，命中后使用父块上下文拼装 Prompt，提高长文档回答的上下文完整性。
-- 简化缓存架构：删除 L0 JVM 本地缓存与 L3 文档块缓存，保留 L1 语义缓存和 L2 Redis 检索结果缓存，文档更新按 `kb_id` 统一失效，降低缓存一致性风险。
+- 简化缓存架构：删除 L0 JVM 本地缓存与 L3 文档块缓存，保留 L1 语义缓存和 L2 Redis 检索结果缓存；L1 命中增加 token overlap sanity check，文档更新按 `kb_id` 统一失效，降低缓存一致性风险。
 - 建立性能复现目录：提供 10 万条 pgvector fixture 生成 SQL、real-text fixture 生成脚本、HNSW/IVFFlat 参数对比 SQL、k6 SSE 压测脚本；性能数字必须附数据规模、并发、硬件和原始结果。
 
 ## 当前可量化口径（不要夸大）

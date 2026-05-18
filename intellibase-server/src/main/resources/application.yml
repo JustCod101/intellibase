@@ -50,6 +50,9 @@ rag:
   retrieval-top-k: 5
   similarity-threshold: 0.4
   cache-similarity-threshold: 0.95
+  cache-sanity-check-enabled: true
+  cache-sanity-min-token-overlap: 0.25
+  cache-sanity-candidate-limit: 3
   l2-retrieval-cache-ttl-minutes: 30
   hybrid:
     default-preset: GENERAL_QA

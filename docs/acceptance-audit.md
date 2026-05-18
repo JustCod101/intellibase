@@ -51,6 +51,7 @@
 | 保留 L1 语义缓存 + L2 检索缓存 | `SemanticCacheService`、`RetrievalCacheService` | 已完成 |
 | 删除 L0 本地缓存 / L3 文档块缓存 | 删除 Caffeine chunk cache；文档块直接批量读 PostgreSQL | 已完成 |
 | 相似度阈值可配置 | `rag.cache-similarity-threshold` | 已完成 |
+| 语义缓存命中后 sanity check | `SemanticCacheServiceTest` 覆盖 Top1 假阳性拒绝、候选回退与关闭开关 | 已完成 |
 | 文档更新按 `kb_id` 失效 | `CacheEvictionService`、`CacheEvictionServiceTest` | 已完成 |
 
 ## 6. Goal 5：深度故事
