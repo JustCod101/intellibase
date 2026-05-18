@@ -10,6 +10,7 @@
 - `versioned-evaluation-metrics-YYYYMMDD-HHMMSS.json`：`VersionedRetrievalEvaluationIT` 输出的 seeded 检索版本对比原始指标。
 - `real-api-evaluation-report-YYYYMMDD-HHMMSS.md`：`RealApiRetrievalEvaluationIT` 输出的真实 embedding / 可选 rewrite / 可选 rerank 版本对比报告。
 - `real-api-evaluation-metrics-YYYYMMDD-HHMMSS.json`：`RealApiRetrievalEvaluationIT` 输出的真实 API 版本对比原始指标。
+- `k6-chat-stream-real-YYYYMMDD-HHMMSS.txt` / `k6-chat-stream-real-summary-YYYYMMDD-HHMMSS.json`：`run-real-chat-stream-k6.sh` 输出的真实端到端 SSE 压测结果。
 - `sse-smoke-mock-<chunks>-YYYYMMDD-HHMMSS.txt`：使用本地 mock API 的 SSE 冒烟输出，仅验证链路连通。
 - `k6-chat-stream-YYYYMMDD-HHMMSS.txt`：k6 控制台输出。
 - `k6-chat-stream-summary.json`：k6 summary export。

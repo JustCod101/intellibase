@@ -62,7 +62,7 @@
 
 ## 7. 当前必须补齐后才能宣称整体完成
 
-1. 运行 `RealApiRetrievalEvaluationIT`，生成真实 embedding / 可选真实 rewrite / external rerank 的版本对比原始结果，并把结果复制到 `benchmarks/raw-results/real-api-evaluation-*`。
-2. 使用真实 LLM/Embedding/Rerank API 运行 `benchmarks/scripts/k6-chat-stream.js`，输出 `/api/v1/chat/stream` P50/P95/P99；mock k6 不能替代真实端到端性能。
+1. 运行 `benchmarks/scripts/run-real-api-evaluation.sh`（封装 `RealApiRetrievalEvaluationIT`），生成真实 embedding / 可选真实 rewrite / external rerank 的版本对比原始结果，并把结果复制到 `benchmarks/raw-results/real-api-evaluation-*`。
+2. 使用真实 LLM/Embedding/Rerank API 运行 `benchmarks/scripts/run-real-chat-stream-k6.sh`，输出 `/api/v1/chat/stream` P50/P95/P99；mock k6 不能替代真实端到端性能。
 3. 如果要在简历写“rerank 提升”“query rewrite 提升”，必须引用第 1 步真实 API 报告，而不是 seeded matrix。
 4. 若要宣称“10 万真实 embedding 语义质量”，还需用真实 embedding 对真实领域文本构建 10 万向量；当前 10 万 real-text fixture 的向量是 deterministic fixture vector，仅适合索引/规模压测。

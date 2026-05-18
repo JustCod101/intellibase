@@ -271,7 +271,7 @@ JAVA_HOME=$(/usr/libexec/java_home -v 17.0.18) mvn -Dtest=RetrievalEvaluationTes
 
 - `DbBackedRetrievalEvaluationIT`：真实 PostgreSQL/pgvector + seeded deterministic corpus，已验证 Recall@5/MRR/Hit Rate = 100.00%（仅证明 DB-backed runner 可用）。
 - `VersionedRetrievalEvaluationIT`：同库切换 dense-only / hybrid RRF / local rerank / query rewrite 配置，seeded matrix 结果为 0.00% → 98.33% → 98.33% → 100.00% Recall@5，原始文件见 `benchmarks/raw-results/versioned-evaluation-report-20260518-232618.md`。
-- `RealApiRetrievalEvaluationIT`：真实 embedding API + PostgreSQL/pgvector 的版本对比 runner，可选接入真实 query rewrite / external rerank API；默认关闭，运行命令见 `docs/evaluation.md`。
+- `RealApiRetrievalEvaluationIT`：真实 embedding API + PostgreSQL/pgvector 的版本对比 runner，可选接入真实 query rewrite / external rerank API；默认关闭，可用 `benchmarks/scripts/run-real-api-evaluation.sh` 一行运行，详见 `docs/evaluation.md`。
 
 以上 seeded 结果不作为真实线上质量 claim；真实文档 + 真实 embedding + 外部 rerank API 的版本对比会追加到 [docs/evaluation.md](docs/evaluation.md)。
 
@@ -299,4 +299,4 @@ JAVA_HOME=$(/usr/libexec/java_home -v 17.0.18) mvn -Dtest=RetrievalEvaluationTes
 | GIN 多查询分位数 | 200 samples，固定关键词，Top-20 | P50 18.204ms / P95 24.994ms / P99 29.200ms | `pgvector-latency-20260518-233100.txt` |
 | SSE mock 端到端 | 1 VU / 5s / 500 chunks / mock OpenAI-compatible API | `http_req_failed=0%`，P95≈8ms | `k6-chat-stream-mock-1vu-500chunks-20260518-231000.txt` |
 
-> pgvector 表格不是端到端问答延迟；不包含 HTTP、真实 Embedding、真实 Rerank、真实 LLM 流式输出。SSE mock 结果只证明链路和脚本可运行，不代表真实模型延迟。`/api/v1/chat/stream` 的真实 P50/P95/P99 需按 `benchmarks/scripts/k6-chat-stream.js` 接真实 API 后再填写。
+> pgvector 表格不是端到端问答延迟；不包含 HTTP、真实 Embedding、真实 Rerank、真实 LLM 流式输出。SSE mock 结果只证明链路和脚本可运行，不代表真实模型延迟。`/api/v1/chat/stream` 的真实 P50/P95/P99 需按 `benchmarks/scripts/run-real-chat-stream-k6.sh` 接真实 API 后再填写。
