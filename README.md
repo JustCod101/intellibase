@@ -267,11 +267,16 @@ cd intellibase-server
 JAVA_HOME=$(/usr/libexec/java_home -v 17.0.18) mvn -Dtest=RetrievalEvaluationTest test
 ```
 
-当前 baseline-fixture（固定样例，用于验证评测管线）结果：Recall@5 = 75.00%，MRR = 45.83%，Hit Rate@5 = 75.00%。另提供 `DbBackedRetrievalEvaluationIT`，可在真实 PostgreSQL/pgvector 上 seed deterministic corpus 并调用当前 RetrievalService，已验证 Recall@5/MRR/Hit Rate = 100.00%（仅证明 runner 可用，不作为真实线上质量 claim）。真实文档 + 真实 embedding 的 hybrid/rerank/query rewrite 对比会追加到 [docs/evaluation.md](docs/evaluation.md)。
+当前 baseline-fixture（固定样例，用于验证评测管线）结果：Recall@5 = 75.00%，MRR = 45.83%，Hit Rate@5 = 75.00%。另提供：
+
+- `DbBackedRetrievalEvaluationIT`：真实 PostgreSQL/pgvector + seeded deterministic corpus，已验证 Recall@5/MRR/Hit Rate = 100.00%（仅证明 DB-backed runner 可用）。
+- `VersionedRetrievalEvaluationIT`：同库切换 dense-only / hybrid RRF / local rerank / query rewrite 配置，seeded matrix 结果为 0.00% → 98.33% → 98.33% → 100.00% Recall@5，原始文件见 `benchmarks/raw-results/versioned-evaluation-report-20260518-232618.md`。
+
+以上 seeded 结果不作为真实线上质量 claim；真实文档 + 真实 embedding + 外部 rerank API 的版本对比会追加到 [docs/evaluation.md](docs/evaluation.md)。
 
 ## 现代 RAG 重构进展
 
-- Hybrid Search：pgvector 语义召回 + PostgreSQL `tsvector`/GIN 全文召回 + RRF 融合。
+- Hybrid Search：pgvector 语义召回 + PostgreSQL `tsvector`/GIN 全文召回 + RRF 融合；全文检索使用应用层 tokenizer 生成 OR 型 `tsquery` 扩大粗召回，再由 RRF/rerank 控制噪声。
 - Rerank：支持外部 rerank API（默认关闭，配置 `RAG_RERANK_EXTERNAL_ENABLED=true` 后启用），失败自动回退本地排序。
 - Query Rewrite：支持 OpenAI-compatible `/chat/completions` 查询改写与可选 HyDE（默认关闭）。
 - Parent-Child Chunking：子块用于检索，命中后使用父块上下文进入 Prompt，可在知识库 chunk strategy 中配置。
@@ -283,14 +288,14 @@ JAVA_HOME=$(/usr/libexec/java_home -v 17.0.18) mvn -Dtest=RetrievalEvaluationTes
 
 | 场景 | 数据规模/条件 | 结果 | 原始文件 |
 |---|---|---:|---|
-| 生成 fixture | 100,000 chunks，1536 维向量 | 23.393s 总耗时 | `generate-100k-20260518-223418.txt` |
+| 生成 fixture | 100,000 chunks，1536 维向量 | 20.870s 导入+索引+ANALYZE | `generate-100k-20260518-233000.txt` |
 | 生成 real-text fixture | 100,000 chunks，来自 196 个源码/文档文件，708 个去重 chunk 文本；deterministic fixture vector | 57.040s 导入耗时 | `realtext-generate-100k-20260518-231500.txt` |
-| HNSW 默认向量检索 | Top-20，单次 `EXPLAIN ANALYZE` | 0.460ms Execution Time | `pgvector-20260518-223735.txt` |
-| HNSW `ef_search=100` | Top-20，单次 `EXPLAIN ANALYZE` | 0.345ms Execution Time | `pgvector-20260518-223735.txt` |
-| IVFFlat `lists=100, probes=20` | Top-20，单次 `EXPLAIN ANALYZE` | 97.434ms Execution Time | `pgvector-20260518-223735.txt` |
-| GIN 全文召回 | `tsvector @@ tsquery`，Top-20 | 21.136ms Execution Time | `pgvector-20260518-223735.txt` |
-| HNSW 多查询分位数 | 200 samples，Top-20，`ef_search=40` | P50 0.166ms / P95 0.203ms / P99 1.468ms | `pgvector-latency-20260518-224835.txt` |
-| GIN 多查询分位数 | 200 samples，固定关键词，Top-20 | P50 17.903ms / P95 22.422ms / P99 25.926ms | `pgvector-latency-20260518-224835.txt` |
+| HNSW `ef_search=40` 向量检索 | Top-20，单次 `EXPLAIN ANALYZE` | 0.426ms Execution Time | `pgvector-20260518-233030.txt` |
+| HNSW `ef_search=100` | Top-20，单次 `EXPLAIN ANALYZE` | 0.345ms Execution Time | `pgvector-20260518-233030.txt` |
+| IVFFlat `lists=100, probes=20` | Top-20，单次 `EXPLAIN ANALYZE` | 150.876ms Execution Time | `pgvector-20260518-233030.txt` |
+| GIN 全文召回 | `tsvector @@ tsquery`，Top-20 | 25.865ms Execution Time | `pgvector-20260518-233030.txt` |
+| HNSW 多查询分位数 | 200 samples，Top-20，`ef_search=40` | P50 0.189ms / P95 0.290ms / P99 1.039ms | `pgvector-latency-20260518-233100.txt` |
+| GIN 多查询分位数 | 200 samples，固定关键词，Top-20 | P50 18.204ms / P95 24.994ms / P99 29.200ms | `pgvector-latency-20260518-233100.txt` |
 | SSE mock 端到端 | 1 VU / 5s / 500 chunks / mock OpenAI-compatible API | `http_req_failed=0%`，P95≈8ms | `k6-chat-stream-mock-1vu-500chunks-20260518-231000.txt` |
 
 > pgvector 表格不是端到端问答延迟；不包含 HTTP、真实 Embedding、真实 Rerank、真实 LLM 流式输出。SSE mock 结果只证明链路和脚本可运行，不代表真实模型延迟。`/api/v1/chat/stream` 的真实 P50/P95/P99 需按 `benchmarks/scripts/k6-chat-stream.js` 接真实 API 后再填写。

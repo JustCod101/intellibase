@@ -1,0 +1,3166 @@
+{
+  "baseline-dense-only" : {
+    "judge" : [ {
+      "questionId" : "SPR-001",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 0.0,
+      "reason" : "heuristic keywordCoverage=0.0, contextSupport=1.0"
+    }, {
+      "questionId" : "SPR-002",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 0.0,
+      "reason" : "heuristic keywordCoverage=0.0, contextSupport=1.0"
+    }, {
+      "questionId" : "SPR-003",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 0.0,
+      "reason" : "heuristic keywordCoverage=0.0, contextSupport=1.0"
+    }, {
+      "questionId" : "SPR-004",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 0.0,
+      "reason" : "heuristic keywordCoverage=0.0, contextSupport=1.0"
+    }, {
+      "questionId" : "SPR-005",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 0.0,
+      "reason" : "heuristic keywordCoverage=0.0, contextSupport=1.0"
+    }, {
+      "questionId" : "SPR-006",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 0.0,
+      "reason" : "heuristic keywordCoverage=0.0, contextSupport=1.0"
+    }, {
+      "questionId" : "SPR-007",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 0.0,
+      "reason" : "heuristic keywordCoverage=0.0, contextSupport=1.0"
+    }, {
+      "questionId" : "SPR-008",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 0.0,
+      "reason" : "heuristic keywordCoverage=0.0, contextSupport=1.0"
+    }, {
+      "questionId" : "SPR-009",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 0.0,
+      "reason" : "heuristic keywordCoverage=0.0, contextSupport=1.0"
+    }, {
+      "questionId" : "SPR-010",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 0.0,
+      "reason" : "heuristic keywordCoverage=0.0, contextSupport=1.0"
+    }, {
+      "questionId" : "SPR-011",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 0.0,
+      "reason" : "heuristic keywordCoverage=0.0, contextSupport=1.0"
+    }, {
+      "questionId" : "SPR-012",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 0.0,
+      "reason" : "heuristic keywordCoverage=0.0, contextSupport=1.0"
+    }, {
+      "questionId" : "SPR-013",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 0.0,
+      "reason" : "heuristic keywordCoverage=0.0, contextSupport=1.0"
+    }, {
+      "questionId" : "SPR-014",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 0.0,
+      "reason" : "heuristic keywordCoverage=0.0, contextSupport=1.0"
+    }, {
+      "questionId" : "SPR-015",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 0.0,
+      "reason" : "heuristic keywordCoverage=0.0, contextSupport=1.0"
+    }, {
+      "questionId" : "SPR-016",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 0.0,
+      "reason" : "heuristic keywordCoverage=0.0, contextSupport=1.0"
+    }, {
+      "questionId" : "SPR-017",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 0.0,
+      "reason" : "heuristic keywordCoverage=0.0, contextSupport=1.0"
+    }, {
+      "questionId" : "SPR-018",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 0.0,
+      "reason" : "heuristic keywordCoverage=0.0, contextSupport=1.0"
+    }, {
+      "questionId" : "SPR-019",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 0.0,
+      "reason" : "heuristic keywordCoverage=0.0, contextSupport=1.0"
+    }, {
+      "questionId" : "SPR-020",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 0.0,
+      "reason" : "heuristic keywordCoverage=0.0, contextSupport=1.0"
+    }, {
+      "questionId" : "PGV-001",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 0.0,
+      "reason" : "heuristic keywordCoverage=0.0, contextSupport=1.0"
+    }, {
+      "questionId" : "PGV-002",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 0.25,
+      "reason" : "heuristic keywordCoverage=0.25, contextSupport=1.0"
+    }, {
+      "questionId" : "PGV-003",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 0.0,
+      "reason" : "heuristic keywordCoverage=0.0, contextSupport=1.0"
+    }, {
+      "questionId" : "PGV-004",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 0.0,
+      "reason" : "heuristic keywordCoverage=0.0, contextSupport=1.0"
+    }, {
+      "questionId" : "PGV-005",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 0.0,
+      "reason" : "heuristic keywordCoverage=0.0, contextSupport=1.0"
+    }, {
+      "questionId" : "PGV-006",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 0.0,
+      "reason" : "heuristic keywordCoverage=0.0, contextSupport=1.0"
+    }, {
+      "questionId" : "PGV-007",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 0.0,
+      "reason" : "heuristic keywordCoverage=0.0, contextSupport=1.0"
+    }, {
+      "questionId" : "PGV-008",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 0.0,
+      "reason" : "heuristic keywordCoverage=0.0, contextSupport=1.0"
+    }, {
+      "questionId" : "PGV-009",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 0.0,
+      "reason" : "heuristic keywordCoverage=0.0, contextSupport=1.0"
+    }, {
+      "questionId" : "PGV-010",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 0.0,
+      "reason" : "heuristic keywordCoverage=0.0, contextSupport=1.0"
+    }, {
+      "questionId" : "PGV-011",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 0.0,
+      "reason" : "heuristic keywordCoverage=0.0, contextSupport=1.0"
+    }, {
+      "questionId" : "PGV-012",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 0.0,
+      "reason" : "heuristic keywordCoverage=0.0, contextSupport=1.0"
+    }, {
+      "questionId" : "PGV-013",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 0.0,
+      "reason" : "heuristic keywordCoverage=0.0, contextSupport=1.0"
+    }, {
+      "questionId" : "PGV-014",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 0.0,
+      "reason" : "heuristic keywordCoverage=0.0, contextSupport=1.0"
+    }, {
+      "questionId" : "PGV-015",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 0.0,
+      "reason" : "heuristic keywordCoverage=0.0, contextSupport=1.0"
+    }, {
+      "questionId" : "PGV-016",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 0.25,
+      "reason" : "heuristic keywordCoverage=0.25, contextSupport=1.0"
+    }, {
+      "questionId" : "PGV-017",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 0.0,
+      "reason" : "heuristic keywordCoverage=0.0, contextSupport=1.0"
+    }, {
+      "questionId" : "PGV-018",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 0.25,
+      "reason" : "heuristic keywordCoverage=0.25, contextSupport=1.0"
+    }, {
+      "questionId" : "PGV-019",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 0.0,
+      "reason" : "heuristic keywordCoverage=0.0, contextSupport=1.0"
+    }, {
+      "questionId" : "PGV-020",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 0.0,
+      "reason" : "heuristic keywordCoverage=0.0, contextSupport=1.0"
+    }, {
+      "questionId" : "JVM-001",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 0.0,
+      "reason" : "heuristic keywordCoverage=0.0, contextSupport=1.0"
+    }, {
+      "questionId" : "JVM-002",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 0.0,
+      "reason" : "heuristic keywordCoverage=0.0, contextSupport=1.0"
+    }, {
+      "questionId" : "JVM-003",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 0.0,
+      "reason" : "heuristic keywordCoverage=0.0, contextSupport=1.0"
+    }, {
+      "questionId" : "JVM-004",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 0.0,
+      "reason" : "heuristic keywordCoverage=0.0, contextSupport=1.0"
+    }, {
+      "questionId" : "JVM-005",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 0.0,
+      "reason" : "heuristic keywordCoverage=0.0, contextSupport=1.0"
+    }, {
+      "questionId" : "JVM-006",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 0.0,
+      "reason" : "heuristic keywordCoverage=0.0, contextSupport=1.0"
+    }, {
+      "questionId" : "JVM-007",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 0.0,
+      "reason" : "heuristic keywordCoverage=0.0, contextSupport=1.0"
+    }, {
+      "questionId" : "JVM-008",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 0.0,
+      "reason" : "heuristic keywordCoverage=0.0, contextSupport=1.0"
+    }, {
+      "questionId" : "JVM-009",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 0.0,
+      "reason" : "heuristic keywordCoverage=0.0, contextSupport=1.0"
+    }, {
+      "questionId" : "JVM-010",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 0.0,
+      "reason" : "heuristic keywordCoverage=0.0, contextSupport=1.0"
+    }, {
+      "questionId" : "JVM-011",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 0.0,
+      "reason" : "heuristic keywordCoverage=0.0, contextSupport=1.0"
+    }, {
+      "questionId" : "JVM-012",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 0.0,
+      "reason" : "heuristic keywordCoverage=0.0, contextSupport=1.0"
+    }, {
+      "questionId" : "JVM-013",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 0.0,
+      "reason" : "heuristic keywordCoverage=0.0, contextSupport=1.0"
+    }, {
+      "questionId" : "JVM-014",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 0.0,
+      "reason" : "heuristic keywordCoverage=0.0, contextSupport=1.0"
+    }, {
+      "questionId" : "JVM-015",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 0.0,
+      "reason" : "heuristic keywordCoverage=0.0, contextSupport=1.0"
+    }, {
+      "questionId" : "JVM-016",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 0.0,
+      "reason" : "heuristic keywordCoverage=0.0, contextSupport=1.0"
+    }, {
+      "questionId" : "JVM-017",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 0.0,
+      "reason" : "heuristic keywordCoverage=0.0, contextSupport=1.0"
+    }, {
+      "questionId" : "JVM-018",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 0.0,
+      "reason" : "heuristic keywordCoverage=0.0, contextSupport=1.0"
+    }, {
+      "questionId" : "JVM-019",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 0.0,
+      "reason" : "heuristic keywordCoverage=0.0, contextSupport=1.0"
+    }, {
+      "questionId" : "JVM-020",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 0.25,
+      "reason" : "heuristic keywordCoverage=0.25, contextSupport=1.0"
+    } ],
+    "retrieval" : {
+      "k" : 5,
+      "totalQuestions" : 60,
+      "recallAtK" : 0.0,
+      "mrr" : 0.0,
+      "hitRateAtK" : 0.0,
+      "questionScores" : [ {
+        "questionId" : "SPR-001",
+        "domain" : "spring-boot-rabbitmq",
+        "recallAtK" : 0.0,
+        "reciprocalRank" : 0.0,
+        "hit" : false,
+        "retrievedChunkIds" : [ "D-SPR-001" ],
+        "relevantChunkIds" : [ "C-SPR-001" ]
+      }, {
+        "questionId" : "SPR-002",
+        "domain" : "spring-boot-rabbitmq",
+        "recallAtK" : 0.0,
+        "reciprocalRank" : 0.0,
+        "hit" : false,
+        "retrievedChunkIds" : [ "D-SPR-002" ],
+        "relevantChunkIds" : [ "C-SPR-002" ]
+      }, {
+        "questionId" : "SPR-003",
+        "domain" : "spring-boot-rabbitmq",
+        "recallAtK" : 0.0,
+        "reciprocalRank" : 0.0,
+        "hit" : false,
+        "retrievedChunkIds" : [ "D-SPR-003" ],
+        "relevantChunkIds" : [ "C-SPR-003" ]
+      }, {
+        "questionId" : "SPR-004",
+        "domain" : "spring-boot-rabbitmq",
+        "recallAtK" : 0.0,
+        "reciprocalRank" : 0.0,
+        "hit" : false,
+        "retrievedChunkIds" : [ "D-SPR-004" ],
+        "relevantChunkIds" : [ "C-SPR-004" ]
+      }, {
+        "questionId" : "SPR-005",
+        "domain" : "spring-boot-rabbitmq",
+        "recallAtK" : 0.0,
+        "reciprocalRank" : 0.0,
+        "hit" : false,
+        "retrievedChunkIds" : [ "D-SPR-005" ],
+        "relevantChunkIds" : [ "C-SPR-005" ]
+      }, {
+        "questionId" : "SPR-006",
+        "domain" : "spring-boot-rabbitmq",
+        "recallAtK" : 0.0,
+        "reciprocalRank" : 0.0,
+        "hit" : false,
+        "retrievedChunkIds" : [ "D-SPR-006" ],
+        "relevantChunkIds" : [ "C-SPR-006" ]
+      }, {
+        "questionId" : "SPR-007",
+        "domain" : "spring-boot-rabbitmq",
+        "recallAtK" : 0.0,
+        "reciprocalRank" : 0.0,
+        "hit" : false,
+        "retrievedChunkIds" : [ "D-SPR-007" ],
+        "relevantChunkIds" : [ "C-SPR-007" ]
+      }, {
+        "questionId" : "SPR-008",
+        "domain" : "spring-boot-rabbitmq",
+        "recallAtK" : 0.0,
+        "reciprocalRank" : 0.0,
+        "hit" : false,
+        "retrievedChunkIds" : [ "D-SPR-008" ],
+        "relevantChunkIds" : [ "C-SPR-008" ]
+      }, {
+        "questionId" : "SPR-009",
+        "domain" : "spring-boot-rabbitmq",
+        "recallAtK" : 0.0,
+        "reciprocalRank" : 0.0,
+        "hit" : false,
+        "retrievedChunkIds" : [ "D-SPR-009" ],
+        "relevantChunkIds" : [ "C-SPR-009" ]
+      }, {
+        "questionId" : "SPR-010",
+        "domain" : "spring-boot-rabbitmq",
+        "recallAtK" : 0.0,
+        "reciprocalRank" : 0.0,
+        "hit" : false,
+        "retrievedChunkIds" : [ "D-SPR-010" ],
+        "relevantChunkIds" : [ "C-SPR-010" ]
+      }, {
+        "questionId" : "SPR-011",
+        "domain" : "spring-boot-rabbitmq",
+        "recallAtK" : 0.0,
+        "reciprocalRank" : 0.0,
+        "hit" : false,
+        "retrievedChunkIds" : [ "D-SPR-011" ],
+        "relevantChunkIds" : [ "C-SPR-011" ]
+      }, {
+        "questionId" : "SPR-012",
+        "domain" : "spring-boot-rabbitmq",
+        "recallAtK" : 0.0,
+        "reciprocalRank" : 0.0,
+        "hit" : false,
+        "retrievedChunkIds" : [ "D-SPR-012" ],
+        "relevantChunkIds" : [ "C-SPR-012" ]
+      }, {
+        "questionId" : "SPR-013",
+        "domain" : "spring-boot-rabbitmq",
+        "recallAtK" : 0.0,
+        "reciprocalRank" : 0.0,
+        "hit" : false,
+        "retrievedChunkIds" : [ "D-SPR-013" ],
+        "relevantChunkIds" : [ "C-SPR-013" ]
+      }, {
+        "questionId" : "SPR-014",
+        "domain" : "spring-boot-rabbitmq",
+        "recallAtK" : 0.0,
+        "reciprocalRank" : 0.0,
+        "hit" : false,
+        "retrievedChunkIds" : [ "D-SPR-014" ],
+        "relevantChunkIds" : [ "C-SPR-014" ]
+      }, {
+        "questionId" : "SPR-015",
+        "domain" : "spring-boot-rabbitmq",
+        "recallAtK" : 0.0,
+        "reciprocalRank" : 0.0,
+        "hit" : false,
+        "retrievedChunkIds" : [ "D-SPR-015" ],
+        "relevantChunkIds" : [ "C-SPR-015" ]
+      }, {
+        "questionId" : "SPR-016",
+        "domain" : "spring-boot-rabbitmq",
+        "recallAtK" : 0.0,
+        "reciprocalRank" : 0.0,
+        "hit" : false,
+        "retrievedChunkIds" : [ "D-SPR-016" ],
+        "relevantChunkIds" : [ "C-SPR-016" ]
+      }, {
+        "questionId" : "SPR-017",
+        "domain" : "spring-boot-rabbitmq",
+        "recallAtK" : 0.0,
+        "reciprocalRank" : 0.0,
+        "hit" : false,
+        "retrievedChunkIds" : [ "D-SPR-017" ],
+        "relevantChunkIds" : [ "C-SPR-017" ]
+      }, {
+        "questionId" : "SPR-018",
+        "domain" : "spring-boot-rabbitmq",
+        "recallAtK" : 0.0,
+        "reciprocalRank" : 0.0,
+        "hit" : false,
+        "retrievedChunkIds" : [ "D-SPR-018" ],
+        "relevantChunkIds" : [ "C-SPR-018" ]
+      }, {
+        "questionId" : "SPR-019",
+        "domain" : "spring-boot-rabbitmq",
+        "recallAtK" : 0.0,
+        "reciprocalRank" : 0.0,
+        "hit" : false,
+        "retrievedChunkIds" : [ "D-SPR-019" ],
+        "relevantChunkIds" : [ "C-SPR-019" ]
+      }, {
+        "questionId" : "SPR-020",
+        "domain" : "spring-boot-rabbitmq",
+        "recallAtK" : 0.0,
+        "reciprocalRank" : 0.0,
+        "hit" : false,
+        "retrievedChunkIds" : [ "D-SPR-020" ],
+        "relevantChunkIds" : [ "C-SPR-020" ]
+      }, {
+        "questionId" : "PGV-001",
+        "domain" : "postgres-pgvector-rag",
+        "recallAtK" : 0.0,
+        "reciprocalRank" : 0.0,
+        "hit" : false,
+        "retrievedChunkIds" : [ "D-PGV-001" ],
+        "relevantChunkIds" : [ "C-PGV-001" ]
+      }, {
+        "questionId" : "PGV-002",
+        "domain" : "postgres-pgvector-rag",
+        "recallAtK" : 0.0,
+        "reciprocalRank" : 0.0,
+        "hit" : false,
+        "retrievedChunkIds" : [ "D-PGV-002" ],
+        "relevantChunkIds" : [ "C-PGV-002" ]
+      }, {
+        "questionId" : "PGV-003",
+        "domain" : "postgres-pgvector-rag",
+        "recallAtK" : 0.0,
+        "reciprocalRank" : 0.0,
+        "hit" : false,
+        "retrievedChunkIds" : [ "D-PGV-003" ],
+        "relevantChunkIds" : [ "C-PGV-003" ]
+      }, {
+        "questionId" : "PGV-004",
+        "domain" : "postgres-pgvector-rag",
+        "recallAtK" : 0.0,
+        "reciprocalRank" : 0.0,
+        "hit" : false,
+        "retrievedChunkIds" : [ "D-PGV-004" ],
+        "relevantChunkIds" : [ "C-PGV-004" ]
+      }, {
+        "questionId" : "PGV-005",
+        "domain" : "postgres-pgvector-rag",
+        "recallAtK" : 0.0,
+        "reciprocalRank" : 0.0,
+        "hit" : false,
+        "retrievedChunkIds" : [ "D-PGV-005" ],
+        "relevantChunkIds" : [ "C-PGV-005" ]
+      }, {
+        "questionId" : "PGV-006",
+        "domain" : "postgres-pgvector-rag",
+        "recallAtK" : 0.0,
+        "reciprocalRank" : 0.0,
+        "hit" : false,
+        "retrievedChunkIds" : [ "D-PGV-006" ],
+        "relevantChunkIds" : [ "C-PGV-006" ]
+      }, {
+        "questionId" : "PGV-007",
+        "domain" : "postgres-pgvector-rag",
+        "recallAtK" : 0.0,
+        "reciprocalRank" : 0.0,
+        "hit" : false,
+        "retrievedChunkIds" : [ "D-PGV-007" ],
+        "relevantChunkIds" : [ "C-PGV-007" ]
+      }, {
+        "questionId" : "PGV-008",
+        "domain" : "postgres-pgvector-rag",
+        "recallAtK" : 0.0,
+        "reciprocalRank" : 0.0,
+        "hit" : false,
+        "retrievedChunkIds" : [ "D-PGV-008" ],
+        "relevantChunkIds" : [ "C-PGV-008" ]
+      }, {
+        "questionId" : "PGV-009",
+        "domain" : "postgres-pgvector-rag",
+        "recallAtK" : 0.0,
+        "reciprocalRank" : 0.0,
+        "hit" : false,
+        "retrievedChunkIds" : [ "D-PGV-009" ],
+        "relevantChunkIds" : [ "C-PGV-009" ]
+      }, {
+        "questionId" : "PGV-010",
+        "domain" : "postgres-pgvector-rag",
+        "recallAtK" : 0.0,
+        "reciprocalRank" : 0.0,
+        "hit" : false,
+        "retrievedChunkIds" : [ "D-PGV-010" ],
+        "relevantChunkIds" : [ "C-PGV-010" ]
+      }, {
+        "questionId" : "PGV-011",
+        "domain" : "postgres-pgvector-rag",
+        "recallAtK" : 0.0,
+        "reciprocalRank" : 0.0,
+        "hit" : false,
+        "retrievedChunkIds" : [ "D-PGV-011" ],
+        "relevantChunkIds" : [ "C-PGV-011" ]
+      }, {
+        "questionId" : "PGV-012",
+        "domain" : "postgres-pgvector-rag",
+        "recallAtK" : 0.0,
+        "reciprocalRank" : 0.0,
+        "hit" : false,
+        "retrievedChunkIds" : [ "D-PGV-012" ],
+        "relevantChunkIds" : [ "C-PGV-012" ]
+      }, {
+        "questionId" : "PGV-013",
+        "domain" : "postgres-pgvector-rag",
+        "recallAtK" : 0.0,
+        "reciprocalRank" : 0.0,
+        "hit" : false,
+        "retrievedChunkIds" : [ "D-PGV-013" ],
+        "relevantChunkIds" : [ "C-PGV-013" ]
+      }, {
+        "questionId" : "PGV-014",
+        "domain" : "postgres-pgvector-rag",
+        "recallAtK" : 0.0,
+        "reciprocalRank" : 0.0,
+        "hit" : false,
+        "retrievedChunkIds" : [ "D-PGV-014" ],
+        "relevantChunkIds" : [ "C-PGV-014" ]
+      }, {
+        "questionId" : "PGV-015",
+        "domain" : "postgres-pgvector-rag",
+        "recallAtK" : 0.0,
+        "reciprocalRank" : 0.0,
+        "hit" : false,
+        "retrievedChunkIds" : [ "D-PGV-015" ],
+        "relevantChunkIds" : [ "C-PGV-015" ]
+      }, {
+        "questionId" : "PGV-016",
+        "domain" : "postgres-pgvector-rag",
+        "recallAtK" : 0.0,
+        "reciprocalRank" : 0.0,
+        "hit" : false,
+        "retrievedChunkIds" : [ "D-PGV-016" ],
+        "relevantChunkIds" : [ "C-PGV-016" ]
+      }, {
+        "questionId" : "PGV-017",
+        "domain" : "postgres-pgvector-rag",
+        "recallAtK" : 0.0,
+        "reciprocalRank" : 0.0,
+        "hit" : false,
+        "retrievedChunkIds" : [ "D-PGV-017" ],
+        "relevantChunkIds" : [ "C-PGV-017" ]
+      }, {
+        "questionId" : "PGV-018",
+        "domain" : "postgres-pgvector-rag",
+        "recallAtK" : 0.0,
+        "reciprocalRank" : 0.0,
+        "hit" : false,
+        "retrievedChunkIds" : [ "D-PGV-018" ],
+        "relevantChunkIds" : [ "C-PGV-018" ]
+      }, {
+        "questionId" : "PGV-019",
+        "domain" : "postgres-pgvector-rag",
+        "recallAtK" : 0.0,
+        "reciprocalRank" : 0.0,
+        "hit" : false,
+        "retrievedChunkIds" : [ "D-PGV-019" ],
+        "relevantChunkIds" : [ "C-PGV-019" ]
+      }, {
+        "questionId" : "PGV-020",
+        "domain" : "postgres-pgvector-rag",
+        "recallAtK" : 0.0,
+        "reciprocalRank" : 0.0,
+        "hit" : false,
+        "retrievedChunkIds" : [ "D-PGV-020" ],
+        "relevantChunkIds" : [ "C-PGV-020" ]
+      }, {
+        "questionId" : "JVM-001",
+        "domain" : "java-jvm-concurrency",
+        "recallAtK" : 0.0,
+        "reciprocalRank" : 0.0,
+        "hit" : false,
+        "retrievedChunkIds" : [ "D-JVM-001" ],
+        "relevantChunkIds" : [ "C-JVM-001" ]
+      }, {
+        "questionId" : "JVM-002",
+        "domain" : "java-jvm-concurrency",
+        "recallAtK" : 0.0,
+        "reciprocalRank" : 0.0,
+        "hit" : false,
+        "retrievedChunkIds" : [ "D-JVM-002" ],
+        "relevantChunkIds" : [ "C-JVM-002" ]
+      }, {
+        "questionId" : "JVM-003",
+        "domain" : "java-jvm-concurrency",
+        "recallAtK" : 0.0,
+        "reciprocalRank" : 0.0,
+        "hit" : false,
+        "retrievedChunkIds" : [ "D-JVM-003" ],
+        "relevantChunkIds" : [ "C-JVM-003" ]
+      }, {
+        "questionId" : "JVM-004",
+        "domain" : "java-jvm-concurrency",
+        "recallAtK" : 0.0,
+        "reciprocalRank" : 0.0,
+        "hit" : false,
+        "retrievedChunkIds" : [ "D-JVM-004" ],
+        "relevantChunkIds" : [ "C-JVM-004" ]
+      }, {
+        "questionId" : "JVM-005",
+        "domain" : "java-jvm-concurrency",
+        "recallAtK" : 0.0,
+        "reciprocalRank" : 0.0,
+        "hit" : false,
+        "retrievedChunkIds" : [ "D-JVM-005" ],
+        "relevantChunkIds" : [ "C-JVM-005" ]
+      }, {
+        "questionId" : "JVM-006",
+        "domain" : "java-jvm-concurrency",
+        "recallAtK" : 0.0,
+        "reciprocalRank" : 0.0,
+        "hit" : false,
+        "retrievedChunkIds" : [ "D-JVM-006" ],
+        "relevantChunkIds" : [ "C-JVM-006" ]
+      }, {
+        "questionId" : "JVM-007",
+        "domain" : "java-jvm-concurrency",
+        "recallAtK" : 0.0,
+        "reciprocalRank" : 0.0,
+        "hit" : false,
+        "retrievedChunkIds" : [ "D-JVM-007" ],
+        "relevantChunkIds" : [ "C-JVM-007" ]
+      }, {
+        "questionId" : "JVM-008",
+        "domain" : "java-jvm-concurrency",
+        "recallAtK" : 0.0,
+        "reciprocalRank" : 0.0,
+        "hit" : false,
+        "retrievedChunkIds" : [ "D-JVM-008" ],
+        "relevantChunkIds" : [ "C-JVM-008" ]
+      }, {
+        "questionId" : "JVM-009",
+        "domain" : "java-jvm-concurrency",
+        "recallAtK" : 0.0,
+        "reciprocalRank" : 0.0,
+        "hit" : false,
+        "retrievedChunkIds" : [ "D-JVM-009" ],
+        "relevantChunkIds" : [ "C-JVM-009" ]
+      }, {
+        "questionId" : "JVM-010",
+        "domain" : "java-jvm-concurrency",
+        "recallAtK" : 0.0,
+        "reciprocalRank" : 0.0,
+        "hit" : false,
+        "retrievedChunkIds" : [ "D-JVM-010" ],
+        "relevantChunkIds" : [ "C-JVM-010" ]
+      }, {
+        "questionId" : "JVM-011",
+        "domain" : "java-jvm-concurrency",
+        "recallAtK" : 0.0,
+        "reciprocalRank" : 0.0,
+        "hit" : false,
+        "retrievedChunkIds" : [ "D-JVM-011" ],
+        "relevantChunkIds" : [ "C-JVM-011" ]
+      }, {
+        "questionId" : "JVM-012",
+        "domain" : "java-jvm-concurrency",
+        "recallAtK" : 0.0,
+        "reciprocalRank" : 0.0,
+        "hit" : false,
+        "retrievedChunkIds" : [ "D-JVM-012" ],
+        "relevantChunkIds" : [ "C-JVM-012" ]
+      }, {
+        "questionId" : "JVM-013",
+        "domain" : "java-jvm-concurrency",
+        "recallAtK" : 0.0,
+        "reciprocalRank" : 0.0,
+        "hit" : false,
+        "retrievedChunkIds" : [ "D-JVM-013" ],
+        "relevantChunkIds" : [ "C-JVM-013" ]
+      }, {
+        "questionId" : "JVM-014",
+        "domain" : "java-jvm-concurrency",
+        "recallAtK" : 0.0,
+        "reciprocalRank" : 0.0,
+        "hit" : false,
+        "retrievedChunkIds" : [ "D-JVM-014" ],
+        "relevantChunkIds" : [ "C-JVM-014" ]
+      }, {
+        "questionId" : "JVM-015",
+        "domain" : "java-jvm-concurrency",
+        "recallAtK" : 0.0,
+        "reciprocalRank" : 0.0,
+        "hit" : false,
+        "retrievedChunkIds" : [ "D-JVM-015" ],
+        "relevantChunkIds" : [ "C-JVM-015" ]
+      }, {
+        "questionId" : "JVM-016",
+        "domain" : "java-jvm-concurrency",
+        "recallAtK" : 0.0,
+        "reciprocalRank" : 0.0,
+        "hit" : false,
+        "retrievedChunkIds" : [ "D-JVM-016" ],
+        "relevantChunkIds" : [ "C-JVM-016" ]
+      }, {
+        "questionId" : "JVM-017",
+        "domain" : "java-jvm-concurrency",
+        "recallAtK" : 0.0,
+        "reciprocalRank" : 0.0,
+        "hit" : false,
+        "retrievedChunkIds" : [ "D-JVM-017" ],
+        "relevantChunkIds" : [ "C-JVM-017" ]
+      }, {
+        "questionId" : "JVM-018",
+        "domain" : "java-jvm-concurrency",
+        "recallAtK" : 0.0,
+        "reciprocalRank" : 0.0,
+        "hit" : false,
+        "retrievedChunkIds" : [ "D-JVM-018" ],
+        "relevantChunkIds" : [ "C-JVM-018" ]
+      }, {
+        "questionId" : "JVM-019",
+        "domain" : "java-jvm-concurrency",
+        "recallAtK" : 0.0,
+        "reciprocalRank" : 0.0,
+        "hit" : false,
+        "retrievedChunkIds" : [ "D-JVM-019" ],
+        "relevantChunkIds" : [ "C-JVM-019" ]
+      }, {
+        "questionId" : "JVM-020",
+        "domain" : "java-jvm-concurrency",
+        "recallAtK" : 0.0,
+        "reciprocalRank" : 0.0,
+        "hit" : false,
+        "retrievedChunkIds" : [ "D-JVM-020" ],
+        "relevantChunkIds" : [ "C-JVM-020" ]
+      } ]
+    }
+  },
+  "hybrid-rrf" : {
+    "judge" : [ {
+      "questionId" : "SPR-001",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 0.0,
+      "reason" : "heuristic keywordCoverage=0.0, contextSupport=1.0"
+    }, {
+      "questionId" : "SPR-002",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 0.0,
+      "reason" : "heuristic keywordCoverage=0.0, contextSupport=1.0"
+    }, {
+      "questionId" : "SPR-003",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 0.0,
+      "reason" : "heuristic keywordCoverage=0.0, contextSupport=1.0"
+    }, {
+      "questionId" : "SPR-004",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 0.0,
+      "reason" : "heuristic keywordCoverage=0.0, contextSupport=1.0"
+    }, {
+      "questionId" : "SPR-005",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 0.0,
+      "reason" : "heuristic keywordCoverage=0.0, contextSupport=1.0"
+    }, {
+      "questionId" : "SPR-006",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 0.0,
+      "reason" : "heuristic keywordCoverage=0.0, contextSupport=1.0"
+    }, {
+      "questionId" : "SPR-007",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 0.0,
+      "reason" : "heuristic keywordCoverage=0.0, contextSupport=1.0"
+    }, {
+      "questionId" : "SPR-008",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 0.0,
+      "reason" : "heuristic keywordCoverage=0.0, contextSupport=1.0"
+    }, {
+      "questionId" : "SPR-009",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 0.0,
+      "reason" : "heuristic keywordCoverage=0.0, contextSupport=1.0"
+    }, {
+      "questionId" : "SPR-010",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 0.0,
+      "reason" : "heuristic keywordCoverage=0.0, contextSupport=1.0"
+    }, {
+      "questionId" : "SPR-011",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 0.0,
+      "reason" : "heuristic keywordCoverage=0.0, contextSupport=1.0"
+    }, {
+      "questionId" : "SPR-012",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 0.0,
+      "reason" : "heuristic keywordCoverage=0.0, contextSupport=1.0"
+    }, {
+      "questionId" : "SPR-013",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 0.0,
+      "reason" : "heuristic keywordCoverage=0.0, contextSupport=1.0"
+    }, {
+      "questionId" : "SPR-014",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 0.0,
+      "reason" : "heuristic keywordCoverage=0.0, contextSupport=1.0"
+    }, {
+      "questionId" : "SPR-015",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 0.0,
+      "reason" : "heuristic keywordCoverage=0.0, contextSupport=1.0"
+    }, {
+      "questionId" : "SPR-016",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 0.0,
+      "reason" : "heuristic keywordCoverage=0.0, contextSupport=1.0"
+    }, {
+      "questionId" : "SPR-017",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 0.0,
+      "reason" : "heuristic keywordCoverage=0.0, contextSupport=1.0"
+    }, {
+      "questionId" : "SPR-018",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 0.0,
+      "reason" : "heuristic keywordCoverage=0.0, contextSupport=1.0"
+    }, {
+      "questionId" : "SPR-019",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 0.0,
+      "reason" : "heuristic keywordCoverage=0.0, contextSupport=1.0"
+    }, {
+      "questionId" : "SPR-020",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 0.0,
+      "reason" : "heuristic keywordCoverage=0.0, contextSupport=1.0"
+    }, {
+      "questionId" : "PGV-001",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 0.0,
+      "reason" : "heuristic keywordCoverage=0.0, contextSupport=1.0"
+    }, {
+      "questionId" : "PGV-002",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 0.25,
+      "reason" : "heuristic keywordCoverage=0.25, contextSupport=1.0"
+    }, {
+      "questionId" : "PGV-003",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 0.0,
+      "reason" : "heuristic keywordCoverage=0.0, contextSupport=1.0"
+    }, {
+      "questionId" : "PGV-004",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 0.0,
+      "reason" : "heuristic keywordCoverage=0.0, contextSupport=1.0"
+    }, {
+      "questionId" : "PGV-005",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 0.0,
+      "reason" : "heuristic keywordCoverage=0.0, contextSupport=1.0"
+    }, {
+      "questionId" : "PGV-006",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 0.0,
+      "reason" : "heuristic keywordCoverage=0.0, contextSupport=1.0"
+    }, {
+      "questionId" : "PGV-007",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 0.0,
+      "reason" : "heuristic keywordCoverage=0.0, contextSupport=1.0"
+    }, {
+      "questionId" : "PGV-008",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 0.0,
+      "reason" : "heuristic keywordCoverage=0.0, contextSupport=1.0"
+    }, {
+      "questionId" : "PGV-009",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 0.0,
+      "reason" : "heuristic keywordCoverage=0.0, contextSupport=1.0"
+    }, {
+      "questionId" : "PGV-010",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 0.0,
+      "reason" : "heuristic keywordCoverage=0.0, contextSupport=1.0"
+    }, {
+      "questionId" : "PGV-011",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 0.0,
+      "reason" : "heuristic keywordCoverage=0.0, contextSupport=1.0"
+    }, {
+      "questionId" : "PGV-012",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 0.0,
+      "reason" : "heuristic keywordCoverage=0.0, contextSupport=1.0"
+    }, {
+      "questionId" : "PGV-013",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 0.0,
+      "reason" : "heuristic keywordCoverage=0.0, contextSupport=1.0"
+    }, {
+      "questionId" : "PGV-014",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 0.0,
+      "reason" : "heuristic keywordCoverage=0.0, contextSupport=1.0"
+    }, {
+      "questionId" : "PGV-015",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 0.0,
+      "reason" : "heuristic keywordCoverage=0.0, contextSupport=1.0"
+    }, {
+      "questionId" : "PGV-016",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 0.25,
+      "reason" : "heuristic keywordCoverage=0.25, contextSupport=1.0"
+    }, {
+      "questionId" : "PGV-017",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 0.0,
+      "reason" : "heuristic keywordCoverage=0.0, contextSupport=1.0"
+    }, {
+      "questionId" : "PGV-018",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 0.25,
+      "reason" : "heuristic keywordCoverage=0.25, contextSupport=1.0"
+    }, {
+      "questionId" : "PGV-019",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 0.0,
+      "reason" : "heuristic keywordCoverage=0.0, contextSupport=1.0"
+    }, {
+      "questionId" : "PGV-020",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 0.0,
+      "reason" : "heuristic keywordCoverage=0.0, contextSupport=1.0"
+    }, {
+      "questionId" : "JVM-001",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 0.0,
+      "reason" : "heuristic keywordCoverage=0.0, contextSupport=1.0"
+    }, {
+      "questionId" : "JVM-002",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 0.0,
+      "reason" : "heuristic keywordCoverage=0.0, contextSupport=1.0"
+    }, {
+      "questionId" : "JVM-003",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 0.0,
+      "reason" : "heuristic keywordCoverage=0.0, contextSupport=1.0"
+    }, {
+      "questionId" : "JVM-004",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 0.0,
+      "reason" : "heuristic keywordCoverage=0.0, contextSupport=1.0"
+    }, {
+      "questionId" : "JVM-005",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 0.0,
+      "reason" : "heuristic keywordCoverage=0.0, contextSupport=1.0"
+    }, {
+      "questionId" : "JVM-006",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 0.0,
+      "reason" : "heuristic keywordCoverage=0.0, contextSupport=1.0"
+    }, {
+      "questionId" : "JVM-007",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 0.0,
+      "reason" : "heuristic keywordCoverage=0.0, contextSupport=1.0"
+    }, {
+      "questionId" : "JVM-008",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 0.0,
+      "reason" : "heuristic keywordCoverage=0.0, contextSupport=1.0"
+    }, {
+      "questionId" : "JVM-009",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 0.0,
+      "reason" : "heuristic keywordCoverage=0.0, contextSupport=1.0"
+    }, {
+      "questionId" : "JVM-010",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 0.0,
+      "reason" : "heuristic keywordCoverage=0.0, contextSupport=1.0"
+    }, {
+      "questionId" : "JVM-011",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 0.0,
+      "reason" : "heuristic keywordCoverage=0.0, contextSupport=1.0"
+    }, {
+      "questionId" : "JVM-012",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 0.0,
+      "reason" : "heuristic keywordCoverage=0.0, contextSupport=1.0"
+    }, {
+      "questionId" : "JVM-013",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 0.0,
+      "reason" : "heuristic keywordCoverage=0.0, contextSupport=1.0"
+    }, {
+      "questionId" : "JVM-014",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 0.0,
+      "reason" : "heuristic keywordCoverage=0.0, contextSupport=1.0"
+    }, {
+      "questionId" : "JVM-015",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 0.0,
+      "reason" : "heuristic keywordCoverage=0.0, contextSupport=1.0"
+    }, {
+      "questionId" : "JVM-016",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 0.0,
+      "reason" : "heuristic keywordCoverage=0.0, contextSupport=1.0"
+    }, {
+      "questionId" : "JVM-017",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 0.0,
+      "reason" : "heuristic keywordCoverage=0.0, contextSupport=1.0"
+    }, {
+      "questionId" : "JVM-018",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 0.0,
+      "reason" : "heuristic keywordCoverage=0.0, contextSupport=1.0"
+    }, {
+      "questionId" : "JVM-019",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 0.0,
+      "reason" : "heuristic keywordCoverage=0.0, contextSupport=1.0"
+    }, {
+      "questionId" : "JVM-020",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 0.25,
+      "reason" : "heuristic keywordCoverage=0.25, contextSupport=1.0"
+    } ],
+    "retrieval" : {
+      "k" : 5,
+      "totalQuestions" : 60,
+      "recallAtK" : 0.9833333333333333,
+      "mrr" : 0.4452777777777778,
+      "hitRateAtK" : 0.9833333333333333,
+      "questionScores" : [ {
+        "questionId" : "SPR-001",
+        "domain" : "spring-boot-rabbitmq",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 0.5,
+        "hit" : true,
+        "retrievedChunkIds" : [ "D-SPR-001", "C-SPR-001", "C-JVM-019", "C-JVM-004", "C-SPR-013" ],
+        "relevantChunkIds" : [ "C-SPR-001" ]
+      }, {
+        "questionId" : "SPR-002",
+        "domain" : "spring-boot-rabbitmq",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 0.5,
+        "hit" : true,
+        "retrievedChunkIds" : [ "D-SPR-002", "C-SPR-002", "C-JVM-019", "C-JVM-004", "C-SPR-009" ],
+        "relevantChunkIds" : [ "C-SPR-002" ]
+      }, {
+        "questionId" : "SPR-003",
+        "domain" : "spring-boot-rabbitmq",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 0.5,
+        "hit" : true,
+        "retrievedChunkIds" : [ "D-SPR-003", "C-SPR-003", "C-SPR-020", "C-SPR-012", "C-JVM-009" ],
+        "relevantChunkIds" : [ "C-SPR-003" ]
+      }, {
+        "questionId" : "SPR-004",
+        "domain" : "spring-boot-rabbitmq",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 0.5,
+        "hit" : true,
+        "retrievedChunkIds" : [ "D-SPR-004", "C-SPR-004", "C-JVM-006", "C-JVM-001", "C-JVM-008" ],
+        "relevantChunkIds" : [ "C-SPR-004" ]
+      }, {
+        "questionId" : "SPR-005",
+        "domain" : "spring-boot-rabbitmq",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 0.2,
+        "hit" : true,
+        "retrievedChunkIds" : [ "D-SPR-005", "C-JVM-019", "C-JVM-004", "C-SPR-017", "C-SPR-005" ],
+        "relevantChunkIds" : [ "C-SPR-005" ]
+      }, {
+        "questionId" : "SPR-006",
+        "domain" : "spring-boot-rabbitmq",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 0.5,
+        "hit" : true,
+        "retrievedChunkIds" : [ "D-SPR-006", "C-SPR-006", "C-JVM-006", "C-SPR-017", "C-SPR-007" ],
+        "relevantChunkIds" : [ "C-SPR-006" ]
+      }, {
+        "questionId" : "SPR-007",
+        "domain" : "spring-boot-rabbitmq",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 0.5,
+        "hit" : true,
+        "retrievedChunkIds" : [ "D-SPR-007", "C-SPR-007", "C-SPR-014", "C-SPR-009" ],
+        "relevantChunkIds" : [ "C-SPR-007" ]
+      }, {
+        "questionId" : "SPR-008",
+        "domain" : "spring-boot-rabbitmq",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 0.5,
+        "hit" : true,
+        "retrievedChunkIds" : [ "D-SPR-008", "C-SPR-008", "C-SPR-018", "C-JVM-020", "C-JVM-006" ],
+        "relevantChunkIds" : [ "C-SPR-008" ]
+      }, {
+        "questionId" : "SPR-009",
+        "domain" : "spring-boot-rabbitmq",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 0.25,
+        "hit" : true,
+        "retrievedChunkIds" : [ "D-SPR-009", "C-JVM-020", "C-SPR-018", "C-SPR-009", "C-JVM-006" ],
+        "relevantChunkIds" : [ "C-SPR-009" ]
+      }, {
+        "questionId" : "SPR-010",
+        "domain" : "spring-boot-rabbitmq",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 0.5,
+        "hit" : true,
+        "retrievedChunkIds" : [ "D-SPR-010", "C-SPR-010", "C-JVM-019", "C-JVM-013", "C-JVM-004" ],
+        "relevantChunkIds" : [ "C-SPR-010" ]
+      }, {
+        "questionId" : "SPR-011",
+        "domain" : "spring-boot-rabbitmq",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 0.5,
+        "hit" : true,
+        "retrievedChunkIds" : [ "D-SPR-011", "C-SPR-011", "C-SPR-006", "C-JVM-020", "C-PGV-017" ],
+        "relevantChunkIds" : [ "C-SPR-011" ]
+      }, {
+        "questionId" : "SPR-012",
+        "domain" : "spring-boot-rabbitmq",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 0.5,
+        "hit" : true,
+        "retrievedChunkIds" : [ "D-SPR-012", "C-SPR-012", "C-JVM-006", "C-SPR-006", "C-SPR-016" ],
+        "relevantChunkIds" : [ "C-SPR-012" ]
+      }, {
+        "questionId" : "SPR-013",
+        "domain" : "spring-boot-rabbitmq",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 0.5,
+        "hit" : true,
+        "retrievedChunkIds" : [ "D-SPR-013", "C-SPR-013", "C-PGV-015", "C-JVM-004", "C-JVM-019" ],
+        "relevantChunkIds" : [ "C-SPR-013" ]
+      }, {
+        "questionId" : "SPR-014",
+        "domain" : "spring-boot-rabbitmq",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 0.5,
+        "hit" : true,
+        "retrievedChunkIds" : [ "D-SPR-014", "C-SPR-014", "C-SPR-016", "C-SPR-009", "C-JVM-020" ],
+        "relevantChunkIds" : [ "C-SPR-014" ]
+      }, {
+        "questionId" : "SPR-015",
+        "domain" : "spring-boot-rabbitmq",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 0.5,
+        "hit" : true,
+        "retrievedChunkIds" : [ "D-SPR-015", "C-SPR-015", "C-PGV-012", "C-PGV-007", "D-JVM-020" ],
+        "relevantChunkIds" : [ "C-SPR-015" ]
+      }, {
+        "questionId" : "SPR-016",
+        "domain" : "spring-boot-rabbitmq",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 0.5,
+        "hit" : true,
+        "retrievedChunkIds" : [ "D-SPR-016", "C-SPR-016", "C-JVM-018", "C-JVM-007", "C-SPR-018" ],
+        "relevantChunkIds" : [ "C-SPR-016" ]
+      }, {
+        "questionId" : "SPR-017",
+        "domain" : "spring-boot-rabbitmq",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 0.5,
+        "hit" : true,
+        "retrievedChunkIds" : [ "D-SPR-017", "C-SPR-017", "C-SPR-006", "C-JVM-006", "C-JVM-009" ],
+        "relevantChunkIds" : [ "C-SPR-017" ]
+      }, {
+        "questionId" : "SPR-018",
+        "domain" : "spring-boot-rabbitmq",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 0.3333333333333333,
+        "hit" : true,
+        "retrievedChunkIds" : [ "D-SPR-018", "C-JVM-019", "C-SPR-018", "C-JVM-004" ],
+        "relevantChunkIds" : [ "C-SPR-018" ]
+      }, {
+        "questionId" : "SPR-019",
+        "domain" : "spring-boot-rabbitmq",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 0.5,
+        "hit" : true,
+        "retrievedChunkIds" : [ "D-SPR-019", "C-SPR-019", "C-JVM-018", "C-JVM-007", "C-SPR-016" ],
+        "relevantChunkIds" : [ "C-SPR-019" ]
+      }, {
+        "questionId" : "SPR-020",
+        "domain" : "spring-boot-rabbitmq",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 0.5,
+        "hit" : true,
+        "retrievedChunkIds" : [ "D-SPR-020", "C-SPR-020", "C-SPR-011", "C-SPR-010", "C-SPR-004" ],
+        "relevantChunkIds" : [ "C-SPR-020" ]
+      }, {
+        "questionId" : "PGV-001",
+        "domain" : "postgres-pgvector-rag",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 0.5,
+        "hit" : true,
+        "retrievedChunkIds" : [ "D-PGV-001", "C-PGV-001", "C-PGV-013", "C-SPR-018", "C-SPR-015" ],
+        "relevantChunkIds" : [ "C-PGV-001" ]
+      }, {
+        "questionId" : "PGV-002",
+        "domain" : "postgres-pgvector-rag",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 0.5,
+        "hit" : true,
+        "retrievedChunkIds" : [ "D-PGV-002", "C-PGV-002", "C-SPR-009", "C-JVM-020", "C-JVM-016" ],
+        "relevantChunkIds" : [ "C-PGV-002" ]
+      }, {
+        "questionId" : "PGV-003",
+        "domain" : "postgres-pgvector-rag",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 0.5,
+        "hit" : true,
+        "retrievedChunkIds" : [ "D-PGV-003", "C-PGV-003", "C-PGV-002", "C-SPR-009", "C-JVM-020" ],
+        "relevantChunkIds" : [ "C-PGV-003" ]
+      }, {
+        "questionId" : "PGV-004",
+        "domain" : "postgres-pgvector-rag",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 0.5,
+        "hit" : true,
+        "retrievedChunkIds" : [ "D-PGV-004", "C-PGV-004", "C-SPR-009", "C-JVM-020", "C-PGV-017" ],
+        "relevantChunkIds" : [ "C-PGV-004" ]
+      }, {
+        "questionId" : "PGV-005",
+        "domain" : "postgres-pgvector-rag",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 0.5,
+        "hit" : true,
+        "retrievedChunkIds" : [ "D-PGV-005", "C-PGV-005", "C-PGV-004", "C-PGV-001", "C-PGV-013" ],
+        "relevantChunkIds" : [ "C-PGV-005" ]
+      }, {
+        "questionId" : "PGV-006",
+        "domain" : "postgres-pgvector-rag",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 0.5,
+        "hit" : true,
+        "retrievedChunkIds" : [ "D-PGV-006", "C-PGV-006", "C-JVM-020", "C-PGV-017", "C-SPR-018" ],
+        "relevantChunkIds" : [ "C-PGV-006" ]
+      }, {
+        "questionId" : "PGV-007",
+        "domain" : "postgres-pgvector-rag",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 0.5,
+        "hit" : true,
+        "retrievedChunkIds" : [ "D-PGV-007", "C-PGV-007" ],
+        "relevantChunkIds" : [ "C-PGV-007" ]
+      }, {
+        "questionId" : "PGV-008",
+        "domain" : "postgres-pgvector-rag",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 0.3333333333333333,
+        "hit" : true,
+        "retrievedChunkIds" : [ "D-PGV-008", "C-JVM-020", "C-PGV-008", "C-SPR-018", "C-PGV-018" ],
+        "relevantChunkIds" : [ "C-PGV-008" ]
+      }, {
+        "questionId" : "PGV-009",
+        "domain" : "postgres-pgvector-rag",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 0.3333333333333333,
+        "hit" : true,
+        "retrievedChunkIds" : [ "D-PGV-009", "C-PGV-011", "C-PGV-009", "C-JVM-020", "C-JVM-016" ],
+        "relevantChunkIds" : [ "C-PGV-009" ]
+      }, {
+        "questionId" : "PGV-010",
+        "domain" : "postgres-pgvector-rag",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 0.5,
+        "hit" : true,
+        "retrievedChunkIds" : [ "D-PGV-010", "C-PGV-010", "C-JVM-016", "C-PGV-009", "C-SPR-009" ],
+        "relevantChunkIds" : [ "C-PGV-010" ]
+      }, {
+        "questionId" : "PGV-011",
+        "domain" : "postgres-pgvector-rag",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 0.5,
+        "hit" : true,
+        "retrievedChunkIds" : [ "D-PGV-011", "C-PGV-011", "C-PGV-009", "C-JVM-013", "C-JVM-006" ],
+        "relevantChunkIds" : [ "C-PGV-011" ]
+      }, {
+        "questionId" : "PGV-012",
+        "domain" : "postgres-pgvector-rag",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 0.5,
+        "hit" : true,
+        "retrievedChunkIds" : [ "D-PGV-012", "C-PGV-012", "C-SPR-014", "C-SPR-007", "C-JVM-019" ],
+        "relevantChunkIds" : [ "C-PGV-012" ]
+      }, {
+        "questionId" : "PGV-013",
+        "domain" : "postgres-pgvector-rag",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 0.2,
+        "hit" : true,
+        "retrievedChunkIds" : [ "D-PGV-013", "C-PGV-001", "C-SPR-015", "C-JVM-010", "C-PGV-013" ],
+        "relevantChunkIds" : [ "C-PGV-013" ]
+      }, {
+        "questionId" : "PGV-014",
+        "domain" : "postgres-pgvector-rag",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 0.5,
+        "hit" : true,
+        "retrievedChunkIds" : [ "D-PGV-014", "C-PGV-014", "C-PGV-001", "C-PGV-013", "C-PGV-012" ],
+        "relevantChunkIds" : [ "C-PGV-014" ]
+      }, {
+        "questionId" : "PGV-015",
+        "domain" : "postgres-pgvector-rag",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 0.5,
+        "hit" : true,
+        "retrievedChunkIds" : [ "D-PGV-015", "C-PGV-015", "C-SPR-016", "C-SPR-013", "C-JVM-016" ],
+        "relevantChunkIds" : [ "C-PGV-015" ]
+      }, {
+        "questionId" : "PGV-016",
+        "domain" : "postgres-pgvector-rag",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 0.5,
+        "hit" : true,
+        "retrievedChunkIds" : [ "D-PGV-016", "C-PGV-016", "C-PGV-017", "C-PGV-009" ],
+        "relevantChunkIds" : [ "C-PGV-016" ]
+      }, {
+        "questionId" : "PGV-017",
+        "domain" : "postgres-pgvector-rag",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 0.5,
+        "hit" : true,
+        "retrievedChunkIds" : [ "D-PGV-017", "C-PGV-017", "C-PGV-016", "C-PGV-009" ],
+        "relevantChunkIds" : [ "C-PGV-017" ]
+      }, {
+        "questionId" : "PGV-018",
+        "domain" : "postgres-pgvector-rag",
+        "recallAtK" : 0.0,
+        "reciprocalRank" : 0.0,
+        "hit" : false,
+        "retrievedChunkIds" : [ "D-PGV-018", "C-JVM-016", "C-PGV-010", "D-JVM-020", "D-JVM-019" ],
+        "relevantChunkIds" : [ "C-PGV-018" ]
+      }, {
+        "questionId" : "PGV-019",
+        "domain" : "postgres-pgvector-rag",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 0.3333333333333333,
+        "hit" : true,
+        "retrievedChunkIds" : [ "D-PGV-019", "C-SPR-014", "C-PGV-019", "C-PGV-014", "C-PGV-007" ],
+        "relevantChunkIds" : [ "C-PGV-019" ]
+      }, {
+        "questionId" : "PGV-020",
+        "domain" : "postgres-pgvector-rag",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 0.5,
+        "hit" : true,
+        "retrievedChunkIds" : [ "D-PGV-020", "C-PGV-020", "C-PGV-015", "C-PGV-002", "C-SPR-009" ],
+        "relevantChunkIds" : [ "C-PGV-020" ]
+      }, {
+        "questionId" : "JVM-001",
+        "domain" : "java-jvm-concurrency",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 0.3333333333333333,
+        "hit" : true,
+        "retrievedChunkIds" : [ "D-JVM-001", "C-JVM-006", "C-JVM-001", "C-JVM-019", "C-JVM-012" ],
+        "relevantChunkIds" : [ "C-JVM-001" ]
+      }, {
+        "questionId" : "JVM-002",
+        "domain" : "java-jvm-concurrency",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 0.3333333333333333,
+        "hit" : true,
+        "retrievedChunkIds" : [ "D-JVM-002", "C-SPR-008", "C-JVM-002", "C-JVM-016" ],
+        "relevantChunkIds" : [ "C-JVM-002" ]
+      }, {
+        "questionId" : "JVM-003",
+        "domain" : "java-jvm-concurrency",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 0.2,
+        "hit" : true,
+        "retrievedChunkIds" : [ "D-JVM-003", "C-SPR-010", "C-JVM-013", "C-JVM-008", "C-JVM-003" ],
+        "relevantChunkIds" : [ "C-JVM-003" ]
+      }, {
+        "questionId" : "JVM-004",
+        "domain" : "java-jvm-concurrency",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 0.5,
+        "hit" : true,
+        "retrievedChunkIds" : [ "D-JVM-004", "C-JVM-004", "C-SPR-009" ],
+        "relevantChunkIds" : [ "C-JVM-004" ]
+      }, {
+        "questionId" : "JVM-005",
+        "domain" : "java-jvm-concurrency",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 0.5,
+        "hit" : true,
+        "retrievedChunkIds" : [ "D-JVM-005", "C-JVM-005", "C-JVM-020", "C-JVM-009", "C-PGV-020" ],
+        "relevantChunkIds" : [ "C-JVM-005" ]
+      }, {
+        "questionId" : "JVM-006",
+        "domain" : "java-jvm-concurrency",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 0.5,
+        "hit" : true,
+        "retrievedChunkIds" : [ "D-JVM-006", "C-JVM-006", "C-JVM-019", "C-SPR-011", "C-SPR-006" ],
+        "relevantChunkIds" : [ "C-JVM-006" ]
+      }, {
+        "questionId" : "JVM-007",
+        "domain" : "java-jvm-concurrency",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 0.5,
+        "hit" : true,
+        "retrievedChunkIds" : [ "D-JVM-007", "C-JVM-007", "C-SPR-018", "C-SPR-016", "C-JVM-018" ],
+        "relevantChunkIds" : [ "C-JVM-007" ]
+      }, {
+        "questionId" : "JVM-008",
+        "domain" : "java-jvm-concurrency",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 0.5,
+        "hit" : true,
+        "retrievedChunkIds" : [ "D-JVM-008", "C-JVM-008", "C-JVM-016", "C-JVM-015", "C-JVM-006" ],
+        "relevantChunkIds" : [ "C-JVM-008" ]
+      }, {
+        "questionId" : "JVM-009",
+        "domain" : "java-jvm-concurrency",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 0.5,
+        "hit" : true,
+        "retrievedChunkIds" : [ "D-JVM-009", "C-JVM-009", "C-JVM-006", "C-SPR-017", "C-SPR-016" ],
+        "relevantChunkIds" : [ "C-JVM-009" ]
+      }, {
+        "questionId" : "JVM-010",
+        "domain" : "java-jvm-concurrency",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 0.5,
+        "hit" : true,
+        "retrievedChunkIds" : [ "D-JVM-010", "C-JVM-010", "C-JVM-011", "C-SPR-003", "C-SPR-020" ],
+        "relevantChunkIds" : [ "C-JVM-010" ]
+      }, {
+        "questionId" : "JVM-011",
+        "domain" : "java-jvm-concurrency",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 0.3333333333333333,
+        "hit" : true,
+        "retrievedChunkIds" : [ "D-JVM-011", "C-SPR-003", "C-JVM-011", "C-SPR-007", "C-JVM-019" ],
+        "relevantChunkIds" : [ "C-JVM-011" ]
+      }, {
+        "questionId" : "JVM-012",
+        "domain" : "java-jvm-concurrency",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 0.5,
+        "hit" : true,
+        "retrievedChunkIds" : [ "D-JVM-012", "C-JVM-012", "C-SPR-017", "C-JVM-019", "C-JVM-006" ],
+        "relevantChunkIds" : [ "C-JVM-012" ]
+      }, {
+        "questionId" : "JVM-013",
+        "domain" : "java-jvm-concurrency",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 0.5,
+        "hit" : true,
+        "retrievedChunkIds" : [ "D-JVM-013", "C-JVM-013", "C-SPR-001", "C-JVM-017", "C-SPR-013" ],
+        "relevantChunkIds" : [ "C-JVM-013" ]
+      }, {
+        "questionId" : "JVM-014",
+        "domain" : "java-jvm-concurrency",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 0.5,
+        "hit" : true,
+        "retrievedChunkIds" : [ "D-JVM-014", "C-JVM-014", "C-PGV-016", "C-PGV-008", "C-SPR-008" ],
+        "relevantChunkIds" : [ "C-JVM-014" ]
+      }, {
+        "questionId" : "JVM-015",
+        "domain" : "java-jvm-concurrency",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 0.3333333333333333,
+        "hit" : true,
+        "retrievedChunkIds" : [ "D-JVM-015", "C-JVM-019", "C-JVM-015", "C-JVM-016", "C-JVM-020" ],
+        "relevantChunkIds" : [ "C-JVM-015" ]
+      }, {
+        "questionId" : "JVM-016",
+        "domain" : "java-jvm-concurrency",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 0.2,
+        "hit" : true,
+        "retrievedChunkIds" : [ "D-JVM-016", "C-SPR-007", "C-SPR-001", "C-JVM-017", "C-JVM-016" ],
+        "relevantChunkIds" : [ "C-JVM-016" ]
+      }, {
+        "questionId" : "JVM-017",
+        "domain" : "java-jvm-concurrency",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 0.5,
+        "hit" : true,
+        "retrievedChunkIds" : [ "D-JVM-017", "C-JVM-017", "C-SPR-007", "C-PGV-010", "C-JVM-016" ],
+        "relevantChunkIds" : [ "C-JVM-017" ]
+      }, {
+        "questionId" : "JVM-018",
+        "domain" : "java-jvm-concurrency",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 0.5,
+        "hit" : true,
+        "retrievedChunkIds" : [ "D-JVM-018", "C-JVM-018", "C-JVM-007", "C-SPR-016", "C-SPR-018" ],
+        "relevantChunkIds" : [ "C-JVM-018" ]
+      }, {
+        "questionId" : "JVM-019",
+        "domain" : "java-jvm-concurrency",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 0.5,
+        "hit" : true,
+        "retrievedChunkIds" : [ "D-JVM-019", "C-JVM-019", "C-SPR-011", "C-JVM-014", "C-JVM-006" ],
+        "relevantChunkIds" : [ "C-JVM-019" ]
+      }, {
+        "questionId" : "JVM-020",
+        "domain" : "java-jvm-concurrency",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 0.5,
+        "hit" : true,
+        "retrievedChunkIds" : [ "D-JVM-020", "C-JVM-020", "C-SPR-018", "C-JVM-016", "D-JVM-019" ],
+        "relevantChunkIds" : [ "C-JVM-020" ]
+      } ]
+    }
+  },
+  "hybrid-local-rerank" : {
+    "judge" : [ {
+      "questionId" : "SPR-001",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 1.0,
+      "reason" : "heuristic keywordCoverage=1.0, contextSupport=1.0"
+    }, {
+      "questionId" : "SPR-002",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 1.0,
+      "reason" : "heuristic keywordCoverage=1.0, contextSupport=1.0"
+    }, {
+      "questionId" : "SPR-003",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 1.0,
+      "reason" : "heuristic keywordCoverage=1.0, contextSupport=1.0"
+    }, {
+      "questionId" : "SPR-004",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 1.0,
+      "reason" : "heuristic keywordCoverage=1.0, contextSupport=1.0"
+    }, {
+      "questionId" : "SPR-005",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 0.0,
+      "reason" : "heuristic keywordCoverage=0.0, contextSupport=1.0"
+    }, {
+      "questionId" : "SPR-006",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 1.0,
+      "reason" : "heuristic keywordCoverage=1.0, contextSupport=1.0"
+    }, {
+      "questionId" : "SPR-007",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 1.0,
+      "reason" : "heuristic keywordCoverage=1.0, contextSupport=1.0"
+    }, {
+      "questionId" : "SPR-008",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 1.0,
+      "reason" : "heuristic keywordCoverage=1.0, contextSupport=1.0"
+    }, {
+      "questionId" : "SPR-009",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 1.0,
+      "reason" : "heuristic keywordCoverage=1.0, contextSupport=1.0"
+    }, {
+      "questionId" : "SPR-010",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 1.0,
+      "reason" : "heuristic keywordCoverage=1.0, contextSupport=1.0"
+    }, {
+      "questionId" : "SPR-011",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 1.0,
+      "reason" : "heuristic keywordCoverage=1.0, contextSupport=1.0"
+    }, {
+      "questionId" : "SPR-012",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 1.0,
+      "reason" : "heuristic keywordCoverage=1.0, contextSupport=1.0"
+    }, {
+      "questionId" : "SPR-013",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 1.0,
+      "reason" : "heuristic keywordCoverage=1.0, contextSupport=1.0"
+    }, {
+      "questionId" : "SPR-014",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 1.0,
+      "reason" : "heuristic keywordCoverage=1.0, contextSupport=1.0"
+    }, {
+      "questionId" : "SPR-015",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 1.0,
+      "reason" : "heuristic keywordCoverage=1.0, contextSupport=1.0"
+    }, {
+      "questionId" : "SPR-016",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 1.0,
+      "reason" : "heuristic keywordCoverage=1.0, contextSupport=1.0"
+    }, {
+      "questionId" : "SPR-017",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 1.0,
+      "reason" : "heuristic keywordCoverage=1.0, contextSupport=1.0"
+    }, {
+      "questionId" : "SPR-018",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 0.25,
+      "reason" : "heuristic keywordCoverage=0.25, contextSupport=1.0"
+    }, {
+      "questionId" : "SPR-019",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 1.0,
+      "reason" : "heuristic keywordCoverage=1.0, contextSupport=1.0"
+    }, {
+      "questionId" : "SPR-020",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 1.0,
+      "reason" : "heuristic keywordCoverage=1.0, contextSupport=1.0"
+    }, {
+      "questionId" : "PGV-001",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 1.0,
+      "reason" : "heuristic keywordCoverage=1.0, contextSupport=1.0"
+    }, {
+      "questionId" : "PGV-002",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 1.0,
+      "reason" : "heuristic keywordCoverage=1.0, contextSupport=1.0"
+    }, {
+      "questionId" : "PGV-003",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 1.0,
+      "reason" : "heuristic keywordCoverage=1.0, contextSupport=1.0"
+    }, {
+      "questionId" : "PGV-004",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 1.0,
+      "reason" : "heuristic keywordCoverage=1.0, contextSupport=1.0"
+    }, {
+      "questionId" : "PGV-005",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 1.0,
+      "reason" : "heuristic keywordCoverage=1.0, contextSupport=1.0"
+    }, {
+      "questionId" : "PGV-006",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 1.0,
+      "reason" : "heuristic keywordCoverage=1.0, contextSupport=1.0"
+    }, {
+      "questionId" : "PGV-007",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 1.0,
+      "reason" : "heuristic keywordCoverage=1.0, contextSupport=1.0"
+    }, {
+      "questionId" : "PGV-008",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 1.0,
+      "reason" : "heuristic keywordCoverage=1.0, contextSupport=1.0"
+    }, {
+      "questionId" : "PGV-009",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 1.0,
+      "reason" : "heuristic keywordCoverage=1.0, contextSupport=1.0"
+    }, {
+      "questionId" : "PGV-010",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 1.0,
+      "reason" : "heuristic keywordCoverage=1.0, contextSupport=1.0"
+    }, {
+      "questionId" : "PGV-011",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 1.0,
+      "reason" : "heuristic keywordCoverage=1.0, contextSupport=1.0"
+    }, {
+      "questionId" : "PGV-012",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 1.0,
+      "reason" : "heuristic keywordCoverage=1.0, contextSupport=1.0"
+    }, {
+      "questionId" : "PGV-013",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 0.75,
+      "reason" : "heuristic keywordCoverage=0.75, contextSupport=1.0"
+    }, {
+      "questionId" : "PGV-014",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 1.0,
+      "reason" : "heuristic keywordCoverage=1.0, contextSupport=1.0"
+    }, {
+      "questionId" : "PGV-015",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 1.0,
+      "reason" : "heuristic keywordCoverage=1.0, contextSupport=1.0"
+    }, {
+      "questionId" : "PGV-016",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 1.0,
+      "reason" : "heuristic keywordCoverage=1.0, contextSupport=1.0"
+    }, {
+      "questionId" : "PGV-017",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 1.0,
+      "reason" : "heuristic keywordCoverage=1.0, contextSupport=1.0"
+    }, {
+      "questionId" : "PGV-018",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 0.25,
+      "reason" : "heuristic keywordCoverage=0.25, contextSupport=1.0"
+    }, {
+      "questionId" : "PGV-019",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 1.0,
+      "reason" : "heuristic keywordCoverage=1.0, contextSupport=1.0"
+    }, {
+      "questionId" : "PGV-020",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 1.0,
+      "reason" : "heuristic keywordCoverage=1.0, contextSupport=1.0"
+    }, {
+      "questionId" : "JVM-001",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 1.0,
+      "reason" : "heuristic keywordCoverage=1.0, contextSupport=1.0"
+    }, {
+      "questionId" : "JVM-002",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 1.0,
+      "reason" : "heuristic keywordCoverage=1.0, contextSupport=1.0"
+    }, {
+      "questionId" : "JVM-003",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 1.0,
+      "reason" : "heuristic keywordCoverage=1.0, contextSupport=1.0"
+    }, {
+      "questionId" : "JVM-004",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 1.0,
+      "reason" : "heuristic keywordCoverage=1.0, contextSupport=1.0"
+    }, {
+      "questionId" : "JVM-005",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 1.0,
+      "reason" : "heuristic keywordCoverage=1.0, contextSupport=1.0"
+    }, {
+      "questionId" : "JVM-006",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 1.0,
+      "reason" : "heuristic keywordCoverage=1.0, contextSupport=1.0"
+    }, {
+      "questionId" : "JVM-007",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 1.0,
+      "reason" : "heuristic keywordCoverage=1.0, contextSupport=1.0"
+    }, {
+      "questionId" : "JVM-008",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 1.0,
+      "reason" : "heuristic keywordCoverage=1.0, contextSupport=1.0"
+    }, {
+      "questionId" : "JVM-009",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 1.0,
+      "reason" : "heuristic keywordCoverage=1.0, contextSupport=1.0"
+    }, {
+      "questionId" : "JVM-010",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 1.0,
+      "reason" : "heuristic keywordCoverage=1.0, contextSupport=1.0"
+    }, {
+      "questionId" : "JVM-011",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 1.0,
+      "reason" : "heuristic keywordCoverage=1.0, contextSupport=1.0"
+    }, {
+      "questionId" : "JVM-012",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 1.0,
+      "reason" : "heuristic keywordCoverage=1.0, contextSupport=1.0"
+    }, {
+      "questionId" : "JVM-013",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 1.0,
+      "reason" : "heuristic keywordCoverage=1.0, contextSupport=1.0"
+    }, {
+      "questionId" : "JVM-014",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 1.0,
+      "reason" : "heuristic keywordCoverage=1.0, contextSupport=1.0"
+    }, {
+      "questionId" : "JVM-015",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 1.0,
+      "reason" : "heuristic keywordCoverage=1.0, contextSupport=1.0"
+    }, {
+      "questionId" : "JVM-016",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 1.0,
+      "reason" : "heuristic keywordCoverage=1.0, contextSupport=1.0"
+    }, {
+      "questionId" : "JVM-017",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 1.0,
+      "reason" : "heuristic keywordCoverage=1.0, contextSupport=1.0"
+    }, {
+      "questionId" : "JVM-018",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 1.0,
+      "reason" : "heuristic keywordCoverage=1.0, contextSupport=1.0"
+    }, {
+      "questionId" : "JVM-019",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 1.0,
+      "reason" : "heuristic keywordCoverage=1.0, contextSupport=1.0"
+    }, {
+      "questionId" : "JVM-020",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 1.0,
+      "reason" : "heuristic keywordCoverage=1.0, contextSupport=1.0"
+    } ],
+    "retrieval" : {
+      "k" : 5,
+      "totalQuestions" : 60,
+      "recallAtK" : 0.9833333333333333,
+      "mrr" : 0.9527777777777777,
+      "hitRateAtK" : 0.9833333333333333,
+      "questionScores" : [ {
+        "questionId" : "SPR-001",
+        "domain" : "spring-boot-rabbitmq",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 1.0,
+        "hit" : true,
+        "retrievedChunkIds" : [ "C-SPR-001", "D-SPR-001", "C-SPR-013", "C-JVM-019", "C-JVM-004" ],
+        "relevantChunkIds" : [ "C-SPR-001" ]
+      }, {
+        "questionId" : "SPR-002",
+        "domain" : "spring-boot-rabbitmq",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 1.0,
+        "hit" : true,
+        "retrievedChunkIds" : [ "C-SPR-002", "D-SPR-002", "C-JVM-019", "C-JVM-004", "C-SPR-009" ],
+        "relevantChunkIds" : [ "C-SPR-002" ]
+      }, {
+        "questionId" : "SPR-003",
+        "domain" : "spring-boot-rabbitmq",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 1.0,
+        "hit" : true,
+        "retrievedChunkIds" : [ "C-SPR-003", "D-SPR-003", "C-SPR-006", "C-SPR-012", "C-SPR-020" ],
+        "relevantChunkIds" : [ "C-SPR-003" ]
+      }, {
+        "questionId" : "SPR-004",
+        "domain" : "spring-boot-rabbitmq",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 1.0,
+        "hit" : true,
+        "retrievedChunkIds" : [ "C-SPR-004", "D-SPR-004", "C-SPR-006", "C-SPR-003", "C-JVM-001" ],
+        "relevantChunkIds" : [ "C-SPR-004" ]
+      }, {
+        "questionId" : "SPR-005",
+        "domain" : "spring-boot-rabbitmq",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 0.3333333333333333,
+        "hit" : true,
+        "retrievedChunkIds" : [ "C-JVM-019", "C-JVM-004", "C-SPR-005", "D-SPR-005", "C-SPR-017" ],
+        "relevantChunkIds" : [ "C-SPR-005" ]
+      }, {
+        "questionId" : "SPR-006",
+        "domain" : "spring-boot-rabbitmq",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 1.0,
+        "hit" : true,
+        "retrievedChunkIds" : [ "C-SPR-006", "D-SPR-006", "C-SPR-017", "C-JVM-006", "C-SPR-007" ],
+        "relevantChunkIds" : [ "C-SPR-006" ]
+      }, {
+        "questionId" : "SPR-007",
+        "domain" : "spring-boot-rabbitmq",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 1.0,
+        "hit" : true,
+        "retrievedChunkIds" : [ "C-SPR-007", "D-SPR-007", "C-SPR-014", "C-SPR-009" ],
+        "relevantChunkIds" : [ "C-SPR-007" ]
+      }, {
+        "questionId" : "SPR-008",
+        "domain" : "spring-boot-rabbitmq",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 1.0,
+        "hit" : true,
+        "retrievedChunkIds" : [ "C-SPR-008", "D-SPR-008", "C-SPR-018", "C-JVM-006", "C-JVM-002" ],
+        "relevantChunkIds" : [ "C-SPR-008" ]
+      }, {
+        "questionId" : "SPR-009",
+        "domain" : "spring-boot-rabbitmq",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 1.0,
+        "hit" : true,
+        "retrievedChunkIds" : [ "C-SPR-009", "D-SPR-009", "C-JVM-020", "C-SPR-018", "C-PGV-002" ],
+        "relevantChunkIds" : [ "C-SPR-009" ]
+      }, {
+        "questionId" : "SPR-010",
+        "domain" : "spring-boot-rabbitmq",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 1.0,
+        "hit" : true,
+        "retrievedChunkIds" : [ "C-SPR-010", "D-SPR-010", "C-JVM-019", "C-JVM-004", "C-JVM-013" ],
+        "relevantChunkIds" : [ "C-SPR-010" ]
+      }, {
+        "questionId" : "SPR-011",
+        "domain" : "spring-boot-rabbitmq",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 1.0,
+        "hit" : true,
+        "retrievedChunkIds" : [ "C-SPR-011", "D-SPR-011", "C-SPR-006", "C-SPR-004", "C-JVM-020" ],
+        "relevantChunkIds" : [ "C-SPR-011" ]
+      }, {
+        "questionId" : "SPR-012",
+        "domain" : "spring-boot-rabbitmq",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 1.0,
+        "hit" : true,
+        "retrievedChunkIds" : [ "C-SPR-012", "D-SPR-012", "C-SPR-006", "C-JVM-006", "C-SPR-016" ],
+        "relevantChunkIds" : [ "C-SPR-012" ]
+      }, {
+        "questionId" : "SPR-013",
+        "domain" : "spring-boot-rabbitmq",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 1.0,
+        "hit" : true,
+        "retrievedChunkIds" : [ "C-SPR-013", "D-SPR-013", "C-JVM-004", "C-JVM-019", "C-PGV-015" ],
+        "relevantChunkIds" : [ "C-SPR-013" ]
+      }, {
+        "questionId" : "SPR-014",
+        "domain" : "spring-boot-rabbitmq",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 1.0,
+        "hit" : true,
+        "retrievedChunkIds" : [ "C-SPR-014", "C-SPR-016", "D-SPR-014", "C-SPR-009", "C-JVM-020" ],
+        "relevantChunkIds" : [ "C-SPR-014" ]
+      }, {
+        "questionId" : "SPR-015",
+        "domain" : "spring-boot-rabbitmq",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 1.0,
+        "hit" : true,
+        "retrievedChunkIds" : [ "C-SPR-015", "D-SPR-015", "C-PGV-012", "C-PGV-007", "D-JVM-020" ],
+        "relevantChunkIds" : [ "C-SPR-015" ]
+      }, {
+        "questionId" : "SPR-016",
+        "domain" : "spring-boot-rabbitmq",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 1.0,
+        "hit" : true,
+        "retrievedChunkIds" : [ "C-SPR-016", "D-SPR-016", "C-JVM-018", "C-JVM-007", "C-SPR-009" ],
+        "relevantChunkIds" : [ "C-SPR-016" ]
+      }, {
+        "questionId" : "SPR-017",
+        "domain" : "spring-boot-rabbitmq",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 1.0,
+        "hit" : true,
+        "retrievedChunkIds" : [ "C-SPR-017", "C-SPR-006", "D-SPR-017", "C-JVM-006", "C-JVM-009" ],
+        "relevantChunkIds" : [ "C-SPR-017" ]
+      }, {
+        "questionId" : "SPR-018",
+        "domain" : "spring-boot-rabbitmq",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 0.5,
+        "hit" : true,
+        "retrievedChunkIds" : [ "C-JVM-019", "C-SPR-018", "D-SPR-018", "C-JVM-004" ],
+        "relevantChunkIds" : [ "C-SPR-018" ]
+      }, {
+        "questionId" : "SPR-019",
+        "domain" : "spring-boot-rabbitmq",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 1.0,
+        "hit" : true,
+        "retrievedChunkIds" : [ "C-SPR-019", "D-SPR-019", "C-JVM-007", "C-JVM-018", "C-SPR-016" ],
+        "relevantChunkIds" : [ "C-SPR-019" ]
+      }, {
+        "questionId" : "SPR-020",
+        "domain" : "spring-boot-rabbitmq",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 1.0,
+        "hit" : true,
+        "retrievedChunkIds" : [ "C-SPR-020", "D-SPR-020", "C-SPR-004", "C-SPR-011", "C-SPR-010" ],
+        "relevantChunkIds" : [ "C-SPR-020" ]
+      }, {
+        "questionId" : "PGV-001",
+        "domain" : "postgres-pgvector-rag",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 1.0,
+        "hit" : true,
+        "retrievedChunkIds" : [ "C-PGV-001", "D-PGV-001", "C-PGV-013", "C-SPR-015", "C-SPR-018" ],
+        "relevantChunkIds" : [ "C-PGV-001" ]
+      }, {
+        "questionId" : "PGV-002",
+        "domain" : "postgres-pgvector-rag",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 1.0,
+        "hit" : true,
+        "retrievedChunkIds" : [ "C-PGV-002", "D-PGV-002", "C-SPR-009", "C-JVM-016", "C-JVM-020" ],
+        "relevantChunkIds" : [ "C-PGV-002" ]
+      }, {
+        "questionId" : "PGV-003",
+        "domain" : "postgres-pgvector-rag",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 1.0,
+        "hit" : true,
+        "retrievedChunkIds" : [ "C-PGV-003", "D-PGV-003", "C-PGV-002", "C-SPR-009", "C-JVM-020" ],
+        "relevantChunkIds" : [ "C-PGV-003" ]
+      }, {
+        "questionId" : "PGV-004",
+        "domain" : "postgres-pgvector-rag",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 1.0,
+        "hit" : true,
+        "retrievedChunkIds" : [ "C-PGV-004", "D-PGV-004", "C-PGV-015", "C-SPR-009", "C-JVM-020" ],
+        "relevantChunkIds" : [ "C-PGV-004" ]
+      }, {
+        "questionId" : "PGV-005",
+        "domain" : "postgres-pgvector-rag",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 1.0,
+        "hit" : true,
+        "retrievedChunkIds" : [ "C-PGV-005", "C-PGV-004", "D-PGV-005", "C-PGV-001", "C-PGV-018" ],
+        "relevantChunkIds" : [ "C-PGV-005" ]
+      }, {
+        "questionId" : "PGV-006",
+        "domain" : "postgres-pgvector-rag",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 1.0,
+        "hit" : true,
+        "retrievedChunkIds" : [ "C-PGV-006", "D-PGV-006", "C-JVM-020", "C-PGV-017", "C-SPR-018" ],
+        "relevantChunkIds" : [ "C-PGV-006" ]
+      }, {
+        "questionId" : "PGV-007",
+        "domain" : "postgres-pgvector-rag",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 1.0,
+        "hit" : true,
+        "retrievedChunkIds" : [ "C-PGV-007", "D-PGV-007" ],
+        "relevantChunkIds" : [ "C-PGV-007" ]
+      }, {
+        "questionId" : "PGV-008",
+        "domain" : "postgres-pgvector-rag",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 1.0,
+        "hit" : true,
+        "retrievedChunkIds" : [ "C-PGV-008", "C-JVM-020", "D-PGV-008", "C-SPR-018", "C-PGV-018" ],
+        "relevantChunkIds" : [ "C-PGV-008" ]
+      }, {
+        "questionId" : "PGV-009",
+        "domain" : "postgres-pgvector-rag",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 1.0,
+        "hit" : true,
+        "retrievedChunkIds" : [ "C-PGV-009", "C-PGV-011", "D-PGV-009", "C-JVM-020", "C-JVM-016" ],
+        "relevantChunkIds" : [ "C-PGV-009" ]
+      }, {
+        "questionId" : "PGV-010",
+        "domain" : "postgres-pgvector-rag",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 1.0,
+        "hit" : true,
+        "retrievedChunkIds" : [ "C-PGV-010", "D-PGV-010", "C-JVM-016", "C-PGV-009", "C-SPR-009" ],
+        "relevantChunkIds" : [ "C-PGV-010" ]
+      }, {
+        "questionId" : "PGV-011",
+        "domain" : "postgres-pgvector-rag",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 1.0,
+        "hit" : true,
+        "retrievedChunkIds" : [ "C-PGV-011", "C-PGV-009", "D-PGV-011", "C-JVM-013", "C-JVM-006" ],
+        "relevantChunkIds" : [ "C-PGV-011" ]
+      }, {
+        "questionId" : "PGV-012",
+        "domain" : "postgres-pgvector-rag",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 1.0,
+        "hit" : true,
+        "retrievedChunkIds" : [ "C-PGV-012", "D-PGV-012", "C-SPR-014", "C-SPR-007", "C-JVM-019" ],
+        "relevantChunkIds" : [ "C-PGV-012" ]
+      }, {
+        "questionId" : "PGV-013",
+        "domain" : "postgres-pgvector-rag",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 0.3333333333333333,
+        "hit" : true,
+        "retrievedChunkIds" : [ "C-PGV-001", "C-SPR-015", "C-PGV-013", "D-PGV-013", "C-SPR-018" ],
+        "relevantChunkIds" : [ "C-PGV-013" ]
+      }, {
+        "questionId" : "PGV-014",
+        "domain" : "postgres-pgvector-rag",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 1.0,
+        "hit" : true,
+        "retrievedChunkIds" : [ "C-PGV-014", "C-PGV-001", "D-PGV-014", "C-PGV-013", "C-SPR-018" ],
+        "relevantChunkIds" : [ "C-PGV-014" ]
+      }, {
+        "questionId" : "PGV-015",
+        "domain" : "postgres-pgvector-rag",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 1.0,
+        "hit" : true,
+        "retrievedChunkIds" : [ "C-PGV-015", "D-PGV-015", "C-SPR-016", "C-SPR-013", "C-JVM-016" ],
+        "relevantChunkIds" : [ "C-PGV-015" ]
+      }, {
+        "questionId" : "PGV-016",
+        "domain" : "postgres-pgvector-rag",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 1.0,
+        "hit" : true,
+        "retrievedChunkIds" : [ "C-PGV-016", "D-PGV-016", "C-PGV-017", "C-PGV-009" ],
+        "relevantChunkIds" : [ "C-PGV-016" ]
+      }, {
+        "questionId" : "PGV-017",
+        "domain" : "postgres-pgvector-rag",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 1.0,
+        "hit" : true,
+        "retrievedChunkIds" : [ "C-PGV-017", "D-PGV-017", "C-PGV-016", "C-PGV-009" ],
+        "relevantChunkIds" : [ "C-PGV-017" ]
+      }, {
+        "questionId" : "PGV-018",
+        "domain" : "postgres-pgvector-rag",
+        "recallAtK" : 0.0,
+        "reciprocalRank" : 0.0,
+        "hit" : false,
+        "retrievedChunkIds" : [ "D-PGV-018", "C-JVM-016", "C-PGV-010", "D-JVM-020", "D-JVM-019" ],
+        "relevantChunkIds" : [ "C-PGV-018" ]
+      }, {
+        "questionId" : "PGV-019",
+        "domain" : "postgres-pgvector-rag",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 1.0,
+        "hit" : true,
+        "retrievedChunkIds" : [ "C-PGV-019", "C-SPR-014", "D-PGV-019", "C-PGV-007", "C-SPR-009" ],
+        "relevantChunkIds" : [ "C-PGV-019" ]
+      }, {
+        "questionId" : "PGV-020",
+        "domain" : "postgres-pgvector-rag",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 1.0,
+        "hit" : true,
+        "retrievedChunkIds" : [ "C-PGV-020", "D-PGV-020", "C-PGV-002", "C-PGV-015", "C-SPR-009" ],
+        "relevantChunkIds" : [ "C-PGV-020" ]
+      }, {
+        "questionId" : "JVM-001",
+        "domain" : "java-jvm-concurrency",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 1.0,
+        "hit" : true,
+        "retrievedChunkIds" : [ "C-JVM-001", "C-JVM-006", "C-JVM-019", "D-JVM-001", "C-JVM-012" ],
+        "relevantChunkIds" : [ "C-JVM-001" ]
+      }, {
+        "questionId" : "JVM-002",
+        "domain" : "java-jvm-concurrency",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 1.0,
+        "hit" : true,
+        "retrievedChunkIds" : [ "C-JVM-002", "D-JVM-002", "C-SPR-008", "C-JVM-016" ],
+        "relevantChunkIds" : [ "C-JVM-002" ]
+      }, {
+        "questionId" : "JVM-003",
+        "domain" : "java-jvm-concurrency",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 1.0,
+        "hit" : true,
+        "retrievedChunkIds" : [ "C-JVM-003", "C-PGV-019", "D-JVM-003", "C-SPR-010", "C-JVM-013" ],
+        "relevantChunkIds" : [ "C-JVM-003" ]
+      }, {
+        "questionId" : "JVM-004",
+        "domain" : "java-jvm-concurrency",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 1.0,
+        "hit" : true,
+        "retrievedChunkIds" : [ "C-JVM-004", "D-JVM-004", "C-SPR-009" ],
+        "relevantChunkIds" : [ "C-JVM-004" ]
+      }, {
+        "questionId" : "JVM-005",
+        "domain" : "java-jvm-concurrency",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 1.0,
+        "hit" : true,
+        "retrievedChunkIds" : [ "C-JVM-005", "C-SPR-017", "C-JVM-009", "C-PGV-020", "D-JVM-005" ],
+        "relevantChunkIds" : [ "C-JVM-005" ]
+      }, {
+        "questionId" : "JVM-006",
+        "domain" : "java-jvm-concurrency",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 1.0,
+        "hit" : true,
+        "retrievedChunkIds" : [ "C-JVM-006", "C-JVM-019", "D-JVM-006", "C-JVM-012", "C-SPR-006" ],
+        "relevantChunkIds" : [ "C-JVM-006" ]
+      }, {
+        "questionId" : "JVM-007",
+        "domain" : "java-jvm-concurrency",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 1.0,
+        "hit" : true,
+        "retrievedChunkIds" : [ "C-JVM-007", "D-JVM-007", "C-SPR-018", "C-SPR-016", "C-JVM-018" ],
+        "relevantChunkIds" : [ "C-JVM-007" ]
+      }, {
+        "questionId" : "JVM-008",
+        "domain" : "java-jvm-concurrency",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 1.0,
+        "hit" : true,
+        "retrievedChunkIds" : [ "C-JVM-008", "D-JVM-008", "C-JVM-016", "C-PGV-020", "C-PGV-007" ],
+        "relevantChunkIds" : [ "C-JVM-008" ]
+      }, {
+        "questionId" : "JVM-009",
+        "domain" : "java-jvm-concurrency",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 1.0,
+        "hit" : true,
+        "retrievedChunkIds" : [ "C-JVM-009", "D-JVM-009", "C-SPR-017", "C-JVM-006", "C-SPR-016" ],
+        "relevantChunkIds" : [ "C-JVM-009" ]
+      }, {
+        "questionId" : "JVM-010",
+        "domain" : "java-jvm-concurrency",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 1.0,
+        "hit" : true,
+        "retrievedChunkIds" : [ "C-JVM-010", "C-JVM-011", "C-SPR-003", "D-JVM-010", "C-SPR-020" ],
+        "relevantChunkIds" : [ "C-JVM-010" ]
+      }, {
+        "questionId" : "JVM-011",
+        "domain" : "java-jvm-concurrency",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 1.0,
+        "hit" : true,
+        "retrievedChunkIds" : [ "C-JVM-011", "C-SPR-003", "D-JVM-011", "C-SPR-007", "C-JVM-019" ],
+        "relevantChunkIds" : [ "C-JVM-011" ]
+      }, {
+        "questionId" : "JVM-012",
+        "domain" : "java-jvm-concurrency",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 1.0,
+        "hit" : true,
+        "retrievedChunkIds" : [ "C-JVM-012", "C-JVM-019", "D-JVM-012", "C-JVM-006", "C-SPR-017" ],
+        "relevantChunkIds" : [ "C-JVM-012" ]
+      }, {
+        "questionId" : "JVM-013",
+        "domain" : "java-jvm-concurrency",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 1.0,
+        "hit" : true,
+        "retrievedChunkIds" : [ "C-JVM-013", "D-JVM-013", "C-SPR-001", "C-SPR-013", "C-JVM-017" ],
+        "relevantChunkIds" : [ "C-JVM-013" ]
+      }, {
+        "questionId" : "JVM-014",
+        "domain" : "java-jvm-concurrency",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 1.0,
+        "hit" : true,
+        "retrievedChunkIds" : [ "C-JVM-014", "D-JVM-014", "C-PGV-016", "C-SPR-008", "C-JVM-005" ],
+        "relevantChunkIds" : [ "C-JVM-014" ]
+      }, {
+        "questionId" : "JVM-015",
+        "domain" : "java-jvm-concurrency",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 1.0,
+        "hit" : true,
+        "retrievedChunkIds" : [ "C-JVM-015", "C-JVM-019", "D-JVM-015", "C-JVM-016", "C-JVM-020" ],
+        "relevantChunkIds" : [ "C-JVM-015" ]
+      }, {
+        "questionId" : "JVM-016",
+        "domain" : "java-jvm-concurrency",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 1.0,
+        "hit" : true,
+        "retrievedChunkIds" : [ "C-JVM-016", "D-JVM-016", "C-SPR-007", "C-SPR-001", "C-JVM-017" ],
+        "relevantChunkIds" : [ "C-JVM-016" ]
+      }, {
+        "questionId" : "JVM-017",
+        "domain" : "java-jvm-concurrency",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 1.0,
+        "hit" : true,
+        "retrievedChunkIds" : [ "C-JVM-017", "D-JVM-017", "C-SPR-007", "C-JVM-016", "C-PGV-010" ],
+        "relevantChunkIds" : [ "C-JVM-017" ]
+      }, {
+        "questionId" : "JVM-018",
+        "domain" : "java-jvm-concurrency",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 1.0,
+        "hit" : true,
+        "retrievedChunkIds" : [ "C-JVM-018", "D-JVM-018", "C-JVM-007", "C-SPR-016", "C-SPR-018" ],
+        "relevantChunkIds" : [ "C-JVM-018" ]
+      }, {
+        "questionId" : "JVM-019",
+        "domain" : "java-jvm-concurrency",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 1.0,
+        "hit" : true,
+        "retrievedChunkIds" : [ "C-JVM-019", "D-JVM-019", "C-JVM-006", "C-SPR-011", "C-PGV-019" ],
+        "relevantChunkIds" : [ "C-JVM-019" ]
+      }, {
+        "questionId" : "JVM-020",
+        "domain" : "java-jvm-concurrency",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 1.0,
+        "hit" : true,
+        "retrievedChunkIds" : [ "C-JVM-020", "D-JVM-020", "C-SPR-018", "C-JVM-016", "D-JVM-019" ],
+        "relevantChunkIds" : [ "C-JVM-020" ]
+      } ]
+    }
+  },
+  "hybrid-rerank-query-rewrite" : {
+    "judge" : [ {
+      "questionId" : "SPR-001",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 1.0,
+      "reason" : "heuristic keywordCoverage=1.0, contextSupport=1.0"
+    }, {
+      "questionId" : "SPR-002",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 1.0,
+      "reason" : "heuristic keywordCoverage=1.0, contextSupport=1.0"
+    }, {
+      "questionId" : "SPR-003",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 1.0,
+      "reason" : "heuristic keywordCoverage=1.0, contextSupport=1.0"
+    }, {
+      "questionId" : "SPR-004",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 1.0,
+      "reason" : "heuristic keywordCoverage=1.0, contextSupport=1.0"
+    }, {
+      "questionId" : "SPR-005",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 1.0,
+      "reason" : "heuristic keywordCoverage=1.0, contextSupport=1.0"
+    }, {
+      "questionId" : "SPR-006",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 1.0,
+      "reason" : "heuristic keywordCoverage=1.0, contextSupport=1.0"
+    }, {
+      "questionId" : "SPR-007",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 1.0,
+      "reason" : "heuristic keywordCoverage=1.0, contextSupport=1.0"
+    }, {
+      "questionId" : "SPR-008",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 1.0,
+      "reason" : "heuristic keywordCoverage=1.0, contextSupport=1.0"
+    }, {
+      "questionId" : "SPR-009",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 1.0,
+      "reason" : "heuristic keywordCoverage=1.0, contextSupport=1.0"
+    }, {
+      "questionId" : "SPR-010",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 1.0,
+      "reason" : "heuristic keywordCoverage=1.0, contextSupport=1.0"
+    }, {
+      "questionId" : "SPR-011",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 1.0,
+      "reason" : "heuristic keywordCoverage=1.0, contextSupport=1.0"
+    }, {
+      "questionId" : "SPR-012",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 1.0,
+      "reason" : "heuristic keywordCoverage=1.0, contextSupport=1.0"
+    }, {
+      "questionId" : "SPR-013",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 1.0,
+      "reason" : "heuristic keywordCoverage=1.0, contextSupport=1.0"
+    }, {
+      "questionId" : "SPR-014",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 0.25,
+      "reason" : "heuristic keywordCoverage=0.25, contextSupport=1.0"
+    }, {
+      "questionId" : "SPR-015",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 1.0,
+      "reason" : "heuristic keywordCoverage=1.0, contextSupport=1.0"
+    }, {
+      "questionId" : "SPR-016",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 1.0,
+      "reason" : "heuristic keywordCoverage=1.0, contextSupport=1.0"
+    }, {
+      "questionId" : "SPR-017",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 1.0,
+      "reason" : "heuristic keywordCoverage=1.0, contextSupport=1.0"
+    }, {
+      "questionId" : "SPR-018",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 1.0,
+      "reason" : "heuristic keywordCoverage=1.0, contextSupport=1.0"
+    }, {
+      "questionId" : "SPR-019",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 1.0,
+      "reason" : "heuristic keywordCoverage=1.0, contextSupport=1.0"
+    }, {
+      "questionId" : "SPR-020",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 0.25,
+      "reason" : "heuristic keywordCoverage=0.25, contextSupport=1.0"
+    }, {
+      "questionId" : "PGV-001",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 1.0,
+      "reason" : "heuristic keywordCoverage=1.0, contextSupport=1.0"
+    }, {
+      "questionId" : "PGV-002",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 1.0,
+      "reason" : "heuristic keywordCoverage=1.0, contextSupport=1.0"
+    }, {
+      "questionId" : "PGV-003",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 1.0,
+      "reason" : "heuristic keywordCoverage=1.0, contextSupport=1.0"
+    }, {
+      "questionId" : "PGV-004",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 1.0,
+      "reason" : "heuristic keywordCoverage=1.0, contextSupport=1.0"
+    }, {
+      "questionId" : "PGV-005",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 1.0,
+      "reason" : "heuristic keywordCoverage=1.0, contextSupport=1.0"
+    }, {
+      "questionId" : "PGV-006",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 1.0,
+      "reason" : "heuristic keywordCoverage=1.0, contextSupport=1.0"
+    }, {
+      "questionId" : "PGV-007",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 1.0,
+      "reason" : "heuristic keywordCoverage=1.0, contextSupport=1.0"
+    }, {
+      "questionId" : "PGV-008",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 1.0,
+      "reason" : "heuristic keywordCoverage=1.0, contextSupport=1.0"
+    }, {
+      "questionId" : "PGV-009",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 1.0,
+      "reason" : "heuristic keywordCoverage=1.0, contextSupport=1.0"
+    }, {
+      "questionId" : "PGV-010",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 1.0,
+      "reason" : "heuristic keywordCoverage=1.0, contextSupport=1.0"
+    }, {
+      "questionId" : "PGV-011",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 1.0,
+      "reason" : "heuristic keywordCoverage=1.0, contextSupport=1.0"
+    }, {
+      "questionId" : "PGV-012",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 1.0,
+      "reason" : "heuristic keywordCoverage=1.0, contextSupport=1.0"
+    }, {
+      "questionId" : "PGV-013",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 1.0,
+      "reason" : "heuristic keywordCoverage=1.0, contextSupport=1.0"
+    }, {
+      "questionId" : "PGV-014",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 1.0,
+      "reason" : "heuristic keywordCoverage=1.0, contextSupport=1.0"
+    }, {
+      "questionId" : "PGV-015",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 1.0,
+      "reason" : "heuristic keywordCoverage=1.0, contextSupport=1.0"
+    }, {
+      "questionId" : "PGV-016",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 1.0,
+      "reason" : "heuristic keywordCoverage=1.0, contextSupport=1.0"
+    }, {
+      "questionId" : "PGV-017",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 1.0,
+      "reason" : "heuristic keywordCoverage=1.0, contextSupport=1.0"
+    }, {
+      "questionId" : "PGV-018",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 1.0,
+      "reason" : "heuristic keywordCoverage=1.0, contextSupport=1.0"
+    }, {
+      "questionId" : "PGV-019",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 1.0,
+      "reason" : "heuristic keywordCoverage=1.0, contextSupport=1.0"
+    }, {
+      "questionId" : "PGV-020",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 1.0,
+      "reason" : "heuristic keywordCoverage=1.0, contextSupport=1.0"
+    }, {
+      "questionId" : "JVM-001",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 1.0,
+      "reason" : "heuristic keywordCoverage=1.0, contextSupport=1.0"
+    }, {
+      "questionId" : "JVM-002",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 1.0,
+      "reason" : "heuristic keywordCoverage=1.0, contextSupport=1.0"
+    }, {
+      "questionId" : "JVM-003",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 1.0,
+      "reason" : "heuristic keywordCoverage=1.0, contextSupport=1.0"
+    }, {
+      "questionId" : "JVM-004",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 1.0,
+      "reason" : "heuristic keywordCoverage=1.0, contextSupport=1.0"
+    }, {
+      "questionId" : "JVM-005",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 1.0,
+      "reason" : "heuristic keywordCoverage=1.0, contextSupport=1.0"
+    }, {
+      "questionId" : "JVM-006",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 0.0,
+      "reason" : "heuristic keywordCoverage=0.0, contextSupport=1.0"
+    }, {
+      "questionId" : "JVM-007",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 1.0,
+      "reason" : "heuristic keywordCoverage=1.0, contextSupport=1.0"
+    }, {
+      "questionId" : "JVM-008",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 1.0,
+      "reason" : "heuristic keywordCoverage=1.0, contextSupport=1.0"
+    }, {
+      "questionId" : "JVM-009",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 1.0,
+      "reason" : "heuristic keywordCoverage=1.0, contextSupport=1.0"
+    }, {
+      "questionId" : "JVM-010",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 0.25,
+      "reason" : "heuristic keywordCoverage=0.25, contextSupport=1.0"
+    }, {
+      "questionId" : "JVM-011",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 1.0,
+      "reason" : "heuristic keywordCoverage=1.0, contextSupport=1.0"
+    }, {
+      "questionId" : "JVM-012",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 1.0,
+      "reason" : "heuristic keywordCoverage=1.0, contextSupport=1.0"
+    }, {
+      "questionId" : "JVM-013",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 1.0,
+      "reason" : "heuristic keywordCoverage=1.0, contextSupport=1.0"
+    }, {
+      "questionId" : "JVM-014",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 1.0,
+      "reason" : "heuristic keywordCoverage=1.0, contextSupport=1.0"
+    }, {
+      "questionId" : "JVM-015",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 1.0,
+      "reason" : "heuristic keywordCoverage=1.0, contextSupport=1.0"
+    }, {
+      "questionId" : "JVM-016",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 1.0,
+      "reason" : "heuristic keywordCoverage=1.0, contextSupport=1.0"
+    }, {
+      "questionId" : "JVM-017",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 1.0,
+      "reason" : "heuristic keywordCoverage=1.0, contextSupport=1.0"
+    }, {
+      "questionId" : "JVM-018",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 1.0,
+      "reason" : "heuristic keywordCoverage=1.0, contextSupport=1.0"
+    }, {
+      "questionId" : "JVM-019",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 1.0,
+      "reason" : "heuristic keywordCoverage=1.0, contextSupport=1.0"
+    }, {
+      "questionId" : "JVM-020",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 0.5,
+      "reason" : "heuristic keywordCoverage=0.5, contextSupport=1.0"
+    } ],
+    "retrieval" : {
+      "k" : 5,
+      "totalQuestions" : 60,
+      "recallAtK" : 1.0,
+      "mrr" : 0.9527777777777777,
+      "hitRateAtK" : 1.0,
+      "questionScores" : [ {
+        "questionId" : "SPR-001",
+        "domain" : "spring-boot-rabbitmq",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 1.0,
+        "hit" : true,
+        "retrievedChunkIds" : [ "C-SPR-001", "D-SPR-001", "C-JVM-013", "C-JVM-015", "C-SPR-013" ],
+        "relevantChunkIds" : [ "C-SPR-001" ]
+      }, {
+        "questionId" : "SPR-002",
+        "domain" : "spring-boot-rabbitmq",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 1.0,
+        "hit" : true,
+        "retrievedChunkIds" : [ "C-SPR-002", "D-SPR-002" ],
+        "relevantChunkIds" : [ "C-SPR-002" ]
+      }, {
+        "questionId" : "SPR-003",
+        "domain" : "spring-boot-rabbitmq",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 1.0,
+        "hit" : true,
+        "retrievedChunkIds" : [ "C-SPR-003", "C-JVM-010", "D-SPR-003" ],
+        "relevantChunkIds" : [ "C-SPR-003" ]
+      }, {
+        "questionId" : "SPR-004",
+        "domain" : "spring-boot-rabbitmq",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 1.0,
+        "hit" : true,
+        "retrievedChunkIds" : [ "C-SPR-004", "D-SPR-004", "C-SPR-006", "C-JVM-011", "C-JVM-010" ],
+        "relevantChunkIds" : [ "C-SPR-004" ]
+      }, {
+        "questionId" : "SPR-005",
+        "domain" : "spring-boot-rabbitmq",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 1.0,
+        "hit" : true,
+        "retrievedChunkIds" : [ "C-SPR-005", "D-SPR-005" ],
+        "relevantChunkIds" : [ "C-SPR-005" ]
+      }, {
+        "questionId" : "SPR-006",
+        "domain" : "spring-boot-rabbitmq",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 1.0,
+        "hit" : true,
+        "retrievedChunkIds" : [ "C-SPR-006", "D-SPR-006" ],
+        "relevantChunkIds" : [ "C-SPR-006" ]
+      }, {
+        "questionId" : "SPR-007",
+        "domain" : "spring-boot-rabbitmq",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 1.0,
+        "hit" : true,
+        "retrievedChunkIds" : [ "C-SPR-007", "D-SPR-007", "C-SPR-013", "C-PGV-015" ],
+        "relevantChunkIds" : [ "C-SPR-007" ]
+      }, {
+        "questionId" : "SPR-008",
+        "domain" : "spring-boot-rabbitmq",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 1.0,
+        "hit" : true,
+        "retrievedChunkIds" : [ "C-SPR-008", "D-SPR-008", "C-JVM-005", "C-PGV-020", "C-JVM-014" ],
+        "relevantChunkIds" : [ "C-SPR-008" ]
+      }, {
+        "questionId" : "SPR-009",
+        "domain" : "spring-boot-rabbitmq",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 1.0,
+        "hit" : true,
+        "retrievedChunkIds" : [ "C-SPR-009", "D-SPR-009" ],
+        "relevantChunkIds" : [ "C-SPR-009" ]
+      }, {
+        "questionId" : "SPR-010",
+        "domain" : "spring-boot-rabbitmq",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 1.0,
+        "hit" : true,
+        "retrievedChunkIds" : [ "C-SPR-010", "D-SPR-010" ],
+        "relevantChunkIds" : [ "C-SPR-010" ]
+      }, {
+        "questionId" : "SPR-011",
+        "domain" : "spring-boot-rabbitmq",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 1.0,
+        "hit" : true,
+        "retrievedChunkIds" : [ "C-SPR-011", "D-SPR-011", "C-SPR-020" ],
+        "relevantChunkIds" : [ "C-SPR-011" ]
+      }, {
+        "questionId" : "SPR-012",
+        "domain" : "spring-boot-rabbitmq",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 1.0,
+        "hit" : true,
+        "retrievedChunkIds" : [ "C-SPR-012", "D-SPR-012", "C-JVM-009" ],
+        "relevantChunkIds" : [ "C-SPR-012" ]
+      }, {
+        "questionId" : "SPR-013",
+        "domain" : "spring-boot-rabbitmq",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 1.0,
+        "hit" : true,
+        "retrievedChunkIds" : [ "C-SPR-013", "D-SPR-013", "C-JVM-012", "C-SPR-017", "C-SPR-007" ],
+        "relevantChunkIds" : [ "C-SPR-013" ]
+      }, {
+        "questionId" : "SPR-014",
+        "domain" : "spring-boot-rabbitmq",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 0.5,
+        "hit" : true,
+        "retrievedChunkIds" : [ "C-SPR-016", "C-SPR-014", "D-SPR-014" ],
+        "relevantChunkIds" : [ "C-SPR-014" ]
+      }, {
+        "questionId" : "SPR-015",
+        "domain" : "spring-boot-rabbitmq",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 1.0,
+        "hit" : true,
+        "retrievedChunkIds" : [ "C-SPR-015", "D-SPR-015", "C-SPR-018" ],
+        "relevantChunkIds" : [ "C-SPR-015" ]
+      }, {
+        "questionId" : "SPR-016",
+        "domain" : "spring-boot-rabbitmq",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 1.0,
+        "hit" : true,
+        "retrievedChunkIds" : [ "C-SPR-016", "C-SPR-014", "D-SPR-014" ],
+        "relevantChunkIds" : [ "C-SPR-016" ]
+      }, {
+        "questionId" : "SPR-017",
+        "domain" : "spring-boot-rabbitmq",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 1.0,
+        "hit" : true,
+        "retrievedChunkIds" : [ "C-SPR-017", "C-JVM-005", "D-SPR-017", "C-JVM-009", "C-PGV-020" ],
+        "relevantChunkIds" : [ "C-SPR-017" ]
+      }, {
+        "questionId" : "SPR-018",
+        "domain" : "spring-boot-rabbitmq",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 1.0,
+        "hit" : true,
+        "retrievedChunkIds" : [ "C-SPR-018", "D-SPR-018", "C-SPR-015", "C-JVM-020", "C-JVM-016" ],
+        "relevantChunkIds" : [ "C-SPR-018" ]
+      }, {
+        "questionId" : "SPR-019",
+        "domain" : "spring-boot-rabbitmq",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 1.0,
+        "hit" : true,
+        "retrievedChunkIds" : [ "C-SPR-019", "D-SPR-019" ],
+        "relevantChunkIds" : [ "C-SPR-019" ]
+      }, {
+        "questionId" : "SPR-020",
+        "domain" : "spring-boot-rabbitmq",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 0.3333333333333333,
+        "hit" : true,
+        "retrievedChunkIds" : [ "C-SPR-011", "D-SPR-011", "C-SPR-020" ],
+        "relevantChunkIds" : [ "C-SPR-020" ]
+      }, {
+        "questionId" : "PGV-001",
+        "domain" : "postgres-pgvector-rag",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 1.0,
+        "hit" : true,
+        "retrievedChunkIds" : [ "C-PGV-001", "D-PGV-001", "C-PGV-013" ],
+        "relevantChunkIds" : [ "C-PGV-001" ]
+      }, {
+        "questionId" : "PGV-002",
+        "domain" : "postgres-pgvector-rag",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 1.0,
+        "hit" : true,
+        "retrievedChunkIds" : [ "C-PGV-002", "D-PGV-002", "D-JVM-020", "D-JVM-019", "D-JVM-018" ],
+        "relevantChunkIds" : [ "C-PGV-002" ]
+      }, {
+        "questionId" : "PGV-003",
+        "domain" : "postgres-pgvector-rag",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 1.0,
+        "hit" : true,
+        "retrievedChunkIds" : [ "C-PGV-003", "D-PGV-003" ],
+        "relevantChunkIds" : [ "C-PGV-003" ]
+      }, {
+        "questionId" : "PGV-004",
+        "domain" : "postgres-pgvector-rag",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 1.0,
+        "hit" : true,
+        "retrievedChunkIds" : [ "C-PGV-004", "C-PGV-015", "D-PGV-004", "C-PGV-018", "C-PGV-005" ],
+        "relevantChunkIds" : [ "C-PGV-004" ]
+      }, {
+        "questionId" : "PGV-005",
+        "domain" : "postgres-pgvector-rag",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 1.0,
+        "hit" : true,
+        "retrievedChunkIds" : [ "C-PGV-005", "D-PGV-005", "C-PGV-018", "C-PGV-015", "C-PGV-004" ],
+        "relevantChunkIds" : [ "C-PGV-005" ]
+      }, {
+        "questionId" : "PGV-006",
+        "domain" : "postgres-pgvector-rag",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 1.0,
+        "hit" : true,
+        "retrievedChunkIds" : [ "C-PGV-006", "D-PGV-006" ],
+        "relevantChunkIds" : [ "C-PGV-006" ]
+      }, {
+        "questionId" : "PGV-007",
+        "domain" : "postgres-pgvector-rag",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 1.0,
+        "hit" : true,
+        "retrievedChunkIds" : [ "C-PGV-007", "D-PGV-007" ],
+        "relevantChunkIds" : [ "C-PGV-007" ]
+      }, {
+        "questionId" : "PGV-008",
+        "domain" : "postgres-pgvector-rag",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 1.0,
+        "hit" : true,
+        "retrievedChunkIds" : [ "C-PGV-008", "D-PGV-008", "C-JVM-014", "C-PGV-016", "C-PGV-006" ],
+        "relevantChunkIds" : [ "C-PGV-008" ]
+      }, {
+        "questionId" : "PGV-009",
+        "domain" : "postgres-pgvector-rag",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 1.0,
+        "hit" : true,
+        "retrievedChunkIds" : [ "C-PGV-009", "C-PGV-011", "D-PGV-009", "C-PGV-010", "C-SPR-016" ],
+        "relevantChunkIds" : [ "C-PGV-009" ]
+      }, {
+        "questionId" : "PGV-010",
+        "domain" : "postgres-pgvector-rag",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 1.0,
+        "hit" : true,
+        "retrievedChunkIds" : [ "C-PGV-010", "D-PGV-010" ],
+        "relevantChunkIds" : [ "C-PGV-010" ]
+      }, {
+        "questionId" : "PGV-011",
+        "domain" : "postgres-pgvector-rag",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 1.0,
+        "hit" : true,
+        "retrievedChunkIds" : [ "C-PGV-011", "D-PGV-011", "C-PGV-009" ],
+        "relevantChunkIds" : [ "C-PGV-011" ]
+      }, {
+        "questionId" : "PGV-012",
+        "domain" : "postgres-pgvector-rag",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 1.0,
+        "hit" : true,
+        "retrievedChunkIds" : [ "C-PGV-012", "D-PGV-012", "C-SPR-014", "C-SPR-007", "C-JVM-019" ],
+        "relevantChunkIds" : [ "C-PGV-012" ]
+      }, {
+        "questionId" : "PGV-013",
+        "domain" : "postgres-pgvector-rag",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 1.0,
+        "hit" : true,
+        "retrievedChunkIds" : [ "C-PGV-013", "C-PGV-001", "D-PGV-013" ],
+        "relevantChunkIds" : [ "C-PGV-013" ]
+      }, {
+        "questionId" : "PGV-014",
+        "domain" : "postgres-pgvector-rag",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 1.0,
+        "hit" : true,
+        "retrievedChunkIds" : [ "C-PGV-014", "D-PGV-014", "C-PGV-019" ],
+        "relevantChunkIds" : [ "C-PGV-014" ]
+      }, {
+        "questionId" : "PGV-015",
+        "domain" : "postgres-pgvector-rag",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 1.0,
+        "hit" : true,
+        "retrievedChunkIds" : [ "C-PGV-015", "C-PGV-004", "D-PGV-015", "C-PGV-018", "C-PGV-005" ],
+        "relevantChunkIds" : [ "C-PGV-015" ]
+      }, {
+        "questionId" : "PGV-016",
+        "domain" : "postgres-pgvector-rag",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 1.0,
+        "hit" : true,
+        "retrievedChunkIds" : [ "C-PGV-016", "D-PGV-016" ],
+        "relevantChunkIds" : [ "C-PGV-016" ]
+      }, {
+        "questionId" : "PGV-017",
+        "domain" : "postgres-pgvector-rag",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 1.0,
+        "hit" : true,
+        "retrievedChunkIds" : [ "C-PGV-017", "D-PGV-017" ],
+        "relevantChunkIds" : [ "C-PGV-017" ]
+      }, {
+        "questionId" : "PGV-018",
+        "domain" : "postgres-pgvector-rag",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 1.0,
+        "hit" : true,
+        "retrievedChunkIds" : [ "C-PGV-018", "D-PGV-018", "C-PGV-015", "C-PGV-005", "C-PGV-004" ],
+        "relevantChunkIds" : [ "C-PGV-018" ]
+      }, {
+        "questionId" : "PGV-019",
+        "domain" : "postgres-pgvector-rag",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 1.0,
+        "hit" : true,
+        "retrievedChunkIds" : [ "C-PGV-019", "D-PGV-019", "C-JVM-003", "C-PGV-014" ],
+        "relevantChunkIds" : [ "C-PGV-019" ]
+      }, {
+        "questionId" : "PGV-020",
+        "domain" : "postgres-pgvector-rag",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 1.0,
+        "hit" : true,
+        "retrievedChunkIds" : [ "C-PGV-020", "C-JVM-005", "D-PGV-020", "C-JVM-009", "C-SPR-017" ],
+        "relevantChunkIds" : [ "C-PGV-020" ]
+      }, {
+        "questionId" : "JVM-001",
+        "domain" : "java-jvm-concurrency",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 1.0,
+        "hit" : true,
+        "retrievedChunkIds" : [ "C-JVM-001", "D-JVM-001", "C-SPR-004", "C-PGV-001", "C-PGV-014" ],
+        "relevantChunkIds" : [ "C-JVM-001" ]
+      }, {
+        "questionId" : "JVM-002",
+        "domain" : "java-jvm-concurrency",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 1.0,
+        "hit" : true,
+        "retrievedChunkIds" : [ "C-JVM-002", "C-SPR-008", "D-JVM-002" ],
+        "relevantChunkIds" : [ "C-JVM-002" ]
+      }, {
+        "questionId" : "JVM-003",
+        "domain" : "java-jvm-concurrency",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 1.0,
+        "hit" : true,
+        "retrievedChunkIds" : [ "C-JVM-003", "D-JVM-003", "C-PGV-019" ],
+        "relevantChunkIds" : [ "C-JVM-003" ]
+      }, {
+        "questionId" : "JVM-004",
+        "domain" : "java-jvm-concurrency",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 1.0,
+        "hit" : true,
+        "retrievedChunkIds" : [ "C-JVM-004", "D-JVM-004", "C-JVM-019" ],
+        "relevantChunkIds" : [ "C-JVM-004" ]
+      }, {
+        "questionId" : "JVM-005",
+        "domain" : "java-jvm-concurrency",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 1.0,
+        "hit" : true,
+        "retrievedChunkIds" : [ "C-JVM-005", "C-PGV-020", "D-JVM-005", "C-JVM-009", "C-JVM-008" ],
+        "relevantChunkIds" : [ "C-JVM-005" ]
+      }, {
+        "questionId" : "JVM-006",
+        "domain" : "java-jvm-concurrency",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 0.5,
+        "hit" : true,
+        "retrievedChunkIds" : [ "C-JVM-019", "C-JVM-006", "D-JVM-006" ],
+        "relevantChunkIds" : [ "C-JVM-006" ]
+      }, {
+        "questionId" : "JVM-007",
+        "domain" : "java-jvm-concurrency",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 1.0,
+        "hit" : true,
+        "retrievedChunkIds" : [ "C-JVM-007", "D-JVM-007", "C-SPR-018", "C-SPR-016", "C-JVM-013" ],
+        "relevantChunkIds" : [ "C-JVM-007" ]
+      }, {
+        "questionId" : "JVM-008",
+        "domain" : "java-jvm-concurrency",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 1.0,
+        "hit" : true,
+        "retrievedChunkIds" : [ "C-JVM-008", "D-JVM-008", "C-JVM-005", "C-SPR-010" ],
+        "relevantChunkIds" : [ "C-JVM-008" ]
+      }, {
+        "questionId" : "JVM-009",
+        "domain" : "java-jvm-concurrency",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 1.0,
+        "hit" : true,
+        "retrievedChunkIds" : [ "C-JVM-009", "C-SPR-012", "C-PGV-020", "C-SPR-017", "D-JVM-009" ],
+        "relevantChunkIds" : [ "C-JVM-009" ]
+      }, {
+        "questionId" : "JVM-010",
+        "domain" : "java-jvm-concurrency",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 0.5,
+        "hit" : true,
+        "retrievedChunkIds" : [ "C-SPR-003", "C-JVM-010", "D-SPR-003" ],
+        "relevantChunkIds" : [ "C-JVM-010" ]
+      }, {
+        "questionId" : "JVM-011",
+        "domain" : "java-jvm-concurrency",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 1.0,
+        "hit" : true,
+        "retrievedChunkIds" : [ "C-JVM-011", "C-SPR-003", "D-JVM-011" ],
+        "relevantChunkIds" : [ "C-JVM-011" ]
+      }, {
+        "questionId" : "JVM-012",
+        "domain" : "java-jvm-concurrency",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 1.0,
+        "hit" : true,
+        "retrievedChunkIds" : [ "C-JVM-012", "D-JVM-012", "C-SPR-017", "C-SPR-013", "C-JVM-006" ],
+        "relevantChunkIds" : [ "C-JVM-012" ]
+      }, {
+        "questionId" : "JVM-013",
+        "domain" : "java-jvm-concurrency",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 1.0,
+        "hit" : true,
+        "retrievedChunkIds" : [ "C-JVM-013", "D-JVM-013", "C-SPR-001", "C-JVM-017", "C-PGV-006" ],
+        "relevantChunkIds" : [ "C-JVM-013" ]
+      }, {
+        "questionId" : "JVM-014",
+        "domain" : "java-jvm-concurrency",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 1.0,
+        "hit" : true,
+        "retrievedChunkIds" : [ "C-JVM-014", "D-JVM-014", "C-PGV-008", "C-PGV-016", "C-JVM-005" ],
+        "relevantChunkIds" : [ "C-JVM-014" ]
+      }, {
+        "questionId" : "JVM-015",
+        "domain" : "java-jvm-concurrency",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 1.0,
+        "hit" : true,
+        "retrievedChunkIds" : [ "C-JVM-015", "D-JVM-015" ],
+        "relevantChunkIds" : [ "C-JVM-015" ]
+      }, {
+        "questionId" : "JVM-016",
+        "domain" : "java-jvm-concurrency",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 1.0,
+        "hit" : true,
+        "retrievedChunkIds" : [ "C-JVM-016", "D-JVM-016" ],
+        "relevantChunkIds" : [ "C-JVM-016" ]
+      }, {
+        "questionId" : "JVM-017",
+        "domain" : "java-jvm-concurrency",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 1.0,
+        "hit" : true,
+        "retrievedChunkIds" : [ "C-JVM-017", "D-JVM-017" ],
+        "relevantChunkIds" : [ "C-JVM-017" ]
+      }, {
+        "questionId" : "JVM-018",
+        "domain" : "java-jvm-concurrency",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 1.0,
+        "hit" : true,
+        "retrievedChunkIds" : [ "C-JVM-018", "D-JVM-018" ],
+        "relevantChunkIds" : [ "C-JVM-018" ]
+      }, {
+        "questionId" : "JVM-019",
+        "domain" : "java-jvm-concurrency",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 1.0,
+        "hit" : true,
+        "retrievedChunkIds" : [ "C-JVM-019", "D-JVM-019", "C-JVM-004", "C-JVM-006" ],
+        "relevantChunkIds" : [ "C-JVM-019" ]
+      }, {
+        "questionId" : "JVM-020",
+        "domain" : "java-jvm-concurrency",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 0.3333333333333333,
+        "hit" : true,
+        "retrievedChunkIds" : [ "C-SPR-018", "D-JVM-020", "C-JVM-020", "C-SPR-008" ],
+        "relevantChunkIds" : [ "C-JVM-020" ]
+      } ]
+    }
+  }
+}

@@ -59,9 +59,9 @@ JAVA_HOME=$(/usr/libexec/java_home -v 17.0.18) mvn -Dtest=RetrievalEvaluationTes
 |---|---:|---:|---:|---:|---:|---|
 | baseline-fixture | 75.00% | 45.83% | 75.00% | 75.00% | 69.58% | 60 条 golden QA，固定 baseline_run.jsonl；命令已通过 |
 | db-backed-seeded-current | 100.00% | 100.00% | 100.00% | 100.00% | 100.00% | 真实 RetrievalService + PostgreSQL/pgvector；seeded deterministic corpus，用于验证 DB-backed runner，不作为线上质量 claim |
-| +hybrid | TBD | TBD | TBD | TBD | TBD | pgvector + tsvector + RRF 后填写 |
-| +rerank | TBD | TBD | TBD | TBD | TBD | 外部 rerank API 精排后填写 |
-| +query-rewrite | TBD | TBD | TBD | TBD | TBD | LLM query rewrite / HyDE 后填写 |
+| +hybrid | TBD | TBD | TBD | TBD | TBD | 真实文档 + 真实 embedding + pgvector/tsvector/RRF 后填写 |
+| +rerank | TBD | TBD | TBD | TBD | TBD | 真实外部 rerank API 精排后填写 |
+| +query-rewrite | TBD | TBD | TBD | TBD | TBD | 真实 LLM query rewrite / HyDE 后填写 |
 
 ## 5. RAGAS 风格 LLM-as-judge
 
@@ -118,3 +118,34 @@ JAVA_HOME=$(/usr/libexec/java_home -v 17.0.18) \
 1. 将 golden QA 对应的真实领域文档与真实 embedding 固化为可加载数据集；
 2. 对每个版本生成 `target/evaluation/<version>_run.jsonl`；
 3. 将结果追加到本页版本对比表和 README。
+
+## 7. Versioned 检索链路对比 Runner
+
+已新增 `VersionedRetrievalEvaluationIT`，用于在同一个 PostgreSQL/pgvector seeded corpus 上切换检索配置，验证 **baseline → hybrid → local rerank → query rewrite** 的评测矩阵、报告输出和回归断言。该 runner 使用 deterministic vectors 和启发式 judge，适合做工程回归测试；它不是“真实 embedding / 真实 rerank API / 真实 LLM rewrite”的质量 claim。
+
+运行命令：
+
+```bash
+docker run -d --name intellibase-versioned-eval-postgres \
+  -e POSTGRES_DB=intellibase -e POSTGRES_USER=postgres -e POSTGRES_PASSWORD=postgres \
+  -p 55435:5432 \
+  -v "$PWD/sql/schema.sql:/docker-entrypoint-initdb.d/01-schema.sql:ro" \
+  pgvector/pgvector:pg16
+
+JAVA_HOME=$(/usr/libexec/java_home -v 17.0.18) \
+  mvn -pl intellibase-server \
+  -Dtest=VersionedRetrievalEvaluationIT \
+  -Devaluation.versions.enabled=true \
+  -Dspring.datasource.url=jdbc:postgresql://127.0.0.1:55435/intellibase test
+```
+
+本机验证结果（2026-05-18，独立 `pgvector/pgvector:pg16` 容器，seeded deterministic corpus；原始文件见 `benchmarks/raw-results/versioned-evaluation-report-20260518-232618.md`）：
+
+| Version | Recall@5 | MRR | Hit Rate@5 | Faithfulness | Answer Relevance | 说明 |
+|---|---:|---:|---:|---:|---:|---|
+| baseline-dense-only | 0.00% | 0.00% | 0.00% | 100.00% | 1.67% | 向量近邻被故意设置为 distractor |
+| hybrid-rrf | 98.33% | 44.53% | 98.33% | 100.00% | 1.67% | pgvector + `tsvector`/GIN 粗召回，RRF 融合；仅证明 recall 提升 |
+| hybrid-local-rerank | 98.33% | 95.28% | 98.33% | 100.00% | 95.42% | 本地规则 rerank 将相关 chunk 提前 |
+| hybrid-rerank-query-rewrite | 100.00% | 95.28% | 100.00% | 100.00% | 93.75% | deterministic rewrite 模拟检索友好 query |
+
+补充实现细节：PostgreSQL sparse recall 使用应用层 tokenizer 预分词，`buildLexicalQuery` 生成 OR 型 `tsquery`（`token1 | token2 | ...`），避免 `plainto_tsquery` 对长问题做全 AND 匹配导致粗召回过窄；精排阶段再用 RRF / rerank 控制噪声。

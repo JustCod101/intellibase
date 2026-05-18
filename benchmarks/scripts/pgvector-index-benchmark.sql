@@ -69,10 +69,10 @@ DROP INDEX IF EXISTS idx_bench_chunk_embedding_ivf_100;
 
 -- Lexical side of hybrid search.
 EXPLAIN (ANALYZE, BUFFERS)
-SELECT id, ts_rank_cd(lexical_vector, plainto_tsquery('simple', 'pgvector hnsw probes')) AS lexical_score
+SELECT id, ts_rank_cd(lexical_vector, to_tsquery('simple', 'pgvector | hnsw | probes')) AS lexical_score
 FROM document_chunk
 WHERE kb_id = :fixture_kb_id
-  AND lexical_vector @@ plainto_tsquery('simple', 'pgvector hnsw probes')
+  AND lexical_vector @@ to_tsquery('simple', 'pgvector | hnsw | probes')
 ORDER BY lexical_score DESC, id DESC
 LIMIT 20;
 

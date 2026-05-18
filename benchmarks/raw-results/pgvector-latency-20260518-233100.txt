@@ -1,0 +1,57 @@
+Timing is on.
+SET
+Time: 0.671 ms
+SET
+Time: 0.400 ms
+SET
+Time: 0.393 ms
+ set_config 
+------------
+ 99001
+(1 row)
+
+Time: 1.368 ms
+ set_config 
+------------
+ 200
+(1 row)
+
+Time: 0.509 ms
+DROP TABLE
+Time: 0.861 ms
+CREATE TABLE
+Time: 5.015 ms
+DO
+Time: 6911.498 ms (00:06.911)
+     scenario      | samples | min_ms | p50_ms | p95_ms | p99_ms | max_ms | avg_ms 
+-------------------+---------+--------+--------+--------+--------+--------+--------
+ gin_lexical_top20 |     200 | 17.623 | 18.204 | 24.994 | 29.200 | 35.106 | 19.438
+ hnsw_top20_ef40   |     200 |  0.120 |  0.189 |  0.290 |  1.039 |  2.222 |  0.218
+(2 rows)
+
+Time: 1.135 ms
+     scenario      | sample_no | elapsed_ms 
+-------------------+-----------+------------
+ gin_lexical_top20 |       102 |     35.106
+ gin_lexical_top20 |       144 |     29.539
+ gin_lexical_top20 |        46 |     29.200
+ gin_lexical_top20 |       140 |     28.493
+ gin_lexical_top20 |       103 |     27.354
+ gin_lexical_top20 |       101 |     26.245
+ gin_lexical_top20 |        22 |     25.713
+ gin_lexical_top20 |        45 |     25.423
+ gin_lexical_top20 |       197 |     25.376
+ gin_lexical_top20 |        21 |     25.049
+ gin_lexical_top20 |        43 |     24.994
+ gin_lexical_top20 |       181 |     24.697
+ gin_lexical_top20 |       162 |     23.922
+ gin_lexical_top20 |       156 |     23.908
+ gin_lexical_top20 |        76 |     23.886
+ gin_lexical_top20 |        44 |     23.706
+ gin_lexical_top20 |        14 |     23.639
+ gin_lexical_top20 |       159 |     23.195
+ gin_lexical_top20 |       128 |     23.194
+ gin_lexical_top20 |        75 |     23.163
+(20 rows)
+
+Time: 0.418 ms

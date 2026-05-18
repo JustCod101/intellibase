@@ -60,8 +60,8 @@ BEGIN
         PERFORM id
         FROM document_chunk
         WHERE kb_id = kb
-          AND lexical_vector @@ plainto_tsquery('simple', 'pgvector hnsw probes')
-        ORDER BY ts_rank_cd(lexical_vector, plainto_tsquery('simple', 'pgvector hnsw probes')) DESC, id DESC
+          AND lexical_vector @@ to_tsquery('simple', 'pgvector | hnsw | probes')
+        ORDER BY ts_rank_cd(lexical_vector, to_tsquery('simple', 'pgvector | hnsw | probes')) DESC, id DESC
         LIMIT 20;
         INSERT INTO ib_latency_samples VALUES (
             'gin_lexical_top20', i,

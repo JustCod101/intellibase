@@ -38,10 +38,10 @@
     <select id="findLexicalMatches" resultType="com.intellibase.server.domain.entity.DocumentChunk">
         SELECT
             id, doc_id, kb_id, chunk_index, content, lexical_content, token_count, metadata, created_at,
-            ts_rank_cd(lexical_vector, plainto_tsquery('simple', #{lexicalQuery})) AS lexical_score
+            ts_rank_cd(lexical_vector, to_tsquery('simple', #{lexicalQuery})) AS lexical_score
         FROM document_chunk
         WHERE kb_id = #{kbId}
-          AND lexical_vector @@ plainto_tsquery('simple', #{lexicalQuery})
+          AND lexical_vector @@ to_tsquery('simple', #{lexicalQuery})
         ORDER BY lexical_score DESC, id DESC
         LIMIT #{limit}
     </select>

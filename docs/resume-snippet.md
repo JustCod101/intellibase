@@ -15,8 +15,10 @@ IntelliBase 是一个基于 Spring Boot 3.2、LangChain4j、PostgreSQL/pgvector�
 ## 当前可量化口径（不要夸大）
 
 - 评测集：60 条 golden QA，3 个知识域。
-- baseline-fixture：Recall@5 75.00%、MRR 45.83%、Hit Rate@5 75.00%（固定样例，仅验证评测管线；真实检索结果待 DB-backed runner 跑出后替换）。
-- pgvector 基准：100,000 条 1536 维向量 fixture；HNSW Top-20 单查询 `EXPLAIN ANALYZE` 0.460ms；200 次采样 HNSW Top-20 P50/P95/P99 = 0.166/0.203/1.468ms；IVFFlat(`lists=100, probes=20`) 单查询 97.434ms。前提：本机 Docker PostgreSQL 16 + pgvector，不含 HTTP/Embedding/Rerank/LLM。
+- baseline-fixture：Recall@5 75.00%、MRR 45.83%、Hit Rate@5 75.00%（固定样例，仅验证评测管线）。
+- DB-backed seeded runner：真实 PostgreSQL/pgvector + RetrievalService，Recall@5/MRR/Hit Rate = 100.00%（deterministic corpus，仅证明 runner 可用）。
+- Versioned seeded matrix：dense-only → hybrid RRF → local rerank → query rewrite 的 Recall@5 = 0.00% → 98.33% → 98.33% → 100.00%；用于回归验证，不作为真实 embedding / 外部 rerank API 质量 claim。
+- pgvector 基准：100,000 条 1536 维向量 fixture；HNSW Top-20（`ef_search=40`）单查询 `EXPLAIN ANALYZE` 0.426ms；200 次采样 HNSW Top-20 P50/P95/P99 = 0.189/0.290/1.039ms；IVFFlat(`lists=100, probes=20`) 单查询 150.876ms。前提：本机 Docker PostgreSQL 16 + pgvector，不含 HTTP/Embedding/Rerank/LLM。
 - real-text 数据规模：已提供从仓库真实代码/文档/SQL 切分并平铺到 100,000 chunks 的脚本，实测导入 57.040s；去重 chunk 文本 708 个，向量仍为 deterministic fixture vector，因此只作为规模/索引压测数据，不作为语义质量证明。
 - SSE 压测：mock OpenAI-compatible API 下 1 VU/5s/500 chunks 链路已跑通，`http_req_failed=0%`；真实 LLM/Embedding/Rerank 延迟仍需接真实 API 后填写。
 

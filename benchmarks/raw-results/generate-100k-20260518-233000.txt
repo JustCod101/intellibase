@@ -1,0 +1,34 @@
+CREATE EXTENSION
+Timing is on.
+CREATE FUNCTION
+Time: 4.489 ms
+INSERT 0 1
+Time: 1.591 ms
+INSERT 0 1
+Time: 1.390 ms
+INSERT 0 1
+Time: 1.933 ms
+INSERT 0 1
+Time: 1.538 ms
+DELETE 0
+Time: 2.720 ms
+DROP INDEX
+Time: 2.763 ms
+DROP INDEX
+Time: 1.101 ms
+SELECT 6
+Time: 16.885 ms
+INSERT 0 100000
+Time: 4719.447 ms (00:04.719)
+CREATE INDEX
+Time: 15083.845 ms (00:15.084)
+CREATE INDEX
+Time: 384.424 ms
+ANALYZE
+Time: 682.490 ms
+ kb_id | generated_chunks 
+-------+------------------
+ 99001 |           100000
+(1 row)
+
+Time: 22.946 ms

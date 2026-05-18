@@ -25,7 +25,7 @@ public class LexicalTokenizer {
     }
 
     public String buildLexicalQuery(String text) {
-        return String.join(" ", tokenize(text, true));
+        return String.join(" | ", tokenize(text, true));
     }
 
     public List<String> tokenizeForMatch(String text) {

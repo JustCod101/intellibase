@@ -117,7 +117,8 @@
     │
     ▼
 [4] Hybrid Search
-    pgvector 语义召回 + PostgreSQL tsvector/GIN 全文召回，并用 RRF 融合
+    pgvector 语义召回 + PostgreSQL tsvector/GIN 全文召回，并用 RRF 融合；
+    sparse 分支使用应用层 tokenizer 生成 OR 型 tsquery 扩大粗召回
     │
     ▼
 [5] 二阶段 Rerank（可配置）
@@ -175,7 +176,7 @@
 
 | 优化点 | 具体措施 | 效果 |
 |-------|---------|------|
-| 向量索引选型 | 当前默认 HNSW；IVFFlat 仅作为 benchmark 备选 | 10 万 fixture 下 HNSW Top-20 单查询 0.460ms，IVFFlat(probes=20) 97.434ms |
+| 向量索引选型 | 当前默认 HNSW；IVFFlat 仅作为 benchmark 备选 | 10 万 fixture 下 HNSW Top-20（ef_search=40）单查询 0.426ms，IVFFlat(probes=20) 150.876ms |
 | 分区表 | document_chunk 按 kb_id RANGE 分区 | 大租户查询隔离 |
 | 复合过滤 | 先 WHERE kb_id = ? 再向量检索 | 避免全表扫描 |
 | 连接池 | HikariCP min=10, max=50, timeout=30s | 连接复用 |

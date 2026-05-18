@@ -10,7 +10,7 @@ Accepted
 
 ## 决策
 
-1. 检索质量：保留已有 pgvector + PostgreSQL 全文检索 + RRF 融合，并补充可配置 Query Rewrite / HyDE。
+1. 检索质量：保留已有 pgvector + PostgreSQL 全文检索 + RRF 融合，并补充可配置 Query Rewrite / HyDE；全文召回使用应用层 tokenizer 生成 OR 型 `tsquery`，避免长问题被 `plainto_tsquery` 全 AND 匹配导致粗召回过窄。
 2. 二阶段排序：新增外部 rerank 接口，默认关闭；启用后对融合候选调用 rerank API，失败回退本地排序。
 3. 分块策略：新增父子分块，子块用于检索，命中后将父块上下文喂给 LLM。
 4. 缓存策略：保留 L1 语义缓存与 L2 Redis 检索结果缓存；删除 L0 Caffeine 本地缓存和 L3 chunk 文档块缓存。

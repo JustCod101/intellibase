@@ -22,4 +22,13 @@ class LexicalTokenizerTest {
         assertTrue(tokens.contains("请处理"));
         assertTrue(tokens.contains("处理"));
     }
+
+    @Test
+    @DisplayName("全文检索查询 - 使用 OR tsquery 扩大粗召回")
+    void buildLexicalQuery_UsesOrTsqueryForRecall() {
+        String query = lexicalTokenizer.buildLexicalQuery("HTTP_409 冲突");
+
+        assertTrue(query.contains("http_409"));
+        assertTrue(query.contains(" | "));
+    }
 }

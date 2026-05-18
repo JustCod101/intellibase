@@ -1,32 +1,32 @@
 # pgvector 10 万向量基准结果（2026-05-18）
 
 > 原始输出：
-> - 数据生成：`generate-100k-20260518-223418.txt`
-> - 索引对比：`pgvector-20260518-223735.txt`
-> - 多查询分位数：`pgvector-latency-20260518-224835.txt`
+> - 数据生成：`generate-100k-20260518-233000.txt`
+> - 索引对比：`pgvector-20260518-233030.txt`
+> - 多查询分位数：`pgvector-latency-20260518-233100.txt`
 >
-> 运行环境：本机 Docker Compose PostgreSQL 16 + pgvector，`document_chunk.embedding vector(1536)`，`kb_id=90001`，100,000 rows，单查询 Top-20，`EXPLAIN (ANALYZE, BUFFERS)`。该结果只用于索引选型与复现样例；端到端 RAG 延迟仍需 k6 + 真实 LLM/Embedding API 单独记录。
+> 运行环境：本机 Docker PostgreSQL 16 + pgvector，`document_chunk.embedding vector(1536)`，`kb_id=99001`，100,000 rows，单查询 Top-20，`EXPLAIN (ANALYZE, BUFFERS)`。该结果只用于索引选型与复现样例；端到端 RAG 延迟仍需 k6 + 真实 LLM/Embedding API 单独记录。
 
 ## 数据生成
 
 | 项目 | 结果 |
 |---|---:|
 | 生成 rows | 100,000 |
-| 插入耗时 | 3.519 s |
-| 默认 HNSW 索引构建 | 18.719 s |
-| GIN 全文索引构建 | 323 ms |
-| 脚本总耗时 | 23.393 s |
+| 插入耗时 | 4.719 s |
+| 默认 HNSW 索引构建 | 15.084 s |
+| GIN 全文索引构建 | 384 ms |
+| 脚本总耗时 | 20.870 s（导入 + HNSW + GIN + ANALYZE） |
 
 ## 索引对比
 
 | 场景 | 索引/参数 | 计划 | 构建耗时 | Execution Time |
 |---|---|---|---:|---:|
-| 默认向量检索 | HNSW `idx_chunk_embedding` | Index Scan | 18.190 s | 0.460 ms |
-| HNSW 调参 | `hnsw.ef_search=40` | Index Scan | 21.036 s | 0.395 ms |
+| 初始向量检索 | HNSW `idx_chunk_embedding` | Index Scan | 15.084 s | 0.921 ms |
+| HNSW 调参 | `hnsw.ef_search=40` | Index Scan | 20.132 s | 0.426 ms |
 | HNSW 调参 | `hnsw.ef_search=100` | Index Scan | 同上 | 0.345 ms |
-| IVFFlat | `lists=100, probes=5` | Seq Scan | 4.131 s | 619.557 ms |
-| IVFFlat | `lists=100, probes=20` | Index Scan | 同上 | 97.434 ms |
-| 全文召回 | GIN `lexical_vector` | Bitmap Index Scan + Bitmap Heap Scan | 已存在 | 21.136 ms |
+| IVFFlat | `lists=100, probes=5` | Seq Scan | 7.064 s | 740.196 ms |
+| IVFFlat | `lists=100, probes=20` | Index Scan | 同上 | 150.876 ms |
+| 全文召回 | GIN `lexical_vector` | Bitmap Index Scan + Bitmap Heap Scan | 已存在 | 25.865 ms（OR tsquery） |
 
 ## 多查询延迟分位数
 
@@ -34,8 +34,8 @@
 
 | 场景 | Samples | P50 | P95 | P99 | Avg | Max |
 |---|---:|---:|---:|---:|---:|---:|
-| HNSW Top-20 (`ef_search=40`) | 200 | 0.166 ms | 0.203 ms | 1.468 ms | 0.198 ms | 1.517 ms |
-| GIN lexical Top-20 | 200 | 17.903 ms | 22.422 ms | 25.926 ms | 18.561 ms | 37.210 ms |
+| HNSW Top-20 (`ef_search=40`) | 200 | 0.189 ms | 0.290 ms | 1.039 ms | 0.218 ms | 2.222 ms |
+| GIN lexical Top-20 | 200 | 18.204 ms | 24.994 ms | 29.200 ms | 19.438 ms | 35.106 ms |
 
 ## 踩坑记录
 
@@ -47,5 +47,5 @@
 ## 当前决策
 
 - 10 万级数据默认保留 HNSW：查询耗时稳定在亚毫秒级，虽然构建耗时高于 IVFFlat，但在线检索延迟更可控。
-- IVFFlat 不作为默认配置：本次 `probes=20` 仍约 97ms，`probes=5` 甚至退化为 Seq Scan。后续只有在插入/重建成本优先且召回可接受时再作为备选。
+- IVFFlat 不作为默认配置：本次 `probes=20` 仍约 151ms，`probes=5` 甚至退化为 Seq Scan。后续只有在插入/重建成本优先且召回可接受时再作为备选。
 - 数据库检索分位数可写入 README/简历，但必须标明“不包含 HTTP/Embedding/Rerank/LLM”。端到端问答性能仍不写入：还缺少 k6 对 `/api/v1/chat/stream` 的 P50/P95/P99 和真实 LLM API 前提。

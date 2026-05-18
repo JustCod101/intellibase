@@ -62,17 +62,17 @@ psql postgresql://postgres:postgres@localhost:5432/intellibase \
 
 ## 4. 实测结果（2026-05-18）
 
-运行环境：本机 Docker Compose PostgreSQL 16 + pgvector，`document_chunk.embedding vector(1536)`，`kb_id=90001`，100,000 rows，Top-20，单查询 `EXPLAIN (ANALYZE, BUFFERS)`。
+运行环境：本机 Docker PostgreSQL 16 + pgvector，`document_chunk.embedding vector(1536)`，`kb_id=99001`，100,000 rows，Top-20，单查询 `EXPLAIN (ANALYZE, BUFFERS)`。
 
 ### 4.1 数据生成
 
 | 项目 | 结果 |
 |---|---:|
 | 生成 rows | 100,000 |
-| 插入耗时 | 3.519 s |
-| 默认 HNSW 索引构建 | 18.719 s |
-| GIN 全文索引构建 | 323 ms |
-| 脚本总耗时 | 23.393 s |
+| 插入耗时 | 4.719 s |
+| 默认 HNSW 索引构建 | 15.084 s |
+| GIN 全文索引构建 | 384 ms |
+| 脚本总耗时 | 20.870 s（导入 + HNSW + GIN + ANALYZE） |
 
 补充 real-text fixture（`realtext-generate-100k-20260518-231500.txt`）：从 196 个仓库源码/文档文件切分出 708 个去重 chunk 文本，平铺导入 100,000 rows，导入耗时 57.040 s。该数据使用 deterministic fixture vector，只用于规模与索引延迟验证，不作为真实 embedding 语义质量证明。
 
@@ -80,12 +80,12 @@ psql postgresql://postgres:postgres@localhost:5432/intellibase \
 
 | 场景 | 索引/参数 | 计划 | 构建耗时 | Execution Time |
 |---|---|---|---:|---:|
-| 默认向量检索 | HNSW `idx_chunk_embedding` | Index Scan | 18.190 s | 0.460 ms |
-| HNSW 调参 | `hnsw.ef_search=40` | Index Scan | 21.036 s | 0.395 ms |
+| 初始向量检索 | HNSW `idx_chunk_embedding` | Index Scan | 15.084 s | 0.921 ms |
+| HNSW 调参 | `hnsw.ef_search=40` | Index Scan | 20.132 s | 0.426 ms |
 | HNSW 调参 | `hnsw.ef_search=100` | Index Scan | 同上 | 0.345 ms |
-| IVFFlat | `lists=100, probes=5` | Seq Scan | 4.131 s | 619.557 ms |
-| IVFFlat | `lists=100, probes=20` | Index Scan | 同上 | 97.434 ms |
-| 全文召回 | GIN `lexical_vector` | Bitmap Index Scan + Bitmap Heap Scan | 已存在 | 21.136 ms |
+| IVFFlat | `lists=100, probes=5` | Seq Scan | 7.064 s | 740.196 ms |
+| IVFFlat | `lists=100, probes=20` | Index Scan | 同上 | 150.876 ms |
+| 全文召回 | GIN `lexical_vector` | Bitmap Index Scan + Bitmap Heap Scan | 已存在 | 25.865 ms（OR tsquery） |
 
 ### 4.3 多查询延迟分位数
 
@@ -93,14 +93,14 @@ psql postgresql://postgres:postgres@localhost:5432/intellibase \
 
 | 场景 | Samples | P50 | P95 | P99 | Avg | Max |
 |---|---:|---:|---:|---:|---:|---:|
-| HNSW Top-20 (`ef_search=40`) | 200 | 0.166 ms | 0.203 ms | 1.468 ms | 0.198 ms | 1.517 ms |
-| GIN lexical Top-20 | 200 | 17.903 ms | 22.422 ms | 25.926 ms | 18.561 ms | 37.210 ms |
+| HNSW Top-20 (`ef_search=40`) | 200 | 0.189 ms | 0.290 ms | 1.039 ms | 0.218 ms | 2.222 ms |
+| GIN lexical Top-20 | 200 | 18.204 ms | 24.994 ms | 29.200 ms | 19.438 ms | 35.106 ms |
 
 ## 5. 踩坑记录
 
 1. **IVFFlat 构建内存不足**：`maintenance_work_mem=64MB` 时创建 `lists=100` 的 IVFFlat 报错 `memory required is 65 MB`。最终脚本显式设置为 `65MB`。
 2. **临时表 + 并行查询冲突**：用临时表保存 query vector 时，PostgreSQL 并行 worker 报 `cannot access temporary tables during a parallel operation`。脚本设置 `max_parallel_workers_per_gather=0` 保证复现稳定。
-3. **IVFFlat 不一定被 planner 选择**：`probes=5` 场景 planner 退化为 Seq Scan，实际耗时约 620ms。结论是参数调优必须看 `EXPLAIN`，不能只看索引是否存在。
+3. **IVFFlat 不一定被 planner 选择**：`probes=5` 场景 planner 退化为 Seq Scan，实际耗时约 740ms。结论是参数调优必须看 `EXPLAIN`，不能只看索引是否存在。
 4. **HNSW 构建内存提示**：构建 HNSW 时 pgvector 提示 graph 超出 `maintenance_work_mem`，会拖慢构建。10 万数据可接受，但百万级需要单独记录构建内存和时间。
 
 ## 6. 最终方案
