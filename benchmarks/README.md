@@ -14,6 +14,9 @@
 | `scripts/pgvector-index-benchmark.sql` | HNSW / IVFFlat 参数对比 SQL（构建时间、查询延迟、召回候选） |
 | `scripts/pgvector-latency-percentiles.sql` | 多查询 HNSW/GIN P50/P95/P99 延迟采样 SQL |
 | `scripts/k6-chat-stream.js` | SSE `/api/v1/chat/stream` 端到端压测脚本 |
+| `scripts/run-real-api-evaluation.sh` | 真实 embedding / 可选 rewrite / rerank 的质量评测一键 runner |
+| `scripts/run-real-chat-stream-k6.sh` | 真实 `/api/v1/chat/stream` k6 一键 runner |
+| `scripts/verify-benchmark-artifacts.mjs` | 检查 raw-results 是否覆盖验收所需 artifact 类别；`--strict` 缺失时返回非零 |
 | `raw-results/` | 保存每次压测原始输出，禁止只贴结论 |
 
 ## 前置条件
@@ -148,13 +151,37 @@ docker run --rm -i \
   | tee benchmarks/raw-results/k6-chat-stream-$(date +%Y%m%d-%H%M%S).txt
 ```
 
-### 5.3 真实模型压测
+### 5.3 真实质量评测与真实模型压测
 
-把 `OPENAI_BASE_URL`、`OPENAI_API_KEY`、`RAG_RERANK_API_URL`、`RAG_RERANK_API_KEY` 指向真实服务后重复 5.2。保存结果时文件名建议包含供应商、模型、并发和数据规模，例如：
+真实检索质量（真实 embedding，按配置可选真实 query rewrite / external rerank）：
 
-```text
-benchmarks/raw-results/k6-chat-stream-siliconflow-qwen-10vu-5000chunks-20260518-235900.txt
+```bash
+OPENAI_API_KEY=sk-xxx OPENAI_BASE_URL=https://api.openai.com/v1 \
+RAG_QUERY_REWRITE_ENABLED=true \
+RAG_RERANK_API_URL=https://api.example.com/v1/rerank \
+RAG_RERANK_API_KEY=sk-xxx \
+  benchmarks/scripts/run-real-api-evaluation.sh
 ```
+
+真实 SSE 端到端压测前，先用真实 `OPENAI_BASE_URL` / `OPENAI_API_KEY` / `RAG_RERANK_API_URL` / `RAG_RERANK_API_KEY` 启动 IntelliBase，并准备好 `AUTH_TOKEN`、`CONVERSATION_ID`。然后运行：
+
+```bash
+AUTH_TOKEN=xxx CONVERSATION_ID=91001 BASE_URL=http://localhost:8080 \
+VUS=10 DURATION=1m \
+  benchmarks/scripts/run-real-chat-stream-k6.sh
+```
+
+保存结果时文件名会包含 `real` 和时间戳。发布 README/简历性能数字前，必须同时记录供应商、模型、数据规模、并发和硬件。
+
+## 6. Artifact 验收检查
+
+```bash
+node benchmarks/scripts/verify-benchmark-artifacts.mjs
+# CI/最终验收可使用严格模式：
+node benchmarks/scripts/verify-benchmark-artifacts.mjs --strict
+```
+
+该检查只验证 raw result 文件类别是否齐全，不会证明数字本身合理；发布前仍需人工核对每个原始文件的模型、供应商、硬件、数据规模和命令。
 
 ## 当前状态
 

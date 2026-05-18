@@ -66,3 +66,7 @@
 2. 使用真实 LLM/Embedding/Rerank API 运行 `benchmarks/scripts/run-real-chat-stream-k6.sh`，输出 `/api/v1/chat/stream` P50/P95/P99；mock k6 不能替代真实端到端性能。
 3. 如果要在简历写“rerank 提升”“query rewrite 提升”，必须引用第 1 步真实 API 报告，而不是 seeded matrix。
 4. 若要宣称“10 万真实 embedding 语义质量”，还需用真实 embedding 对真实领域文本构建 10 万向量；当前 10 万 real-text fixture 的向量是 deterministic fixture vector，仅适合索引/规模压测。
+
+## 8. Artifact verifier
+
+`node benchmarks/scripts/verify-benchmark-artifacts.mjs` 已验证当前 raw-results 中 real API retrieval matrix 与 real SSE k6 benchmark 仍缺失；`--strict` 模式会在缺失时返回非零，适合最终验收前使用。
