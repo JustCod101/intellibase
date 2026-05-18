@@ -186,7 +186,7 @@ RAG_RERANK_API_KEY=sk-xxx
 RAG_RERANK_MODEL=bge-reranker-v2-m3
 ```
 
-保存结果时文件名会包含 `real` 和时间戳。发布 README/简历性能数字前，必须同时记录供应商、模型、数据规模、并发和硬件。
+保存结果时文件名会包含 `real` 和时间戳。runner 会额外生成 `real-api-evaluation-metadata-*` 或 `k6-chat-stream-real-metadata-*`，并把关键 metadata 写入真实 report/log；发布 README/简历性能数字前，仍需人工核对供应商、模型、数据规模、并发和硬件。
 
 ## 6. Artifact 验收检查
 
@@ -196,7 +196,7 @@ node benchmarks/scripts/verify-benchmark-artifacts.mjs
 node benchmarks/scripts/verify-benchmark-artifacts.mjs --strict
 ```
 
-该检查会验证 raw result 文件类别是否齐全，并检查最新文件中是否包含关键规模/指标/场景证据（例如 100000 chunks、P50/P95/P99、hybrid/rerank/rewrite 场景、k6 thresholds）。它仍不会证明数字本身合理；发布前仍需人工核对每个原始文件的模型、供应商、硬件、数据规模和命令。
+该检查会验证 raw result 文件类别是否齐全，并检查最新文件中是否包含关键规模/指标/场景证据（例如 100000 chunks、P50/P95/P99、hybrid/rerank/rewrite 场景、真实结果 metadata、k6 thresholds）。它仍不会证明数字本身合理；发布前仍需人工核对每个原始文件的模型、供应商、硬件、数据规模和命令。
 
 ## 7. 最终验收门禁
 

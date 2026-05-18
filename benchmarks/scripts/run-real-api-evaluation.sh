@@ -82,10 +82,50 @@ JAVA_HOME="${JAVA_HOME:-$(/usr/libexec/java_home -v 17.0.18)}" mvn "${mvn_args[@
 
 ts="$(date +%Y%m%d-%H%M%S)"
 mkdir -p benchmarks/raw-results
+report="benchmarks/raw-results/real-api-evaluation-report-${ts}.md"
+metrics="benchmarks/raw-results/real-api-evaluation-metrics-${ts}.json"
+metadata="benchmarks/raw-results/real-api-evaluation-metadata-${ts}.md"
 cp intellibase-server/target/evaluation/real-api-comparison-report.md \
-  "benchmarks/raw-results/real-api-evaluation-report-${ts}.md"
+  "${report}"
 cp intellibase-server/target/evaluation/real-api-comparison-metrics.json \
-  "benchmarks/raw-results/real-api-evaluation-metrics-${ts}.json"
+  "${metrics}"
 
-echo "Wrote benchmarks/raw-results/real-api-evaluation-report-${ts}.md"
-echo "Wrote benchmarks/raw-results/real-api-evaluation-metrics-${ts}.json"
+{
+  echo "# Real API Evaluation Run Metadata"
+  echo
+  echo "| Field | Value |"
+  echo "|---|---|"
+  echo "| timestamp | ${ts} |"
+  echo "| command | benchmarks/scripts/run-real-api-evaluation.sh |"
+  echo "| java_home | ${JAVA_HOME} |"
+  echo "| java_version | $(JAVA_HOME="${JAVA_HOME}" "${JAVA_HOME}/bin/java" -version 2>&1 | head -n 1 | sed 's/|/ /g') |"
+  echo "| os | $(uname -a | sed 's/|/ /g') |"
+  echo "| datasource_url | ${SPRING_DATASOURCE_URL} |"
+  echo "| postgres_container | ${REAL_EVAL_CONTAINER} |"
+  echo "| postgres_started_by_script | ${REAL_EVAL_START_POSTGRES} |"
+  echo "| postgres_kept_after_run | ${REAL_EVAL_KEEP_POSTGRES} |"
+  echo "| openai_base_url | ${OPENAI_BASE_URL} |"
+  echo "| openai_api_key_set | yes |"
+  echo "| embedding_model | ${EMBEDDING_MODEL_NAME:-text-embedding-v4} |"
+  echo "| llm_model | ${LLM_MODEL_NAME:-gpt-4o-mini} |"
+  echo "| query_rewrite_enabled | ${RAG_QUERY_REWRITE_ENABLED:-false} |"
+  echo "| hyde_enabled | ${RAG_HYDE_ENABLED:-false} |"
+  echo "| rerank_external_enabled | ${RAG_RERANK_EXTERNAL_ENABLED:-false} |"
+  echo "| rerank_api_url_set | $(if [[ -n "${RAG_RERANK_API_URL:-}" ]]; then echo yes; else echo no; fi) |"
+  echo "| rerank_api_key_set | $(if [[ -n "${RAG_RERANK_API_KEY:-}" ]]; then echo yes; else echo no; fi) |"
+  echo "| rerank_model | ${RAG_RERANK_MODEL:-bge-reranker-v2-m3} |"
+  echo "| llm_judge_api_key_set | $(if [[ -n "${EVALUATION_LLM_JUDGE_API_KEY:-}" ]]; then echo yes; else echo no; fi) |"
+  echo "| llm_judge_base_url | ${EVALUATION_LLM_JUDGE_BASE_URL:-https://api.openai.com/v1} |"
+  echo "| llm_judge_model | ${EVALUATION_LLM_JUDGE_MODEL:-gpt-4o-mini} |"
+  echo
+  echo "> Secrets are intentionally redacted; this file records whether keys were set, not their values."
+} > "${metadata}"
+
+{
+  echo
+  cat "${metadata}"
+} >> "${report}"
+
+echo "Wrote ${report}"
+echo "Wrote ${metrics}"
+echo "Wrote ${metadata}"

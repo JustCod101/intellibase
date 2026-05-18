@@ -86,6 +86,7 @@ const checks = [
     note: 'Required before publishing real Recall@5/MRR/Hit Rate for embedding/rerank/rewrite.',
     validate: (content) => [
       [/Real API Retrieval Evaluation/, 'must be a real API evaluation report'],
+      [/Real API Evaluation Run Metadata/, 'must include run metadata with model/vendor/config context'],
       [/baseline-dense-only/, 'must include baseline scenario'],
       [/hybrid-rrf/, 'must include hybrid scenario'],
       [/Recall@5/, 'must include Recall@5 metric'],
@@ -98,6 +99,9 @@ const checks = [
     requiredForCompletion: true,
     note: 'Required before publishing endpoint P50/P95/P99 with real LLM/Embedding/Rerank.',
     validate: (content) => [
+      [/Real SSE k6 Run Metadata/, 'must include run metadata with concurrency/model/config context'],
+      [/vus\s*\|/, 'must include VUS metadata'],
+      [/duration\s*\|/, 'must include duration metadata'],
       [/THRESHOLDS/, 'must include k6 thresholds'],
       [/rag_stream_latency/, 'must include custom stream latency metric'],
       [/http_req_duration[\s\S]*p\(95\)/, 'must include HTTP p95 latency'],

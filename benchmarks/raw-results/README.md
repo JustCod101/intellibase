@@ -10,7 +10,9 @@
 - `versioned-evaluation-metrics-YYYYMMDD-HHMMSS.json`：`VersionedRetrievalEvaluationIT` 输出的 seeded 检索版本对比原始指标。
 - `real-api-evaluation-report-YYYYMMDD-HHMMSS.md`：`RealApiRetrievalEvaluationIT` 输出的真实 embedding / 可选 rewrite / 可选 rerank 版本对比报告。
 - `real-api-evaluation-metrics-YYYYMMDD-HHMMSS.json`：`RealApiRetrievalEvaluationIT` 输出的真实 API 版本对比原始指标。
+- `real-api-evaluation-metadata-YYYYMMDD-HHMMSS.md`：真实 API 评测的运行前提，包含模型、API base URL、rewrite/rerank/judge 开关、JDK/OS、PostgreSQL fixture 等；密钥只记录是否设置，不记录值。
 - `k6-chat-stream-real-YYYYMMDD-HHMMSS.txt` / `k6-chat-stream-real-summary-YYYYMMDD-HHMMSS.json`：`run-real-chat-stream-k6.sh` 输出的真实端到端 SSE 压测结果。
+- `k6-chat-stream-real-metadata-YYYYMMDD-HHMMSS.md`：真实 k6 压测的运行前提，包含并发、时长、base URL、模型/重写/rerank 环境变量捕获情况；密钥只记录是否设置，不记录值。
 - `sse-smoke-mock-<chunks>-YYYYMMDD-HHMMSS.txt`：使用本地 mock API 的 SSE 冒烟输出，仅验证链路连通。
 - `k6-chat-stream-YYYYMMDD-HHMMSS.txt`：k6 控制台输出。
 - `k6-chat-stream-summary.json`：k6 summary export。
@@ -29,7 +31,8 @@ real-api evaluation 可以作为质量指标来源，但必须同时记录 API v
 - 10 万 fixture 文件必须包含 100000 行导入/生成证据。
 - pgvector latency 文件必须包含 P50/P95/P99 与 200 次采样场景。
 - versioned evaluation 必须包含 baseline / hybrid / rerank / rewrite 四类场景，并标注 seeded deterministic。
-- k6 文件必须包含 thresholds、失败率和流式延迟指标。
+- 真实 k6 文件必须包含 metadata、thresholds、失败率和流式延迟指标。
+- 真实 API evaluation report 必须包含 metadata、baseline/hybrid 场景和 Recall@5/MRR。
 
 该校验是最终验收门禁的一部分，但不能替代人工确认供应商、模型、硬件、并发和原始命令。
 
