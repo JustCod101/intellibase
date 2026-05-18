@@ -17,6 +17,7 @@
 | `scripts/run-real-api-evaluation.sh` | 真实 embedding / 可选 rewrite / rerank 的质量评测一键 runner |
 | `scripts/run-real-chat-stream-k6.sh` | 真实 `/api/v1/chat/stream` k6 一键 runner |
 | `scripts/verify-benchmark-artifacts.mjs` | 检查 raw-results 是否覆盖验收所需 artifact 类别；`--strict` 缺失时返回非零 |
+| `scripts/final-acceptance-gate.sh` | 最终本地验收门禁：单测、脚本语法、golden set 数量和 strict artifact verifier |
 | `raw-results/` | 保存每次压测原始输出，禁止只贴结论 |
 
 ## 前置条件
@@ -182,6 +183,16 @@ node benchmarks/scripts/verify-benchmark-artifacts.mjs --strict
 ```
 
 该检查只验证 raw result 文件类别是否齐全，不会证明数字本身合理；发布前仍需人工核对每个原始文件的模型、供应商、硬件、数据规模和命令。
+
+## 7. 最终验收门禁
+
+在准备把 README/简历指标标记为“已实测”前运行：
+
+```bash
+benchmarks/scripts/final-acceptance-gate.sh
+```
+
+该脚本会检查 JDK/Maven 单测、脚本语法、golden QA 数量，并以 `verify-benchmark-artifacts.mjs --strict` 作为硬门禁。当前在真实 API retrieval matrix 和真实 SSE k6 raw result 缺失时会故意失败。
 
 ## 当前状态
 
