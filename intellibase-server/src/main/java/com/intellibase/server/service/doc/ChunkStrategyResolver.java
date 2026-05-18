@@ -24,6 +24,10 @@ public class ChunkStrategyResolver {
     public static final int DEFAULT_OVERLAP = 120;
     public static final int DEFAULT_MIN_SIZE = 200;
     public static final boolean DEFAULT_NORMALIZE_WHITESPACE = true;
+    public static final boolean DEFAULT_PARENT_CHILD_ENABLED = false;
+    public static final int DEFAULT_PARENT_SIZE = 1800;
+    public static final int DEFAULT_CHILD_SIZE = 420;
+    public static final int DEFAULT_CHILD_OVERLAP = 80;
 
     private final ObjectMapper objectMapper;
 
@@ -35,6 +39,10 @@ public class ChunkStrategyResolver {
                 .overlap(DEFAULT_OVERLAP)
                 .minSize(DEFAULT_MIN_SIZE)
                 .normalizeWhitespace(DEFAULT_NORMALIZE_WHITESPACE)
+                .parentChildEnabled(DEFAULT_PARENT_CHILD_ENABLED)
+                .parentSize(DEFAULT_PARENT_SIZE)
+                .childSize(DEFAULT_CHILD_SIZE)
+                .childOverlap(DEFAULT_CHILD_OVERLAP)
                 .build();
     }
 
@@ -73,7 +81,7 @@ public class ChunkStrategyResolver {
             return defaultStrategy();
         }
 
-        int size = raw.getSize() != null ? Math.max(100, raw.getSize()) : DEFAULT_SIZE;
+        int size = raw.getSize() != null ? Math.max(20, raw.getSize()) : DEFAULT_SIZE;
         int overlapCandidate = raw.getOverlap() != null ? raw.getOverlap() : DEFAULT_OVERLAP;
         int overlap = clamp(overlapCandidate, 0, Math.max(0, size - 1));
 
@@ -90,6 +98,14 @@ public class ChunkStrategyResolver {
         boolean normalizeWhitespace = raw.getNormalizeWhitespace() == null
                 ? DEFAULT_NORMALIZE_WHITESPACE
                 : raw.getNormalizeWhitespace();
+        boolean parentChildEnabled = raw.getParentChildEnabled() == null
+                ? DEFAULT_PARENT_CHILD_ENABLED
+                : raw.getParentChildEnabled();
+
+        int parentSize = raw.getParentSize() != null ? Math.max(size, raw.getParentSize()) : DEFAULT_PARENT_SIZE;
+        int childSize = raw.getChildSize() != null ? Math.max(20, raw.getChildSize()) : DEFAULT_CHILD_SIZE;
+        int childOverlapCandidate = raw.getChildOverlap() != null ? raw.getChildOverlap() : DEFAULT_CHILD_OVERLAP;
+        int childOverlap = clamp(childOverlapCandidate, 0, Math.max(0, childSize - 1));
 
         return ChunkStrategy.builder()
                 .version(version)
@@ -98,6 +114,10 @@ public class ChunkStrategyResolver {
                 .overlap(overlap)
                 .minSize(minSize)
                 .normalizeWhitespace(normalizeWhitespace)
+                .parentChildEnabled(parentChildEnabled)
+                .parentSize(parentSize)
+                .childSize(childSize)
+                .childOverlap(childOverlap)
                 .build();
     }
 

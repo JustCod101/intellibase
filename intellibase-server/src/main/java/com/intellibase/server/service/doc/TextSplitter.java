@@ -63,6 +63,52 @@ public class TextSplitter {
         }
 
         ChunkStrategy strategy = chunkStrategyResolver.normalize(rawStrategy);
+        if (Boolean.TRUE.equals(strategy.getParentChildEnabled())) {
+            return splitParentChild(text, strategy);
+        }
+        return splitStandard(text, strategy);
+    }
+
+    private List<TextChunk> splitParentChild(String text, ChunkStrategy strategy) {
+        ChunkStrategy parentStrategy = ChunkStrategy.builder()
+                .version(strategy.getVersion())
+                .type(strategy.getType())
+                .size(strategy.getParentSize())
+                .overlap(Math.min(strategy.getOverlap(), Math.max(0, strategy.getParentSize() - 1)))
+                .minSize(Math.min(strategy.getMinSize(), strategy.getParentSize()))
+                .normalizeWhitespace(strategy.getNormalizeWhitespace())
+                .parentChildEnabled(false)
+                .build();
+        ChunkStrategy childStrategy = ChunkStrategy.builder()
+                .version(strategy.getVersion())
+                .type(strategy.getType())
+                .size(strategy.getChildSize())
+                .overlap(strategy.getChildOverlap())
+                .minSize(Math.min(strategy.getMinSize(), strategy.getChildSize()))
+                .normalizeWhitespace(strategy.getNormalizeWhitespace())
+                .parentChildEnabled(false)
+                .build();
+
+        List<TextChunk> parents = splitStandard(text, parentStrategy);
+        List<TextChunk> children = new ArrayList<>();
+        int childIndex = 0;
+        for (TextChunk parent : parents) {
+            List<TextChunk> parentChildren = splitStandard(parent.getContent(), childStrategy);
+            for (TextChunk child : parentChildren) {
+                children.add(TextChunk.builder()
+                        .index(childIndex++)
+                        .content(child.getContent())
+                        .tokenCount(child.getTokenCount())
+                        .metadata(buildParentChildMetadata(strategy, parent, child))
+                        .build());
+            }
+        }
+        log.info("父子分块完成: 原文长度={}, parentSize={}, childSize={}, 父块数={}, 子块数={}",
+                text.length(), strategy.getParentSize(), strategy.getChildSize(), parents.size(), children.size());
+        return children;
+    }
+
+    private List<TextChunk> splitStandard(String text, ChunkStrategy strategy) {
         String normalized = normalizeText(text, strategy.getNormalizeWhitespace());
         if (normalized.isBlank()) {
             return List.of();
@@ -271,6 +317,9 @@ public class TextSplitter {
             return false;
         }
         if (BLOCK_TYPE_CODE.equals(current.blockType()) || BLOCK_TYPE_CODE.equals(next.blockType())) {
+            return false;
+        }
+        if (BLOCK_TYPE_LIST_ITEM.equals(next.blockType()) && !BLOCK_TYPE_LIST_ITEM.equals(current.blockType())) {
             return false;
         }
         if (!Objects.equals(current.sectionPath(), next.sectionPath())) {
@@ -572,6 +621,30 @@ public class TextSplitter {
             return objectMapper.writeValueAsString(metadata);
         } catch (JsonProcessingException e) {
             throw new IllegalStateException("构建分块元数据失败", e);
+        }
+    }
+
+    private String buildParentChildMetadata(ChunkStrategy strategy, TextChunk parent, TextChunk child) {
+        Map<String, Object> metadata = new LinkedHashMap<>();
+        metadata.put("strategyVersion", strategy.getVersion());
+        metadata.put("chunkingMode", "PARENT_CHILD");
+        metadata.put("parentIndex", parent.getIndex());
+        metadata.put("childIndexInParent", child.getIndex());
+        metadata.put("parentSize", strategy.getParentSize());
+        metadata.put("childSize", strategy.getChildSize());
+        metadata.put("childOverlap", strategy.getChildOverlap());
+        metadata.put("parentContent", parent.getContent());
+        if (child.getMetadata() != null && !child.getMetadata().isBlank()) {
+            metadata.put("childMetadata", child.getMetadata());
+        }
+        if (parent.getMetadata() != null && !parent.getMetadata().isBlank()) {
+            metadata.put("parentMetadata", parent.getMetadata());
+        }
+
+        try {
+            return objectMapper.writeValueAsString(metadata);
+        } catch (JsonProcessingException e) {
+            throw new IllegalStateException("构建父子分块元数据失败", e);
         }
     }
 

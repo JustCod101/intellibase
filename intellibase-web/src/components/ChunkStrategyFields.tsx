@@ -57,6 +57,39 @@ const ChunkStrategyFields = ({ value, onChange, defaultOpen = false }: ChunkStra
             />
             <span>解析前规范化空白和换行</span>
           </label>
+
+          <label className="form-check chunk-strategy-checkbox">
+            <input
+              type="checkbox"
+              checked={value.parentChildEnabled}
+              onChange={(event) => onChange({ ...value, parentChildEnabled: event.target.checked })}
+            />
+            <span>启用父子分块（子块检索，父块生成）</span>
+          </label>
+
+          {value.parentChildEnabled && (
+            <>
+              <div className="form-group">
+                <label>Parent Size</label>
+                <input type="number" min={100} value={value.parentSize} onChange={handleNumberChange('parentSize')} />
+              </div>
+
+              <div className="form-group">
+                <label>Child Size</label>
+                <input type="number" min={20} value={value.childSize} onChange={handleNumberChange('childSize')} />
+              </div>
+
+              <div className="form-group">
+                <label>Child Overlap</label>
+                <input
+                  type="number"
+                  min={0}
+                  value={value.childOverlap}
+                  onChange={handleNumberChange('childOverlap')}
+                />
+              </div>
+            </>
+          )}
         </div>
       </div>
     </details>

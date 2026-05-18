@@ -63,6 +63,18 @@ public class ChunkStrategyDeserializer extends JsonDeserializer<ChunkStrategy> {
         if (node.has("normalizeWhitespace") && !node.get("normalizeWhitespace").isNull()) {
             strategy.setNormalizeWhitespace(node.get("normalizeWhitespace").asBoolean());
         }
+        if (node.has("parentChildEnabled") && !node.get("parentChildEnabled").isNull()) {
+            strategy.setParentChildEnabled(node.get("parentChildEnabled").asBoolean());
+        }
+        if (node.hasNonNull("parentSize")) {
+            strategy.setParentSize(node.get("parentSize").asInt());
+        }
+        if (node.hasNonNull("childSize")) {
+            strategy.setChildSize(node.get("childSize").asInt());
+        }
+        if (node.hasNonNull("childOverlap")) {
+            strategy.setChildOverlap(node.get("childOverlap").asInt());
+        }
         return strategy;
     }
 }

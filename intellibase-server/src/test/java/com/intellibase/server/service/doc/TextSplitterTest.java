@@ -162,4 +162,34 @@ class TextSplitterTest {
         JsonNode metadata = objectMapper.readTree(secondChunk.getMetadata());
         assertTrue(metadata.get("overlapApplied").asBoolean());
     }
+
+    @Test
+    void split_ParentChildMode_ChildContentCarriesParentContext() throws Exception {
+        String text = """
+                # RAG 检索
+
+                父子分块使用较小的子块做向量检索，以提升精确召回。
+                命中子块后，将父块或上下文窗口交给大模型生成答案，从而保持上下文完整。
+                这种方式适合长文档、技术文档和章节结构明显的资料。
+                """;
+        ChunkStrategy strategy = ChunkStrategy.builder()
+                .parentChildEnabled(true)
+                .parentSize(220)
+                .childSize(70)
+                .childOverlap(10)
+                .minSize(20)
+                .normalizeWhitespace(true)
+                .build();
+
+        List<TextChunk> chunks = textSplitter.split(text, strategy);
+
+        assertTrue(chunks.size() > 1);
+        TextChunk first = chunks.get(0);
+        assertTrue(first.getContent().length() <= 70);
+
+        JsonNode metadata = objectMapper.readTree(first.getMetadata());
+        assertEquals("PARENT_CHILD", metadata.get("chunkingMode").asText());
+        assertTrue(metadata.get("parentContent").asText().contains("上下文完整"));
+        assertEquals(0, metadata.get("parentIndex").asInt());
+    }
 }

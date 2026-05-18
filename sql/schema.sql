@@ -47,7 +47,7 @@ CREATE TABLE knowledge_base (
     description     TEXT,
     tenant_id       BIGINT NOT NULL,
     embedding_model VARCHAR(64) NOT NULL DEFAULT 'text-embedding-3-small',
-    chunk_strategy  JSONB NOT NULL DEFAULT '{"size":512,"overlap":64}',
+    chunk_strategy  JSONB NOT NULL DEFAULT '{"version":2,"type":"STRUCTURE_AWARE","size":800,"overlap":120,"minSize":200,"normalizeWhitespace":true,"parentChildEnabled":false,"parentSize":1800,"childSize":420,"childOverlap":80}',
     retrieval_config JSONB NOT NULL DEFAULT '{"preset":"GENERAL_QA","hybridEnabled":true,"rerankEnabled":true,"denseTopK":20,"sparseTopK":20,"fusionTopK":15,"finalTopK":5,"denseWeight":0.55,"sparseWeight":0.45}',
     doc_count       INT NOT NULL DEFAULT 0,
     status          VARCHAR(16) NOT NULL DEFAULT 'ACTIVE',

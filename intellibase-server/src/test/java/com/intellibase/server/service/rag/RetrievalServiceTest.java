@@ -25,11 +25,13 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.anyDouble;
 import static org.mockito.ArgumentMatchers.anyInt;
+import static org.mockito.ArgumentMatchers.anyList;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.ArgumentMatchers.contains;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.lenient;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -49,13 +51,13 @@ class RetrievalServiceTest {
     private RetrievalCacheService retrievalCacheService;
 
     @Mock
-    private ChunkCacheService chunkCacheService;
-
-    @Mock
     private CacheStatsService cacheStatsService;
 
     @Mock
     private SparseRecallService sparseRecallService;
+
+    @Mock
+    private ExternalRerankService externalRerankService;
 
     private RetrievalService retrievalService;
     private RetrievalConfigResolver retrievalConfigResolver;
@@ -69,13 +71,21 @@ class RetrievalServiceTest {
                 documentChunkMapper,
                 knowledgeBaseMapper,
                 retrievalCacheService,
-                chunkCacheService,
                 cacheStatsService,
                 retrievalConfigResolver,
                 sparseRecallService,
                 lexicalTokenizer,
-                hybridRanker
+                hybridRanker,
+                new ObjectMapper(),
+                externalRerankService
         );
+        lenient().when(externalRerankService.isExternalEnabled()).thenReturn(false);
+        lenient().when(externalRerankService.rerank(anyString(), anyList(), anyInt()))
+                .thenAnswer(invocation -> {
+                    List<RetrievalResult> candidates = invocation.getArgument(1);
+                    int limit = invocation.getArgument(2);
+                    return candidates.stream().limit(limit).toList();
+                });
         ReflectionTestUtils.setField(retrievalService, "topK", 5);
         ReflectionTestUtils.setField(retrievalService, "similarityThreshold", 0.7);
 
@@ -101,7 +111,7 @@ class RetrievalServiceTest {
 
         when(documentChunkMapper.findSimilar(anyString(), eq(kbId), anyDouble(), anyInt()))
                 .thenReturn(List.of(chunk));
-        when(chunkCacheService.getChunks(List.of(100L)))
+        when(documentChunkMapper.selectBatchIds(List.of(100L)))
                 .thenReturn(List.of(chunk));
 
         List<RetrievalResult> results = retrievalService.retrieve(queryVector, kbId);
@@ -153,7 +163,7 @@ class RetrievalServiceTest {
                 .thenReturn(List.of(denseHit));
         when(sparseRecallService.recall(contains("http_409"), eq(kbId), eq(20)))
                 .thenReturn(List.of(sparseHit));
-        when(chunkCacheService.getChunks(List.of(100L, 200L)))
+        when(documentChunkMapper.selectBatchIds(List.of(100L, 200L)))
                 .thenReturn(List.of(denseChunk, sparseChunk));
 
         List<RetrievalResult> results = retrievalService.retrieve(queryVector, kbId, query);
@@ -177,5 +187,36 @@ class RetrievalServiceTest {
         List<RetrievalResult> results = retrievalService.retrieve(queryVector, 1L);
 
         assertTrue(results.isEmpty());
+    }
+
+    @Test
+    @DisplayName("父子分块 - 命中子块后使用父块上下文生成")
+    void retrieve_ParentChildChunk_UsesParentContent() {
+        float[] queryVector = new float[]{0.1f, 0.2f};
+        Long kbId = 1L;
+
+        DocumentChunk hit = new DocumentChunk();
+        hit.setId(101L);
+        hit.setDocId(10L);
+        hit.setSimilarity(0.88);
+
+        DocumentChunk childChunk = new DocumentChunk();
+        childChunk.setId(101L);
+        childChunk.setDocId(10L);
+        childChunk.setContent("子块：RRF 融合排序。");
+        childChunk.setMetadata("""
+                {"chunkingMode":"PARENT_CHILD","parentContent":"父块：RRF 融合排序适合混合检索，因为它只依赖排名并能融合 dense 与 sparse 召回。"}
+                """);
+
+        when(documentChunkMapper.findSimilar(anyString(), eq(kbId), anyDouble(), anyInt()))
+                .thenReturn(List.of(hit));
+        when(documentChunkMapper.selectBatchIds(List.of(101L)))
+                .thenReturn(List.of(childChunk));
+
+        List<RetrievalResult> results = retrievalService.retrieve(queryVector, kbId);
+
+        assertEquals(1, results.size());
+        assertEquals("父块：RRF 融合排序适合混合检索，因为它只依赖排名并能融合 dense 与 sparse 召回。",
+                results.get(0).getContent());
     }
 }

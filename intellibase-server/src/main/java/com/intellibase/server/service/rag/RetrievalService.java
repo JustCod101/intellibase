@@ -1,5 +1,7 @@
 package com.intellibase.server.service.rag;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.intellibase.server.domain.dto.RetrievalConfig;
 import com.intellibase.server.domain.entity.DocumentChunk;
 import com.intellibase.server.domain.entity.KnowledgeBase;
@@ -26,9 +28,9 @@ import java.util.Optional;
  * 职责：在海量的文档片段中，找到与用户问题在”语义”上最接近的内容。
  * 技术栈：基于 pgvector 插件实现的余弦相似度检索。
  * <p>
- * 缓存策略（L2 + L3）：
+ * 缓存策略（L1 + L2）：
  * - L2：检索缓存，相同 query hash 的检索结果直接返回，避免重复向量检索
- * - L3：文档缓存，热点 chunk 内容缓存到 Redis，减少数据库读取
+ * - 文档块内容直接从 PostgreSQL 批量读取，避免 L3 chunk 缓存带来一致性复杂度
  */
 @Slf4j
 @Service
@@ -38,12 +40,13 @@ public class RetrievalService {
     private final DocumentChunkMapper documentChunkMapper;
     private final KnowledgeBaseMapper knowledgeBaseMapper;
     private final RetrievalCacheService retrievalCacheService;
-    private final ChunkCacheService chunkCacheService;
     private final CacheStatsService cacheStatsService;
     private final RetrievalConfigResolver retrievalConfigResolver;
     private final SparseRecallService sparseRecallService;
     private final LexicalTokenizer lexicalTokenizer;
     private final HybridRanker hybridRanker;
+    private final ObjectMapper objectMapper;
+    private final ExternalRerankService externalRerankService;
 
     @Value("${rag.retrieval-top-k}")
     private int topK;
@@ -52,7 +55,7 @@ public class RetrievalService {
     private double similarityThreshold;
 
     /**
-     * 执行向量检索（集成 L2 检索缓存 + L3 文档缓存）
+     * 执行向量检索（集成 L2 检索缓存，文档块直接批量读 PostgreSQL）
      *
      * @param queryVector 用户问题的向量
      * @param kbId        知识库ID
@@ -146,16 +149,28 @@ public class RetrievalService {
         Map<Long, DocumentChunk> chunkMap = loadChunks(unionChunkIds);
         candidates.values().removeIf(candidate -> !hydrateCandidate(candidate, chunkMap));
 
+        RetrievalConfig rankConfig = externalRerankService.isExternalEnabled()
+                ? RetrievalConfig.builder()
+                    .preset(config.getPreset())
+                    .hybridEnabled(config.getHybridEnabled())
+                    .rerankEnabled(false)
+                    .denseTopK(config.getDenseTopK())
+                    .sparseTopK(config.getSparseTopK())
+                    .fusionTopK(config.getFusionTopK())
+                    .finalTopK(config.getFusionTopK())
+                    .denseWeight(config.getDenseWeight())
+                    .sparseWeight(config.getSparseWeight())
+                    .build()
+                : config;
+
         List<RetrievalResult> ranked = hybridRanker.rank(
                 query,
                 new ArrayList<>(candidates.values()),
                 denseHits.stream().map(DocumentChunk::getId).toList(),
                 sparseHits.stream().map(DocumentChunk::getId).toList(),
-                config);
+                rankConfig);
 
-        return ranked.stream()
-                .limit(config.getFinalTopK())
-                .toList();
+        return externalRerankService.rerank(query, ranked, config.getFinalTopK());
     }
 
     private List<DocumentChunk> denseRecall(float[] queryVector, Long kbId, double threshold, int limit) {
@@ -166,7 +181,8 @@ public class RetrievalService {
     }
 
     private Map<Long, DocumentChunk> loadChunks(List<Long> chunkIds) {
-        List<DocumentChunk> chunks = chunkCacheService.getChunks(chunkIds);
+        List<DocumentChunk> chunks = documentChunkMapper.selectBatchIds(chunkIds);
+        cacheStatsService.recordDbQuery();
         Map<Long, DocumentChunk> chunkMap = new HashMap<>();
         for (DocumentChunk chunk : chunks) {
             chunkMap.put(chunk.getId(), chunk);
@@ -187,8 +203,9 @@ public class RetrievalService {
             return false;
         }
         candidate.setDocId(chunk.getDocId() != null ? chunk.getDocId() : candidate.getDocId());
-        candidate.setContent(chunk.getContent());
-        candidate.setSnippet(buildSnippet(chunk.getContent()));
+        String contentForGeneration = resolveGenerationContent(chunk);
+        candidate.setContent(contentForGeneration);
+        candidate.setSnippet(buildSnippet(contentForGeneration));
         return true;
     }
 
@@ -196,7 +213,7 @@ public class RetrievalService {
         if (chunk == null || !StringUtils.hasText(chunk.getContent())) {
             return RetrievalResult.builder().build();
         }
-        String content = chunk.getContent();
+        String content = resolveGenerationContent(chunk);
         double finalScore = denseScore != null ? denseScore : (sparseScore != null ? sparseScore : 0D);
 
         return RetrievalResult.builder()
@@ -223,5 +240,25 @@ public class RetrievalService {
 
     private String buildSnippet(String content) {
         return content.length() > 200 ? content.substring(0, 200) + "..." : content;
+    }
+
+    private String resolveGenerationContent(DocumentChunk chunk) {
+        if (chunk == null || !StringUtils.hasText(chunk.getMetadata())) {
+            return chunk != null ? chunk.getContent() : "";
+        }
+        try {
+            JsonNode metadata = objectMapper.readTree(chunk.getMetadata());
+            JsonNode mode = metadata.get("chunkingMode");
+            JsonNode parentContent = metadata.get("parentContent");
+            if (mode != null
+                    && "PARENT_CHILD".equalsIgnoreCase(mode.asText())
+                    && parentContent != null
+                    && StringUtils.hasText(parentContent.asText())) {
+                return parentContent.asText();
+            }
+        } catch (Exception e) {
+            log.debug("解析父子分块 metadata 失败，回退子块内容: chunkId={}", chunk.getId(), e);
+        }
+        return chunk.getContent();
     }
 }

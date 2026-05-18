@@ -12,6 +12,10 @@ export interface ChunkStrategy {
   overlap: number;
   minSize: number;
   normalizeWhitespace: boolean;
+  parentChildEnabled: boolean;
+  parentSize: number;
+  childSize: number;
+  childOverlap: number;
 }
 
 export type RetrievalPreset = 'GENERAL_QA' | 'EXACT_LOOKUP' | 'LONGFORM_SYNTHESIS';
@@ -102,10 +106,8 @@ export interface CacheLevelStats {
 }
 
 export interface CacheStats {
-  l0_local_cache: CacheLevelStats;
   l1_semantic_cache: CacheLevelStats;
   l2_retrieval_cache: CacheLevelStats;
-  l3_chunk_cache: CacheLevelStats;
   db_queries: number;
   overall_cache_hit_rate: string;
 }

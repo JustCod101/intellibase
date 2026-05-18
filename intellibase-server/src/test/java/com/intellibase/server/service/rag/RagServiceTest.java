@@ -35,6 +35,8 @@ class RagServiceTest {
     @Mock
     private RetrievalService retrievalService;
     @Mock
+    private QueryRewriteService queryRewriteService;
+    @Mock
     private PromptBuilder promptBuilder;
     @Mock
     private com.intellibase.server.service.chat.ChatService chatService;
@@ -51,6 +53,8 @@ class RagServiceTest {
         // 注入 Mock 的 LLM 模型
         ReflectionTestUtils.setField(ragService, "streamingChatModel", streamingChatModel);
         ReflectionTestUtils.setField(ragService, "objectMapper", objectMapper);
+        lenient().when(queryRewriteService.rewrite(anyString()))
+                .thenAnswer(invocation -> QueryRewriteService.RewrittenQuery.original(invocation.getArgument(0)));
     }
 
     @Test

@@ -36,6 +36,7 @@ public class RagService {
     private final EmbeddingService embeddingService;
     private final SemanticCacheService semanticCacheService;
     private final RetrievalService retrievalService;
+    private final QueryRewriteService queryRewriteService;
     private final PromptBuilder promptBuilder;
     private final com.intellibase.server.service.chat.ChatService chatService;
     private final ObjectMapper objectMapper;
@@ -106,9 +107,16 @@ public class RagService {
      */
     private void doStreamChat(String question, Long kbId, Long conversationId, SseEmitter emitter) throws Exception {
         long startTime = System.currentTimeMillis();
+        QueryRewriteService.RewrittenQuery rewrittenQuery = queryRewriteService.rewrite(question);
+        String retrievalQuery = rewrittenQuery.retrievalText();
+        if (!question.equals(retrievalQuery)) {
+            log.info("Query rewrite 生效: original={}, retrieval={}, hyde={}",
+                    question, retrievalQuery, rewrittenQuery.hydeUsed());
+        }
+
         // ===== [1] 向量化生成 (Embedding) =====
-        // 将用户的问题"指纹化"，转成一串 1536 维（默认）的浮点数
-        float[] queryVector = embeddingService.embed(question);
+        // 将检索查询"指纹化"，转成一串 1536 维（默认）的浮点数
+        float[] queryVector = embeddingService.embed(retrievalQuery);
 
         // ===== [2] 语义缓存查询 =====
         // 看看数据库里有没有之前保存过的、语义非常接近的问题及其答案
@@ -121,9 +129,9 @@ public class RagService {
             return;
         }
 
-        // ===== [3] 向量检索 (L2 缓存 → L3 缓存 → pgvector DB) =====
+        // ===== [3] 混合检索 (L2 检索缓存 → pgvector/全文检索 → 可选 rerank) =====
         // 传入 question 用于 L2 检索缓存的 Key 计算
-        List<RetrievalResult> contexts = retrievalService.retrieve(queryVector, kbId, question);
+        List<RetrievalResult> contexts = retrievalService.retrieve(queryVector, kbId, retrievalQuery);
         log.info("RAG 检索完成: kbId={}, 命中 {} 条上下文", kbId, contexts.size());
 
         // ===== [4] Prompt 组装 =====

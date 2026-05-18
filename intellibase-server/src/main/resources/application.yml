@@ -50,10 +50,7 @@ rag:
   retrieval-top-k: 5
   similarity-threshold: 0.4
   cache-similarity-threshold: 0.95
-  l0-local-cache-ttl-minutes: 10      # L0 JVM 本地缓存 TTL（分钟）
-  l0-local-cache-max-size: 1000       # L0 本地缓存最大条目数
   l2-retrieval-cache-ttl-minutes: 30
-  l3-chunk-cache-ttl-hours: 2
   hybrid:
     default-preset: GENERAL_QA
     pipeline-version: 2
@@ -86,6 +83,15 @@ rag:
       final-top-k: 8
       dense-weight: 0.65
       sparse-weight: 0.35
+  query-rewrite:
+    enabled: ${RAG_QUERY_REWRITE_ENABLED:false}
+    min-length: 18
+    hyde-enabled: ${RAG_HYDE_ENABLED:false}
+  rerank:
+    external-enabled: ${RAG_RERANK_EXTERNAL_ENABLED:false}
+    api-url: ${RAG_RERANK_API_URL:}
+    api-key: ${RAG_RERANK_API_KEY:}
+    model: ${RAG_RERANK_MODEL:bge-reranker-v2-m3}
 
 embedding:
   api-key: ${OPENAI_API_KEY:test-openai-key}
