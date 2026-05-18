@@ -16,6 +16,7 @@
 | `scripts/k6-chat-stream.js` | SSE `/api/v1/chat/stream` 端到端压测脚本 |
 | `scripts/run-real-api-evaluation.sh` | 真实 embedding / 可选 rewrite / rerank 的质量评测一键 runner |
 | `scripts/run-real-chat-stream-k6.sh` | 真实 `/api/v1/chat/stream` k6 一键 runner |
+| `scripts/real-benchmark-preflight.sh` | 真实质量评测 / SSE k6 的本地环境预检；不触网、不生成结果 |
 | `scripts/verify-benchmark-artifacts.mjs` | 检查 raw-results 是否覆盖验收所需 artifact 类别，并对最新文件做关键内容校验；`--strict` 缺失或内容不合格时返回非零 |
 | `scripts/final-acceptance-gate.sh` | 最终本地验收门禁：单测、脚本语法、golden set 数量和 strict artifact verifier |
 | `raw-results/` | 保存每次压测原始输出，禁止只贴结论 |
@@ -157,19 +158,29 @@ docker run --rm -i \
 真实检索质量（真实 embedding，按配置可选真实 query rewrite / external rerank）：
 
 ```bash
-OPENAI_API_KEY=sk-xxx OPENAI_BASE_URL=https://api.openai.com/v1 \
-RAG_QUERY_REWRITE_ENABLED=true \
-RAG_RERANK_API_URL=https://api.example.com/v1/rerank \
-RAG_RERANK_API_KEY=sk-xxx \
-  benchmarks/scripts/run-real-api-evaluation.sh
+export OPENAI_API_KEY=sk-xxx
+export OPENAI_BASE_URL=https://api.openai.com/v1
+export RAG_QUERY_REWRITE_ENABLED=true
+export RAG_RERANK_API_URL=https://api.example.com/v1/rerank
+export RAG_RERANK_API_KEY=sk-xxx
+
+benchmarks/scripts/real-benchmark-preflight.sh retrieval
+
+benchmarks/scripts/run-real-api-evaluation.sh
 ```
 
 真实 SSE 端到端压测前，先用真实 `OPENAI_BASE_URL` / `OPENAI_API_KEY` / `RAG_RERANK_API_URL` / `RAG_RERANK_API_KEY` 启动 IntelliBase，并准备好 `AUTH_TOKEN`、`CONVERSATION_ID`。然后运行：
 
 ```bash
-AUTH_TOKEN=xxx CONVERSATION_ID=91001 BASE_URL=http://localhost:8080 \
-VUS=10 DURATION=1m \
-  benchmarks/scripts/run-real-chat-stream-k6.sh
+export AUTH_TOKEN=xxx
+export CONVERSATION_ID=91001
+export BASE_URL=http://localhost:8080
+export VUS=10
+export DURATION=1m
+
+benchmarks/scripts/real-benchmark-preflight.sh sse
+
+benchmarks/scripts/run-real-chat-stream-k6.sh
 ```
 
 如果使用 `docker compose up app` 启动应用，确保 `.env` 中显式配置：
@@ -206,10 +217,11 @@ node benchmarks/scripts/verify-benchmark-artifacts.mjs --strict
 在准备把 README/简历指标标记为“已实测”前运行：
 
 ```bash
+benchmarks/scripts/real-benchmark-preflight.sh all
 benchmarks/scripts/final-acceptance-gate.sh
 ```
 
-该脚本会检查 JDK/Maven 单测、脚本语法、golden QA 数量，并以 `verify-benchmark-artifacts.mjs --strict` 作为硬门禁。当前在真实 API retrieval matrix 和真实 SSE k6 raw result 缺失时会故意失败。
+`real-benchmark-preflight.sh` 只检查本地环境变量和 runner 可用性，不调用外部 API；`final-acceptance-gate.sh` 会检查 JDK/Maven 单测、脚本语法、golden QA 数量，并以 `verify-benchmark-artifacts.mjs --strict` 作为硬门禁。当前在真实 API retrieval matrix 和真实 SSE k6 raw result 缺失时会故意失败。
 
 ## 当前状态
 

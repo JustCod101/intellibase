@@ -91,8 +91,9 @@
 |---|---|---|
 | `git status --short` | 无未提交变更 | 工作区干净 |
 | `wc -l intellibase-server/src/test/resources/evaluation/golden_qa.jsonl` | 60 | golden QA 数量满足 50–100 |
-| `JAVA_HOME=$(/usr/libexec/java_home -v 17.0.18) mvn -pl intellibase-server test` | 89 tests, 0 failures, 0 errors, 0 skipped | 本地单元/默认集成测试通过 |
+| `JAVA_HOME=$(/usr/libexec/java_home -v 17.0.18) mvn -pl intellibase-server test` | 91 tests, 0 failures, 0 errors, 0 skipped | 本地单元/默认集成测试通过 |
 | `node benchmarks/scripts/verify-benchmark-artifacts.mjs --strict` | `strict_verifier_exit=1`；已有 raw result 通过内容校验，但缺 `real API retrieval matrix` 与 `real SSE k6 benchmark` | 总目标不能完成 |
+| `benchmarks/scripts/real-benchmark-preflight.sh` | 真实 API retrieval / SSE k6 运行前环境预检；只查本地配置，不触网 | 降低真实运行前置条件遗漏风险 |
 | `benchmarks/scripts/final-acceptance-gate.sh` | 新增最终门禁：单测、脚本语法、golden QA 数量、strict artifact verifier；当前因同样两个真实 artifact 缺失而失败 | 总目标不能完成 |
 | `find docs/adr -name '*.md'` | 3 个 ADR：评测先行、性能数据、现代 RAG/缓存 | ADR 要求已有最小覆盖 |
 | `find . -maxdepth 4 -type f \( -name '*.py' -o -name 'requirements.txt' \)` | 仅发现旧的 `intellibase-server/scripts/system_test/*` 测试脚本 | 未发现新增 Python 服务；运行时仍为 Java app + 基础设施 |
@@ -142,6 +143,7 @@
 2. `RAG_RERANK_API_KEY` / `RAG_RERANK_API_URL` 未配置，无法验证真实 external rerank 效果。
 3. 缺真实应用会话参数 `AUTH_TOKEN` / `CONVERSATION_ID` 与真实 API 环境，无法运行 `benchmarks/scripts/run-real-chat-stream-k6.sh` 生成真实 `/api/v1/chat/stream` P50/P95/P99。
 4. 因上述缺口，`node benchmarks/scripts/verify-benchmark-artifacts.mjs --strict` 仍返回非零；这是最终发布/简历 claim 前的硬门禁。该 verifier 已从“仅检查文件名”升级为同时检查最新 raw result 的关键内容，例如 100000 chunks、P50/P95/P99、四类检索场景、真实运行 metadata 与 k6 thresholds，并检查 metrics/summary/metadata companion 文件是否按同一时间戳存在。
+5. 可先运行 `benchmarks/scripts/real-benchmark-preflight.sh all` 检查真实 runner 的本地环境变量、k6/docker runner 和必需会话参数；该脚本不会生成结果，不能替代 raw result。
 
 ### 9.5 最终门禁命令
 

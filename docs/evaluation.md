@@ -188,8 +188,12 @@ JAVA_HOME=$(/usr/libexec/java_home -v 17.0.18) \
 也可以使用一行脚本自动启动临时 pgvector、运行测试并复制 raw results：
 
 ```bash
-OPENAI_API_KEY=sk-xxx OPENAI_BASE_URL=https://api.openai.com/v1 \
-  benchmarks/scripts/run-real-api-evaluation.sh
+export OPENAI_API_KEY=sk-xxx
+export OPENAI_BASE_URL=https://api.openai.com/v1
+
+benchmarks/scripts/real-benchmark-preflight.sh retrieval
+
+benchmarks/scripts/run-real-api-evaluation.sh
 ```
 
-注意：该 runner 会真实消耗 embedding / LLM / rerank API quota。只有把本 runner 的原始输出复制到 `benchmarks/raw-results/real-api-evaluation-*.md/json` 后，才允许把对应 Recall@5 / MRR / Hit Rate 写入 README 或简历。
+注意：`real-benchmark-preflight.sh` 只做本地环境预检，不调用外部 API；真正的 runner 会真实消耗 embedding / LLM / rerank API quota。只有把本 runner 的原始输出复制到 `benchmarks/raw-results/real-api-evaluation-*.md/json` 后，才允许把对应 Recall@5 / MRR / Hit Rate 写入 README 或简历。
