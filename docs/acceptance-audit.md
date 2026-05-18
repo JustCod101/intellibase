@@ -142,7 +142,7 @@
 1. `OPENAI_API_KEY` 未配置，无法运行 `benchmarks/scripts/run-real-api-evaluation.sh` 生成真实 embedding / rewrite / judge 的 matrix。
 2. `RAG_RERANK_API_KEY` / `RAG_RERANK_API_URL` 未配置，无法验证真实 external rerank 效果。
 3. 缺真实应用会话参数 `AUTH_TOKEN` / `CONVERSATION_ID` 与真实 API 环境，无法运行 `benchmarks/scripts/run-real-chat-stream-k6.sh` 生成真实 `/api/v1/chat/stream` P50/P95/P99。
-4. 因上述缺口，`node benchmarks/scripts/verify-benchmark-artifacts.mjs --strict` 仍返回非零；这是最终发布/简历 claim 前的硬门禁。该 verifier 已从“仅检查文件名”升级为同时检查最新 raw result 的关键内容，例如 100000 chunks、P50/P95/P99、四类检索场景、真实运行 metadata 与 k6 thresholds，并检查 metrics/summary/metadata companion 文件是否按同一时间戳存在。
+4. 因上述缺口，`node benchmarks/scripts/verify-benchmark-artifacts.mjs --strict` 仍返回非零；这是最终发布/简历 claim 前的硬门禁。该 verifier 已从“仅检查文件名”升级为同时检查最新 raw result 的关键内容，例如 100000 chunks、P50/P95/P99、四类检索场景、真实运行 metadata 与 k6 thresholds，并检查 metrics/summary/metadata companion 文件是否按同一时间戳存在、JSON 是否可解析、关键场景或 k6 指标键是否存在。
 5. 可先运行 `benchmarks/scripts/real-benchmark-preflight.sh all` 检查真实 runner 的本地环境变量、k6/docker runner 和必需会话参数；该脚本不会生成结果，不能替代 raw result。
 
 ### 9.5 最终门禁命令

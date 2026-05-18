@@ -14,6 +14,43 @@ function requireFile(files, file) {
   return files.includes(file) ? [] : [`missing companion file: ${file}`];
 }
 
+function validateJsonCompanion(files, file, validate) {
+  if (!files.includes(file)) {
+    return [`missing companion file: ${file}`];
+  }
+  try {
+    const json = JSON.parse(fs.readFileSync(path.join(rawDir, file), 'utf8'));
+    return validate(json).map((message) => `${file}: ${message}`);
+  } catch (error) {
+    return [`${file}: invalid JSON (${error.message})`];
+  }
+}
+
+function validateRetrievalMetricsJson(json, scenarios) {
+  const errors = [];
+  for (const scenario of scenarios) {
+    if (!json || typeof json !== 'object' || !(scenario in json)) {
+      errors.push(`missing scenario ${scenario}`);
+      continue;
+    }
+    const entry = json[scenario];
+    const retrieval = entry?.retrieval;
+    if (!retrieval || typeof retrieval !== 'object') {
+      errors.push(`${scenario} missing retrieval metrics object`);
+      continue;
+    }
+    for (const metric of ['recallAtK', 'mrr', 'hitRateAtK']) {
+      if (typeof retrieval[metric] !== 'number') {
+        errors.push(`${scenario} retrieval.${metric} must be numeric`);
+      }
+    }
+    if (!Array.isArray(entry?.judge) || entry.judge.length === 0) {
+      errors.push(`${scenario} judge scores must be a non-empty array`);
+    }
+  }
+  return errors;
+}
+
 const checks = [
   {
     name: '100k synthetic pgvector fixture generation',
@@ -77,7 +114,13 @@ const checks = [
           [/hybrid-rerank-query-rewrite/, 'must include query rewrite scenario'],
           [/Seeded deterministic corpus/, 'must label the report as seeded deterministic'],
         ].filter(([pattern]) => !pattern.test(content)).map(([, message]) => message),
-        ...requireFile(files, `versioned-evaluation-metrics-${ts}.json`),
+        ...validateJsonCompanion(files, `versioned-evaluation-metrics-${ts}.json`, (json) =>
+          validateRetrievalMetricsJson(json, [
+            'baseline-dense-only',
+            'hybrid-rrf',
+            'hybrid-local-rerank',
+            'hybrid-rerank-query-rewrite',
+          ])),
       ];
     },
   },
@@ -111,7 +154,12 @@ const checks = [
           [/Recall@5/, 'must include Recall@5 metric'],
           [/MRR/, 'must include MRR metric'],
         ].filter(([pattern]) => !pattern.test(content)).map(([, message]) => message),
-        ...requireFile(files, `real-api-evaluation-metrics-${ts}.json`),
+        ...validateJsonCompanion(files, `real-api-evaluation-metrics-${ts}.json`, (json) =>
+          validateRetrievalMetricsJson(json, [
+            'baseline-dense-only',
+            'hybrid-rrf',
+            'hybrid-local-rerank',
+          ])),
         ...requireFile(files, `real-api-evaluation-metadata-${ts}.md`),
       ];
     },
@@ -135,7 +183,16 @@ const checks = [
           [/http_req_duration[\s\S]*p\(95\)/, 'must include HTTP p95 latency'],
           [/http_req_failed[\s\S]*0\.00%/, 'must have zero HTTP failures in saved run'],
         ].filter(([pattern]) => !pattern.test(content)).map(([, message]) => message),
-        ...requireFile(files, `k6-chat-stream-real-summary-${ts}.json`),
+        ...validateJsonCompanion(files, `k6-chat-stream-real-summary-${ts}.json`, (json) => {
+          const metrics = json?.metrics;
+          const errors = [];
+          for (const metric of ['http_req_duration', 'http_req_failed', 'rag_stream_latency']) {
+            if (!metrics || typeof metrics !== 'object' || !(metric in metrics)) {
+              errors.push(`missing k6 metric ${metric}`);
+            }
+          }
+          return errors;
+        }),
         ...requireFile(files, `k6-chat-stream-real-metadata-${ts}.md`),
       ];
     },
