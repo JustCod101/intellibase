@@ -7,6 +7,7 @@
 | 路径 | 说明 |
 |---|---|
 | `scripts/generate-100k-pgvector-fixtures.sql` | PostgreSQL 内生成 10 万条 `document_chunk` + 1536 维向量测试数据 |
+| `scripts/generate-realtext-pgvector-fixtures.mjs` | 从仓库真实代码/文档/SQL 切分并平铺到指定规模，生成可 pipe 给 `psql` 的 real-text fixture SQL |
 | `scripts/seed-chat-benchmark.sql` | 为 SSE 端到端压测准备租户、用户、知识库、会话和检索分块 |
 | `scripts/generate-benchmark-jwt.mjs` | 生成与 benchmark fixture 匹配的 JWT（避免依赖登录接口造数） |
 | `scripts/mock-openai-server.mjs` | 本地 OpenAI-compatible mock：embeddings / streaming chat / rerank，用于链路冒烟与压测脚本调通 |
@@ -33,12 +34,28 @@ docker compose up -d postgres redis rabbitmq minio
 
 ## 2. 生成 10 万向量数据
 
+### 2.1 快速 synthetic fixture（已用于当前 pgvector 原始结果）
+
 ```bash
 psql postgresql://postgres:postgres@localhost:5432/intellibase \
   -v fixture_kb_id=90001 \
   -v fixture_rows=100000 \
   -f benchmarks/scripts/generate-100k-pgvector-fixtures.sql
 ```
+
+### 2.2 real-text fixture（推荐用于后续真实性能 claim）
+
+从当前仓库的真实 Java/Markdown/SQL/YAML/TS 等文件切分文本，并平铺到 10 万条 `document_chunk`。向量仍是 deterministic fixture vector，用于索引规模和延迟压测；如果要证明真实语义质量，仍需接真实 Embedding API 生成向量。
+
+```bash
+REALTEXT_ROWS=100000 \
+REALTEXT_KB_ID=92001 \
+node benchmarks/scripts/generate-realtext-pgvector-fixtures.mjs \
+  | psql postgresql://postgres:postgres@localhost:5432/intellibase \
+  | tee benchmarks/raw-results/realtext-generate-100k-$(date +%Y%m%d-%H%M%S).txt
+```
+
+脚本默认排除 `.git`、`node_modules`、`target`、`dist`、`raw-results` 等目录，避免把依赖包或历史压测结果当成语料。
 
 ## 3. pgvector 索引参数对比
 
@@ -143,6 +160,7 @@ benchmarks/raw-results/k6-chat-stream-siliconflow-qwen-10vu-5000chunks-20260518-
 
 - 已有脚本：是。
 - 已有 pgvector 10 万向量单查询和 200 次采样分位数基准：是，见 `raw-results/pgvector-summary.md`。
+- 已有 real-text fixture 10 万导入结果：是，`raw-results/realtext-generate-100k-20260518-231500.txt`（100000 chunks，196 个源码/文档文件，708 个去重 chunk 文本；导入耗时 57.040s，向量为 deterministic fixture vector）。
 - 已有 SSE 冒烟结果：是，`raw-results/sse-smoke-mock-500chunks-20260518-230700.txt` 证明 mock API 下链路可跑通。
 - 已有 mock 端到端 k6 SSE 压测结果：是，`raw-results/k6-chat-stream-mock-1vu-500chunks-20260518-231000.txt`（1 VU / 5s / 500 chunks / mock API，仅验证链路与脚本）。
 - 已有真实 LLM/Embedding/Rerank 端到端 k6 SSE 压测结果：否；需按 5.3 指向真实 API 后运行并落盘。

@@ -279,16 +279,18 @@ JAVA_HOME=$(/usr/libexec/java_home -v 17.0.18) mvn -Dtest=RetrievalEvaluationTes
 
 ## 性能基准与可复现口径
 
-所有性能数字必须能追溯到 [benchmarks/raw-results](benchmarks/raw-results)。当前已完成 **pgvector 10 万向量单查询索引基准和 200 次采样分位数基准**，端到端 SSE 压测仍待真实 LLM/Embedding API 与 JWT token 后运行。
+所有性能数字必须能追溯到 [benchmarks/raw-results](benchmarks/raw-results)。当前已完成 **pgvector 10 万向量单查询索引基准和 200 次采样分位数基准**；同时补充了从仓库真实代码/文档/SQL 切分生成 10 万 real-text chunks 的导入脚本与原始输出。端到端 SSE 的 mock 链路已跑通，真实 LLM/Embedding/Rerank 压测仍需接真实 API 后运行。
 
 | 场景 | 数据规模/条件 | 结果 | 原始文件 |
 |---|---|---:|---|
 | 生成 fixture | 100,000 chunks，1536 维向量 | 23.393s 总耗时 | `generate-100k-20260518-223418.txt` |
+| 生成 real-text fixture | 100,000 chunks，来自 196 个源码/文档文件，708 个去重 chunk 文本；deterministic fixture vector | 57.040s 导入耗时 | `realtext-generate-100k-20260518-231500.txt` |
 | HNSW 默认向量检索 | Top-20，单次 `EXPLAIN ANALYZE` | 0.460ms Execution Time | `pgvector-20260518-223735.txt` |
 | HNSW `ef_search=100` | Top-20，单次 `EXPLAIN ANALYZE` | 0.345ms Execution Time | `pgvector-20260518-223735.txt` |
 | IVFFlat `lists=100, probes=20` | Top-20，单次 `EXPLAIN ANALYZE` | 97.434ms Execution Time | `pgvector-20260518-223735.txt` |
 | GIN 全文召回 | `tsvector @@ tsquery`，Top-20 | 21.136ms Execution Time | `pgvector-20260518-223735.txt` |
 | HNSW 多查询分位数 | 200 samples，Top-20，`ef_search=40` | P50 0.166ms / P95 0.203ms / P99 1.468ms | `pgvector-latency-20260518-224835.txt` |
 | GIN 多查询分位数 | 200 samples，固定关键词，Top-20 | P50 17.903ms / P95 22.422ms / P99 25.926ms | `pgvector-latency-20260518-224835.txt` |
+| SSE mock 端到端 | 1 VU / 5s / 500 chunks / mock OpenAI-compatible API | `http_req_failed=0%`，P95≈8ms | `k6-chat-stream-mock-1vu-500chunks-20260518-231000.txt` |
 
-> 上表不是端到端问答延迟；不包含 HTTP、Embedding、Rerank、LLM 流式输出。`/api/v1/chat/stream` 的 P50/P95/P99 需运行 `benchmarks/scripts/k6-chat-stream.js` 后再填写。
+> pgvector 表格不是端到端问答延迟；不包含 HTTP、真实 Embedding、真实 Rerank、真实 LLM 流式输出。SSE mock 结果只证明链路和脚本可运行，不代表真实模型延迟。`/api/v1/chat/stream` 的真实 P50/P95/P99 需按 `benchmarks/scripts/k6-chat-stream.js` 接真实 API 后再填写。

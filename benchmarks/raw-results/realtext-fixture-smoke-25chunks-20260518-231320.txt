@@ -1,0 +1,32 @@
+CREATE EXTENSION
+Timing is on.
+CREATE FUNCTION
+Time: 1.096 ms
+INSERT 0 1
+Time: 0.454 ms
+INSERT 0 1
+Time: 0.318 ms
+INSERT 0 1
+Time: 0.594 ms
+INSERT 0 1
+Time: 0.581 ms
+DELETE 0
+Time: 0.434 ms
+DROP TABLE
+Time: 0.054 ms
+CREATE TABLE
+Time: 0.759 ms
+COPY 25
+Time: 0.378 ms
+SELECT 64
+Time: 74.897 ms
+INSERT 0 25
+Time: 7.542 ms
+ANALYZE
+Time: 1.885 ms
+ kb_id | generated_chunks | source_files | distinct_chunk_texts 
+-------+------------------+--------------+----------------------
+ 92001 |               25 |            4 |                   25
+(1 row)
+
+Time: 0.386 ms

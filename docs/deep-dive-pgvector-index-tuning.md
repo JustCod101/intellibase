@@ -2,7 +2,7 @@
 
 ## 1. 问题描述
 
-IntelliBase 的 RAG 检索要在 PostgreSQL/pgvector 中完成向量召回。如果只在简历里写“十万级向量几十毫秒”，但没有数据、脚本和 EXPLAIN 计划，面试时很容易被追问到无法自证。因此本次选择 **pgvector 索引调优** 作为深挖主题：在同一份 10 万条、1536 维向量数据上对比 HNSW、IVFFlat 和 PostgreSQL 全文 GIN 的构建成本与查询延迟。
+IntelliBase 的 RAG 检索要在 PostgreSQL/pgvector 中完成向量召回。如果只在简历里写“十万级向量几十毫秒”，但没有数据、脚本和 EXPLAIN 计划，面试时很容易被追问到无法自证。因此本次选择 **pgvector 索引调优** 作为深挖主题：在同一份 10 万条、1536 维向量数据上对比 HNSW、IVFFlat 和 PostgreSQL 全文 GIN 的构建成本与查询延迟。后续补充了 real-text fixture：从仓库真实代码/文档/SQL 切分并平铺到 10 万 chunks，避免性能故事只停留在人工短句语料。
 
 目标不是追求某个绝对数字，而是沉淀一套可复现的决策过程：
 
@@ -25,6 +25,7 @@ IntelliBase 的 RAG 检索要在 PostgreSQL/pgvector 中完成向量召回。如
 脚本位置：
 
 - `benchmarks/scripts/generate-100k-pgvector-fixtures.sql`
+- `benchmarks/scripts/generate-realtext-pgvector-fixtures.mjs`
 - `benchmarks/scripts/pgvector-index-benchmark.sql`
 - 原始结果：`benchmarks/raw-results/`
 
@@ -38,6 +39,12 @@ psql postgresql://postgres:postgres@localhost:5432/intellibase \
   -v fixture_rows=100000 \
   -f benchmarks/scripts/generate-100k-pgvector-fixtures.sql \
   | tee benchmarks/raw-results/generate-100k-$(date +%Y%m%d-%H%M%S).txt
+
+REALTEXT_ROWS=100000 \
+REALTEXT_KB_ID=92001 \
+node benchmarks/scripts/generate-realtext-pgvector-fixtures.mjs \
+  | psql postgresql://postgres:postgres@localhost:5432/intellibase \
+  | tee benchmarks/raw-results/realtext-generate-100k-$(date +%Y%m%d-%H%M%S).txt
 
 psql postgresql://postgres:postgres@localhost:5432/intellibase \
   -v fixture_kb_id=90001 \
@@ -66,6 +73,8 @@ psql postgresql://postgres:postgres@localhost:5432/intellibase \
 | 默认 HNSW 索引构建 | 18.719 s |
 | GIN 全文索引构建 | 323 ms |
 | 脚本总耗时 | 23.393 s |
+
+补充 real-text fixture（`realtext-generate-100k-20260518-231500.txt`）：从 196 个仓库源码/文档文件切分出 708 个去重 chunk 文本，平铺导入 100,000 rows，导入耗时 57.040 s。该数据使用 deterministic fixture vector，只用于规模与索引延迟验证，不作为真实 embedding 语义质量证明。
 
 ### 4.2 索引查询对比
 
