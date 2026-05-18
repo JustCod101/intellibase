@@ -196,7 +196,7 @@ node benchmarks/scripts/verify-benchmark-artifacts.mjs
 node benchmarks/scripts/verify-benchmark-artifacts.mjs --strict
 ```
 
-该检查会验证 raw result 文件类别是否齐全，并检查最新文件中是否包含关键规模/指标/场景证据（例如 100000 chunks、P50/P95/P99、hybrid/rerank/rewrite 场景、真实结果 metadata、k6 thresholds）。它仍不会证明数字本身合理；发布前仍需人工核对每个原始文件的模型、供应商、硬件、数据规模和命令。
+该检查会验证 raw result 文件类别是否齐全，并检查最新文件中是否包含关键规模/指标/场景证据（例如 100000 chunks、P50/P95/P99、hybrid/rerank/rewrite 场景、真实结果 metadata、k6 thresholds），同时检查 metrics/summary/metadata companion 文件是否按同一时间戳成对存在。它仍不会证明数字本身合理；发布前仍需人工核对每个原始文件的模型、供应商、硬件、数据规模和命令。
 
 ## 7. 最终验收门禁
 

@@ -33,6 +33,7 @@ real-api evaluation 可以作为质量指标来源，但必须同时记录 API v
 - versioned evaluation 必须包含 baseline / hybrid / rerank / rewrite 四类场景，并标注 seeded deterministic。
 - 真实 k6 文件必须包含 metadata、thresholds、失败率和流式延迟指标。
 - 真实 API evaluation report 必须包含 metadata、baseline/hybrid 场景和 Recall@5/MRR。
+- versioned / real-api / real-k6 结果必须按同一时间戳带齐 report/log、metrics/summary 与 metadata companion 文件，避免只复制单个结论文件。
 
 该校验是最终验收门禁的一部分，但不能替代人工确认供应商、模型、硬件、并发和原始命令。
 
