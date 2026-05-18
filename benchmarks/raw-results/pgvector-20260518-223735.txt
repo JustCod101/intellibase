@@ -1,0 +1,190 @@
+# pgvector benchmark started 2026-05-18T22:37:35+08:00
+Timing is on.
+SET
+Time: 0.420 ms
+SET
+Time: 0.094 ms
+SELECT 1
+Time: 12.122 ms
+DROP INDEX
+Time: 0.199 ms
+psql:<stdin>:13: NOTICE:  index "idx_bench_chunk_embedding_hnsw" does not exist, skipping
+DROP INDEX
+Time: 42.261 ms
+psql:<stdin>:16: NOTICE:  hnsw graph no longer fits into maintenance_work_mem after 9369 tuples
+DETAIL:  Building will take significantly more time.
+HINT:  Increase maintenance_work_mem to speed up builds.
+CREATE INDEX
+Time: 18190.103 ms (00:18.190)
+ chunks 
+--------
+ 100000
+(1 row)
+
+Time: 3.731 ms
+                                                                       QUERY PLAN                                                                        
+---------------------------------------------------------------------------------------------------------------------------------------------------------
+ Limit  (cost=1412.91..1458.36 rows=20 width=24) (actual time=0.246..0.409 rows=20 loops=1)
+   Buffers: shared hit=346 read=37 written=37, local hit=85
+   InitPlan 1 (returns $0)
+     ->  Seq Scan on ib_bench_query  (cost=0.00..23.60 rows=1360 width=32) (actual time=0.001..0.001 rows=1 loops=1)
+           Buffers: local hit=1
+   InitPlan 2 (returns $1)
+     ->  Seq Scan on ib_bench_query ib_bench_query_1  (cost=0.00..23.60 rows=1360 width=32) (actual time=0.007..0.007 rows=1 loops=1)
+           Buffers: local hit=1
+   ->  Index Scan using idx_chunk_embedding on document_chunk  (cost=1365.71..228646.00 rows=100000 width=24) (actual time=0.245..0.408 rows=20 loops=1)
+         Order By: (embedding <=> $1)
+         Filter: (kb_id = 90001)
+         Buffers: shared hit=346 read=37 written=37, local hit=85
+ Planning:
+   Buffers: shared hit=27 read=7 written=7
+ Planning Time: 0.095 ms
+ Execution Time: 0.460 ms
+(16 rows)
+
+Time: 1.012 ms
+DROP INDEX
+Time: 17.685 ms
+psql:<stdin>:32: NOTICE:  hnsw graph no longer fits into maintenance_work_mem after 9372 tuples
+DETAIL:  Building will take significantly more time.
+HINT:  Increase maintenance_work_mem to speed up builds.
+CREATE INDEX
+Time: 21035.937 ms (00:21.036)
+ANALYZE
+Time: 653.120 ms
+SET
+Time: 0.094 ms
+                                                                             QUERY PLAN                                                                             
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ Limit  (cost=1633.06..1684.88 rows=20 width=24) (actual time=0.240..0.368 rows=20 loops=1)
+   Buffers: shared hit=333 read=36, local hit=84
+   InitPlan 1 (returns $0)
+     ->  Seq Scan on ib_bench_query  (cost=0.00..23.60 rows=1360 width=32) (actual time=0.001..0.001 rows=1 loops=1)
+           Buffers: local hit=1
+   InitPlan 2 (returns $1)
+     ->  Seq Scan on ib_bench_query ib_bench_query_1  (cost=0.00..23.60 rows=1360 width=32) (actual time=0.009..0.009 rows=1 loops=1)
+           Buffers: local hit=1
+   ->  Index Scan using idx_bench_chunk_embedding_hnsw on document_chunk  (cost=1585.86..260670.00 rows=100000 width=24) (actual time=0.239..0.366 rows=20 loops=1)
+         Order By: (embedding <=> $1)
+         Filter: (kb_id = 90001)
+         Buffers: shared hit=333 read=36, local hit=84
+ Planning:
+   Buffers: shared hit=13 read=1
+ Planning Time: 0.140 ms
+ Execution Time: 0.395 ms
+(16 rows)
+
+Time: 0.752 ms
+SET
+Time: 0.036 ms
+                                                                             QUERY PLAN                                                                             
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ Limit  (cost=3202.61..3254.12 rows=20 width=24) (actual time=0.206..0.331 rows=20 loops=1)
+   Buffers: shared hit=448 read=31, local hit=84
+   InitPlan 1 (returns $0)
+     ->  Seq Scan on ib_bench_query  (cost=0.00..23.60 rows=1360 width=32) (actual time=0.000..0.001 rows=1 loops=1)
+           Buffers: local hit=1
+   InitPlan 2 (returns $1)
+     ->  Seq Scan on ib_bench_query ib_bench_query_1  (cost=0.00..23.60 rows=1360 width=32) (actual time=0.001..0.001 rows=1 loops=1)
+           Buffers: local hit=1
+   ->  Index Scan using idx_bench_chunk_embedding_hnsw on document_chunk  (cost=3155.41..260670.00 rows=100000 width=24) (actual time=0.205..0.329 rows=20 loops=1)
+         Order By: (embedding <=> $1)
+         Filter: (kb_id = 90001)
+         Buffers: shared hit=448 read=31, local hit=84
+ Planning:
+   Buffers: shared hit=1
+ Planning Time: 0.026 ms
+ Execution Time: 0.345 ms
+(16 rows)
+
+Time: 0.445 ms
+DROP INDEX
+Time: 14.486 ms
+CREATE INDEX
+Time: 4130.515 ms (00:04.131)
+ANALYZE
+Time: 662.871 ms
+SET
+Time: 0.062 ms
+                                                              QUERY PLAN                                                              
+--------------------------------------------------------------------------------------------------------------------------------------
+ Limit  (cost=11704.16..11704.21 rows=20 width=24) (actual time=619.541..619.544 rows=20 loops=1)
+   Buffers: shared hit=698894 read=108102 written=15942, local hit=400002
+   InitPlan 1 (returns $0)
+     ->  Seq Scan on ib_bench_query  (cost=0.00..23.60 rows=1360 width=32) (actual time=0.002..0.002 rows=1 loops=1)
+           Buffers: local hit=1
+   InitPlan 2 (returns $1)
+     ->  Seq Scan on ib_bench_query ib_bench_query_1  (cost=0.00..23.60 rows=1360 width=32) (actual time=0.000..0.001 rows=1 loops=1)
+           Buffers: local hit=1
+   ->  Sort  (cost=11656.96..11906.96 rows=100000 width=24) (actual time=619.540..619.541 rows=20 loops=1)
+         Sort Key: ((document_chunk.embedding <=> $1))
+         Sort Method: top-N heapsort  Memory: 26kB
+         Buffers: shared hit=698894 read=108102 written=15942, local hit=400002
+         ->  Seq Scan on document_chunk  (cost=0.00..8996.00 rows=100000 width=24) (actual time=0.032..611.744 rows=100000 loops=1)
+               Filter: (kb_id = 90001)
+               Buffers: shared hit=698894 read=108102 written=15942, local hit=400002
+ Planning:
+   Buffers: shared hit=12 read=5
+ Planning Time: 0.112 ms
+ Execution Time: 619.557 ms
+(19 rows)
+
+Time: 619.866 ms
+SET
+Time: 0.062 ms
+                                                                               QUERY PLAN                                                                                
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ Limit  (cost=7193.20..7248.02 rows=20 width=24) (actual time=97.215..97.312 rows=20 loops=1)
+   Buffers: shared hit=161 read=100117, local hit=84, temp read=295 written=296
+   InitPlan 1 (returns $0)
+     ->  Seq Scan on ib_bench_query  (cost=0.00..23.60 rows=1360 width=32) (actual time=0.004..0.004 rows=1 loops=1)
+           Buffers: local hit=1
+   InitPlan 2 (returns $1)
+     ->  Seq Scan on ib_bench_query ib_bench_query_1  (cost=0.00..23.60 rows=1360 width=32) (actual time=0.003..0.003 rows=1 loops=1)
+           Buffers: local hit=1
+   ->  Index Scan using idx_bench_chunk_embedding_ivf_100 on document_chunk  (cost=7146.00..281221.50 rows=100000 width=24) (actual time=97.214..97.310 rows=20 loops=1)
+         Order By: (embedding <=> $1)
+         Filter: (kb_id = 90001)
+         Buffers: shared hit=161 read=100117, local hit=84, temp read=295 written=296
+ Planning:
+   Buffers: shared read=1
+ Planning Time: 0.080 ms
+ Execution Time: 97.434 ms
+(16 rows)
+
+Time: 97.660 ms
+DROP INDEX
+Time: 21.989 ms
+                                                                     QUERY PLAN                                                                     
+----------------------------------------------------------------------------------------------------------------------------------------------------
+ Limit  (cost=1482.64..1482.69 rows=20 width=12) (actual time=21.114..21.116 rows=20 loops=1)
+   Buffers: shared hit=12 read=1127
+   ->  Sort  (cost=1482.64..1483.77 rows=449 width=12) (actual time=21.113..21.114 rows=20 loops=1)
+         Sort Key: (ts_rank_cd(lexical_vector, '''pgvector'' & ''hnsw'' & ''probes'''::tsquery)) DESC, id DESC
+         Sort Method: top-N heapsort  Memory: 26kB
+         Buffers: shared hit=12 read=1127
+         ->  Bitmap Heap Scan on document_chunk  (cost=45.37..1470.70 rows=449 width=12) (actual time=0.983..19.445 rows=16667 loops=1)
+               Recheck Cond: (lexical_vector @@ '''pgvector'' & ''hnsw'' & ''probes'''::tsquery)
+               Filter: (kb_id = 90001)
+               Heap Blocks: exact=1112
+               Buffers: shared hit=9 read=1127
+               ->  Bitmap Index Scan on idx_chunk_lexical_vector  (cost=0.00..45.26 rows=449 width=0) (actual time=0.906..0.906 rows=16667 loops=1)
+                     Index Cond: (lexical_vector @@ '''pgvector'' & ''hnsw'' & ''probes'''::tsquery)
+                     Buffers: shared hit=9 read=15
+ Planning:
+   Buffers: shared hit=18 read=29 dirtied=2
+ Planning Time: 0.300 ms
+ Execution Time: 21.136 ms
+(18 rows)
+
+Time: 21.861 ms
+psql:<stdin>:79: NOTICE:  index "idx_bench_chunk_embedding_ivf_100" does not exist, skipping
+DROP INDEX
+Time: 0.080 ms
+psql:<stdin>:81: NOTICE:  hnsw graph no longer fits into maintenance_work_mem after 9370 tuples
+DETAIL:  Building will take significantly more time.
+HINT:  Increase maintenance_work_mem to speed up builds.
+CREATE INDEX
+Time: 17990.111 ms (00:17.990)
+docker exec -i intellibase-postgres-1 psql -U postgres -d intellibase -v  -f   0.01s user 0.03s system 0% cpu 1:03.67 total
+# pgvector benchmark finished 2026-05-18T22:38:39+08:00

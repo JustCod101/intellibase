@@ -19,10 +19,9 @@
 │  └────┬─────┘ └────┬─────┘ └────┬─────┘ └──────┬───────┘   │
 │       │            │            │               │            │
 │  ┌────▼────────────▼────────────▼───────────────▼────────┐  │
-│  │              三级缓存体系                               │  │
+│  │              两层缓存体系                               │  │
 │  │  L1: 语义缓存 (pgvector, >0.95 相似度直接返回)          │  │
 │  │  L2: 检索缓存 (Redis, query hash → 检索结果, 30min)    │  │
-│  │  L3: 文档缓存 (Redis, chunk 内容, 2h, LRU)            │  │
 │  └───────────────────────────────────────────────────────┘  │
 └──┬──────────┬──────────┬──────────┬─────────────────────────┘
    │          │          │          │
@@ -204,9 +203,8 @@ curl http://localhost:8080/api/v1/admin/cache/stats \
   "data": {
     "l1_semantic_cache": { "hits": 15, "misses": 85, "total": 100, "hit_rate": "15.00%" },
     "l2_retrieval_cache": { "hits": 30, "misses": 55, "total": 85, "hit_rate": "35.29%" },
-    "l3_chunk_cache": { "hits": 200, "misses": 75, "total": 275, "hit_rate": "72.73%" },
     "db_queries": 55,
-    "overall_cache_hit_rate": "45.00%"
+    "overall_cache_hit_rate": "35.00%"
   }
 }
 ```
@@ -248,8 +246,8 @@ intellibase/
 - **多格式文档解析** — PDF、Word、PPT、Markdown、TXT，基于 Apache Tika
 - **智能文本分块** — RecursiveCharacterTextSplitter，支持多级分隔符 + 重叠窗口
 - **异步处理流水线** — RabbitMQ 两阶段异步（解析 → 向量化），上传即返回
-- **pgvector 向量检索** — IVFFlat 索引 + 余弦相似度，知识库级别隔离
-- **三级缓存** — L1 语义缓存 / L2 检索缓存 / L3 文档缓存，命中率可观测
+- **pgvector 向量检索** — HNSW 向量索引 + 余弦相似度，知识库级别隔离
+- **两层缓存** — L1 语义缓存 / L2 检索结果缓存；已删除 L0 本地缓存与 L3 文档块缓存以降低一致性复杂度
 - **SSE 流式输出** — LLM 逐 Token 推送，含引用来源
 - **SHA-256 秒传去重** — 相同内容文档自动跳过
 - **RBAC 权限** — Spring Security + JWT，ADMIN / USER / VIEWER 三级角色
@@ -257,3 +255,40 @@ intellibase/
 ## License
 
 MIT
+
+## RAG 评测基线（重构评测先行）
+
+当前仓库已加入 60 条 golden QA 离线评测集，覆盖 Spring/RabbitMQ、PostgreSQL/pgvector/RAG、Java/JVM 并发 3 个知识域。
+
+一键运行：
+
+```bash
+cd intellibase-server
+JAVA_HOME=$(/usr/libexec/java_home -v 17.0.18) mvn -Dtest=RetrievalEvaluationTest test
+```
+
+当前 baseline-fixture（固定样例，用于验证评测管线）结果：Recall@5 = 75.00%，MRR = 45.83%，Hit Rate@5 = 75.00%。另提供 `DbBackedRetrievalEvaluationIT`，可在真实 PostgreSQL/pgvector 上 seed deterministic corpus 并调用当前 RetrievalService，已验证 Recall@5/MRR/Hit Rate = 100.00%（仅证明 runner 可用，不作为真实线上质量 claim）。真实文档 + 真实 embedding 的 hybrid/rerank/query rewrite 对比会追加到 [docs/evaluation.md](docs/evaluation.md)。
+
+## 现代 RAG 重构进展
+
+- Hybrid Search：pgvector 语义召回 + PostgreSQL `tsvector`/GIN 全文召回 + RRF 融合。
+- Rerank：支持外部 rerank API（默认关闭，配置 `RAG_RERANK_EXTERNAL_ENABLED=true` 后启用），失败自动回退本地排序。
+- Query Rewrite：支持 OpenAI-compatible `/chat/completions` 查询改写与可选 HyDE（默认关闭）。
+- Parent-Child Chunking：子块用于检索，命中后使用父块上下文进入 Prompt，可在知识库 chunk strategy 中配置。
+- Cache：保留 L1 语义缓存与 L2 Redis 检索结果缓存；删除 L0 本地缓存和 L3 文档块缓存。
+
+## 性能基准与可复现口径
+
+所有性能数字必须能追溯到 [benchmarks/raw-results](benchmarks/raw-results)。当前已完成 **pgvector 10 万向量单查询索引基准和 200 次采样分位数基准**，端到端 SSE 压测仍待真实 LLM/Embedding API 与 JWT token 后运行。
+
+| 场景 | 数据规模/条件 | 结果 | 原始文件 |
+|---|---|---:|---|
+| 生成 fixture | 100,000 chunks，1536 维向量 | 23.393s 总耗时 | `generate-100k-20260518-223418.txt` |
+| HNSW 默认向量检索 | Top-20，单次 `EXPLAIN ANALYZE` | 0.460ms Execution Time | `pgvector-20260518-223735.txt` |
+| HNSW `ef_search=100` | Top-20，单次 `EXPLAIN ANALYZE` | 0.345ms Execution Time | `pgvector-20260518-223735.txt` |
+| IVFFlat `lists=100, probes=20` | Top-20，单次 `EXPLAIN ANALYZE` | 97.434ms Execution Time | `pgvector-20260518-223735.txt` |
+| GIN 全文召回 | `tsvector @@ tsquery`，Top-20 | 21.136ms Execution Time | `pgvector-20260518-223735.txt` |
+| HNSW 多查询分位数 | 200 samples，Top-20，`ef_search=40` | P50 0.166ms / P95 0.203ms / P99 1.468ms | `pgvector-latency-20260518-224835.txt` |
+| GIN 多查询分位数 | 200 samples，固定关键词，Top-20 | P50 17.903ms / P95 22.422ms / P99 25.926ms | `pgvector-latency-20260518-224835.txt` |
+
+> 上表不是端到端问答延迟；不包含 HTTP、Embedding、Rerank、LLM 流式输出。`/api/v1/chat/stream` 的 P50/P95/P99 需运行 `benchmarks/scripts/k6-chat-stream.js` 后再填写。

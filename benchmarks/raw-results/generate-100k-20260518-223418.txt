@@ -1,0 +1,41 @@
+# generate-100k started 2026-05-18T22:34:18+08:00
+CREATE EXTENSION
+Timing is on.
+psql:<stdin>:9: NOTICE:  extension "vector" already exists, skipping
+CREATE FUNCTION
+Time: 1.776 ms
+INSERT 0 1
+Time: 0.633 ms
+INSERT 0 1
+Time: 0.377 ms
+INSERT 0 1
+Time: 0.738 ms
+INSERT 0 1
+Time: 0.597 ms
+DELETE 0
+Time: 0.610 ms
+DROP INDEX
+Time: 0.898 ms
+DROP INDEX
+Time: 0.356 ms
+SELECT 6
+Time: 10.007 ms
+INSERT 0 100000
+Time: 3519.007 ms (00:03.519)
+psql:<stdin>:104: NOTICE:  hnsw graph no longer fits into maintenance_work_mem after 9215 tuples
+DETAIL:  Building will take significantly more time.
+HINT:  Increase maintenance_work_mem to speed up builds.
+CREATE INDEX
+Time: 18718.664 ms (00:18.719)
+CREATE INDEX
+Time: 323.455 ms
+ANALYZE
+Time: 645.104 ms
+ kb_id | generated_chunks 
+-------+------------------
+ 90001 |           100000
+(1 row)
+
+Time: 11.945 ms
+docker exec -i intellibase-postgres-1 psql -U postgres -d intellibase -v  -v   0.01s user 0.04s system 0% cpu 23.393 total
+# generate-100k finished 2026-05-18T22:34:42+08:00

@@ -11,9 +11,6 @@
 │                    Presentation Layer                         │
 │  Vue3/React 前端  ←──SSE/WebSocket──→  Nginx 反向代理         │
 ├──────────────────────────────────────────────────────────────┤
-│                    Gateway Layer                              │
-│  Spring Cloud Gateway · JWT 认证 · 限流(Sentinel) · 路由      │
-├──────────────────────────────────────────────────────────────┤
 │                    Application Layer (SpringBoot)             │
 │  ┌─────────┐ ┌──────────┐ ┌───────────┐ ┌───────────────┐   │
 │  │文档服务  │ │检索服务   │ │对话服务    │ │知识库管理服务  │   │
@@ -27,7 +24,7 @@
 │  └────┬────┘ └────┬─────┘ └─────┬─────┘ └──────┬────────┘   │
 ├───────┼───────────┼─────────────┼───────────────┼────────────┤
 │                    Infrastructure Layer                        │
-│  PostgreSQL(pgvector) │ Redis │ RabbitMQ │ MinIO │ Milvus    │
+│  PostgreSQL(pgvector) │ Redis │ RabbitMQ │ MinIO              │
 └──────────────────────────────────────────────────────────────┘
 ```
 
@@ -36,7 +33,6 @@
 | 层级 | 职责 |
 |------|------|
 | Presentation Layer | 前端 UI 交互，通过 SSE/WebSocket 实现流式响应 |
-| Gateway Layer | 统一入口，负责 JWT 认证、限流、路由转发 |
 | Application Layer | 核心业务服务：文档管理、检索、对话、知识库 CRUD |
 | Domain Layer | 领域逻辑：文档解析 Pipeline、向量化引擎、RAG 编排、权限管理 |
 | Infrastructure Layer | 基础设施：数据库、缓存、消息队列、对象存储 |
@@ -47,7 +43,7 @@
 |------|---------|------|
 | 后端框架 | SpringBoot 3.2 + JDK 17 | 核心服务框架 |
 | RAG 框架 | LangChain4j 0.35+ | 模型编排、RAG Pipeline |
-| 向量存储 | PostgreSQL + pgvector / Milvus 2.x | 向量存储与相似度检索 |
+| 向量存储 | PostgreSQL + pgvector | 向量存储与相似度检索 |
 | 关系数据库 | PostgreSQL 16 | 业务数据、元数据存储 |
 | 缓存 | Redis 7 (Cluster) | 语义缓存、会话缓存、限流 |
 | 消息队列 | RabbitMQ 3.13 | 异步文档处理、推理请求削峰 |
@@ -112,21 +108,20 @@
     │── 命中 → 直接返回缓存结果
     │── 未命中 ↓
     ▼
-[2] Query 改写（可选）
-    LLM 将口语化问题改写为检索友好格式
+[2] Query Rewrite / HyDE（可配置）
+    LLM 将长句、口语化问题改写为检索友好查询；可选 HyDE
     │
     ▼
 [3] Embedding 生成
-    调用 text-embedding-3-small 生成查询向量
+    对改写后的检索查询生成向量
     │
     ▼
-[4] 向量检索 (pgvector)
-    基于余弦相似度检索 Top-K 文档块
-    支持按 kb_id 过滤（多租户隔离）
+[4] Hybrid Search
+    pgvector 语义召回 + PostgreSQL tsvector/GIN 全文召回，并用 RRF 融合
     │
     ▼
-[5] Rerank 重排序（可选）
-    使用 Cross-Encoder 对 Top-K 结果精排
+[5] 二阶段 Rerank（可配置）
+    对融合候选调用 OpenAI-compatible rerank API；失败回退本地排序
     │
     ▼
 [6] Prompt 组装
@@ -141,13 +136,12 @@
 
 ### 4.3 高性能设计要点
 
-#### Redis 三级缓存体系
+#### Redis 两层缓存体系
 
 | 级别 | 缓存类型 | 策略 |
 |------|---------|------|
 | L1 | 语义缓存 | 相似问题直接返回（余弦相似度 > 0.95） |
 | L2 | 检索缓存 | 相同 query 的检索结果缓存（TTL: 30min） |
-| L3 | 文档缓存 | 热点文档块缓存（TTL: 2h, LRU 淘汰） |
 
 #### RabbitMQ 队列设计
 
@@ -181,12 +175,12 @@
 
 | 优化点 | 具体措施 | 效果 |
 |-------|---------|------|
-| 向量索引选型 | 数据 < 100 万用 IVFFlat，> 100 万切 HNSW | 查询延迟降低 60% |
+| 向量索引选型 | 当前默认 HNSW；IVFFlat 仅作为 benchmark 备选 | 10 万 fixture 下 HNSW Top-20 单查询 0.460ms，IVFFlat(probes=20) 97.434ms |
 | 分区表 | document_chunk 按 kb_id RANGE 分区 | 大租户查询隔离 |
 | 复合过滤 | 先 WHERE kb_id = ? 再向量检索 | 避免全表扫描 |
 | 连接池 | HikariCP min=10, max=50, timeout=30s | 连接复用 |
 | 批量写入 | 嵌入向量批量 INSERT (batch=100) | 写入吞吐提升 5x |
-| 查询缓存 | 高频 query 的 embedding 结果缓存到 Redis | 减少重复计算 |
+| 检索结果缓存 | query hash + retrieval config hash → chunk_id/score 列表 | 避免重复召回；文档更新按 kb_id 失效 |
 
 ## 6. 项目目录结构
 

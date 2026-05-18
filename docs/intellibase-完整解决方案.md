@@ -17,9 +17,6 @@
 │                    Presentation Layer                         │
 │  Vue3/React 前端  ←──SSE/WebSocket──→  Nginx 反向代理         │
 ├──────────────────────────────────────────────────────────────┤
-│                    Gateway Layer                              │
-│  Spring Cloud Gateway · JWT 认证 · 限流(Sentinel) · 路由      │
-├──────────────────────────────────────────────────────────────┤
 │                    Application Layer (SpringBoot)             │
 │  ┌─────────┐ ┌──────────┐ ┌───────────┐ ┌───────────────┐   │
 │  │文档服务  │ │检索服务   │ │对话服务    │ │知识库管理服务  │   │
@@ -33,7 +30,7 @@
 │  └────┬────┘ └────┬─────┘ └─────┬─────┘ └──────┬────────┘   │
 ├───────┼───────────┼─────────────┼───────────────┼────────────┤
 │                    Infrastructure Layer                        │
-│  PostgreSQL(pgvector) │ Redis │ RabbitMQ │ MinIO │ Milvus    │
+│  PostgreSQL(pgvector) │ Redis │ RabbitMQ │ MinIO              │
 └──────────────────────────────────────────────────────────────┘
 ```
 
@@ -43,7 +40,7 @@
 |------|---------|------|
 | 后端框架 | SpringBoot 3.2 + JDK 17 | 核心服务框架 |
 | RAG框架 | LangChain4j 0.35+ | 模型编排、RAG Pipeline |
-| 向量存储 | PostgreSQL + pgvector / Milvus 2.x | 向量存储与相似度检索 |
+| 向量存储 | PostgreSQL + pgvector | 向量存储与相似度检索 |
 | 关系数据库 | PostgreSQL 16 | 业务数据、元数据存储 |
 | 缓存 | Redis 7 (Cluster) | 语义缓存、会话缓存、限流 |
 | 消息队列 | RabbitMQ 3.13 | 异步文档处理、推理请求削峰 |
@@ -301,10 +298,9 @@ CREATE INDEX idx_cache_embedding ON semantic_cache
 
 ```java
 /**
- * 三级缓存体系:
+ * 两层缓存体系（重构后）:
  * L1: 语义缓存 — 相似问题直接返回（余弦相似度 > 0.95）
  * L2: 检索缓存 — 相同 query 的检索结果缓存（TTL: 30min）
- * L3: 文档缓存 — 热点文档块缓存（TTL: 2h, LRU淘汰）
  */
 
 // === 语义缓存核心逻辑 ===
@@ -529,7 +525,6 @@ intellibase/
 │       │   ├── SecurityConfig.java
 │       │   ├── RedisConfig.java
 │       │   ├── RabbitConfig.java
-│       │   ├── MilvusConfig.java       # 可选
 │       │   └── WebConfig.java
 │       │
 │       ├── controller/                 # 接口层

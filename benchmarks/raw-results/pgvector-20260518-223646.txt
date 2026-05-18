@@ -1,0 +1,107 @@
+# pgvector benchmark started 2026-05-18T22:36:46+08:00
+Timing is on.
+SET
+Time: 0.216 ms
+SELECT 1
+Time: 7.638 ms
+ chunks 
+--------
+ 100000
+(1 row)
+
+Time: 4.841 ms
+                                                                       QUERY PLAN                                                                        
+---------------------------------------------------------------------------------------------------------------------------------------------------------
+ Limit  (cost=1270.69..1312.03 rows=20 width=24) (actual time=1.379..1.795 rows=20 loops=1)
+   Buffers: shared hit=394 read=39, local hit=85
+   InitPlan 1 (returns $0)
+     ->  Seq Scan on ib_bench_query  (cost=0.00..23.60 rows=1360 width=32) (actual time=0.002..0.002 rows=1 loops=1)
+           Buffers: local hit=1
+   InitPlan 2 (returns $1)
+     ->  Seq Scan on ib_bench_query ib_bench_query_1  (cost=0.00..23.60 rows=1360 width=32) (actual time=0.003..0.003 rows=1 loops=1)
+           Buffers: local hit=1
+   ->  Index Scan using idx_chunk_embedding on document_chunk  (cost=1223.49..207958.00 rows=100000 width=24) (actual time=1.378..1.791 rows=20 loops=1)
+         Order By: (embedding <=> $1)
+         Filter: (kb_id = 90001)
+         Buffers: shared hit=394 read=39, local hit=85
+ Planning:
+   Buffers: shared hit=27 read=7
+ Planning Time: 0.163 ms
+ Execution Time: 1.824 ms
+(16 rows)
+
+Time: 2.316 ms
+DROP INDEX
+Time: 13.960 ms
+psql:<stdin>:23: NOTICE:  index "idx_bench_chunk_embedding_hnsw" does not exist, skipping
+DROP INDEX
+Time: 0.099 ms
+psql:<stdin>:24: NOTICE:  index "idx_bench_chunk_embedding_ivf_100" does not exist, skipping
+DROP INDEX
+Time: 0.126 ms
+psql:<stdin>:28: NOTICE:  hnsw graph no longer fits into maintenance_work_mem after 9371 tuples
+DETAIL:  Building will take significantly more time.
+HINT:  Increase maintenance_work_mem to speed up builds.
+CREATE INDEX
+Time: 19537.154 ms (00:19.537)
+ANALYZE
+Time: 649.965 ms
+SET
+Time: 0.078 ms
+                                                                             QUERY PLAN                                                                             
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ Limit  (cost=1527.80..1576.57 rows=20 width=24) (actual time=0.299..0.436 rows=20 loops=1)
+   Buffers: shared hit=317 read=43, local hit=84
+   InitPlan 1 (returns $0)
+     ->  Seq Scan on ib_bench_query  (cost=0.00..23.60 rows=1360 width=32) (actual time=0.001..0.001 rows=1 loops=1)
+           Buffers: local hit=1
+   InitPlan 2 (returns $1)
+     ->  Seq Scan on ib_bench_query ib_bench_query_1  (cost=0.00..23.60 rows=1360 width=32) (actual time=0.012..0.012 rows=1 loops=1)
+           Buffers: local hit=1
+   ->  Index Scan using idx_bench_chunk_embedding_hnsw on document_chunk  (cost=1480.60..245358.00 rows=100000 width=24) (actual time=0.298..0.435 rows=20 loops=1)
+         Order By: (embedding <=> $1)
+         Filter: (kb_id = 90001)
+         Buffers: shared hit=317 read=43, local hit=84
+ Planning:
+   Buffers: shared hit=11 read=1
+ Planning Time: 0.102 ms
+ Execution Time: 0.455 ms
+(16 rows)
+
+Time: 0.726 ms
+SET
+Time: 0.061 ms
+                                                                             QUERY PLAN                                                                             
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ Limit  (cost=2993.17..3041.65 rows=20 width=24) (actual time=0.238..0.393 rows=20 loops=1)
+   Buffers: shared hit=417 read=36, local hit=84
+   InitPlan 1 (returns $0)
+     ->  Seq Scan on ib_bench_query  (cost=0.00..23.60 rows=1360 width=32) (actual time=0.001..0.001 rows=1 loops=1)
+           Buffers: local hit=1
+   InitPlan 2 (returns $1)
+     ->  Seq Scan on ib_bench_query ib_bench_query_1  (cost=0.00..23.60 rows=1360 width=32) (actual time=0.001..0.001 rows=1 loops=1)
+           Buffers: local hit=1
+   ->  Index Scan using idx_bench_chunk_embedding_hnsw on document_chunk  (cost=2945.97..245358.00 rows=100000 width=24) (actual time=0.238..0.392 rows=20 loops=1)
+         Order By: (embedding <=> $1)
+         Filter: (kb_id = 90001)
+         Buffers: shared hit=417 read=36, local hit=84
+ Planning:
+   Buffers: shared hit=1
+ Planning Time: 0.033 ms
+ Execution Time: 0.399 ms
+(16 rows)
+
+Time: 0.551 ms
+DROP INDEX
+Time: 16.011 ms
+CREATE INDEX
+Time: 4517.691 ms (00:04.518)
+ANALYZE
+Time: 826.462 ms
+SET
+Time: 0.114 ms
+psql:<stdin>:56: ERROR:  cannot access temporary tables during a parallel operation
+CONTEXT:  parallel worker
+Time: 8.480 ms
+docker exec -i intellibase-postgres-1 psql -U postgres -d intellibase -v  -f   0.01s user 0.01s system 0% cpu 25.684 total
+# pgvector benchmark finished 2026-05-18T22:37:12+08:00
