@@ -1,0 +1,78 @@
+
+         /\      Grafana   /‾‾/  
+    /\  /  \     |\  __   /  /   
+   /  \/    \    | |/ /  /   ‾‾\ 
+  /          \   |   (  |  (‾)  |
+ / __________ \  |_|\_\  \_____/ 
+
+
+     execution: local
+        script: /scripts/k6-chat-stream.js
+        output: -
+
+     scenarios: (100.00%) 1 scenario, 1 max VUs, 35s max duration (incl. graceful stop):
+              * chat_stream_smoke: 1 looping VUs for 5s (gracefulStop: 30s)
+
+
+running (01.0s), 1/1 VUs, 207 complete and 0 interrupted iterations
+chat_stream_smoke   [  20% ] 1 VUs  1.0s/5s
+
+running (02.0s), 1/1 VUs, 544 complete and 0 interrupted iterations
+chat_stream_smoke   [  40% ] 1 VUs  2.0s/5s
+
+running (03.0s), 1/1 VUs, 903 complete and 0 interrupted iterations
+chat_stream_smoke   [  60% ] 1 VUs  3.0s/5s
+
+running (04.0s), 1/1 VUs, 1200 complete and 0 interrupted iterations
+chat_stream_smoke   [  80% ] 1 VUs  4.0s/5s
+
+running (05.0s), 1/1 VUs, 1332 complete and 0 interrupted iterations
+chat_stream_smoke   [ 100% ] 1 VUs  5.0s/5s
+
+
+  █ THRESHOLDS 
+
+    http_req_failed
+    ✓ 'rate<0.05' rate=0.00%
+
+    rag_stream_latency
+    ✓ 'p(95)<120000' p(95)=8
+
+    rag_stream_status_ok
+    ✓ 'rate>0.95' rate=100.00%
+
+
+  █ TOTAL RESULTS 
+
+    checks_total.......: 2666    532.508756/s
+    checks_succeeded...: 100.00% 2666 out of 2666
+    checks_failed......: 0.00%   0 out of 2666
+
+    ✓ status is 200
+    ✓ contains token or sources event
+
+    CUSTOM
+    rag_stream_latency.............: avg=3.705926 min=2      med=3      max=44     p(90)=6      p(95)=8     
+    rag_stream_status_ok...........: 100.00% 1333 out of 1333
+
+    HTTP
+    http_req_duration..............: avg=3.64ms   min=1.98ms med=2.8ms  max=39.3ms p(90)=5.46ms p(95)=7.94ms
+      { expected_response:true }...: avg=3.64ms   min=1.98ms med=2.8ms  max=39.3ms p(90)=5.46ms p(95)=7.94ms
+    http_req_failed................: 0.00%   0 out of 1333
+    http_reqs......................: 1333    266.254378/s
+
+    EXECUTION
+    iteration_duration.............: avg=3.74ms   min=2.01ms med=2.87ms max=44.3ms p(90)=5.56ms p(95)=8.21ms
+    iterations.....................: 1333    266.254378/s
+    vus............................: 1       min=1            max=1
+    vus_max........................: 1       min=1            max=1
+
+    NETWORK
+    data_received..................: 837 kB  167 kB/s
+    data_sent......................: 714 kB  143 kB/s
+
+
+
+
+running (05.0s), 0/1 VUs, 1333 complete and 0 interrupted iterations
+chat_stream_smoke ✓ [ 100% ] 1 VUs  5s

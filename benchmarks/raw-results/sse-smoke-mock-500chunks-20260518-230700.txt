@@ -1,0 +1,21 @@
+event:token
+data:这是 benchmark mock 
+
+event:token
+data:LLM 的流式回答。问题摘要：pgv
+
+event:token
+data:ector HNSW 和 IVFFl
+
+event:token
+data:at 应该怎么选。回答基于已召回上下
+
+event:token
+data:文，用于端到端压测链路验证，不代表真
+
+event:token
+data:实模型质量。
+
+event:sources
+data:[{"chunkId":95,"score":0.35360655737704916,"snippet":"PostgreSQL pgvector HNSW IVFFlat probes ef_search tsvector GIN RRF hybrid search chunk 313","denseScore":1.0,"sparseScore":null,"fusedScore":0.009016393442622951,"rerankScore":0.35360655737704916,"matchType":"DENSE"},{"chunkId":102,"score":0.35354838709677416,"snippet":"PostgreSQL pgvector HNSW IVFFlat probes ef_search tsvector GIN RRF hybrid search chunk 55","denseScore":1.0,"sparseScore":null,"fusedScore":0.008870967741935484,"rerankScore":0.35354838709677416,"matchType":"DENSE"},{"chunkId":90,"score":0.3534920634920635,"snippet":"PostgreSQL pgvector HNSW IVFFlat probes ef_search tsvector GIN RRF hybrid search chunk 325","denseScore":1.0,"sparseScore":null,"fusedScore":0.00873015873015873,"rerankScore":0.3534920634920635,"matchType":"DENSE"},{"chunkId":94,"score":0.35343750000000007,"snippet":"PostgreSQL pgvector HNSW IVFFlat probes ef_search tsvector GIN RRF hybrid search chunk 283","denseScore":1.0,"sparseScore":null,"fusedScore":0.00859375,"rerankScore":0.35343750000000007,"matchType":"DENSE"},{"chunkId":98,"score":0.3533846153846154,"snippet":"PostgreSQL pgvector HNSW IVFFlat probes ef_search tsvector GIN RRF hybrid search chunk 307","denseScore":1.0,"sparseScore":null,"fusedScore":0.008461538461538463,"rerankScore":0.3533846153846154,"matchType":"DENSE"}]
+
