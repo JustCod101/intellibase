@@ -172,6 +172,20 @@ VUS=10 DURATION=1m \
   benchmarks/scripts/run-real-chat-stream-k6.sh
 ```
 
+如果使用 `docker compose up app` 启动应用，确保 `.env` 中显式配置：
+
+```dotenv
+OPENAI_API_KEY=sk-xxx
+OPENAI_BASE_URL=https://api.openai.com/v1
+LLM_MODEL_NAME=gpt-4o-mini
+RAG_QUERY_REWRITE_ENABLED=true
+RAG_HYDE_ENABLED=false
+RAG_RERANK_EXTERNAL_ENABLED=true
+RAG_RERANK_API_URL=https://api.example.com/v1/rerank
+RAG_RERANK_API_KEY=sk-xxx
+RAG_RERANK_MODEL=bge-reranker-v2-m3
+```
+
 保存结果时文件名会包含 `real` 和时间戳。发布 README/简历性能数字前，必须同时记录供应商、模型、数据规模、并发和硬件。
 
 ## 6. Artifact 验收检查

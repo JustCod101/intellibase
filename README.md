@@ -93,7 +93,22 @@ MINIO_PASSWORD=your_minio_password
 # LLM / Embedding API
 OPENAI_API_KEY=sk-xxxx
 OPENAI_BASE_URL=https://api.openai.com/v1
-LLM_MODEL_NAME=gpt-4o
+LLM_MODEL_NAME=gpt-4o-mini
+
+# Query rewrite / HyDE（默认关闭，真实评测或压测时按需开启）
+RAG_QUERY_REWRITE_ENABLED=false
+RAG_HYDE_ENABLED=false
+
+# External rerank（默认关闭；配置真实 rerank API 后才能验证精排收益）
+RAG_RERANK_EXTERNAL_ENABLED=false
+RAG_RERANK_API_URL=
+RAG_RERANK_API_KEY=
+RAG_RERANK_MODEL=bge-reranker-v2-m3
+
+# LLM-as-judge（仅 evaluation/benchmark runner 使用）
+EVALUATION_LLM_JUDGE_API_KEY=
+EVALUATION_LLM_JUDGE_BASE_URL=https://api.openai.com/v1
+EVALUATION_LLM_JUDGE_MODEL=gpt-4o-mini
 ```
 
 ### 3. 一键启动

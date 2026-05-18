@@ -131,6 +131,7 @@
 | `docs/evaluation.md` | 文件存在并区分 seeded 与真实 API 待跑 | 部分满足：真实 API 结果缺失 |
 | `benchmarks/` | 脚本与 raw-results 存在 | 部分满足：真实 API/k6 raw result 缺失 |
 | `docs/resume-snippet.md` 去虚化带前提 | 文件存在，明确不要夸大 seeded/mock | 部分满足：缺真实 API 指标后只能作为保守模板 |
+| docker compose / `.env` 暴露真实 rewrite/rerank 配置 | `.env.example`、`docker-compose.yml`、`benchmarks/README.md` | 已满足：真实 k6 前可通过环境变量启用外部 rewrite/rerank |
 
 ### 9.4 不能完成的阻塞项
 
