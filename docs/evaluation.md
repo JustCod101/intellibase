@@ -59,9 +59,11 @@ JAVA_HOME=$(/usr/libexec/java_home -v 17.0.18) mvn -Dtest=RetrievalEvaluationTes
 |---|---:|---:|---:|---:|---:|---|
 | baseline-fixture | 75.00% | 45.83% | 75.00% | 75.00% | 69.58% | 60 条 golden QA，固定 baseline_run.jsonl；命令已通过 |
 | db-backed-seeded-current | 100.00% | 100.00% | 100.00% | 100.00% | 100.00% | 真实 RetrievalService + PostgreSQL/pgvector；seeded deterministic corpus，用于验证 DB-backed runner，不作为线上质量 claim |
-| +hybrid | TBD | TBD | TBD | TBD | TBD | 真实文档 + 真实 embedding + pgvector/tsvector/RRF 后填写 |
-| +rerank | TBD | TBD | TBD | TBD | TBD | 真实外部 rerank API 精排后填写 |
-| +query-rewrite | TBD | TBD | TBD | TBD | TBD | 真实 LLM query rewrite / HyDE 后填写 |
+| real-api dense-only | 100.00% | 94.64% | 100.00% | 100.00% | 92.17% | 60 条 golden QA 语料，真实 `text-embedding-v4` embedding，PostgreSQL/pgvector；raw: `real-api-evaluation-report-20260519-035801.md` |
+| real-api hybrid RRF | 100.00% | 98.33% | 100.00% | 100.00% | 97.00% | pgvector + `tsvector`/GIN + RRF；同一真实 API run |
+| real-api local rerank | 100.00% | 99.17% | 100.00% | 100.00% | 98.83% | 本地规则 rerank；同一真实 API run |
+| real-api external rerank | 100.00% | 98.06% | 100.00% | 100.00% | 98.33% | DashScope `qwen3-rerank`；同一真实 API run |
+| real-api query-rewrite | TBD | TBD | TBD | TBD | TBD | 本次 `.env` 中 `RAG_QUERY_REWRITE_ENABLED=false`，真实 rewrite / HyDE 指标待单独运行 |
 
 ## 5. RAGAS 风格 LLM-as-judge
 
@@ -71,6 +73,8 @@ CI 默认通过 `AnswerJudgeFactory` 选择评测器：未配置 API Key 时使�
 export EVALUATION_LLM_JUDGE_API_KEY=sk-xxx
 export EVALUATION_LLM_JUDGE_BASE_URL=https://api.openai.com/v1
 export EVALUATION_LLM_JUDGE_MODEL=gpt-4o-mini
+# 可选：真实评测默认 4 并发调用裁判模型，按 API 限流情况调低/调高。
+export EVALUATION_LLM_JUDGE_CONCURRENCY=4
 ```
 
 真实 LLM-as-judge 保持同一接口：
@@ -188,12 +192,12 @@ JAVA_HOME=$(/usr/libexec/java_home -v 17.0.18) \
 也可以使用一行脚本自动启动临时 pgvector、运行测试并复制 raw results：
 
 ```bash
-export OPENAI_API_KEY=sk-xxx
-export OPENAI_BASE_URL=https://api.openai.com/v1
+# 可以直接写入仓库根目录 .env；runner/preflight 会自动加载 .env。
+# 也可以用 export 覆盖当前 shell 环境。
 
 benchmarks/scripts/real-benchmark-preflight.sh retrieval
 
 benchmarks/scripts/run-real-api-evaluation.sh
 ```
 
-注意：`real-benchmark-preflight.sh` 只做本地环境预检，不调用外部 API；真正的 runner 会真实消耗 embedding / LLM / rerank API quota。只有把本 runner 的原始输出复制到 `benchmarks/raw-results/real-api-evaluation-*.md/json` 后，才允许把对应 Recall@5 / MRR / Hit Rate 写入 README 或简历。
+注意：`real-benchmark-preflight.sh` 只做本地环境预检，不调用外部 API；真正的 runner 会真实消耗 embedding / LLM / rerank API quota。只有把本 runner 的原始输出复制到 `benchmarks/raw-results/real-api-evaluation-*.md/json` 后，才允许把对应 Recall@5 / MRR / Hit Rate 写入 README 或简历。本仓库当前真实 API 结果为 `benchmarks/raw-results/real-api-evaluation-report-20260519-035801.md`。

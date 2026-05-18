@@ -10,6 +10,8 @@ import com.intellibase.server.service.rag.LexicalTokenizer;
 import com.intellibase.server.service.rag.QueryRewriteService;
 import com.intellibase.server.service.rag.RetrievalCacheService;
 import com.intellibase.server.service.rag.RetrievalService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.junit.jupiter.api.Assumptions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -28,6 +30,10 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -46,6 +52,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 })
 @EnabledIfSystemProperty(named = "evaluation.real-api.enabled", matches = "true")
 class RealApiRetrievalEvaluationIT {
+
+    private static final Logger log = LoggerFactory.getLogger(RealApiRetrievalEvaluationIT.class);
 
     private static final long REAL_API_KB_ID = 95_001L;
     private static final long REAL_API_DOC_ID = 95_001L;
@@ -115,12 +123,7 @@ class RealApiRetrievalEvaluationIT {
             retrievalCacheService.invalidateByKbId(REAL_API_KB_ID);
             List<RetrievalRunRecord> runRecords = runScenario(goldenCases, scenario);
             RetrievalMetrics metrics = calculator.calculate(goldenCases, runRecords, 5);
-            List<JudgeScore> judgeScores = goldenCases.stream()
-                    .map(golden -> answerJudge.judge(golden, runRecords.stream()
-                            .filter(record -> record.questionId().equals(golden.id()))
-                            .findFirst()
-                            .orElse(new RetrievalRunRecord(golden.id(), List.of(), ""))))
-                    .toList();
+            List<JudgeScore> judgeScores = judgeScenario(goldenCases, runRecords, scenario.name());
             results.put(scenario.name(), new RealApiEvaluationResult(metrics, judgeScores, runRecords));
         }
 
@@ -151,6 +154,38 @@ class RealApiRetrievalEvaluationIT {
             ));
         }
         return runRecords;
+    }
+
+    private List<JudgeScore> judgeScenario(List<GoldenQaCase> goldenCases,
+                                           List<RetrievalRunRecord> runRecords,
+                                           String scenarioName) {
+        int concurrency = boundedInt(firstText(System.getProperty("evaluation.llm-judge.concurrency"),
+                        System.getenv("EVALUATION_LLM_JUDGE_CONCURRENCY")),
+                4, 1, 16);
+        Map<String, RetrievalRunRecord> recordsByQuestion = runRecords.stream()
+                .collect(Collectors.toMap(RetrievalRunRecord::questionId, Function.identity()));
+        AtomicInteger completed = new AtomicInteger();
+        ExecutorService executor = Executors.newFixedThreadPool(concurrency);
+        log.info("LLM-as-judge started: scenario={}, cases={}, concurrency={}",
+                scenarioName, goldenCases.size(), concurrency);
+        try {
+            List<CompletableFuture<JudgeScore>> futures = goldenCases.stream()
+                    .map(golden -> CompletableFuture.supplyAsync(() -> {
+                        RetrievalRunRecord record = recordsByQuestion.getOrDefault(golden.id(),
+                                new RetrievalRunRecord(golden.id(), List.of(), ""));
+                        JudgeScore score = answerJudge.judge(golden, record);
+                        int done = completed.incrementAndGet();
+                        if (done % 10 == 0 || done == goldenCases.size()) {
+                            log.info("LLM-as-judge progress: scenario={}, completed={}/{}",
+                                    scenarioName, done, goldenCases.size());
+                        }
+                        return score;
+                    }, executor))
+                    .toList();
+            return futures.stream().map(CompletableFuture::join).toList();
+        } finally {
+            executor.shutdownNow();
+        }
     }
 
     private void seedRealEmbeddingGoldenCorpus(List<GoldenQaCase> goldenCases) {
@@ -287,6 +322,17 @@ class RealApiRetrievalEvaluationIT {
 
     private String firstText(String first, String second) {
         return StringUtils.hasText(first) ? first : second;
+    }
+
+    private int boundedInt(String value, int fallback, int min, int max) {
+        if (!StringUtils.hasText(value)) {
+            return fallback;
+        }
+        try {
+            return Math.max(min, Math.min(max, Integer.parseInt(value)));
+        } catch (NumberFormatException ignored) {
+            return fallback;
+        }
     }
 
     private String pct(double value) {

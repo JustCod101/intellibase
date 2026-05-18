@@ -1,0 +1,3166 @@
+{
+  "baseline-dense-only" : {
+    "judge" : [ {
+      "questionId" : "SPR-001",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 1.0,
+      "reason" : "待评答案的内容完全来源于检索上下文的第一段，没有任何虚构或矛盾信息，因此忠实度为1.0；待评答案准确回答了问题中'为什么推荐构造器注入'的原因（依赖不可变、便于单元测试、暴露循环依赖，并对比了字段注入的缺点），因此答案相关性为1.0。"
+    }, {
+      "questionId" : "SPR-002",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 1.0,
+      "reason" : "待评答案的内容与检索上下文1完全一致，所有声明均被上下文直接支持，因此faithfulness为1.0；待评答案明确回答了JWT过滤器应放在UsernamePasswordAuthenticationFilter之前，并解释了原因，完全切中问题核心，因此answer_relevance为1.0。"
+    }, {
+      "questionId" : "SPR-003",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 1.0,
+      "reason" : "待评答案的内容完全来源于检索上下文1，没有引入任何上下文中不存在的信息，因此faithfulness为1.0；待评答案直接且完整地回答了RabbitMQ消费者如何做到幂等处理的问题，与问题高度相关，因此answer_relevance为1.0。"
+    }, {
+      "questionId" : "SPR-004",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 1.0,
+      "reason" : "待评答案的内容与检索上下文的第一段完全一致，所有陈述均被上下文直接支持，无幻觉，因此忠实度为1.0；待评答案准确且完整地回答了死信队列适合处理的场景（接收重试耗尽、被拒绝或过期的消息，便于人工排查、延迟重投或告警），与问题高度相关，因此答案相关性为1.0"
+    }, {
+      "questionId" : "SPR-005",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 1.0,
+      "reason" : "待评答案的内容完全出现在检索上下文的第1段中，因此faithfulness为1.0；待评答案准确列出了@Transactional不生效的常见原因，直接且充分地回答了问题，因此answer_relevance为1.0。"
+    }, {
+      "questionId" : "SPR-006",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 1.0,
+      "reason" : "待评答案的内容与检索上下文的第一段完全一致，所有陈述均被上下文充分支持，无任何幻觉或未支持的声明；待评答案直接且完整地回答了问题中'为什么要异步解析'的核心原因（耗时、削峰、隔离失败、重试、避免阻塞），与问题高度相关。"
+    }, {
+      "questionId" : "SPR-007",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 1.0,
+      "reason" : "待评答案的内容与检索上下文的第一段完全一致，所有陈述均被上下文直接支持，因此faithfulness为1.0；待评答案准确且完整地回答了问题中关于MinIO在知识库系统中的职责，因此answer_relevance为1.0。"
+    }, {
+      "questionId" : "SPR-008",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 1.0,
+      "reason" : "待评答案与检索上下文第一段完全一致，所有声明均被上下文直接支持，因此忠实度为1.0；待评答案准确指出了RAG场景下SSE和WebSocket的取舍原则，完美回答了问题，因此相关性为1.0"
+    }, {
+      "questionId" : "SPR-009",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 0.0,
+      "reason" : "待评答案与检索上下文的第一段内容完全一致，因此faithfulness为1.0；但待评答案讨论的是单体架构与RAG评测的深度取舍，完全没有回答问题中关于'为什么接口层不要直接写RAG检索SQL'（即Controller与Service职责分离）的核心诉求，因此answer_relevance为0.0。"
+    }, {
+      "questionId" : "SPR-010",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 1.0,
+      "reason" : "待评答案的所有陈述均与检索上下文的第一段完全一致，没有引入任何上下文中不支持的信息，因此faithfulness为1.0；待评答案直接且完整地回答了Spring Boot Actuator在压测时的作用，与问题高度相关，因此answer_relevance为1.0。"
+    }, {
+      "questionId" : "SPR-011",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 1.0,
+      "reason" : "待评答案与检索上下文的第一段内容完全一致，所有陈述均被上下文完全支持，无任何幻觉或偏离；待评答案直接且准确地回答了'指数退避重试解决什么问题'，指出了避免冲击下游、提供恢复窗口及进入DLQ等核心作用，与标准答案完全匹配，高度相关。"
+    }, {
+      "questionId" : "SPR-012",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 1.0,
+      "reason" : "待评答案与检索上下文的第一段内容完全一致，所有声明均被上下文直接支持，因此faithfulness为1.0；待评答案准确且完整地回答了问题中关于控制并发的原因（消耗CPU与内存、避免OOM、给embedding稳定速率），因此answer_relevance为1.0。"
+    }, {
+      "questionId" : "SPR-013",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 1.0,
+      "reason" : "待评答案与检索上下文的第一段完全一致，所有陈述均被上下文完全支持，因此faithfulness为1.0；待评答案准确解释了使用环境变量覆盖API Key的原因（敏感信息不写死在仓库、区分不同环境），完全切中问题核心，因此answer_relevance为1.0。"
+    }, {
+      "questionId" : "SPR-014",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 1.0,
+      "reason" : "待评答案与检索上下文的第一段内容完全一致，所有陈述均被上下文直接支持，因此忠实度为1.0；待评答案直接且完整地解释了多租户知识库检索必须带kb_id的原因（确保数据隔离、缩小候选范围、降低延迟），完美回答了问题，因此答案相关性为1.0。"
+    }, {
+      "questionId" : "SPR-015",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 1.0,
+      "reason" : "待评答案的内容完全来自检索上下文的第一段，没有任何虚构或脱离上下文的陈述，因此忠诚度为1.0；待评答案准确且完整地解释了向量参数必须强制转换为vector的原因（参与距离计算及使用向量操作符），直接回答了问题，因此相关性为1.0。"
+    }, {
+      "questionId" : "SPR-016",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 1.0,
+      "reason" : "待评答案与检索上下文的第一段内容完全一致，所有陈述均被上下文直接支持，因此faithfulness为1.0；待评答案直接且完整地解释了文档删除时清理语义缓存和检索缓存的原因（避免返回过期或敏感内容，按kb_id失效更安全），与问题高度相关，因此answer_relevance为1.0。"
+    }, {
+      "questionId" : "SPR-017",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 1.0,
+      "reason" : "待评答案与检索上下文第一段完全一致，且上下文第三、四段也佐证了避免接口阻塞的观点，因此答案完全被上下文支持，faithfulness为1.0；待评答案准确指出了embedding调用外部API且耗时不稳定的原因，并给出了快速返回任务状态的正确做法，完美回答了问题，与标准答案一致，answer_relevance为1.0。"
+    }, {
+      "questionId" : "SPR-018",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 0.3,
+      "reason" : "待评答案的内容完全匹配检索上下文的第一段，因此 faithfulness 为 1.0。但问题询问的是'如何讲出工程深度'，待评答案仅泛泛说明保持单体服务能突出某些能力，没有像标准答案那样给出具体的深度取舍点（如 RAG 评测、pgvector 调优、缓存一致性等），未有效回答'如何'这一核心诉求，因此 answer_relevance 较低。"
+    }, {
+      "questionId" : "SPR-019",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 1.0,
+      "reason" : "待评答案的内容与检索上下文的第一段完全一致，所有陈述均被上下文直接支持，无任何幻觉；待评答案直接且完整地回答了“为什么要为缓存命中率打点”的问题，指出了证明优化有效性和判断额外层保留价值这两个原因，与问题高度相关且与标准答案完全匹配。"
+    }, {
+      "questionId" : "SPR-020",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 1.0,
+      "reason" : "待评答案的内容（检查失败原因、重试次数、业务幂等键和下游恢复状态，避免毒丸消息无限循环）完全在检索上下文的片段1中出现，没有任何幻觉或脱离上下文的陈述，因此faithfulness为1.0。同时，待评答案精准且完整地回答了问题'DLQ消息重投前要检查什么'，因此answer_relevance为1.0。"
+    }, {
+      "questionId" : "PGV-001",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 1.0,
+      "reason" : "待评答案的内容完全来自于检索上下文的第一段，没有任何幻觉或脱离上下文的信息，因此忠实度为1.0；待评答案准确且全面地指出了HNSW和IVFFlat的核心区别，完美回答了问题，因此答案相关性为1.0。"
+    }, {
+      "questionId" : "PGV-002",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 1.0,
+      "reason" : "待评答案的所有陈述（RRF只依赖排名、不要求同尺度、能稳定融合dense与sparse）均完全出现在检索上下文的第一个片段中，被上下文完全支持，因此faithfulness为1.0；待评答案直接且准确地回答了RRF适合混合检索的原因，与标准答案完全一致，因此answer_relevance为1.0。"
+    }, {
+      "questionId" : "PGV-003",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 1.0,
+      "reason" : "待评答案的内容完全来源于检索上下文的第一段，没有任何虚构或脱离上下文的信息，因此忠实度为1.0；待评答案直接且准确地解释了PostgreSQL全文检索建GIN索引的原因（加速@@查询，避免全文扫描），完美回答了问题，因此答案相关性为1.0。"
+    }, {
+      "questionId" : "PGV-004",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 1.0,
+      "reason" : "待评答案的内容完全来源于检索上下文的第一段，没有任何超出上下文或矛盾的信息，忠实度为1.0；待评答案准确解释了denseTopK和sparseTopK的含义及后续处理方式，直接且完整地回答了问题，答案相关性为1.0。"
+    }, {
+      "questionId" : "PGV-005",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 1.0,
+      "reason" : "待评答案与检索上下文第一条完全一致，所有陈述均被上下文支持，无任何捏造，故faithfulness为1.0；待评答案准确解释了rerank放在粗召回之后的原因（成本高、不能扫全库、只适合精排少量候选），完美回答了问题，故answer_relevance为1.0。"
+    }, {
+      "questionId" : "PGV-006",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 1.0,
+      "reason" : "待评答案的内容与检索上下文的第一段完全一致，没有引入任何上下文中不存在的信息，因此忠诚度为1.0；待评答案直接且准确地回答了Query rewriting在RAG中解决的问题（改写长句、口语化或上下文依赖问题为检索友好查询，提高召回稳定性），与标准答案完全匹配，因此相关性为1.0。"
+    }, {
+      "questionId" : "PGV-007",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 1.0,
+      "reason" : "待评答案的内容与检索上下文的第一段完全一致，所有陈述均被上下文直接支持，因此faithfulness为1.0；待评答案准确且完整地回答了关于HyDE基本思路的问题，与标准答案完全匹配，因此answer_relevance为1.0。"
+    }, {
+      "questionId" : "PGV-008",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 1.0,
+      "reason" : "待评答案与检索上下文的第一条内容完全一致，所有陈述均被上下文直接支持，因此faithfulness为1.0。待评答案准确解释了父子分块提升RAG质量的原因（小子块保召回精度，父块保上下文完整性），直接且完整地回答了问题，因此answer_relevance为1.0。"
+    }, {
+      "questionId" : "PGV-009",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 1.0,
+      "reason" : "待评答案的内容与上下文片段1完全一致，且片段2也支持了Recall@5看覆盖比例的说法，因此答案完全被上下文支持，faithfulness为1.0。待评答案直接且准确地解释了Recall@5在检索评测中的含义，完美回答了问题，answer_relevance为1.0。"
+    }, {
+      "questionId" : "PGV-010",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 1.0,
+      "reason" : "待评答案与检索上下文的第一段内容完全一致，所有陈述均被上下文直接支持，因此忠实度为1.0；待评答案直接且准确地回答了问题关于MRR关注点的询问，指出了第一个相关结果的位置和倒数排名得分，与标准答案完全匹配，因此答案相关性为1.0。"
+    }, {
+      "questionId" : "PGV-011",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 1.0,
+      "reason" : "待评答案的内容与检索上下文的第一段完全一致，没有任何虚构或矛盾，因此faithfulness为1.0。待评答案准确且完整地回答了问题关于Hit Rate@5和Recall@5的区别，因此answer_relevance为1.0。"
+    }, {
+      "questionId" : "PGV-012",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 1.0,
+      "reason" : "待评答案与检索上下文的第一段内容完全一致，没有任何幻觉或脱离上下文的表述，因此faithfulness为1.0；待评答案明确指出了性能数字受数据量、硬件等条件影响，不标注前提则不可复现，直接且完美地回答了‘为什么性能数字要标注数据规模和硬件’的问题，因此answer_relevance为1.0。"
+    }, {
+      "questionId" : "PGV-013",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 0.0,
+      "reason" : "待评答案的内容完全出现在检索上下文的第一段中，因此faithfulness为1.0；但待评答案讨论的是vector类型转换和操作符的使用，完全没有回答问题所问的probes参数对召回率和延迟的影响，因此answer_relevance为0.0。"
+    }, {
+      "questionId" : "PGV-014",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 1.0,
+      "reason" : "待评答案与检索上下文的第一段内容完全一致，所有陈述均被上下文直接支持，无任何幻觉或外部信息，因此 faithfulness 为 1.0；待评答案直接且完整地回答了关于 HNSW 的 ef_search 参数如何取舍的问题，准确指出了召回与延迟的权衡关系以及结合评测和 P95 延迟的选择建议，因此 answer_relevance 为 1.0。"
+    }, {
+      "questionId" : "PGV-015",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 1.0,
+      "reason" : "待评答案与检索上下文的第一段完全一致，且直接解释了缓存key包含配置hash的原因（配置变化会改变结果，避免返回旧策略结果），完全被上下文支持且精准回答了问题。"
+    }, {
+      "questionId" : "PGV-016",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 1.0,
+      "reason" : "待评答案完全回答了问题，且其所有陈述均被检索上下文（片段1）完全支持，没有任何编造或与上下文无关的内容。"
+    }, {
+      "questionId" : "PGV-017",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 1.0,
+      "reason" : "待评答案的内容完全出现在检索上下文的第一段中，因此被上下文完全支持；同时，待评答案准确且直接地回答了问题关于 answer relevance 的衡量目标，与标准答案一致。"
+    }, {
+      "questionId" : "PGV-018",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 1.0,
+      "reason" : "待评答案与检索上下文的第一条内容完全一致，所有陈述均被上下文直接支持，faithfulness为1.0；待评答案准确解释了需要baseline评测结果的原因（提供可量化参照以证明后续改造的提升幅度），完美契合问题意图且与标准答案一致，answer_relevance为1.0。"
+    }, {
+      "questionId" : "PGV-019",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 0.0,
+      "reason" : "待评答案完全复制了检索上下文的第一段，因此faithfulness为1.0。但是，问题询问的是'为什么不能只看平均延迟'，标准答案指出是因为平均值会掩盖长尾且服务体验更依赖P95/P99。待评答案讨论的是向量延迟的影响因素和性能数字不可复现，并未回答为什么不能只看平均延迟，因此answer_relevance为0.0。"
+    }, {
+      "questionId" : "PGV-020",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 1.0,
+      "reason" : "待评答案与检索上下文的第一条完全一致，所有陈述均被上下文直接支持，faithfulness为1.0；待评答案准确指出了simple配置的限制（不做中文分词和复杂词形还原，中文语义依赖embedding或预分词），完全回答了问题，answer_relevance为1.0。"
+    }, {
+      "questionId" : "JVM-001",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 1.0,
+      "reason" : "待评答案的所有声明（无界队列持续堆积任务、导致内存上涨和延迟不可控、应设置容量和拒绝策略）均与检索上下文的第一段内容完全一致，被上下文充分支持，因此忠实度为1.0；待评答案直接且准确地回答了问题中'为什么不建议无界队列'的核心原因，与标准答案完全匹配，因此答案相关性为1.0。"
+    }, {
+      "questionId" : "JVM-002",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 1.0,
+      "reason" : "待评答案与检索上下文的第一段内容完全一致，所有陈述均被上下文直接支持，无任何幻觉，因此faithfulness为1.0；待评答案准确指出了CompletableFuture在SSE流式响应中的风险（客户端断开但任务未取消导致后台继续调用LLM消耗资源），直接且完整地回答了问题，因此answer_relevance为1.0。"
+    }, {
+      "questionId" : "JVM-003",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 1.0,
+      "reason" : "待评答案与检索上下文第一段内容完全一致，没有任何幻觉或脱离上下文的信息，faithfulness为1.0；待评答案直接且完整地回答了问题中'为什么要关注P99'的原因，与标准答案完全匹配，answer_relevance为1.0。"
+    }, {
+      "questionId" : "JVM-004",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 1.0,
+      "reason" : "待评答案与检索上下文的第一段内容完全一致，所有陈述均被上下文完全支持，无任何幻觉，因此faithfulness为1.0；待评答案准确且完整地回答了'为什么ObjectMapper应该复用'的问题，指出了创建成本高、配置复杂、减少开销和保持序列化行为一致等核心原因，因此answer_relevance为1.0。"
+    }, {
+      "questionId" : "JVM-005",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 1.0,
+      "reason" : "待评答案与检索上下文第一条完全一致，完全被上下文支持；且准确回答了批量 embedding 提升吞吐的原因（减少 HTTP 往返和服务端固定开销），与问题高度相关。"
+    }, {
+      "questionId" : "JVM-006",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 1.0,
+      "reason" : "待评答案与检索上下文第一段内容完全一致，且上下文第四段也进一步支撑了异步队列避免接口阻塞的观点，因此答案完全被上下文支持，faithfulness为1.0；待评答案直接且准确地回答了问题中关于如何避免阻塞拖垮接口线程的方法，与标准答案完全一致，answer_relevance为1.0。"
+    }, {
+      "questionId" : "JVM-007",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 1.0,
+      "reason" : "待评答案的内容完全出现在检索上下文的第一个片段中，因此忠实度得分为1.0；待评答案直接解释了缓存一致性比缓存层数更重要的原因（层数越多失效越复杂，一致性缺失会使性能优化变成正确性问题），精准回答了问题，因此答案相关性得分为1.0。"
+    }, {
+      "questionId" : "JVM-008",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 1.0,
+      "reason" : "待评答案与检索上下文的第一段内容完全一致，所有陈述均被上下文直接支持，无任何幻觉，因此faithfulness为1.0；待评答案直接且完整地回答了问题中关于JMH和k6适用场景的询问，与问题高度相关，因此answer_relevance为1.0。"
+    }, {
+      "questionId" : "JVM-009",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 1.0,
+      "reason" : "待评答案与检索上下文的第一段内容完全一致，所有陈述均被上下文直接支持，因此faithfulness为1.0；待评答案准确回答了问题中‘背压解决什么’的疑问，指出了调节速度和避免OOM堆积的作用，与问题高度相关，因此answer_relevance为1.0。"
+    }, {
+      "questionId" : "JVM-010",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 0.0,
+      "reason" : "待评答案与检索上下文的第一段内容完全一致，因此被上下文完全支持，faithfulness为1.0。然而，问题具体询问的是Redis SETNX做幂等时的过期时间风险，待评答案仅描述了使用SETNX和唯一约束实现幂等的一般流程，完全没有提及过期时间太短或太长带来的风险，未回答问题的核心，因此answer_relevance为0.0。"
+    }, {
+      "questionId" : "JVM-011",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 1.0,
+      "reason" : "待评答案与检索上下文的第一段完全一致，完全被上下文支持；同时，待评答案准确解释了数据库唯一约束作为幂等兜底的原因（因为Redis可能故障或锁过期，需要在最终写入点阻止重复），直接且完整地回答了问题。"
+    }, {
+      "questionId" : "JVM-012",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 1.0,
+      "reason" : "待评答案的内容完全来自检索上下文的第一条，没有任何虚构或矛盾，因此忠实度为1.0；待评答案准确且完整地回答了问题中关于设置超时原因的询问，与标准答案一致，因此答案相关性为1.0。"
+    }, {
+      "questionId" : "JVM-013",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 1.0,
+      "reason" : "待评答案与检索上下文的第一段完全一致，所有陈述均被上下文充分支持，因此faithfulness为1.0；待评答案准确指出了单元测试和压测在验证目标（逻辑正确性 vs 容量/延迟/稳定性）和运行环境上的不同，完美回答了'为什么要区分'的问题，因此answer_relevance为1.0。"
+    }, {
+      "questionId" : "JVM-014",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 1.0,
+      "reason" : "待评答案与检索上下文的第一段内容完全一致，所有陈述均被上下文直接支持，因此忠实度为1.0；待评答案准确解释了限制上下文token的原因（增加成本、延迟、挤占空间、引入噪声），完美回答了问题，因此答案相关性为1.0。"
+    }, {
+      "questionId" : "JVM-015",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 1.0,
+      "reason" : "待评答案与检索上下文的第一段内容完全一致，没有任何幻觉或未提及的信息，因此忠实度为1.0；待评答案直接且准确地回答了record是否适合表达评测数据的问题，指出了其作为不可变数据载体对golden case和metrics的简化作用，完美契合问题意图，因此相关性为1.0"
+    }, {
+      "questionId" : "JVM-016",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 1.0,
+      "reason" : "待评答案的所有陈述均与检索上下文的第一段完全一致，没有引入任何上下文中不存在的信息，忠实度为1.0；待评答案准确解释了JSONL格式的优势（一行一个样本、便于追加、diff、流式读取、适合保存评测集等），直接且充分地回答了为什么使用JSONL的问题，答案相关性为1.0。"
+    }, {
+      "questionId" : "JVM-017",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 1.0,
+      "reason" : "待评答案与检索上下文的第一段完全一致，所有声明均被上下文直接支持，因此faithfulness为1.0；待评答案直接且准确地回答了'为什么压测报告要保存原始结果'的问题，与标准答案完全一致，因此answer_relevance为1.0。"
+    }, {
+      "questionId" : "JVM-018",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 1.0,
+      "reason" : "待评答案与检索上下文的第一段内容完全一致，所有陈述均被上下文直接支持，faithfulness为1.0；待评答案准确解释了缓存sanity check的目的（降低语义缓存的误命中/假阳性），直接且完整地回答了问题，answer_relevance为1.0。"
+    }, {
+      "questionId" : "JVM-019",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 1.0,
+      "reason" : "待评答案与检索上下文的第一段完全一致，所有陈述均被上下文完全支持，因此faithfulness为1.0；答案直接解释了不引入Python服务的原因（为了突出Java后端相关技能），完美回答了问题，因此answer_relevance为1.0。"
+    }, {
+      "questionId" : "JVM-020",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 1.0,
+      "reason" : "待评答案与检索上下文第一条完全一致，所有陈述均被上下文直接支持；答案准确解释了RAG改动后需要跑评测的原因（检索策略改动可能带来伤害及需要固定评测集发现回归），完美回答了问题。"
+    } ],
+    "retrieval" : {
+      "k" : 5,
+      "totalQuestions" : 60,
+      "recallAtK" : 1.0,
+      "mrr" : 0.9463888888888888,
+      "hitRateAtK" : 1.0,
+      "questionScores" : [ {
+        "questionId" : "SPR-001",
+        "domain" : "spring-boot-rabbitmq",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 1.0,
+        "hit" : true,
+        "retrievedChunkIds" : [ "C-SPR-001", "C-JVM-004", "C-SPR-009", "C-JVM-015", "C-SPR-002" ],
+        "relevantChunkIds" : [ "C-SPR-001" ]
+      }, {
+        "questionId" : "SPR-002",
+        "domain" : "spring-boot-rabbitmq",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 1.0,
+        "hit" : true,
+        "retrievedChunkIds" : [ "C-SPR-002", "C-JVM-004", "C-JVM-006" ],
+        "relevantChunkIds" : [ "C-SPR-002" ]
+      }, {
+        "questionId" : "SPR-003",
+        "domain" : "spring-boot-rabbitmq",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 1.0,
+        "hit" : true,
+        "retrievedChunkIds" : [ "C-SPR-003", "C-SPR-006", "C-SPR-020", "C-SPR-004", "C-JVM-011" ],
+        "relevantChunkIds" : [ "C-SPR-003" ]
+      }, {
+        "questionId" : "SPR-004",
+        "domain" : "spring-boot-rabbitmq",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 1.0,
+        "hit" : true,
+        "retrievedChunkIds" : [ "C-SPR-004", "C-SPR-006", "C-SPR-020", "C-SPR-011", "C-JVM-001" ],
+        "relevantChunkIds" : [ "C-SPR-004" ]
+      }, {
+        "questionId" : "SPR-005",
+        "domain" : "spring-boot-rabbitmq",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 1.0,
+        "hit" : true,
+        "retrievedChunkIds" : [ "C-SPR-005", "C-JVM-011", "C-JVM-010", "C-JVM-004", "C-SPR-003" ],
+        "relevantChunkIds" : [ "C-SPR-005" ]
+      }, {
+        "questionId" : "SPR-006",
+        "domain" : "spring-boot-rabbitmq",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 1.0,
+        "hit" : true,
+        "retrievedChunkIds" : [ "C-SPR-006", "C-JVM-006", "C-SPR-017", "C-SPR-012", "C-SPR-008" ],
+        "relevantChunkIds" : [ "C-SPR-006" ]
+      }, {
+        "questionId" : "SPR-007",
+        "domain" : "spring-boot-rabbitmq",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 1.0,
+        "hit" : true,
+        "retrievedChunkIds" : [ "C-SPR-007", "C-SPR-006", "C-SPR-014", "C-JVM-015", "C-SPR-009" ],
+        "relevantChunkIds" : [ "C-SPR-007" ]
+      }, {
+        "questionId" : "SPR-008",
+        "domain" : "spring-boot-rabbitmq",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 1.0,
+        "hit" : true,
+        "retrievedChunkIds" : [ "C-SPR-008", "C-JVM-002", "C-SPR-018", "C-JVM-020", "C-PGV-018" ],
+        "relevantChunkIds" : [ "C-SPR-008" ]
+      }, {
+        "questionId" : "SPR-009",
+        "domain" : "spring-boot-rabbitmq",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 0.2,
+        "hit" : true,
+        "retrievedChunkIds" : [ "C-SPR-018", "C-JVM-020", "C-SPR-008", "C-PGV-005", "C-SPR-009" ],
+        "relevantChunkIds" : [ "C-SPR-009" ]
+      }, {
+        "questionId" : "SPR-010",
+        "domain" : "spring-boot-rabbitmq",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 1.0,
+        "hit" : true,
+        "retrievedChunkIds" : [ "C-SPR-010", "C-JVM-013", "C-JVM-017", "C-JVM-008", "C-JVM-009" ],
+        "relevantChunkIds" : [ "C-SPR-010" ]
+      }, {
+        "questionId" : "SPR-011",
+        "domain" : "spring-boot-rabbitmq",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 1.0,
+        "hit" : true,
+        "retrievedChunkIds" : [ "C-SPR-011", "C-SPR-006", "C-SPR-020", "C-SPR-004", "C-SPR-003" ],
+        "relevantChunkIds" : [ "C-SPR-011" ]
+      }, {
+        "questionId" : "SPR-012",
+        "domain" : "spring-boot-rabbitmq",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 1.0,
+        "hit" : true,
+        "retrievedChunkIds" : [ "C-SPR-012", "C-SPR-006", "C-JVM-006", "C-JVM-009", "C-SPR-003" ],
+        "relevantChunkIds" : [ "C-SPR-012" ]
+      }, {
+        "questionId" : "SPR-013",
+        "domain" : "spring-boot-rabbitmq",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 1.0,
+        "hit" : true,
+        "retrievedChunkIds" : [ "C-SPR-013", "C-JVM-012", "C-JVM-004", "C-PGV-015", "C-JVM-006" ],
+        "relevantChunkIds" : [ "C-SPR-013" ]
+      }, {
+        "questionId" : "SPR-014",
+        "domain" : "spring-boot-rabbitmq",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 1.0,
+        "hit" : true,
+        "retrievedChunkIds" : [ "C-SPR-014", "C-SPR-016", "C-PGV-005", "C-PGV-004", "C-PGV-015" ],
+        "relevantChunkIds" : [ "C-SPR-014" ]
+      }, {
+        "questionId" : "SPR-015",
+        "domain" : "spring-boot-rabbitmq",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 1.0,
+        "hit" : true,
+        "retrievedChunkIds" : [ "C-SPR-015", "C-SPR-005", "C-PGV-012", "C-JVM-004", "C-JVM-006" ],
+        "relevantChunkIds" : [ "C-SPR-015" ]
+      }, {
+        "questionId" : "SPR-016",
+        "domain" : "spring-boot-rabbitmq",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 1.0,
+        "hit" : true,
+        "retrievedChunkIds" : [ "C-SPR-016", "C-JVM-018", "C-PGV-015", "C-SPR-018", "C-JVM-007" ],
+        "relevantChunkIds" : [ "C-SPR-016" ]
+      }, {
+        "questionId" : "SPR-017",
+        "domain" : "spring-boot-rabbitmq",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 1.0,
+        "hit" : true,
+        "retrievedChunkIds" : [ "C-SPR-017", "C-JVM-005", "C-SPR-006", "C-JVM-006", "C-JVM-009" ],
+        "relevantChunkIds" : [ "C-SPR-017" ]
+      }, {
+        "questionId" : "SPR-018",
+        "domain" : "spring-boot-rabbitmq",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 0.3333333333333333,
+        "hit" : true,
+        "retrievedChunkIds" : [ "C-JVM-019", "C-JVM-004", "C-SPR-018", "C-SPR-001", "C-SPR-009" ],
+        "relevantChunkIds" : [ "C-SPR-018" ]
+      }, {
+        "questionId" : "SPR-019",
+        "domain" : "spring-boot-rabbitmq",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 1.0,
+        "hit" : true,
+        "retrievedChunkIds" : [ "C-SPR-019", "C-JVM-007", "C-PGV-011", "C-JVM-018", "C-JVM-017" ],
+        "relevantChunkIds" : [ "C-SPR-019" ]
+      }, {
+        "questionId" : "SPR-020",
+        "domain" : "spring-boot-rabbitmq",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 1.0,
+        "hit" : true,
+        "retrievedChunkIds" : [ "C-SPR-020", "C-SPR-004", "C-SPR-011", "C-SPR-003", "C-SPR-006" ],
+        "relevantChunkIds" : [ "C-SPR-020" ]
+      }, {
+        "questionId" : "PGV-001",
+        "domain" : "postgres-pgvector-rag",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 1.0,
+        "hit" : true,
+        "retrievedChunkIds" : [ "C-PGV-001", "C-PGV-013", "C-SPR-015", "C-PGV-003", "C-SPR-018" ],
+        "relevantChunkIds" : [ "C-PGV-001" ]
+      }, {
+        "questionId" : "PGV-002",
+        "domain" : "postgres-pgvector-rag",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 1.0,
+        "hit" : true,
+        "retrievedChunkIds" : [ "C-PGV-002", "C-PGV-004", "C-PGV-005", "C-JVM-020", "C-PGV-018" ],
+        "relevantChunkIds" : [ "C-PGV-002" ]
+      }, {
+        "questionId" : "PGV-003",
+        "domain" : "postgres-pgvector-rag",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 1.0,
+        "hit" : true,
+        "retrievedChunkIds" : [ "C-PGV-003", "C-SPR-015", "C-PGV-001", "C-SPR-018", "C-PGV-005" ],
+        "relevantChunkIds" : [ "C-PGV-003" ]
+      }, {
+        "questionId" : "PGV-004",
+        "domain" : "postgres-pgvector-rag",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 1.0,
+        "hit" : true,
+        "retrievedChunkIds" : [ "C-PGV-004", "C-PGV-015", "C-PGV-002", "C-PGV-005", "C-SPR-014" ],
+        "relevantChunkIds" : [ "C-PGV-004" ]
+      }, {
+        "questionId" : "PGV-005",
+        "domain" : "postgres-pgvector-rag",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 1.0,
+        "hit" : true,
+        "retrievedChunkIds" : [ "C-PGV-005", "C-PGV-004", "C-PGV-018", "C-PGV-015", "C-PGV-009" ],
+        "relevantChunkIds" : [ "C-PGV-005" ]
+      }, {
+        "questionId" : "PGV-006",
+        "domain" : "postgres-pgvector-rag",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 1.0,
+        "hit" : true,
+        "retrievedChunkIds" : [ "C-PGV-006", "C-JVM-020", "C-PGV-018", "C-SPR-018", "C-SPR-008" ],
+        "relevantChunkIds" : [ "C-PGV-006" ]
+      }, {
+        "questionId" : "PGV-007",
+        "domain" : "postgres-pgvector-rag",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 1.0,
+        "hit" : true,
+        "retrievedChunkIds" : [ "C-PGV-007", "C-PGV-018", "C-PGV-015" ],
+        "relevantChunkIds" : [ "C-PGV-007" ]
+      }, {
+        "questionId" : "PGV-008",
+        "domain" : "postgres-pgvector-rag",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 1.0,
+        "hit" : true,
+        "retrievedChunkIds" : [ "C-PGV-008", "C-SPR-018", "C-JVM-020", "C-PGV-018", "C-SPR-008" ],
+        "relevantChunkIds" : [ "C-PGV-008" ]
+      }, {
+        "questionId" : "PGV-009",
+        "domain" : "postgres-pgvector-rag",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 1.0,
+        "hit" : true,
+        "retrievedChunkIds" : [ "C-PGV-009", "C-PGV-011", "C-JVM-020", "C-PGV-014", "C-PGV-005" ],
+        "relevantChunkIds" : [ "C-PGV-009" ]
+      }, {
+        "questionId" : "PGV-010",
+        "domain" : "postgres-pgvector-rag",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 1.0,
+        "hit" : true,
+        "retrievedChunkIds" : [ "C-PGV-010", "C-PGV-002", "C-JVM-020", "C-PGV-005", "C-PGV-009" ],
+        "relevantChunkIds" : [ "C-PGV-010" ]
+      }, {
+        "questionId" : "PGV-011",
+        "domain" : "postgres-pgvector-rag",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 1.0,
+        "hit" : true,
+        "retrievedChunkIds" : [ "C-PGV-011", "C-PGV-009", "C-PGV-004", "C-PGV-005", "C-PGV-015" ],
+        "relevantChunkIds" : [ "C-PGV-011" ]
+      }, {
+        "questionId" : "PGV-012",
+        "domain" : "postgres-pgvector-rag",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 1.0,
+        "hit" : true,
+        "retrievedChunkIds" : [ "C-PGV-012", "C-JVM-017", "C-JVM-003", "C-PGV-019", "C-JVM-013" ],
+        "relevantChunkIds" : [ "C-PGV-012" ]
+      }, {
+        "questionId" : "PGV-013",
+        "domain" : "postgres-pgvector-rag",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 0.5,
+        "hit" : true,
+        "retrievedChunkIds" : [ "C-SPR-015", "C-PGV-013", "C-PGV-012", "C-SPR-018", "C-PGV-003" ],
+        "relevantChunkIds" : [ "C-PGV-013" ]
+      }, {
+        "questionId" : "PGV-014",
+        "domain" : "postgres-pgvector-rag",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 1.0,
+        "hit" : true,
+        "retrievedChunkIds" : [ "C-PGV-014", "C-PGV-001", "C-PGV-015", "C-PGV-013", "C-PGV-005" ],
+        "relevantChunkIds" : [ "C-PGV-014" ]
+      }, {
+        "questionId" : "PGV-015",
+        "domain" : "postgres-pgvector-rag",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 1.0,
+        "hit" : true,
+        "retrievedChunkIds" : [ "C-PGV-015", "C-SPR-016", "C-JVM-018", "C-JVM-007", "C-SPR-018" ],
+        "relevantChunkIds" : [ "C-PGV-015" ]
+      }, {
+        "questionId" : "PGV-016",
+        "domain" : "postgres-pgvector-rag",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 1.0,
+        "hit" : true,
+        "retrievedChunkIds" : [ "C-PGV-016", "C-JVM-020", "C-SPR-018", "C-PGV-009", "C-SPR-008" ],
+        "relevantChunkIds" : [ "C-PGV-016" ]
+      }, {
+        "questionId" : "PGV-017",
+        "domain" : "postgres-pgvector-rag",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 1.0,
+        "hit" : true,
+        "retrievedChunkIds" : [ "C-PGV-017", "C-PGV-009", "C-PGV-011", "C-PGV-010", "C-PGV-005" ],
+        "relevantChunkIds" : [ "C-PGV-017" ]
+      }, {
+        "questionId" : "PGV-018",
+        "domain" : "postgres-pgvector-rag",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 1.0,
+        "hit" : true,
+        "retrievedChunkIds" : [ "C-PGV-018", "C-JVM-020", "C-JVM-017", "C-PGV-009", "C-PGV-014" ],
+        "relevantChunkIds" : [ "C-PGV-018" ]
+      }, {
+        "questionId" : "PGV-019",
+        "domain" : "postgres-pgvector-rag",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 0.25,
+        "hit" : true,
+        "retrievedChunkIds" : [ "C-PGV-012", "C-SPR-018", "C-PGV-014", "C-PGV-019", "C-JVM-020" ],
+        "relevantChunkIds" : [ "C-PGV-019" ]
+      }, {
+        "questionId" : "PGV-020",
+        "domain" : "postgres-pgvector-rag",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 1.0,
+        "hit" : true,
+        "retrievedChunkIds" : [ "C-PGV-020", "C-PGV-005", "C-PGV-015", "C-PGV-003", "C-PGV-006" ],
+        "relevantChunkIds" : [ "C-PGV-020" ]
+      }, {
+        "questionId" : "JVM-001",
+        "domain" : "java-jvm-concurrency",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 1.0,
+        "hit" : true,
+        "retrievedChunkIds" : [ "C-JVM-001", "C-JVM-006", "C-SPR-004", "C-SPR-006", "C-JVM-009" ],
+        "relevantChunkIds" : [ "C-JVM-001" ]
+      }, {
+        "questionId" : "JVM-002",
+        "domain" : "java-jvm-concurrency",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 1.0,
+        "hit" : true,
+        "retrievedChunkIds" : [ "C-JVM-002", "C-SPR-008", "C-JVM-006", "C-JVM-012", "C-JVM-009" ],
+        "relevantChunkIds" : [ "C-JVM-002" ]
+      }, {
+        "questionId" : "JVM-003",
+        "domain" : "java-jvm-concurrency",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 1.0,
+        "hit" : true,
+        "retrievedChunkIds" : [ "C-JVM-003", "C-PGV-019", "C-JVM-017", "C-JVM-008", "C-SPR-010" ],
+        "relevantChunkIds" : [ "C-JVM-003" ]
+      }, {
+        "questionId" : "JVM-004",
+        "domain" : "java-jvm-concurrency",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 1.0,
+        "hit" : true,
+        "retrievedChunkIds" : [ "C-JVM-004", "C-SPR-012", "C-JVM-006", "C-JVM-009", "C-SPR-001" ],
+        "relevantChunkIds" : [ "C-JVM-004" ]
+      }, {
+        "questionId" : "JVM-005",
+        "domain" : "java-jvm-concurrency",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 1.0,
+        "hit" : true,
+        "retrievedChunkIds" : [ "C-JVM-005", "C-JVM-009", "C-SPR-012", "C-SPR-017", "C-SPR-006" ],
+        "relevantChunkIds" : [ "C-JVM-005" ]
+      }, {
+        "questionId" : "JVM-006",
+        "domain" : "java-jvm-concurrency",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 1.0,
+        "hit" : true,
+        "retrievedChunkIds" : [ "C-JVM-006", "C-JVM-019", "C-JVM-002", "C-SPR-006", "C-SPR-012" ],
+        "relevantChunkIds" : [ "C-JVM-006" ]
+      }, {
+        "questionId" : "JVM-007",
+        "domain" : "java-jvm-concurrency",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 1.0,
+        "hit" : true,
+        "retrievedChunkIds" : [ "C-JVM-007", "C-SPR-019", "C-SPR-018", "C-JVM-018", "C-SPR-016" ],
+        "relevantChunkIds" : [ "C-JVM-007" ]
+      }, {
+        "questionId" : "JVM-008",
+        "domain" : "java-jvm-concurrency",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 1.0,
+        "hit" : true,
+        "retrievedChunkIds" : [ "C-JVM-008", "C-JVM-013", "C-JVM-017", "C-SPR-010", "C-PGV-019" ],
+        "relevantChunkIds" : [ "C-JVM-008" ]
+      }, {
+        "questionId" : "JVM-009",
+        "domain" : "java-jvm-concurrency",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 1.0,
+        "hit" : true,
+        "retrievedChunkIds" : [ "C-JVM-009", "C-SPR-006", "C-SPR-012", "C-SPR-011", "C-JVM-017" ],
+        "relevantChunkIds" : [ "C-JVM-009" ]
+      }, {
+        "questionId" : "JVM-010",
+        "domain" : "java-jvm-concurrency",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 0.5,
+        "hit" : true,
+        "retrievedChunkIds" : [ "C-SPR-003", "C-JVM-010", "C-JVM-011", "C-SPR-020", "C-SPR-011" ],
+        "relevantChunkIds" : [ "C-JVM-010" ]
+      }, {
+        "questionId" : "JVM-011",
+        "domain" : "java-jvm-concurrency",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 1.0,
+        "hit" : true,
+        "retrievedChunkIds" : [ "C-JVM-011", "C-SPR-003", "C-SPR-020", "C-SPR-011", "C-JVM-015" ],
+        "relevantChunkIds" : [ "C-JVM-011" ]
+      }, {
+        "questionId" : "JVM-012",
+        "domain" : "java-jvm-concurrency",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 1.0,
+        "hit" : true,
+        "retrievedChunkIds" : [ "C-JVM-012", "C-JVM-006", "C-JVM-002", "C-JVM-005", "C-SPR-017" ],
+        "relevantChunkIds" : [ "C-JVM-012" ]
+      }, {
+        "questionId" : "JVM-013",
+        "domain" : "java-jvm-concurrency",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 1.0,
+        "hit" : true,
+        "retrievedChunkIds" : [ "C-JVM-013", "C-JVM-017", "C-SPR-010", "C-JVM-008", "C-JVM-009" ],
+        "relevantChunkIds" : [ "C-JVM-013" ]
+      }, {
+        "questionId" : "JVM-014",
+        "domain" : "java-jvm-concurrency",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 1.0,
+        "hit" : true,
+        "retrievedChunkIds" : [ "C-JVM-014", "C-SPR-018", "C-SPR-008", "C-JVM-005", "C-JVM-020" ],
+        "relevantChunkIds" : [ "C-JVM-014" ]
+      }, {
+        "questionId" : "JVM-015",
+        "domain" : "java-jvm-concurrency",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 1.0,
+        "hit" : true,
+        "retrievedChunkIds" : [ "C-JVM-015", "C-JVM-016", "C-JVM-004", "C-JVM-017", "C-JVM-006" ],
+        "relevantChunkIds" : [ "C-JVM-015" ]
+      }, {
+        "questionId" : "JVM-016",
+        "domain" : "java-jvm-concurrency",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 1.0,
+        "hit" : true,
+        "retrievedChunkIds" : [ "C-JVM-016", "C-JVM-015", "C-JVM-017", "C-JVM-005", "C-SPR-017" ],
+        "relevantChunkIds" : [ "C-JVM-016" ]
+      }, {
+        "questionId" : "JVM-017",
+        "domain" : "java-jvm-concurrency",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 1.0,
+        "hit" : true,
+        "retrievedChunkIds" : [ "C-JVM-017", "C-JVM-013", "C-SPR-010", "C-JVM-008", "C-PGV-019" ],
+        "relevantChunkIds" : [ "C-JVM-017" ]
+      }, {
+        "questionId" : "JVM-018",
+        "domain" : "java-jvm-concurrency",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 1.0,
+        "hit" : true,
+        "retrievedChunkIds" : [ "C-JVM-018", "C-JVM-007", "C-SPR-019", "C-SPR-016", "C-SPR-018" ],
+        "relevantChunkIds" : [ "C-JVM-018" ]
+      }, {
+        "questionId" : "JVM-019",
+        "domain" : "java-jvm-concurrency",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 1.0,
+        "hit" : true,
+        "retrievedChunkIds" : [ "C-JVM-019", "C-JVM-006", "C-SPR-009", "C-JVM-004", "C-SPR-006" ],
+        "relevantChunkIds" : [ "C-JVM-019" ]
+      }, {
+        "questionId" : "JVM-020",
+        "domain" : "java-jvm-concurrency",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 1.0,
+        "hit" : true,
+        "retrievedChunkIds" : [ "C-JVM-020", "C-SPR-018", "C-PGV-018", "C-SPR-008", "C-PGV-005" ],
+        "relevantChunkIds" : [ "C-JVM-020" ]
+      } ]
+    }
+  },
+  "hybrid-rrf" : {
+    "judge" : [ {
+      "questionId" : "SPR-001",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 1.0,
+      "reason" : "待评答案与检索上下文的第一条内容完全一致，所有陈述均被上下文直接支持，因此faithfulness为1.0；待评答案准确回答了问题中关于Spring Boot 3推荐构造器注入的原因（依赖不可变、便于单元测试、暴露循环依赖，并指出字段注入的缺点），与问题高度相关，因此answer_relevance为1.0。"
+    }, {
+      "questionId" : "SPR-002",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 1.0,
+      "reason" : "待评答案与检索上下文的第一段内容完全一致，所有信息均被上下文直接支持，无任何幻觉或偏离，因此忠实度为1.0；待评答案明确指出了JWT过滤器应放在UsernamePasswordAuthenticationFilter之前，并给出了先解析Bearer Token并写入SecurityContext的具体原因，完全且准确地回答了问题，因此答案相关性为1.0。"
+    }, {
+      "questionId" : "SPR-003",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 1.0,
+      "reason" : "待评答案与检索上下文的第一段完全一致，所有陈述均被上下文完全支持，因此faithfulness为1.0；待评答案详细且准确地回答了关于RabbitMQ消费者如何做到幂等处理的问题，因此answer_relevance为1.0。"
+    }, {
+      "questionId" : "SPR-004",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 1.0,
+      "reason" : "待评答案的内容与检索上下文的第一段完全一致，所有陈述均被上下文直接支持，无任何外部幻觉信息，因此faithfulness为1.0；待评答案准确指出了死信队列接收重试耗尽、被拒绝或过期消息的作用及后续排查、重投、告警的场景，完美回答了问题，因此answer_relevance为1.0。"
+    }, {
+      "questionId" : "SPR-005",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 1.0,
+      "reason" : "待评答案与检索上下文的第一段内容完全一致，所有陈述均被上下文完全支持，因此faithfulness为1.0；待评答案直接且准确地列出了@Transactional不生效的常见原因，完美回答了问题，因此answer_relevance为1.0。"
+    }, {
+      "questionId" : "SPR-006",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 1.0,
+      "reason" : "待评答案与检索上下文的第一段内容完全一致，所有陈述均被上下文直接支持，无幻觉；待评答案准确解释了使用RabbitMQ异步解析的原因（耗时、削峰、隔离失败、重试、避免阻塞），完美回答了问题，且与标准答案完全匹配。"
+    }, {
+      "questionId" : "SPR-007",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 1.0,
+      "reason" : "待评答案与检索上下文的第一段内容完全一致，所有陈述均被上下文直接支持，无任何幻觉或偏离，因此faithfulness为1.0；待评答案精准且完整地回答了问题中关于MinIO在知识库系统中的职责，与问题高度相关，因此answer_relevance为1.0。"
+    }, {
+      "questionId" : "SPR-008",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 1.0,
+      "reason" : "待评答案与检索上下文的第一段内容完全一致，所有陈述均被上下文直接支持，因此忠实度为1.0；待评答案准确指出了RAG场景下SSE和WebSocket的取舍原则（单向流式输出用SSE，双向实时协作用WebSocket），完美回答了问题，因此答案相关性为1.0。"
+    }, {
+      "questionId" : "SPR-009",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 0.0,
+      "reason" : "待评答案的内容完全出现在检索上下文的第一段中，因此忠实度为1.0。但待评答案讨论的是检索策略改动的影响和评测集的作用，并未回答‘为什么接口层不要直接写 RAG 检索 SQL’这一关于架构职责分离的问题，因此答案相关性为0.0。"
+    }, {
+      "questionId" : "SPR-010",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 1.0,
+      "reason" : "待评答案的内容完全来源于检索上下文的第一段，没有任何虚构或超出上下文的信息，因此忠实度为1.0。同时，待评答案直接且准确地回答了问题中关于Spring Boot Actuator在压测时作用的内容，与标准答案一致，因此答案相关性为1.0。"
+    }, {
+      "questionId" : "SPR-011",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 1.0,
+      "reason" : "待评答案与检索上下文的第一段完全一致，所有陈述均被上下文直接支持，因此忠实度为1.0；待评答案准确指出了指数退避重试解决的问题（避免反复冲击下游、提供恢复窗口、超限进DLQ），完美回答了问题，因此答案相关性为1.0。"
+    }, {
+      "questionId" : "SPR-012",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 1.0,
+      "reason" : "待评答案的内容与检索上下文的第一段完全一致，所有声明均被上下文直接支持，无任何幻觉或无关信息，因此faithfulness为1.0；待评答案直接且完整地回答了'文档解析消费者为什么要控制并发'的问题，指出了消耗CPU与内存、避免OOM以及给embedding稳定速率的原因，与标准答案完全匹配，因此answer_relevance为1.0。"
+    }, {
+      "questionId" : "SPR-013",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 1.0,
+      "reason" : "待评答案与检索上下文的第一段完全一致，所有陈述均被上下文直接支持，因此忠实度为1.0；待评答案准确解释了使用环境变量覆盖API Key的原因（敏感配置不应写死、区分不同环境），完美回答了问题，因此相关性为1.0。"
+    }, {
+      "questionId" : "SPR-014",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 1.0,
+      "reason" : "待评答案的所有陈述均与检索上下文第一条完全一致，完全被上下文支持，faithfulness为1.0；待评答案直接回答了为什么必须带kb_id，指出了数据隔离、缩小候选范围和降低延迟三个原因，与问题高度相关，answer_relevance为1.0。"
+    }, {
+      "questionId" : "SPR-015",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 1.0,
+      "reason" : "待评答案与检索上下文第一段完全一致，所有陈述均被上下文直接支持，无任何幻觉，因此忠实度为1.0；待评答案准确解释了向量参数必须强制转换为vector的原因（pgvector查询需要vector类型参与距离计算，字符串参数必须显式转成vector才能使用向量操作符），完美回答了问题，因此相关性为1.0。"
+    }, {
+      "questionId" : "SPR-016",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 1.0,
+      "reason" : "待评答案与检索上下文的第一段内容完全一致，所有陈述均被上下文直接支持，无任何幻觉或偏离；答案准确解释了文档删除时清理语义缓存和检索缓存的原因（避免引用已删除文档返回过期或敏感内容）及做法（按kb_id失效），与问题高度相关。"
+    }, {
+      "questionId" : "SPR-017",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 1.0,
+      "reason" : "待评答案与标准答案完全一致，且在检索上下文的第一段中逐字出现，完全被上下文支持，因此忠实度为1.0；待评答案准确指出了embedding调用外部API且耗时不稳定的原因，完美回答了为什么上传接口不应等待embedding完成的问题，因此答案相关性为1.0。"
+    }, {
+      "questionId" : "SPR-018",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 0.2,
+      "reason" : "待评答案完全复制了上下文第一段内容，无外部捏造信息，忠实度为1.0。但问题询问的是“如何讲出工程深度”，待评答案仅泛泛陈述单体服务能突出的能力范围，未像标准答案那样给出具体的深度切入点（如RAG评测、pgvector调优、缓存一致性等），未有效回答“如何”这一核心诉求，因此答案相关性较低。"
+    }, {
+      "questionId" : "SPR-019",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 1.0,
+      "reason" : "待评答案与检索上下文的第一段完全一致，所有陈述均被上下文直接支持，因此faithfulness为1.0；待评答案直接且完整地回答了“为什么要为缓存命中率打点”的原因，与标准答案完全匹配，切题准确，因此answer_relevance为1.0。"
+    }, {
+      "questionId" : "SPR-020",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 1.0,
+      "reason" : "待评答案的内容与检索上下文的第一段完全一致，所有陈述均被上下文直接支持，因此忠实度为1.0；待评答案明确列出了DLQ消息重投前需要检查的四个要素（失败原因、重试次数、业务幂等键和下游恢复状态）及目的，完美回答了问题，因此答案相关性为1.0。"
+    }, {
+      "questionId" : "PGV-001",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 1.0,
+      "reason" : "待评答案的内容与检索上下文的第一段完全一致，所有声明均被上下文直接支持，因此忠实度为1.0；待评答案明确指出了HNSW和IVFFlat的核心区别及各自特点，完美回答了问题，因此答案相关性为1.0。"
+    }, {
+      "questionId" : "PGV-002",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 1.0,
+      "reason" : "待评答案与检索上下文第一段内容完全一致，所有陈述均被上下文充分支持，因此忠实度为1.0；待评答案准确解释了RRF适合混合检索的原因，与标准答案完全匹配，完美回答了问题，因此答案相关性为1.0。"
+    }, {
+      "questionId" : "PGV-003",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 1.0,
+      "reason" : "待评答案与检索上下文片段1完全一致，所有信息均被上下文直接支持，无幻觉；待评答案直接解释了PostgreSQL全文检索建GIN索引的原因（加速@@查询，避免全文扫描），完美回答了问题。"
+    }, {
+      "questionId" : "PGV-004",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 1.0,
+      "reason" : "待评答案的内容与检索上下文的第一段完全一致，所有陈述均被上下文直接支持，无任何幻觉或无关信息，因此忠实度为1.0；待评答案准确解释了denseTopK和sparseTopK的含义及后续处理流程，完美回答了问题，因此答案相关性为1.0。"
+    }, {
+      "questionId" : "PGV-005",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 1.0,
+      "reason" : "待评答案与检索上下文的第一段内容完全一致，所有陈述均被上下文直接支持，因此 faithfulness 为 1.0；待评答案准确解释了 rerank 放在粗召回之后的原因（成本高、不能扫全库、只适合精排少量候选），完美回答了问题，因此 answer_relevance 为 1.0。"
+    }, {
+      "questionId" : "PGV-006",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 1.0,
+      "reason" : "待评答案的内容完全来源于检索上下文片段1，没有任何未支持的陈述或幻觉，因此faithfulness为1.0；待评答案准确且直接地回答了Query rewriting在RAG中解决的问题，与问题高度相关，因此answer_relevance为1.0。"
+    }, {
+      "questionId" : "PGV-007",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 1.0,
+      "reason" : "待评答案的所有陈述（HyDE先让LLM生成假设性答案，再向量化去检索，适合问题短且信息不足的场景）在检索上下文的第一段中得到了完全支持，因此faithfulness为1.0；待评答案直接、准确且完整地回答了关于HyDE基本思路的问题，与标准答案一致，因此answer_relevance为1.0。"
+    }, {
+      "questionId" : "PGV-008",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 1.0,
+      "reason" : "待评答案的内容完全匹配检索上下文的第一段，没有任何幻觉或脱离上下文的陈述，因此faithfulness为1.0；待评答案准确解释了父子分块提升RAG质量的原因（小子块保召回精度，父块保上下文完整性），直接且完整地回答了问题，因此answer_relevance为1.0。"
+    }, {
+      "questionId" : "PGV-009",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 1.0,
+      "reason" : "待评答案与检索上下文第一段内容完全一致，所有陈述均被上下文直接支持，无任何幻觉，因此faithfulness为1.0；待评答案直接且准确地解释了Recall@5的含义，完美回答了提出的问题，因此answer_relevance为1.0。"
+    }, {
+      "questionId" : "PGV-010",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 1.0,
+      "reason" : "待评答案的内容完全来源于检索上下文的第一条，没有任何未支持的陈述或矛盾，因此faithfulness为1.0；待评答案准确且完整地回答了问题关于MRR关注的内容，与标准答案完全一致，因此answer_relevance为1.0"
+    }, {
+      "questionId" : "PGV-011",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 1.0,
+      "reason" : "待评答案的内容与检索上下文的第一段完全一致，所有陈述均被上下文直接支持，faithfulness为1.0；待评答案准确指出了Hit Rate@5和Recall@5的区别，完美回答了提出的问题，answer_relevance为1.0。"
+    }, {
+      "questionId" : "PGV-012",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 1.0,
+      "reason" : "待评答案与检索上下文第一段完全一致，完全被上下文支持；且答案直接解释了性能数字受数据量、硬件等条件影响，不标注前提则不可复现，完美回答了问题。"
+    }, {
+      "questionId" : "PGV-013",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 1.0,
+      "reason" : "待评答案与检索上下文第一段完全一致，且第四段也支持 probes 影响召回和延迟的结论，因此答案完全被上下文支持，忠实度为1.0；待评答案准确回答了 probes 参数对扫描列表、召回率和查询延迟的影响，与问题高度相关，答案相关性为1.0。"
+    }, {
+      "questionId" : "PGV-014",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 1.0,
+      "reason" : "待评答案的内容完全出现在检索上下文的第一段中，没有任何幻觉或脱离上下文的陈述，因此忠诚度为1.0；待评答案直接且完整地回答了问题中关于ef_search参数取舍的询问，与标准答案完全一致，因此相关性为1.0。"
+    }, {
+      "questionId" : "PGV-015",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 1.0,
+      "reason" : "待评答案与检索上下文的第一段内容完全一致，所有陈述均被上下文直接支持，因此faithfulness为1.0；待评答案直接且完整地解释了为什么缓存key要包含配置hash（因为配置变化会改变结果，包含hash可避免返回旧策略结果），精准回答了问题，因此answer_relevance为1.0。"
+    }, {
+      "questionId" : "PGV-016",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 1.0,
+      "reason" : "待评答案与检索上下文的第一段完全一致，所有陈述均被上下文直接支持，无编造内容；答案精准回答了问题关于 faithfulness 衡量内容的询问，与标准答案一致。"
+    }, {
+      "questionId" : "PGV-017",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 1.0,
+      "reason" : "待评答案的内容与检索上下文的第一段完全一致，所有陈述均被上下文直接支持，无任何编造，因此faithfulness为1.0；待评答案直接且准确地回答了问题'Answer relevance想衡量什么'，切中核心含义，因此answer_relevance为1.0。"
+    }, {
+      "questionId" : "PGV-018",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 1.0,
+      "reason" : "待评答案与检索上下文第一段完全一致，所有陈述均被上下文直接支持，无任何幻觉或无关信息，忠实度为1.0；待评答案直接且完整地回答了为什么需要baseline（提供改造前的可量化参照，证明后续改造的提升幅度），与标准答案完全匹配，相关性为1.0。"
+    }, {
+      "questionId" : "PGV-019",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 1.0,
+      "reason" : "待评答案与检索上下文的第一段内容完全一致，所有陈述均被上下文直接支持，faithfulness为1.0；待评答案准确解释了不能只看平均延迟的原因（掩盖长尾、依赖P95/P99、外部抖动），完美回答了问题，answer_relevance为1.0。"
+    }, {
+      "questionId" : "PGV-020",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 1.0,
+      "reason" : "待评答案与检索上下文的第一段内容完全一致，所有陈述均被上下文直接支持，因此忠实度为1.0；待评答案准确指出了simple配置的限制（不做中文分词和复杂词形还原，中文语义依赖embedding或预分词），完美回答了问题，因此答案相关性为1.0。"
+    }, {
+      "questionId" : "JVM-001",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 1.0,
+      "reason" : "待评答案的内容与检索上下文的第一段完全一致，所有陈述均被上下文充分支持，因此faithfulness为1.0。待评答案准确解释了不建议使用无界队列的原因（任务堆积、内存上涨、延迟不可控）并给出了正确建议，完美回答了问题，因此answer_relevance为1.0。"
+    }, {
+      "questionId" : "JVM-002",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 1.0,
+      "reason" : "待评答案与检索上下文的第一段内容完全一致，所有陈述均被上下文直接支持，因此faithfulness为1.0；待评答案准确指出了CompletableFuture在SSE流式响应中的风险（客户端断开但任务未取消导致后台继续调用LLM消耗资源）及应对措施，与标准答案完全匹配，高度切题，因此answer_relevance为1.0。"
+    }, {
+      "questionId" : "JVM-003",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 1.0,
+      "reason" : "待评答案的内容完全来自检索上下文的第一条，没有任何幻觉或脱离上下文的信息，因此faithfulness为1.0；待评答案直接且完整地回答了'JVM压测为什么要关注P99'的问题，与标准答案完全一致，因此answer_relevance为1.0"
+    }, {
+      "questionId" : "JVM-004",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 1.0,
+      "reason" : "待评答案与检索上下文的第一条内容完全一致，没有任何编造或矛盾，因此faithfulness为1.0；待评答案准确且完整地回答了'为什么ObjectMapper应该复用'的问题，与问题高度相关，因此answer_relevance为1.0。"
+    }, {
+      "questionId" : "JVM-005",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 1.0,
+      "reason" : "待评答案与检索上下文的第一条完全一致，所有陈述均被上下文直接支持，因此faithfulness为1.0。待评答案准确解释了批量embedding提升吞吐的原因（减少HTTP往返和服务端固定开销），并补充了相关的限制条件，完全回答了问题，因此answer_relevance为1.0。"
+    }, {
+      "questionId" : "JVM-006",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 1.0,
+      "reason" : "待评答案与检索上下文的第一段内容完全一致，所有陈述均被上下文直接支持，因此faithfulness为1.0；待评答案准确回答了问题中关于如何避免阻塞拖垮接口线程的方法（放入异步队列或独立线程池），与标准答案完全匹配，因此answer_relevance为1.0。"
+    }, {
+      "questionId" : "JVM-007",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 1.0,
+      "reason" : "待评答案的内容完全来源于检索上下文的第一条，没有任何幻觉或脱离上下文的表述，因此faithfulness为1.0；待评答案准确指出了缓存层数增加会导致失效复杂，且文档更新后旧答案命中会将性能问题转化为正确性问题，直接且充分地回答了为什么缓存一致性比缓存层数更重要，因此answer_relevance为1.0。"
+    }, {
+      "questionId" : "JVM-008",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 1.0,
+      "reason" : "待评答案的所有陈述均与检索上下文的第一段内容完全一致，没有任何幻觉或外部信息引入，因此忠实度为1.0；待评答案直接且完整地回答了问题中关于JMH和k6适用场景的询问，与标准答案一致，因此答案相关性为1.0。"
+    }, {
+      "questionId" : "JVM-009",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 1.0,
+      "reason" : "待评答案与检索上下文第一段内容完全一致，所有陈述均被上下文直接支持，无任何幻觉，因此忠实度为1.0；待评答案准确且完整地回答了'背压在文档处理流水线中解决什么'的问题，与标准答案完全匹配，因此相关性为1.0。"
+    }, {
+      "questionId" : "JVM-010",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 1.0,
+      "reason" : "待评答案的内容与检索上下文的第一段完全一致，所有陈述均被上下文充分支持，因此faithfulness为1.0；待评答案直接且准确地回答了关于Redis SETNX过期时间风险的问题，与标准答案完全匹配，因此answer_relevance为1.0。"
+    }, {
+      "questionId" : "JVM-011",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 1.0,
+      "reason" : "待评答案与检索上下文片段1完全一致，所有声明均被上下文充分支持，故faithfulness为1.0；待评答案准确解释了数据库唯一约束作为幂等兜底的原因（Redis可能故障或锁过期，数据库在最终写入点阻止重复），直接且完整地回答了问题，故answer_relevance为1.0。"
+    }, {
+      "questionId" : "JVM-012",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 1.0,
+      "reason" : "待评答案与检索上下文的第一段内容完全一致，所有陈述均被上下文直接支持，无任何幻觉，因此faithfulness为1.0；待评答案准确解释了设置超时的原因（网络抖动或限流）以及不设置超时的严重后果（占满线程并放大故障），完美回答了问题，因此answer_relevance为1.0"
+    }, {
+      "questionId" : "JVM-013",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 1.0,
+      "reason" : "待评答案的内容与检索上下文的第一段完全一致，所有陈述均被上下文直接支持，因此faithfulness为1.0；待评答案明确指出了区分单元测试和压测的原因（验证逻辑正确性与验证容量、延迟和稳定性，目标和运行环境不同），直接且完整地回答了问题，与标准答案完全一致，因此answer_relevance为1.0。"
+    }, {
+      "questionId" : "JVM-014",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 1.0,
+      "reason" : "待评答案与检索上下文的第一条完全一致，所有陈述均被上下文直接支持，因此faithfulness为1.0；待评答案准确解释了限制上下文token的原因（增加成本、延迟、挤占空间、引入噪声），完美回答了问题，因此answer_relevance为1.0。"
+    }, {
+      "questionId" : "JVM-015",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 1.0,
+      "reason" : "待评答案的内容完全来源于检索上下文的第一段，没有任何虚构或矛盾，因此faithfulness为1.0；待评答案直接指出了record适合不可变的数据载体并能简化golden case、metrics等评测相关结构定义，精准回答了问题，因此answer_relevance为1.0。"
+    }, {
+      "questionId" : "JVM-016",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 1.0,
+      "reason" : "待评答案的内容完全来源于检索上下文的第一段，没有任何幻觉或脱离上下文的信息，因此忠实度为1.0；待评答案准确且完整地回答了问题中关于使用JSONL的原因，与标准答案完全一致，因此答案相关性为1.0。"
+    }, {
+      "questionId" : "JVM-017",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 1.0,
+      "reason" : "待评答案与检索上下文第一段内容完全一致，所有陈述均被上下文支持，无幻觉，faithfulness为1.0；待评答案直接且完整地回答了问题'为什么压测报告要保存原始结果'，与标准答案一致，answer_relevance为1.0"
+    }, {
+      "questionId" : "JVM-018",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 1.0,
+      "reason" : "待评答案与检索上下文的第一段完全一致，所有声明均被上下文直接支持，无幻觉；答案直接且准确地回答了缓存 sanity check 的目的（降低误命中和假阳性），与问题高度相关。"
+    }, {
+      "questionId" : "JVM-019",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 1.0,
+      "reason" : "待评答案的内容完全来源于检索上下文的第一段，没有引入任何上下文之外的信息，因此faithfulness为1.0。待评答案直接解释了不引入Python服务的原因（目标岗位是Java后端，保持单体Java服务能突出相关技术栈能力），精准回答了问题，因此answer_relevance为1.0。"
+    }, {
+      "questionId" : "JVM-020",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 1.0,
+      "reason" : "待评答案与上下文片段1完全一致，所有陈述均被上下文直接支持，faithfulness为1.0；待评答案直接解释了为什么每次RAG改动后都要跑评测（因为检索策略改动可能伤害另一些问题，固定评测集能及时发现回归），完美回答了问题，answer_relevance为1.0。"
+    } ],
+    "retrieval" : {
+      "k" : 5,
+      "totalQuestions" : 60,
+      "recallAtK" : 1.0,
+      "mrr" : 0.9833333333333333,
+      "hitRateAtK" : 1.0,
+      "questionScores" : [ {
+        "questionId" : "SPR-001",
+        "domain" : "spring-boot-rabbitmq",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 1.0,
+        "hit" : true,
+        "retrievedChunkIds" : [ "C-SPR-001", "C-JVM-004", "C-JVM-019", "C-SPR-005", "C-SPR-013" ],
+        "relevantChunkIds" : [ "C-SPR-001" ]
+      }, {
+        "questionId" : "SPR-002",
+        "domain" : "spring-boot-rabbitmq",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 1.0,
+        "hit" : true,
+        "retrievedChunkIds" : [ "C-SPR-002", "C-JVM-004", "C-JVM-006", "C-SPR-009", "C-JVM-019" ],
+        "relevantChunkIds" : [ "C-SPR-002" ]
+      }, {
+        "questionId" : "SPR-003",
+        "domain" : "spring-boot-rabbitmq",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 1.0,
+        "hit" : true,
+        "retrievedChunkIds" : [ "C-SPR-003", "C-SPR-006", "C-SPR-020", "C-SPR-012", "C-SPR-004" ],
+        "relevantChunkIds" : [ "C-SPR-003" ]
+      }, {
+        "questionId" : "SPR-004",
+        "domain" : "spring-boot-rabbitmq",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 1.0,
+        "hit" : true,
+        "retrievedChunkIds" : [ "C-SPR-004", "C-SPR-006", "C-JVM-001", "C-JVM-006", "C-SPR-003" ],
+        "relevantChunkIds" : [ "C-SPR-004" ]
+      }, {
+        "questionId" : "SPR-005",
+        "domain" : "spring-boot-rabbitmq",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 1.0,
+        "hit" : true,
+        "retrievedChunkIds" : [ "C-SPR-005", "C-JVM-004", "C-JVM-011", "C-SPR-001", "C-JVM-012" ],
+        "relevantChunkIds" : [ "C-SPR-005" ]
+      }, {
+        "questionId" : "SPR-006",
+        "domain" : "spring-boot-rabbitmq",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 1.0,
+        "hit" : true,
+        "retrievedChunkIds" : [ "C-SPR-006", "C-SPR-017", "C-JVM-006", "C-SPR-012", "C-JVM-009" ],
+        "relevantChunkIds" : [ "C-SPR-006" ]
+      }, {
+        "questionId" : "SPR-007",
+        "domain" : "spring-boot-rabbitmq",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 1.0,
+        "hit" : true,
+        "retrievedChunkIds" : [ "C-SPR-007", "C-SPR-014", "C-SPR-009", "C-JVM-009", "C-JVM-008" ],
+        "relevantChunkIds" : [ "C-SPR-007" ]
+      }, {
+        "questionId" : "SPR-008",
+        "domain" : "spring-boot-rabbitmq",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 1.0,
+        "hit" : true,
+        "retrievedChunkIds" : [ "C-SPR-008", "C-JVM-002", "C-SPR-018", "C-JVM-020", "C-PGV-004" ],
+        "relevantChunkIds" : [ "C-SPR-008" ]
+      }, {
+        "questionId" : "SPR-009",
+        "domain" : "spring-boot-rabbitmq",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 0.5,
+        "hit" : true,
+        "retrievedChunkIds" : [ "C-JVM-020", "C-SPR-009", "C-SPR-018", "C-PGV-006", "C-JVM-006" ],
+        "relevantChunkIds" : [ "C-SPR-009" ]
+      }, {
+        "questionId" : "SPR-010",
+        "domain" : "spring-boot-rabbitmq",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 1.0,
+        "hit" : true,
+        "retrievedChunkIds" : [ "C-SPR-010", "C-JVM-013", "C-JVM-017", "C-JVM-004", "C-JVM-008" ],
+        "relevantChunkIds" : [ "C-SPR-010" ]
+      }, {
+        "questionId" : "SPR-011",
+        "domain" : "spring-boot-rabbitmq",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 1.0,
+        "hit" : true,
+        "retrievedChunkIds" : [ "C-SPR-011", "C-SPR-006", "C-SPR-004", "C-SPR-020", "C-JVM-009" ],
+        "relevantChunkIds" : [ "C-SPR-011" ]
+      }, {
+        "questionId" : "SPR-012",
+        "domain" : "spring-boot-rabbitmq",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 1.0,
+        "hit" : true,
+        "retrievedChunkIds" : [ "C-SPR-012", "C-SPR-006", "C-SPR-003", "C-JVM-009", "C-JVM-006" ],
+        "relevantChunkIds" : [ "C-SPR-012" ]
+      }, {
+        "questionId" : "SPR-013",
+        "domain" : "spring-boot-rabbitmq",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 1.0,
+        "hit" : true,
+        "retrievedChunkIds" : [ "C-SPR-013", "C-JVM-012", "C-PGV-015", "C-JVM-004", "C-SPR-017" ],
+        "relevantChunkIds" : [ "C-SPR-013" ]
+      }, {
+        "questionId" : "SPR-014",
+        "domain" : "spring-boot-rabbitmq",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 1.0,
+        "hit" : true,
+        "retrievedChunkIds" : [ "C-SPR-014", "C-SPR-016", "C-JVM-020", "C-SPR-009", "C-PGV-015" ],
+        "relevantChunkIds" : [ "C-SPR-014" ]
+      }, {
+        "questionId" : "SPR-015",
+        "domain" : "spring-boot-rabbitmq",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 1.0,
+        "hit" : true,
+        "retrievedChunkIds" : [ "C-SPR-015", "C-PGV-012", "C-JVM-004", "C-JVM-005", "C-SPR-014" ],
+        "relevantChunkIds" : [ "C-SPR-015" ]
+      }, {
+        "questionId" : "SPR-016",
+        "domain" : "spring-boot-rabbitmq",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 1.0,
+        "hit" : true,
+        "retrievedChunkIds" : [ "C-SPR-016", "C-JVM-018", "C-JVM-007", "C-PGV-015", "C-JVM-020" ],
+        "relevantChunkIds" : [ "C-SPR-016" ]
+      }, {
+        "questionId" : "SPR-017",
+        "domain" : "spring-boot-rabbitmq",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 1.0,
+        "hit" : true,
+        "retrievedChunkIds" : [ "C-SPR-017", "C-SPR-006", "C-JVM-005", "C-JVM-006", "C-JVM-009" ],
+        "relevantChunkIds" : [ "C-SPR-017" ]
+      }, {
+        "questionId" : "SPR-018",
+        "domain" : "spring-boot-rabbitmq",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 0.5,
+        "hit" : true,
+        "retrievedChunkIds" : [ "C-JVM-019", "C-SPR-018", "C-JVM-004", "C-JVM-006", "C-SPR-001" ],
+        "relevantChunkIds" : [ "C-SPR-018" ]
+      }, {
+        "questionId" : "SPR-019",
+        "domain" : "spring-boot-rabbitmq",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 1.0,
+        "hit" : true,
+        "retrievedChunkIds" : [ "C-SPR-019", "C-JVM-007", "C-JVM-018", "C-PGV-011", "C-JVM-003" ],
+        "relevantChunkIds" : [ "C-SPR-019" ]
+      }, {
+        "questionId" : "SPR-020",
+        "domain" : "spring-boot-rabbitmq",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 1.0,
+        "hit" : true,
+        "retrievedChunkIds" : [ "C-SPR-020", "C-SPR-011", "C-SPR-004", "C-SPR-003", "C-JVM-018" ],
+        "relevantChunkIds" : [ "C-SPR-020" ]
+      }, {
+        "questionId" : "PGV-001",
+        "domain" : "postgres-pgvector-rag",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 1.0,
+        "hit" : true,
+        "retrievedChunkIds" : [ "C-PGV-001", "C-PGV-013", "C-SPR-015", "C-SPR-018", "C-PGV-007" ],
+        "relevantChunkIds" : [ "C-PGV-001" ]
+      }, {
+        "questionId" : "PGV-002",
+        "domain" : "postgres-pgvector-rag",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 1.0,
+        "hit" : true,
+        "retrievedChunkIds" : [ "C-PGV-002", "C-JVM-020", "C-PGV-004", "C-SPR-009", "C-PGV-005" ],
+        "relevantChunkIds" : [ "C-PGV-002" ]
+      }, {
+        "questionId" : "PGV-003",
+        "domain" : "postgres-pgvector-rag",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 1.0,
+        "hit" : true,
+        "retrievedChunkIds" : [ "C-PGV-003", "C-SPR-014", "C-JVM-020", "C-PGV-006", "C-SPR-016" ],
+        "relevantChunkIds" : [ "C-PGV-003" ]
+      }, {
+        "questionId" : "PGV-004",
+        "domain" : "postgres-pgvector-rag",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 1.0,
+        "hit" : true,
+        "retrievedChunkIds" : [ "C-PGV-004", "C-PGV-015", "C-PGV-002", "C-PGV-009", "C-SPR-014" ],
+        "relevantChunkIds" : [ "C-PGV-004" ]
+      }, {
+        "questionId" : "PGV-005",
+        "domain" : "postgres-pgvector-rag",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 1.0,
+        "hit" : true,
+        "retrievedChunkIds" : [ "C-PGV-005", "C-PGV-018", "C-PGV-004", "C-PGV-015", "C-PGV-009" ],
+        "relevantChunkIds" : [ "C-PGV-005" ]
+      }, {
+        "questionId" : "PGV-006",
+        "domain" : "postgres-pgvector-rag",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 1.0,
+        "hit" : true,
+        "retrievedChunkIds" : [ "C-PGV-006", "C-JVM-020", "C-SPR-018", "C-SPR-008", "C-PGV-017" ],
+        "relevantChunkIds" : [ "C-PGV-006" ]
+      }, {
+        "questionId" : "PGV-007",
+        "domain" : "postgres-pgvector-rag",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 1.0,
+        "hit" : true,
+        "retrievedChunkIds" : [ "C-PGV-007", "C-PGV-001", "C-JVM-020", "C-JVM-018", "C-JVM-016" ],
+        "relevantChunkIds" : [ "C-PGV-007" ]
+      }, {
+        "questionId" : "PGV-008",
+        "domain" : "postgres-pgvector-rag",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 1.0,
+        "hit" : true,
+        "retrievedChunkIds" : [ "C-PGV-008", "C-JVM-020", "C-SPR-018", "C-PGV-018", "C-JVM-005" ],
+        "relevantChunkIds" : [ "C-PGV-008" ]
+      }, {
+        "questionId" : "PGV-009",
+        "domain" : "postgres-pgvector-rag",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 1.0,
+        "hit" : true,
+        "retrievedChunkIds" : [ "C-PGV-009", "C-PGV-011", "C-JVM-020", "C-PGV-002", "C-SPR-018" ],
+        "relevantChunkIds" : [ "C-PGV-009" ]
+      }, {
+        "questionId" : "PGV-010",
+        "domain" : "postgres-pgvector-rag",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 1.0,
+        "hit" : true,
+        "retrievedChunkIds" : [ "C-PGV-010", "C-JVM-020", "C-PGV-009", "C-PGV-002", "C-PGV-015" ],
+        "relevantChunkIds" : [ "C-PGV-010" ]
+      }, {
+        "questionId" : "PGV-011",
+        "domain" : "postgres-pgvector-rag",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 1.0,
+        "hit" : true,
+        "retrievedChunkIds" : [ "C-PGV-011", "C-PGV-009", "C-PGV-004", "C-PGV-001", "C-SPR-014" ],
+        "relevantChunkIds" : [ "C-PGV-011" ]
+      }, {
+        "questionId" : "PGV-012",
+        "domain" : "postgres-pgvector-rag",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 1.0,
+        "hit" : true,
+        "retrievedChunkIds" : [ "C-PGV-012", "C-JVM-003", "C-PGV-019", "C-JVM-017", "C-JVM-015" ],
+        "relevantChunkIds" : [ "C-PGV-012" ]
+      }, {
+        "questionId" : "PGV-013",
+        "domain" : "postgres-pgvector-rag",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 1.0,
+        "hit" : true,
+        "retrievedChunkIds" : [ "C-PGV-013", "C-SPR-015", "C-PGV-012", "C-PGV-001", "C-SPR-018" ],
+        "relevantChunkIds" : [ "C-PGV-013" ]
+      }, {
+        "questionId" : "PGV-014",
+        "domain" : "postgres-pgvector-rag",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 1.0,
+        "hit" : true,
+        "retrievedChunkIds" : [ "C-PGV-014", "C-PGV-001", "C-PGV-013", "C-PGV-004", "C-SPR-018" ],
+        "relevantChunkIds" : [ "C-PGV-014" ]
+      }, {
+        "questionId" : "PGV-015",
+        "domain" : "postgres-pgvector-rag",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 1.0,
+        "hit" : true,
+        "retrievedChunkIds" : [ "C-PGV-015", "C-SPR-016", "C-JVM-007", "C-JVM-018", "C-SPR-009" ],
+        "relevantChunkIds" : [ "C-PGV-015" ]
+      }, {
+        "questionId" : "PGV-016",
+        "domain" : "postgres-pgvector-rag",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 1.0,
+        "hit" : true,
+        "retrievedChunkIds" : [ "C-PGV-016", "C-JVM-020", "C-PGV-009", "C-PGV-017", "C-JVM-018" ],
+        "relevantChunkIds" : [ "C-PGV-016" ]
+      }, {
+        "questionId" : "PGV-017",
+        "domain" : "postgres-pgvector-rag",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 1.0,
+        "hit" : true,
+        "retrievedChunkIds" : [ "C-PGV-017", "C-PGV-009", "C-PGV-016", "C-JVM-020", "C-JVM-017" ],
+        "relevantChunkIds" : [ "C-PGV-017" ]
+      }, {
+        "questionId" : "PGV-018",
+        "domain" : "postgres-pgvector-rag",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 1.0,
+        "hit" : true,
+        "retrievedChunkIds" : [ "C-PGV-018", "C-JVM-020", "C-JVM-017", "C-JVM-016", "C-PGV-009" ],
+        "relevantChunkIds" : [ "C-PGV-018" ]
+      }, {
+        "questionId" : "PGV-019",
+        "domain" : "postgres-pgvector-rag",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 1.0,
+        "hit" : true,
+        "retrievedChunkIds" : [ "C-PGV-019", "C-SPR-014", "C-JVM-020", "C-PGV-012", "C-PGV-014" ],
+        "relevantChunkIds" : [ "C-PGV-019" ]
+      }, {
+        "questionId" : "PGV-020",
+        "domain" : "postgres-pgvector-rag",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 1.0,
+        "hit" : true,
+        "retrievedChunkIds" : [ "C-PGV-020", "C-PGV-015", "C-PGV-003", "C-SPR-009", "C-PGV-006" ],
+        "relevantChunkIds" : [ "C-PGV-020" ]
+      }, {
+        "questionId" : "JVM-001",
+        "domain" : "java-jvm-concurrency",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 1.0,
+        "hit" : true,
+        "retrievedChunkIds" : [ "C-JVM-001", "C-JVM-006", "C-SPR-004", "C-JVM-012", "C-SPR-006" ],
+        "relevantChunkIds" : [ "C-JVM-001" ]
+      }, {
+        "questionId" : "JVM-002",
+        "domain" : "java-jvm-concurrency",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 1.0,
+        "hit" : true,
+        "retrievedChunkIds" : [ "C-JVM-002", "C-SPR-008", "C-JVM-012", "C-JVM-010", "C-JVM-009" ],
+        "relevantChunkIds" : [ "C-JVM-002" ]
+      }, {
+        "questionId" : "JVM-003",
+        "domain" : "java-jvm-concurrency",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 1.0,
+        "hit" : true,
+        "retrievedChunkIds" : [ "C-JVM-003", "C-PGV-019", "C-JVM-017", "C-SPR-010", "C-JVM-013" ],
+        "relevantChunkIds" : [ "C-JVM-003" ]
+      }, {
+        "questionId" : "JVM-004",
+        "domain" : "java-jvm-concurrency",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 1.0,
+        "hit" : true,
+        "retrievedChunkIds" : [ "C-JVM-004", "C-SPR-009", "C-JVM-007", "C-JVM-016", "C-JVM-005" ],
+        "relevantChunkIds" : [ "C-JVM-004" ]
+      }, {
+        "questionId" : "JVM-005",
+        "domain" : "java-jvm-concurrency",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 1.0,
+        "hit" : true,
+        "retrievedChunkIds" : [ "C-JVM-005", "C-SPR-017", "C-JVM-009", "C-PGV-018", "C-SPR-012" ],
+        "relevantChunkIds" : [ "C-JVM-005" ]
+      }, {
+        "questionId" : "JVM-006",
+        "domain" : "java-jvm-concurrency",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 1.0,
+        "hit" : true,
+        "retrievedChunkIds" : [ "C-JVM-006", "C-JVM-019", "C-JVM-012", "C-SPR-006", "C-SPR-018" ],
+        "relevantChunkIds" : [ "C-JVM-006" ]
+      }, {
+        "questionId" : "JVM-007",
+        "domain" : "java-jvm-concurrency",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 1.0,
+        "hit" : true,
+        "retrievedChunkIds" : [ "C-JVM-007", "C-SPR-018", "C-SPR-019", "C-JVM-018", "C-SPR-016" ],
+        "relevantChunkIds" : [ "C-JVM-007" ]
+      }, {
+        "questionId" : "JVM-008",
+        "domain" : "java-jvm-concurrency",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 1.0,
+        "hit" : true,
+        "retrievedChunkIds" : [ "C-JVM-008", "C-JVM-015", "C-SPR-010", "C-JVM-017", "C-JVM-013" ],
+        "relevantChunkIds" : [ "C-JVM-008" ]
+      }, {
+        "questionId" : "JVM-009",
+        "domain" : "java-jvm-concurrency",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 1.0,
+        "hit" : true,
+        "retrievedChunkIds" : [ "C-JVM-009", "C-SPR-006", "C-SPR-011", "C-SPR-017", "C-SPR-012" ],
+        "relevantChunkIds" : [ "C-JVM-009" ]
+      }, {
+        "questionId" : "JVM-010",
+        "domain" : "java-jvm-concurrency",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 1.0,
+        "hit" : true,
+        "retrievedChunkIds" : [ "C-JVM-010", "C-SPR-003", "C-JVM-011", "C-SPR-020", "C-SPR-004" ],
+        "relevantChunkIds" : [ "C-JVM-010" ]
+      }, {
+        "questionId" : "JVM-011",
+        "domain" : "java-jvm-concurrency",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 1.0,
+        "hit" : true,
+        "retrievedChunkIds" : [ "C-JVM-011", "C-SPR-003", "C-SPR-020", "C-SPR-014", "C-JVM-015" ],
+        "relevantChunkIds" : [ "C-JVM-011" ]
+      }, {
+        "questionId" : "JVM-012",
+        "domain" : "java-jvm-concurrency",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 1.0,
+        "hit" : true,
+        "retrievedChunkIds" : [ "C-JVM-012", "C-JVM-006", "C-SPR-017", "C-JVM-005", "C-JVM-002" ],
+        "relevantChunkIds" : [ "C-JVM-012" ]
+      }, {
+        "questionId" : "JVM-013",
+        "domain" : "java-jvm-concurrency",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 1.0,
+        "hit" : true,
+        "retrievedChunkIds" : [ "C-JVM-013", "C-JVM-017", "C-SPR-010", "C-SPR-001", "C-JVM-003" ],
+        "relevantChunkIds" : [ "C-JVM-013" ]
+      }, {
+        "questionId" : "JVM-014",
+        "domain" : "java-jvm-concurrency",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 1.0,
+        "hit" : true,
+        "retrievedChunkIds" : [ "C-JVM-014", "C-JVM-005", "C-JVM-020", "C-SPR-008", "C-PGV-008" ],
+        "relevantChunkIds" : [ "C-JVM-014" ]
+      }, {
+        "questionId" : "JVM-015",
+        "domain" : "java-jvm-concurrency",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 1.0,
+        "hit" : true,
+        "retrievedChunkIds" : [ "C-JVM-015", "C-JVM-016", "C-JVM-020", "C-JVM-006", "C-PGV-012" ],
+        "relevantChunkIds" : [ "C-JVM-015" ]
+      }, {
+        "questionId" : "JVM-016",
+        "domain" : "java-jvm-concurrency",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 1.0,
+        "hit" : true,
+        "retrievedChunkIds" : [ "C-JVM-016", "C-JVM-017", "C-JVM-005", "C-JVM-020", "C-SPR-007" ],
+        "relevantChunkIds" : [ "C-JVM-016" ]
+      }, {
+        "questionId" : "JVM-017",
+        "domain" : "java-jvm-concurrency",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 1.0,
+        "hit" : true,
+        "retrievedChunkIds" : [ "C-JVM-017", "C-JVM-013", "C-SPR-010", "C-SPR-007", "C-JVM-003" ],
+        "relevantChunkIds" : [ "C-JVM-017" ]
+      }, {
+        "questionId" : "JVM-018",
+        "domain" : "java-jvm-concurrency",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 1.0,
+        "hit" : true,
+        "retrievedChunkIds" : [ "C-JVM-018", "C-JVM-007", "C-SPR-019", "C-SPR-016", "C-SPR-018" ],
+        "relevantChunkIds" : [ "C-JVM-018" ]
+      }, {
+        "questionId" : "JVM-019",
+        "domain" : "java-jvm-concurrency",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 1.0,
+        "hit" : true,
+        "retrievedChunkIds" : [ "C-JVM-019", "C-JVM-006", "C-JVM-012", "C-PGV-019", "C-JVM-004" ],
+        "relevantChunkIds" : [ "C-JVM-019" ]
+      }, {
+        "questionId" : "JVM-020",
+        "domain" : "java-jvm-concurrency",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 1.0,
+        "hit" : true,
+        "retrievedChunkIds" : [ "C-JVM-020", "C-SPR-018", "C-PGV-018", "C-JVM-016", "C-JVM-017" ],
+        "relevantChunkIds" : [ "C-JVM-020" ]
+      } ]
+    }
+  },
+  "hybrid-local-rerank" : {
+    "judge" : [ {
+      "questionId" : "SPR-001",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 1.0,
+      "reason" : "待评答案的所有声明均能在检索上下文的第一段中找到完全一致的表述，没有任何幻觉或偏离，因此忠实度为1.0；待评答案直接解释了构造器注入的优势（依赖不可变、便于单元测试、暴露循环依赖）以及字段注入的劣势，完美回答了'为什么推荐构造器注入'的问题，因此答案相关性为1.0。"
+    }, {
+      "questionId" : "SPR-002",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 1.0,
+      "reason" : "待评答案的内容完全来源于检索上下文的第一段，未引入任何上下文之外的信息，因此忠实度为1.0；待评答案明确指出了JWT过滤器应放在UsernamePasswordAuthenticationFilter之前，并解释了原因，完美回答了问题，因此答案相关性为1.0。"
+    }, {
+      "questionId" : "SPR-003",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 1.0,
+      "reason" : "待评答案与检索上下文的第一段内容完全一致，没有任何虚构或超出上下文的信息，因此忠实度为1.0；待评答案准确且完整地回答了关于'RabbitMQ消费者如何做到幂等处理'的问题，与标准答案一致，因此相关性为1.0。"
+    }, {
+      "questionId" : "SPR-004",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 1.0,
+      "reason" : "待评答案的内容与检索上下文的第一段完全一致，所有陈述均被上下文直接支持，因此faithfulness为1.0；答案准确且完整地回答了关于RabbitMQ死信队列适用场景的问题，与标准答案一致，因此answer_relevance为1.0。"
+    }, {
+      "questionId" : "SPR-005",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 1.0,
+      "reason" : "待评答案与检索上下文的第一条内容完全一致，因此完全被上下文支持，faithfulness为1.0；待评答案准确列出了@Transactional不生效的常见原因，直接且完整地回答了问题，answer_relevance为1.0。"
+    }, {
+      "questionId" : "SPR-006",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 1.0,
+      "reason" : "待评答案的所有陈述（耗时任务、削峰、隔离失败、支持重试、避免阻塞）均在检索上下文第一条中得到完全支持，无任何幻觉，因此faithfulness为1.0；待评答案直接且完整地回答了问题中'为什么要用异步解析'的诉求，与标准答案完全一致，因此answer_relevance为1.0。"
+    }, {
+      "questionId" : "SPR-007",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 1.0,
+      "reason" : "待评答案的内容与检索上下文的第一段完全一致，没有任何捏造或偏离，因此忠实度为1.0；待评答案直接且完整地回答了问题中关于MinIO的职责，因此答案相关性为1.0。"
+    }, {
+      "questionId" : "SPR-008",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 1.0,
+      "reason" : "待评答案的内容完全来源于检索上下文的第一段，没有任何幻觉或外部未支持的信息，因此忠实度为1.0；待评答案直接且准确地回答了问题中关于SSE和WebSocket在RAG问答中的取舍原则，指出了单向流式输出用SSE、双向实时协作用WebSocket的核心逻辑，因此答案相关性为1.0。"
+    }, {
+      "questionId" : "SPR-009",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 1.0,
+      "reason" : "待评答案与检索上下文的第一段完全一致，所有陈述均被上下文直接支持，因此faithfulness为1.0；待评答案直接解释了接口层不应直接写RAG检索SQL的原因（Controller只负责协议适配，检索编排放在Service便于测试、复用和替换），完美回答了问题，因此answer_relevance为1.0。"
+    }, {
+      "questionId" : "SPR-010",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 1.0,
+      "reason" : "待评答案的内容完全出现在检索上下文的第一个片段中，没有任何幻觉或未支持的陈述，因此忠实度为1.0；待评答案直接且完整地回答了Spring Boot Actuator在压测时的具体作用，与问题高度相关，因此答案相关性为1.0。"
+    }, {
+      "questionId" : "SPR-011",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 1.0,
+      "reason" : "待评答案的所有陈述（避免冲击下游服务、提供恢复窗口、超限进入DLQ）均在检索上下文第一条中找到完全一致的表述，因此faithfulness为1.0；待评答案直接且准确地回答了'指数退避重试解决什么问题'，与问题高度契合，因此answer_relevance为1.0。"
+    }, {
+      "questionId" : "SPR-012",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 1.0,
+      "reason" : "待评答案与检索上下文的第一段内容完全一致，所有陈述均被上下文直接且充分支持，因此faithfulness为1.0；待评答案直接且完整地回答了'为什么要控制并发'的问题，指出了消耗CPU与内存、避免OOM以及给embedding阶段稳定速率的原因，与标准答案完全匹配，因此answer_relevance为1.0。"
+    }, {
+      "questionId" : "SPR-013",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 1.0,
+      "reason" : "待评答案与检索上下文第一条完全一致，所有陈述均被上下文直接支持；答案准确且完整地回答了问题中关于使用环境变量覆盖 API Key 的原因（敏感配置不写死在仓库、区分不同环境），与问题高度相关。"
+    }, {
+      "questionId" : "SPR-014",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 1.0,
+      "reason" : "待评答案的内容与检索上下文的第一条完全一致，所有陈述均被上下文直接支持，因此faithfulness为1.0；待评答案准确解释了多租户知识库检索必须带kb_id的原因（数据隔离、缩小候选范围、降低延迟），与标准答案完全匹配，完美回答了问题，因此answer_relevance为1.0。"
+    }, {
+      "questionId" : "SPR-015",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 1.0,
+      "reason" : "待评答案与检索上下文的第一条内容完全一致，所有陈述均被上下文直接支持，因此忠实度为1.0；待评答案准确解释了向量参数必须强制转换为vector的原因（pgvector查询需要vector类型参与距离计算，字符串必须显式转换才能使用向量操作符），完美回答了提出的问题，因此答案相关性为1.0。"
+    }, {
+      "questionId" : "SPR-016",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 1.0,
+      "reason" : "待评答案与检索上下文的第一段内容完全一致，所有陈述均被上下文直接支持，无任何幻觉，因此faithfulness为1.0；待评答案直接且完整地回答了问题中'为什么要清语义缓存和检索缓存'的原因（引用已删除文档、返回过期或敏感内容）及安全做法（按kb_id失效），与标准答案完全匹配，因此answer_relevance为1.0。"
+    }, {
+      "questionId" : "SPR-017",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 1.0,
+      "reason" : "待评答案与检索上下文的第一条完全一致，且其核心观点（embedding耗时、调用外部API、异步处理避免阻塞）在其他上下文片段中也有充分支撑，因此忠实度为1.0；待评答案直接指出了上传接口不应等待embedding完成的原因（调用外部API且耗时不稳定），并给出了正确的解决方案（快速返回任务状态，异步流水线更新），完美回答了问题且与标准答案一致，因此相关性为1.0。"
+    }, {
+      "questionId" : "SPR-018",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 0.3,
+      "reason" : "待评答案完全照搬了上下文片段1的内容，因此忠实度为1.0。但问题询问的是'如何讲出工程深度'，待评答案仅泛泛陈述了'能突出Spring、数据库、消息队列和工程化能力'，并未像标准答案那样给出具体的深度切入点（如RAG评测、pgvector调优、异步可靠性、缓存一致性等），未能有效回答'如何'这一核心诉求，因此答案相关性较低。"
+    }, {
+      "questionId" : "SPR-019",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 1.0,
+      "reason" : "待评答案与检索上下文的第一段内容完全一致，所有陈述均被上下文直接支持，因此faithfulness为1.0；待评答案直接且准确地解释了为缓存命中率打点的原因，完美回答了提出的问题，因此answer_relevance为1.0。"
+    }, {
+      "questionId" : "SPR-020",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 1.0,
+      "reason" : "待评答案与检索上下文的第一段内容完全一致，所有声明均被上下文直接支持，因此faithfulness为1.0；待评答案直接且完整地回答了问题中关于DLQ消息重投前需要检查的具体内容，切中问题核心，因此answer_relevance为1.0。"
+    }, {
+      "questionId" : "PGV-001",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 1.0,
+      "reason" : "待评答案中的所有陈述（HNSW是图索引、召回高、查询快但构建和内存成本更高；IVFFlat依赖聚类列表、需训练且probes影响召回和延迟）均完全被上下文片段1和2支持，无任何幻觉，faithfulness为1.0。待评答案直接且准确地指出了HNSW和IVFFlat的核心区别，完美回答了问题，answer_relevance为1.0。"
+    }, {
+      "questionId" : "PGV-002",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 1.0,
+      "reason" : "待评答案与检索上下文的第一段完全一致，所有陈述均被上下文支持，无任何幻觉，因此忠实度为1.0；待评答案准确指出了RRF适合混合检索的原因（只依赖排名、不要求同尺度、能稳定融合dense与sparse），完美回答了问题，因此相关性为1.0。"
+    }, {
+      "questionId" : "PGV-003",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 1.0,
+      "reason" : "待评答案与检索上下文的第一段内容完全一致，所有陈述均被上下文直接支持，无任何幻觉或无关信息，因此faithfulness为1.0；待评答案直接且准确地解释了PostgreSQL全文检索建GIN索引的原因（加速@@查询，避免全文扫描），完美回答了提出的问题，因此answer_relevance为1.0。"
+    }, {
+      "questionId" : "PGV-004",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 1.0,
+      "reason" : "待评答案的内容与关键词完全出自检索上下文的第一段，没有任何幻觉或外部信息，忠实度为1.0；待评答案准确解释了 denseTopK 和 sparseTopK 的概念及后续融合机制，完美回答了问题，相关性为1.0。"
+    }, {
+      "questionId" : "PGV-005",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 1.0,
+      "reason" : "待评答案与检索上下文第一段内容完全一致，所有陈述均被上下文直接支持，因此忠实度为1.0；待评答案准确指出了rerank成本高且不能扫全库的特性，完美解释了为什么需要先粗召回再精排，与问题高度相关，因此答案相关性为1.0。"
+    }, {
+      "questionId" : "PGV-006",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 1.0,
+      "reason" : "待评答案的内容与检索上下文的第一段完全一致，所有陈述均被上下文直接支持，因此faithfulness为1.0。待评答案准确且直接地回答了问题中Query rewriting在RAG中解决的问题（改写查询以提高召回稳定性），因此answer_relevance为1.0。"
+    }, {
+      "questionId" : "PGV-007",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 1.0,
+      "reason" : "待评答案的所有陈述均与检索上下文第一条完全一致，无任何幻觉或脱离上下文的信息，因此faithfulness为1.0；待评答案精准且完整地回答了关于HyDE基本思路的问题，与标准答案完全匹配，因此answer_relevance为1.0。"
+    }, {
+      "questionId" : "PGV-008",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 1.0,
+      "reason" : "待评答案的内容与检索上下文的第一段完全一致，没有任何虚构或脱离上下文的信息，因此faithfulness为1.0；待评答案直接解释了父子分块提升RAG质量的原因（小子块保精度，父块保上下文完整性），精准回答了问题，因此answer_relevance为1.0。"
+    }, {
+      "questionId" : "PGV-009",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 1.0,
+      "reason" : "待评答案的内容完全出自检索上下文的第一段，没有任何虚构或脱离上下文的信息，因此忠实度为1.0；待评答案准确解释了Recall@5的定义与作用，直接且完整地回答了问题，因此答案相关性为1.0。"
+    }, {
+      "questionId" : "PGV-010",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 1.0,
+      "reason" : "待评答案与检索上下文的第一段内容完全一致，所有陈述均被上下文直接支持，因此忠实度为1.0；待评答案准确回答了问题关于MRR关注点的询问，指出了'第一个相关结果出现的位置'和'倒数排名'，与标准答案完全匹配，因此答案相关性为1.0。"
+    }, {
+      "questionId" : "PGV-011",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 1.0,
+      "reason" : "待评答案中的所有陈述（Hit Rate@5只看至少命中一个，Recall@5看覆盖比例）在检索上下文的第一条中有着完全一致的表述，因此faithfulness为1.0；待评答案准确对比了两个指标的核心差异，直接且完整地回答了问题，因此answer_relevance为1.0。"
+    }, {
+      "questionId" : "PGV-012",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 1.0,
+      "reason" : "待评答案与检索上下文的第一段完全一致，完全被上下文支持（faithfulness=1.0）；待评答案准确解释了性能数字受数据量、硬件等条件影响，不标注则不可复现，完美回答了为什么需要标注数据规模和硬件的问题（answer_relevance=1.0）。"
+    }, {
+      "questionId" : "PGV-013",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 1.0,
+      "reason" : "待评答案与检索上下文1完全一致，且与上下文3中的信息相符，完全被上下文支持；待评答案准确回答了probes参数对召回率和查询延迟的影响，与问题高度相关。"
+    }, {
+      "questionId" : "PGV-014",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 1.0,
+      "reason" : "待评答案与检索上下文的第一段完全一致，所有陈述均被上下文完全支持，因此忠实度为1.0；待评答案直接且完整地回答了关于ef_search参数取舍的问题，准确指出了召回与延迟的权衡关系以及结合评测和P95延迟的选择方法，因此答案相关性为1.0。"
+    }, {
+      "questionId" : "PGV-015",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 1.0,
+      "reason" : "待评答案与检索上下文的第一段内容完全一致，所有陈述均被上下文直接支持，因此faithfulness为1.0；待评答案准确解释了缓存key包含配置hash的原因（配置变化会改变结果，避免返回旧策略结果），直接且完整地回答了问题，因此answer_relevance为1.0。"
+    }, {
+      "questionId" : "PGV-016",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 1.0,
+      "reason" : "待评答案与检索上下文第一段内容完全一致，所有陈述均被上下文直接支持，无任何编造信息，因此faithfulness为1.0；待评答案直接且准确地回答了问题关于RAGAS faithfulness衡量目标的询问，因此answer_relevance为1.0。"
+    }, {
+      "questionId" : "PGV-017",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 1.0,
+      "reason" : "待评答案的内容完全被检索上下文中的第一段所支持，没有任何编造或脱离上下文的信息；同时，待评答案直接且准确地回答了问题所询问的'Answer relevance想衡量什么'，与标准答案一致。"
+    }, {
+      "questionId" : "PGV-018",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 1.0,
+      "reason" : "待评答案与检索上下文的第一段内容完全一致，所有信息均被上下文直接支持，无任何虚构或矛盾，因此 faithfulness 为 1.0。待评答案直接解释了为什么需要 baseline 评测结果（提供改造前的可量化参照，以证明后续改造的提升幅度），完美回答了问题，与标准答案一致，因此 answer_relevance 为 1.0。"
+    }, {
+      "questionId" : "PGV-019",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 1.0,
+      "reason" : "待评答案与检索上下文第一条内容完全一致，所有陈述均被上下文直接支持，faithfulness为1.0；待评答案准确解释了不能只看平均延迟的原因（掩盖长尾、依赖P95/P99、抖动影响），完美回答了问题，与标准答案一致，answer_relevance为1.0。"
+    }, {
+      "questionId" : "PGV-020",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 1.0,
+      "reason" : "待评答案与检索上下文的第一段内容完全一致，没有引入任何上下文之外的信息，因此忠实度为1.0；待评答案准确指出了simple配置在中文分词和词形还原上的限制，以及其对中文语义处理的依赖，完全回答了问题，因此答案相关性为1.0。"
+    }, {
+      "questionId" : "JVM-001",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 1.0,
+      "reason" : "待评答案的内容与检索上下文第一条完全一致，所有陈述均被上下文直接支持，无任何幻觉，故faithfulness为1.0；待评答案准确指出了无界队列导致任务堆积、内存上涨和延迟不可控的负面后果，直接且完整地回答了'为什么不建议无界队列'的问题，故answer_relevance为1.0。"
+    }, {
+      "questionId" : "JVM-002",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 1.0,
+      "reason" : "待评答案与检索上下文的第一段内容完全一致，所有陈述均被上下文直接支持，无任何幻觉，因此faithfulness为1.0；待评答案准确指出了CompletableFuture在SSE流式响应中的核心风险（客户端断开但任务未取消导致后台继续调用LLM消耗资源）及应对措施，与标准答案完全匹配，充分回答了问题，因此answer_relevance为1.0。"
+    }, {
+      "questionId" : "JVM-003",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 1.0,
+      "reason" : "待评答案的内容与检索上下文的第一段完全一致，所有陈述均被上下文直接支持，因此faithfulness为1.0；待评答案直接且完整地解释了关注P99的原因（暴露长尾问题、比平均值更接近最差体验），精准回答了问题，因此answer_relevance为1.0。"
+    }, {
+      "questionId" : "JVM-004",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 1.0,
+      "reason" : "待评答案的内容完全来自检索上下文的第一段，没有任何虚构或矛盾，因此忠诚度为1.0；待评答案准确且完整地回答了问题中关于ObjectMapper应该复用的原因，因此相关性为1.0。"
+    }, {
+      "questionId" : "JVM-005",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 1.0,
+      "reason" : "待评答案与检索上下文第一条完全一致，所有陈述均被上下文直接支持，faithfulness为1.0；答案准确指出了批量请求减少HTTP往返和服务端固定开销，直接回答了'为什么能提升吞吐'的问题，answer_relevance为1.0。"
+    }, {
+      "questionId" : "JVM-006",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 1.0,
+      "reason" : "待评答案的内容与检索上下文的第一段完全一致，所有陈述均被上下文直接支持，无任何幻觉；待评答案直接指出了避免阻塞拖垮接口线程的具体方法（耗时任务放入异步队列或独立线程池，接口线程只处理轻量协议逻辑），与标准答案完全一致，完美回答了问题。"
+    }, {
+      "questionId" : "JVM-007",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 1.0,
+      "reason" : "待评答案与检索上下文的第一段内容完全一致，所有陈述均被上下文直接支持，因此faithfulness为1.0；待评答案直接解释了缓存一致性比缓存层数更重要的原因（即缓存层越多失效越复杂，若一致性无法保证会导致正确性问题），精准回答了问题，因此answer_relevance为1.0。"
+    }, {
+      "questionId" : "JVM-008",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 1.0,
+      "reason" : "待评答案的内容完全来源于检索上下文的第一段，没有任何虚构或矛盾信息，忠实度为1.0；待评答案准确且完整地回答了JMH和k6分别适合测试的场景，与问题高度相关，答案相关性为1.0。"
+    }, {
+      "questionId" : "JVM-009",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 1.0,
+      "reason" : "待评答案与检索上下文的第一段内容完全一致，所有信息均被上下文直接支持，因此faithfulness为1.0；待评答案直接且准确地回答了问题，明确指出了背压在文档处理流水线中解决的具体问题（调节速度、避免堆积导致OOM），因此answer_relevance为1.0。"
+    }, {
+      "questionId" : "JVM-010",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 1.0,
+      "reason" : "待评答案的内容与检索上下文的第一段完全一致，所有陈述均被上下文直接支持，因此faithfulness为1.0；待评答案准确指出了过期时间太短和太长的风险，并给出了结合任务耗时设置的建议，完全回答了关于Redis SETNX过期时间风险的问题，因此answer_relevance为1.0。"
+    }, {
+      "questionId" : "JVM-011",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 1.0,
+      "reason" : "待评答案的内容完全出现在检索上下文的第一段中，没有任何幻觉或外部信息，因此忠实度为1.0；待评答案准确解释了问题中'为什么是幂等兜底'的原因（因为Redis可能故障或锁过期，所以需要数据库唯一约束在最终写入点阻止重复记录），直接且完整地回答了问题，因此答案相关性为1.0。"
+    }, {
+      "questionId" : "JVM-012",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 1.0,
+      "reason" : "待评答案与检索上下文的第一段内容完全一致，被上下文充分支持，因此faithfulness为1.0；待评答案直接指出了不设置超时的后果（网络抖动或限流导致占满线程并放大故障），完美回答了问题中'为什么要设置超时'的疑问，因此answer_relevance为1.0。"
+    }, {
+      "questionId" : "JVM-013",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 1.0,
+      "reason" : "待评答案与检索上下文的第一段内容完全一致，所有陈述均被上下文直接支持，因此faithfulness为1.0；待评答案直接且完整地解释了区分单元测试和压测的原因（验证内容不同、目标和运行环境不同），完美回答了问题，因此answer_relevance为1.0。"
+    }, {
+      "questionId" : "JVM-014",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 1.0,
+      "reason" : "待评答案与检索上下文的第一段内容完全一致，所有陈述均被上下文直接支持，因此忠实度为1.0。待评答案准确回答了问题中'为什么要限制上下文token'的原因（增加成本、延迟、挤占空间、引入噪声），与标准答案完全匹配，完美切中问题核心，因此相关性为1.0。"
+    }, {
+      "questionId" : "JVM-015",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 1.0,
+      "reason" : "待评答案完全匹配检索上下文的第一条内容，没有任何虚构或偏离，因此faithfulness为1.0；待评答案直接回答了问题中关于record是否适合表达评测数据的疑问，指出了其作为不可变数据载体对golden case和metrics等评测结构的适用性，因此answer_relevance为1.0。"
+    }, {
+      "questionId" : "JVM-016",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 1.0,
+      "reason" : "待评答案的内容与检索上下文的第一段完全一致，所有陈述均被上下文直接支持，因此faithfulness为1.0；待评答案准确列举了使用JSONL的具体原因（一行一个样本、便于追加/diff/流式读取、适合保存评测集和检索结果），直接且完整地回答了“为什么使用JSONL”的问题，因此answer_relevance为1.0。"
+    }, {
+      "questionId" : "JVM-017",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 1.0,
+      "reason" : "待评答案与检索上下文的第一段内容完全一致，所有陈述均被上下文直接支持，因此faithfulness为1.0；待评答案直接且完整地回答了“为什么压测报告要保存原始结果”的问题，指出了复核统计口径和追溯测试条件的原因，与标准答案完全匹配，因此answer_relevance为1.0。"
+    }, {
+      "questionId" : "JVM-018",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 1.0,
+      "reason" : "待评答案与检索上下文的第一段内容完全一致，所有信息均被上下文直接支持，因此 faithfulness 为 1.0；待评答案准确回答了缓存 sanity check 的目的（降低误命中和假阳性），与问题高度相关，因此 answer_relevance 为 1.0。"
+    }, {
+      "questionId" : "JVM-019",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 1.0,
+      "reason" : "待评答案与检索上下文的第一段内容完全一致，所有陈述均被上下文直接支持，因此 faithfulness 为 1.0。待评答案直接回答了“为什么不引入 Python 服务”的问题，指出目标岗位是 Java 后端且保持单体能突出相关技术栈能力，与问题高度相关，因此 answer_relevance 为 1.0。"
+    }, {
+      "questionId" : "JVM-020",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 1.0,
+      "reason" : "待评答案的内容与检索上下文的第一段完全一致，没有任何幻觉或脱离上下文的表述，因此忠实度为1.0；待评答案直接解释了RAG改动后需要跑评测的原因（检索策略改动可能带来伤害，固定评测集能及时发现回归），充分且准确地回答了问题，因此相关性为1.0。"
+    } ],
+    "retrieval" : {
+      "k" : 5,
+      "totalQuestions" : 60,
+      "recallAtK" : 1.0,
+      "mrr" : 0.9916666666666667,
+      "hitRateAtK" : 1.0,
+      "questionScores" : [ {
+        "questionId" : "SPR-001",
+        "domain" : "spring-boot-rabbitmq",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 1.0,
+        "hit" : true,
+        "retrievedChunkIds" : [ "C-SPR-001", "C-JVM-004", "C-JVM-019", "C-SPR-005", "C-SPR-009" ],
+        "relevantChunkIds" : [ "C-SPR-001" ]
+      }, {
+        "questionId" : "SPR-002",
+        "domain" : "spring-boot-rabbitmq",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 1.0,
+        "hit" : true,
+        "retrievedChunkIds" : [ "C-SPR-002", "C-JVM-004", "C-JVM-019", "C-SPR-009", "C-JVM-006" ],
+        "relevantChunkIds" : [ "C-SPR-002" ]
+      }, {
+        "questionId" : "SPR-003",
+        "domain" : "spring-boot-rabbitmq",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 1.0,
+        "hit" : true,
+        "retrievedChunkIds" : [ "C-SPR-003", "C-SPR-006", "C-SPR-020", "C-SPR-012", "C-SPR-004" ],
+        "relevantChunkIds" : [ "C-SPR-003" ]
+      }, {
+        "questionId" : "SPR-004",
+        "domain" : "spring-boot-rabbitmq",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 1.0,
+        "hit" : true,
+        "retrievedChunkIds" : [ "C-SPR-004", "C-SPR-006", "C-JVM-001", "C-SPR-020", "C-SPR-003" ],
+        "relevantChunkIds" : [ "C-SPR-004" ]
+      }, {
+        "questionId" : "SPR-005",
+        "domain" : "spring-boot-rabbitmq",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 1.0,
+        "hit" : true,
+        "retrievedChunkIds" : [ "C-SPR-005", "C-JVM-004", "C-JVM-019", "C-JVM-011", "C-JVM-010" ],
+        "relevantChunkIds" : [ "C-SPR-005" ]
+      }, {
+        "questionId" : "SPR-006",
+        "domain" : "spring-boot-rabbitmq",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 1.0,
+        "hit" : true,
+        "retrievedChunkIds" : [ "C-SPR-006", "C-JVM-006", "C-SPR-017", "C-SPR-012", "C-JVM-009" ],
+        "relevantChunkIds" : [ "C-SPR-006" ]
+      }, {
+        "questionId" : "SPR-007",
+        "domain" : "spring-boot-rabbitmq",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 1.0,
+        "hit" : true,
+        "retrievedChunkIds" : [ "C-SPR-007", "C-SPR-014", "C-SPR-009", "C-SPR-006", "C-JVM-015" ],
+        "relevantChunkIds" : [ "C-SPR-007" ]
+      }, {
+        "questionId" : "SPR-008",
+        "domain" : "spring-boot-rabbitmq",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 1.0,
+        "hit" : true,
+        "retrievedChunkIds" : [ "C-SPR-008", "C-SPR-018", "C-JVM-002", "C-JVM-020", "C-JVM-006" ],
+        "relevantChunkIds" : [ "C-SPR-008" ]
+      }, {
+        "questionId" : "SPR-009",
+        "domain" : "spring-boot-rabbitmq",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 1.0,
+        "hit" : true,
+        "retrievedChunkIds" : [ "C-SPR-009", "C-SPR-018", "C-JVM-020", "C-SPR-008", "C-PGV-005" ],
+        "relevantChunkIds" : [ "C-SPR-009" ]
+      }, {
+        "questionId" : "SPR-010",
+        "domain" : "spring-boot-rabbitmq",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 1.0,
+        "hit" : true,
+        "retrievedChunkIds" : [ "C-SPR-010", "C-JVM-004", "C-JVM-019", "C-JVM-013", "C-JVM-017" ],
+        "relevantChunkIds" : [ "C-SPR-010" ]
+      }, {
+        "questionId" : "SPR-011",
+        "domain" : "spring-boot-rabbitmq",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 1.0,
+        "hit" : true,
+        "retrievedChunkIds" : [ "C-SPR-011", "C-SPR-006", "C-SPR-004", "C-SPR-020", "C-SPR-003" ],
+        "relevantChunkIds" : [ "C-SPR-011" ]
+      }, {
+        "questionId" : "SPR-012",
+        "domain" : "spring-boot-rabbitmq",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 1.0,
+        "hit" : true,
+        "retrievedChunkIds" : [ "C-SPR-012", "C-SPR-006", "C-JVM-006", "C-SPR-003", "C-JVM-009" ],
+        "relevantChunkIds" : [ "C-SPR-012" ]
+      }, {
+        "questionId" : "SPR-013",
+        "domain" : "spring-boot-rabbitmq",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 1.0,
+        "hit" : true,
+        "retrievedChunkIds" : [ "C-SPR-013", "C-JVM-004", "C-JVM-019", "C-JVM-012", "C-PGV-015" ],
+        "relevantChunkIds" : [ "C-SPR-013" ]
+      }, {
+        "questionId" : "SPR-014",
+        "domain" : "spring-boot-rabbitmq",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 1.0,
+        "hit" : true,
+        "retrievedChunkIds" : [ "C-SPR-014", "C-SPR-016", "C-PGV-005", "C-SPR-009", "C-PGV-004" ],
+        "relevantChunkIds" : [ "C-SPR-014" ]
+      }, {
+        "questionId" : "SPR-015",
+        "domain" : "spring-boot-rabbitmq",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 1.0,
+        "hit" : true,
+        "retrievedChunkIds" : [ "C-SPR-015", "C-SPR-005", "C-PGV-012", "C-JVM-004", "C-JVM-006" ],
+        "relevantChunkIds" : [ "C-SPR-015" ]
+      }, {
+        "questionId" : "SPR-016",
+        "domain" : "spring-boot-rabbitmq",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 1.0,
+        "hit" : true,
+        "retrievedChunkIds" : [ "C-SPR-016", "C-JVM-018", "C-JVM-007", "C-SPR-018", "C-PGV-015" ],
+        "relevantChunkIds" : [ "C-SPR-016" ]
+      }, {
+        "questionId" : "SPR-017",
+        "domain" : "spring-boot-rabbitmq",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 1.0,
+        "hit" : true,
+        "retrievedChunkIds" : [ "C-SPR-017", "C-JVM-005", "C-SPR-006", "C-JVM-006", "C-JVM-009" ],
+        "relevantChunkIds" : [ "C-SPR-017" ]
+      }, {
+        "questionId" : "SPR-018",
+        "domain" : "spring-boot-rabbitmq",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 0.5,
+        "hit" : true,
+        "retrievedChunkIds" : [ "C-JVM-019", "C-SPR-018", "C-JVM-004", "C-SPR-001", "C-JVM-006" ],
+        "relevantChunkIds" : [ "C-SPR-018" ]
+      }, {
+        "questionId" : "SPR-019",
+        "domain" : "spring-boot-rabbitmq",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 1.0,
+        "hit" : true,
+        "retrievedChunkIds" : [ "C-SPR-019", "C-JVM-007", "C-JVM-018", "C-PGV-011", "C-SPR-016" ],
+        "relevantChunkIds" : [ "C-SPR-019" ]
+      }, {
+        "questionId" : "SPR-020",
+        "domain" : "spring-boot-rabbitmq",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 1.0,
+        "hit" : true,
+        "retrievedChunkIds" : [ "C-SPR-020", "C-SPR-004", "C-SPR-011", "C-SPR-003", "C-SPR-006" ],
+        "relevantChunkIds" : [ "C-SPR-020" ]
+      }, {
+        "questionId" : "PGV-001",
+        "domain" : "postgres-pgvector-rag",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 1.0,
+        "hit" : true,
+        "retrievedChunkIds" : [ "C-PGV-001", "C-PGV-013", "C-SPR-015", "C-SPR-018", "C-PGV-003" ],
+        "relevantChunkIds" : [ "C-PGV-001" ]
+      }, {
+        "questionId" : "PGV-002",
+        "domain" : "postgres-pgvector-rag",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 1.0,
+        "hit" : true,
+        "retrievedChunkIds" : [ "C-PGV-002", "C-PGV-004", "C-JVM-020", "C-PGV-005", "C-SPR-009" ],
+        "relevantChunkIds" : [ "C-PGV-002" ]
+      }, {
+        "questionId" : "PGV-003",
+        "domain" : "postgres-pgvector-rag",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 1.0,
+        "hit" : true,
+        "retrievedChunkIds" : [ "C-PGV-003", "C-PGV-002", "C-SPR-015", "C-SPR-016", "C-SPR-009" ],
+        "relevantChunkIds" : [ "C-PGV-003" ]
+      }, {
+        "questionId" : "PGV-004",
+        "domain" : "postgres-pgvector-rag",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 1.0,
+        "hit" : true,
+        "retrievedChunkIds" : [ "C-PGV-004", "C-PGV-015", "C-PGV-002", "C-SPR-014", "C-PGV-005" ],
+        "relevantChunkIds" : [ "C-PGV-004" ]
+      }, {
+        "questionId" : "PGV-005",
+        "domain" : "postgres-pgvector-rag",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 1.0,
+        "hit" : true,
+        "retrievedChunkIds" : [ "C-PGV-005", "C-PGV-004", "C-PGV-018", "C-PGV-015", "C-PGV-009" ],
+        "relevantChunkIds" : [ "C-PGV-005" ]
+      }, {
+        "questionId" : "PGV-006",
+        "domain" : "postgres-pgvector-rag",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 1.0,
+        "hit" : true,
+        "retrievedChunkIds" : [ "C-PGV-006", "C-JVM-020", "C-SPR-018", "C-PGV-018", "C-SPR-008" ],
+        "relevantChunkIds" : [ "C-PGV-006" ]
+      }, {
+        "questionId" : "PGV-007",
+        "domain" : "postgres-pgvector-rag",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 1.0,
+        "hit" : true,
+        "retrievedChunkIds" : [ "C-PGV-007", "C-PGV-018", "C-PGV-001", "C-PGV-015", "C-SPR-008" ],
+        "relevantChunkIds" : [ "C-PGV-007" ]
+      }, {
+        "questionId" : "PGV-008",
+        "domain" : "postgres-pgvector-rag",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 1.0,
+        "hit" : true,
+        "retrievedChunkIds" : [ "C-PGV-008", "C-SPR-018", "C-JVM-020", "C-PGV-018", "C-SPR-008" ],
+        "relevantChunkIds" : [ "C-PGV-008" ]
+      }, {
+        "questionId" : "PGV-009",
+        "domain" : "postgres-pgvector-rag",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 1.0,
+        "hit" : true,
+        "retrievedChunkIds" : [ "C-PGV-009", "C-PGV-011", "C-JVM-020", "C-PGV-014", "C-PGV-002" ],
+        "relevantChunkIds" : [ "C-PGV-009" ]
+      }, {
+        "questionId" : "PGV-010",
+        "domain" : "postgres-pgvector-rag",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 1.0,
+        "hit" : true,
+        "retrievedChunkIds" : [ "C-PGV-010", "C-PGV-002", "C-PGV-009", "C-JVM-020", "C-PGV-015" ],
+        "relevantChunkIds" : [ "C-PGV-010" ]
+      }, {
+        "questionId" : "PGV-011",
+        "domain" : "postgres-pgvector-rag",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 1.0,
+        "hit" : true,
+        "retrievedChunkIds" : [ "C-PGV-011", "C-PGV-009", "C-PGV-004", "C-PGV-005", "C-PGV-015" ],
+        "relevantChunkIds" : [ "C-PGV-011" ]
+      }, {
+        "questionId" : "PGV-012",
+        "domain" : "postgres-pgvector-rag",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 1.0,
+        "hit" : true,
+        "retrievedChunkIds" : [ "C-PGV-012", "C-JVM-017", "C-JVM-003", "C-PGV-019", "C-JVM-015" ],
+        "relevantChunkIds" : [ "C-PGV-012" ]
+      }, {
+        "questionId" : "PGV-013",
+        "domain" : "postgres-pgvector-rag",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 1.0,
+        "hit" : true,
+        "retrievedChunkIds" : [ "C-PGV-013", "C-SPR-015", "C-PGV-001", "C-SPR-018", "C-PGV-012" ],
+        "relevantChunkIds" : [ "C-PGV-013" ]
+      }, {
+        "questionId" : "PGV-014",
+        "domain" : "postgres-pgvector-rag",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 1.0,
+        "hit" : true,
+        "retrievedChunkIds" : [ "C-PGV-014", "C-PGV-001", "C-PGV-013", "C-PGV-015", "C-SPR-018" ],
+        "relevantChunkIds" : [ "C-PGV-014" ]
+      }, {
+        "questionId" : "PGV-015",
+        "domain" : "postgres-pgvector-rag",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 1.0,
+        "hit" : true,
+        "retrievedChunkIds" : [ "C-PGV-015", "C-SPR-016", "C-JVM-007", "C-JVM-018", "C-SPR-018" ],
+        "relevantChunkIds" : [ "C-PGV-015" ]
+      }, {
+        "questionId" : "PGV-016",
+        "domain" : "postgres-pgvector-rag",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 1.0,
+        "hit" : true,
+        "retrievedChunkIds" : [ "C-PGV-016", "C-JVM-020", "C-SPR-018", "C-PGV-017", "C-PGV-009" ],
+        "relevantChunkIds" : [ "C-PGV-016" ]
+      }, {
+        "questionId" : "PGV-017",
+        "domain" : "postgres-pgvector-rag",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 1.0,
+        "hit" : true,
+        "retrievedChunkIds" : [ "C-PGV-017", "C-PGV-009", "C-PGV-016", "C-PGV-011", "C-PGV-010" ],
+        "relevantChunkIds" : [ "C-PGV-017" ]
+      }, {
+        "questionId" : "PGV-018",
+        "domain" : "postgres-pgvector-rag",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 1.0,
+        "hit" : true,
+        "retrievedChunkIds" : [ "C-PGV-018", "C-JVM-020", "C-JVM-017", "C-JVM-016", "C-PGV-015" ],
+        "relevantChunkIds" : [ "C-PGV-018" ]
+      }, {
+        "questionId" : "PGV-019",
+        "domain" : "postgres-pgvector-rag",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 1.0,
+        "hit" : true,
+        "retrievedChunkIds" : [ "C-PGV-019", "C-PGV-012", "C-SPR-014", "C-SPR-018", "C-PGV-014" ],
+        "relevantChunkIds" : [ "C-PGV-019" ]
+      }, {
+        "questionId" : "PGV-020",
+        "domain" : "postgres-pgvector-rag",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 1.0,
+        "hit" : true,
+        "retrievedChunkIds" : [ "C-PGV-020", "C-PGV-015", "C-PGV-003", "C-SPR-009", "C-PGV-006" ],
+        "relevantChunkIds" : [ "C-PGV-020" ]
+      }, {
+        "questionId" : "JVM-001",
+        "domain" : "java-jvm-concurrency",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 1.0,
+        "hit" : true,
+        "retrievedChunkIds" : [ "C-JVM-001", "C-JVM-006", "C-JVM-019", "C-SPR-004", "C-JVM-012" ],
+        "relevantChunkIds" : [ "C-JVM-001" ]
+      }, {
+        "questionId" : "JVM-002",
+        "domain" : "java-jvm-concurrency",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 1.0,
+        "hit" : true,
+        "retrievedChunkIds" : [ "C-JVM-002", "C-SPR-008", "C-JVM-006", "C-JVM-012", "C-JVM-009" ],
+        "relevantChunkIds" : [ "C-JVM-002" ]
+      }, {
+        "questionId" : "JVM-003",
+        "domain" : "java-jvm-concurrency",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 1.0,
+        "hit" : true,
+        "retrievedChunkIds" : [ "C-JVM-003", "C-PGV-019", "C-SPR-010", "C-JVM-013", "C-JVM-017" ],
+        "relevantChunkIds" : [ "C-JVM-003" ]
+      }, {
+        "questionId" : "JVM-004",
+        "domain" : "java-jvm-concurrency",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 1.0,
+        "hit" : true,
+        "retrievedChunkIds" : [ "C-JVM-004", "C-SPR-009", "C-SPR-012", "C-JVM-006", "C-JVM-009" ],
+        "relevantChunkIds" : [ "C-JVM-004" ]
+      }, {
+        "questionId" : "JVM-005",
+        "domain" : "java-jvm-concurrency",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 1.0,
+        "hit" : true,
+        "retrievedChunkIds" : [ "C-JVM-005", "C-JVM-009", "C-SPR-017", "C-SPR-012", "C-SPR-006" ],
+        "relevantChunkIds" : [ "C-JVM-005" ]
+      }, {
+        "questionId" : "JVM-006",
+        "domain" : "java-jvm-concurrency",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 1.0,
+        "hit" : true,
+        "retrievedChunkIds" : [ "C-JVM-006", "C-JVM-019", "C-SPR-006", "C-JVM-012", "C-SPR-011" ],
+        "relevantChunkIds" : [ "C-JVM-006" ]
+      }, {
+        "questionId" : "JVM-007",
+        "domain" : "java-jvm-concurrency",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 1.0,
+        "hit" : true,
+        "retrievedChunkIds" : [ "C-JVM-007", "C-SPR-018", "C-SPR-019", "C-JVM-018", "C-SPR-016" ],
+        "relevantChunkIds" : [ "C-JVM-007" ]
+      }, {
+        "questionId" : "JVM-008",
+        "domain" : "java-jvm-concurrency",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 1.0,
+        "hit" : true,
+        "retrievedChunkIds" : [ "C-JVM-008", "C-SPR-010", "C-JVM-013", "C-JVM-017", "C-JVM-015" ],
+        "relevantChunkIds" : [ "C-JVM-008" ]
+      }, {
+        "questionId" : "JVM-009",
+        "domain" : "java-jvm-concurrency",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 1.0,
+        "hit" : true,
+        "retrievedChunkIds" : [ "C-JVM-009", "C-SPR-006", "C-SPR-017", "C-JVM-006", "C-SPR-011" ],
+        "relevantChunkIds" : [ "C-JVM-009" ]
+      }, {
+        "questionId" : "JVM-010",
+        "domain" : "java-jvm-concurrency",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 1.0,
+        "hit" : true,
+        "retrievedChunkIds" : [ "C-JVM-010", "C-SPR-003", "C-JVM-011", "C-SPR-020", "C-SPR-011" ],
+        "relevantChunkIds" : [ "C-JVM-010" ]
+      }, {
+        "questionId" : "JVM-011",
+        "domain" : "java-jvm-concurrency",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 1.0,
+        "hit" : true,
+        "retrievedChunkIds" : [ "C-JVM-011", "C-SPR-003", "C-SPR-020", "C-SPR-011", "C-JVM-015" ],
+        "relevantChunkIds" : [ "C-JVM-011" ]
+      }, {
+        "questionId" : "JVM-012",
+        "domain" : "java-jvm-concurrency",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 1.0,
+        "hit" : true,
+        "retrievedChunkIds" : [ "C-JVM-012", "C-JVM-006", "C-JVM-019", "C-SPR-017", "C-JVM-002" ],
+        "relevantChunkIds" : [ "C-JVM-012" ]
+      }, {
+        "questionId" : "JVM-013",
+        "domain" : "java-jvm-concurrency",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 1.0,
+        "hit" : true,
+        "retrievedChunkIds" : [ "C-JVM-013", "C-JVM-017", "C-SPR-010", "C-SPR-001", "C-JVM-008" ],
+        "relevantChunkIds" : [ "C-JVM-013" ]
+      }, {
+        "questionId" : "JVM-014",
+        "domain" : "java-jvm-concurrency",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 1.0,
+        "hit" : true,
+        "retrievedChunkIds" : [ "C-JVM-014", "C-SPR-008", "C-JVM-005", "C-PGV-020", "C-SPR-018" ],
+        "relevantChunkIds" : [ "C-JVM-014" ]
+      }, {
+        "questionId" : "JVM-015",
+        "domain" : "java-jvm-concurrency",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 1.0,
+        "hit" : true,
+        "retrievedChunkIds" : [ "C-JVM-015", "C-JVM-019", "C-JVM-006", "C-JVM-016", "C-PGV-012" ],
+        "relevantChunkIds" : [ "C-JVM-015" ]
+      }, {
+        "questionId" : "JVM-016",
+        "domain" : "java-jvm-concurrency",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 1.0,
+        "hit" : true,
+        "retrievedChunkIds" : [ "C-JVM-016", "C-JVM-017", "C-SPR-007", "C-JVM-013", "C-SPR-009" ],
+        "relevantChunkIds" : [ "C-JVM-016" ]
+      }, {
+        "questionId" : "JVM-017",
+        "domain" : "java-jvm-concurrency",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 1.0,
+        "hit" : true,
+        "retrievedChunkIds" : [ "C-JVM-017", "C-JVM-013", "C-SPR-010", "C-SPR-007", "C-JVM-008" ],
+        "relevantChunkIds" : [ "C-JVM-017" ]
+      }, {
+        "questionId" : "JVM-018",
+        "domain" : "java-jvm-concurrency",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 1.0,
+        "hit" : true,
+        "retrievedChunkIds" : [ "C-JVM-018", "C-JVM-007", "C-SPR-016", "C-SPR-019", "C-SPR-018" ],
+        "relevantChunkIds" : [ "C-JVM-018" ]
+      }, {
+        "questionId" : "JVM-019",
+        "domain" : "java-jvm-concurrency",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 1.0,
+        "hit" : true,
+        "retrievedChunkIds" : [ "C-JVM-019", "C-JVM-006", "C-PGV-019", "C-SPR-009", "C-JVM-004" ],
+        "relevantChunkIds" : [ "C-JVM-019" ]
+      }, {
+        "questionId" : "JVM-020",
+        "domain" : "java-jvm-concurrency",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 1.0,
+        "hit" : true,
+        "retrievedChunkIds" : [ "C-JVM-020", "C-SPR-018", "C-PGV-018", "C-JVM-016", "C-SPR-008" ],
+        "relevantChunkIds" : [ "C-JVM-020" ]
+      } ]
+    }
+  },
+  "hybrid-external-rerank" : {
+    "judge" : [ {
+      "questionId" : "SPR-001",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 1.0,
+      "reason" : "待评答案的所有陈述（构造器注入的优点和字段注入的缺点）均完全出现在检索上下文的第一个片段中，没有任何幻觉或脱离上下文的信息，因此faithfulness为1.0；待评答案直接且准确地回答了'为什么推荐构造器注入'的问题，指出了不可变、便于单元测试和暴露循环依赖等核心原因，与问题高度契合，因此answer_relevance为1.0"
+    }, {
+      "questionId" : "SPR-002",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 1.0,
+      "reason" : "待评答案与检索上下文中的第一条完全一致，所有陈述均被上下文直接支持，因此忠实度为1.0；待评答案明确回答了问题中关于JWT过滤器放置位置（在UsernamePasswordAuthenticationFilter之前）的疑问，并给出了原因（解析Bearer Token并写入SecurityContext），完全切题，因此答案相关性为1.0。"
+    }, {
+      "questionId" : "SPR-003",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 1.0,
+      "reason" : "待评答案与检索上下文的第一段内容完全一致，所有陈述均被上下文直接支持，因此忠实度为1.0；待评答案直接且完整地回答了关于RabbitMQ消费者如何做到幂等处理的问题，与标准答案一致，因此答案相关性为1.0。"
+    }, {
+      "questionId" : "SPR-004",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 1.0,
+      "reason" : "待评答案与检索上下文的第一段内容完全一致，所有陈述均被上下文直接支持，因此faithfulness为1.0；待评答案准确且完整地回答了RabbitMQ死信队列适合处理的场景，与标准答案完全匹配，因此answer_relevance为1.0。"
+    }, {
+      "questionId" : "SPR-005",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 1.0,
+      "reason" : "待评答案的内容与关键词完全匹配检索上下文的第一段内容，没有任何幻觉或脱离上下文的陈述，因此忠实度为1.0；待评答案准确列举了@Transactional不生效的常见原因，直接且完整地回答了问题，因此相关性为1.0。"
+    }, {
+      "questionId" : "SPR-006",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 1.0,
+      "reason" : "待评答案的所有陈述均能在检索上下文中找到直接支持（与上下文第一段完全一致），没有任何幻觉，faithfulness为1.0；待评答案准确指出了耗时任务、削峰、隔离失败、重试和避免阻塞等原因，完美回答了为什么要用异步解析的问题，answer_relevance为1.0。"
+    }, {
+      "questionId" : "SPR-007",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 1.0,
+      "reason" : "待评答案与检索上下文的第一段内容完全一致，所有信息均被上下文直接支持，无任何幻觉或偏离，因此faithfulness为1.0；待评答案精准且完整地回答了MinIO在知识库系统中的职责，与问题意图及标准答案完全契合，因此answer_relevance为1.0。"
+    }, {
+      "questionId" : "SPR-008",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 1.0,
+      "reason" : "待评答案的内容与检索上下文的第一段完全一致，所有陈述均被上下文直接支持，无任何幻觉，因此faithfulness为1.0；待评答案直接且准确地回答了问题中关于SSE与WebSocket在RAG问答中的取舍原则，指出了单向流式输出用SSE、双向实时协作用WebSocket的决策依据，完全切题，因此answer_relevance为1.0。"
+    }, {
+      "questionId" : "SPR-009",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 1.0,
+      "reason" : "待评答案与检索上下文第一段内容完全一致，所有陈述均被上下文直接支持，忠实度为1.0；待评答案准确指出了接口层(Controller)的职责是协议适配，并说明了将检索编排放在Service层便于测试、复用和替换检索策略，完美回答了为什么接口层不要直接写检索SQL的问题，相关性为1.0。"
+    }, {
+      "questionId" : "SPR-010",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 1.0,
+      "reason" : "待评答案与检索上下文的第一段内容完全一致，所有陈述均被上下文直接支持，无任何幻觉或无关信息，因此忠实度为1.0；待评答案直接且准确地回答了问题中关于Spring Boot Actuator在压测时作用的内容，因此答案相关性为1.0。"
+    }, {
+      "questionId" : "SPR-011",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 1.0,
+      "reason" : "待评答案的内容与检索上下文的第一段完全一致，所有陈述均被上下文直接支持，因此忠实度为1.0。同时，待评答案准确回答了'指数退避重试解决什么问题'，指出了避免冲击下游服务、提供恢复窗口和进入DLQ，与问题高度相关，因此答案相关性为1.0。"
+    }, {
+      "questionId" : "SPR-012",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 1.0,
+      "reason" : "待评答案与检索上下文片段1完全一致，且片段5也印证了PDF解析、OCR、embedding阶段会导致OOM的说法，因此答案完全被上下文支持，faithfulness为1.0。待评答案直接回答了“为什么要控制并发”的原因（消耗CPU与内存、避免OOM、给embedding阶段稳定速率），与问题高度相关且与标准答案完全一致，answer_relevance为1.0。"
+    }, {
+      "questionId" : "SPR-013",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 1.0,
+      "reason" : "待评答案的所有声明（API Key属于敏感配置不应写死在仓库中；通过环境变量注入可区分本地、测试和生产环境）均完全被检索上下文第一条支持，未引入上下文外的无关信息；同时，待评答案直接且完整地回答了问题，与标准答案完全一致。"
+    }, {
+      "questionId" : "SPR-014",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 1.0,
+      "reason" : "待评答案与检索上下文的第一条chunk完全一致，所有陈述均被上下文完全支持，因此忠实度为1.0；待评答案直接且完整地回答了问题中关于必须带kb_id的原因（数据隔离与降低延迟），因此答案相关性为1.0。"
+    }, {
+      "questionId" : "SPR-015",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 1.0,
+      "reason" : "待评答案与检索上下文的第一段内容完全一致，所有声明均被上下文直接支持，因此faithfulness为1.0；待评答案直接且准确地解释了向量参数必须强制转换为vector的原因（参与距离计算和使用向量操作符），完全回答了问题，因此answer_relevance为1.0。"
+    }, {
+      "questionId" : "SPR-016",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 1.0,
+      "reason" : "待评答案与检索上下文第一段内容完全一致，所有陈述均被上下文直接支持，因此faithfulness为1.0；待评答案准确解释了文档删除时清理缓存的原因（避免引用已删除文档导致返回过期或敏感内容），完美回答了问题，且与标准答案一致，因此answer_relevance为1.0。"
+    }, {
+      "questionId" : "SPR-017",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 1.0,
+      "reason" : "待评答案的内容与检索上下文的第一段完全一致，所有陈述均被上下文直接支持，无任何幻觉或无关信息，因此faithfulness为1.0；待评答案直接指出了embedding调用外部API且耗时不稳定这一核心原因，并给出了上传接口应快速返回任务状态的解决方案，完美回答了问题，因此answer_relevance为1.0。"
+    }, {
+      "questionId" : "SPR-018",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 1.0,
+      "reason" : "待评答案的内容完全来自检索上下文的第一段，没有任何虚构或矛盾，因此faithfulness为1.0；待评答案直接且准确地回答了问题中关于'如何讲出工程深度'的核心诉求，与标准答案完全一致，因此answer_relevance为1.0。"
+    }, {
+      "questionId" : "SPR-019",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 1.0,
+      "reason" : "待评答案与检索上下文的第一段完全一致，所有陈述均被上下文完全支持，faithfulness为1.0；答案直接且完整地回答了“为什么要为缓存命中率打点”的问题，指出了证明优化有效和判断额外层是否值得保留的原因，与标准答案完全匹配，answer_relevance为1.0。"
+    }, {
+      "questionId" : "SPR-020",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 1.0,
+      "reason" : "待评答案与检索上下文第一段完全一致，所有陈述均被上下文直接支持，faithfulness为1.0；答案准确且完整地回答了DLQ消息重投前需要检查的内容，与标准答案一致，answer_relevance为1.0。"
+    }, {
+      "questionId" : "PGV-001",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 1.0,
+      "reason" : "待评答案的所有陈述均直接来源于检索上下文的第一段，且关于probes影响召回和延迟的陈述也与第二段上下文一致，没有任何幻觉或脱离上下文的声明，因此忠实度为1.0。待评答案准确且全面地回答了问题，明确指出了HNSW和IVFFlat在索引类型、召回率、查询速度、构建成本、内存成本、训练需求以及参数影响等方面的核心区别，因此相关性为1.0。"
+    }, {
+      "questionId" : "PGV-002",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 1.0,
+      "reason" : "待评答案与检索上下文的第一段内容完全一致，所有声明均被上下文直接且充分支持，因此faithfulness为1.0；待评答案准确解释了RRF适合混合检索的原因（只依赖排名、不要求分数同尺度、能稳定融合dense与sparse），完美回答了问题意图，与标准答案完全匹配，因此answer_relevance为1.0。"
+    }, {
+      "questionId" : "PGV-003",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 1.0,
+      "reason" : "待评答案的内容与检索上下文的第一段完全一致，所有信息均被上下文直接支持，没有任何幻觉或脱离上下文的陈述，因此faithfulness为1.0；待评答案直接且准确地解释了PostgreSQL全文检索建GIN索引的原因（加速@@查询，避免对所有文档块做全文扫描），完美切中问题核心，因此answer_relevance为1.0。"
+    }, {
+      "questionId" : "PGV-004",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 1.0,
+      "reason" : "待评答案的所有陈述（denseTopK是向量召回候选数，sparseTopK是关键词召回候选数，二者并集进入RRF或rerank）在检索上下文的第一段中均有完全一致的表述，事实一致性满分；待评答案准确解释了问题中denseTopK和sparseTopK的含义及它们在混合检索中的协同作用，完美回答了问题，与标准答案完全一致，答案相关性满分。"
+    }, {
+      "questionId" : "PGV-005",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 1.0,
+      "reason" : "待评答案与检索上下文的第一段完全一致，所有信息均被上下文直接支持，因此忠实度为1.0。待评答案准确指出了rerank成本高且只能处理少量候选（不能扫全库），完美解释了为什么rerank必须放在粗召回之后（即先粗召回筛选少量候选再精排），因此答案相关性为1.0。"
+    }, {
+      "questionId" : "PGV-006",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 1.0,
+      "reason" : "待评答案的内容与检索上下文的第一段完全一致，所有陈述均被上下文直接支持，无任何幻觉，因此忠实度为1.0；待评答案准确且直接地回答了Query rewriting在RAG中解决的问题（将长句、口语化或上下文依赖问题改写为检索友好查询，提高召回稳定性），与问题高度相关，因此答案相关性为1.0。"
+    }, {
+      "questionId" : "PGV-007",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 1.0,
+      "reason" : "待评答案的所有陈述与检索上下文第一条完全一致，完全被上下文支持，faithfulness为1.0；待评答案准确且完整地回答了关于HyDE基本思路的问题，与标准答案一致，answer_relevance为1.0"
+    }, {
+      "questionId" : "PGV-008",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 1.0,
+      "reason" : "待评答案的内容完全出现在检索上下文的第一段中，因此faithfulness为1.0；待评答案准确解释了父子分块提升RAG质量的原因（小子块保精度、父块保上下文完整性），直接且完整地回答了问题，因此answer_relevance为1.0。"
+    }, {
+      "questionId" : "PGV-009",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 1.0,
+      "reason" : "待评答案的内容与检索上下文的第一段完全一致，所有陈述均被上下文直接支持，无幻觉，因此faithfulness为1.0；待评答案准确解释了Recall@5的定义和作用，直接且充分地回答了问题，因此answer_relevance为1.0。"
+    }, {
+      "questionId" : "PGV-010",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 1.0,
+      "reason" : "待评答案的内容完全出自检索上下文的第一段，没有任何虚构或偏离，因此faithfulness为1.0；待评答案准确回答了问题所问的'MRR更关注检索结果的什么'，指出了'第一个相关结果出现的位置'，与标准答案一致，因此answer_relevance为1.0。"
+    }, {
+      "questionId" : "PGV-011",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 1.0,
+      "reason" : "待评答案的内容与检索上下文的第一段完全一致，所有陈述均被上下文直接支持，因此忠实度为1.0；待评答案准确指出了Hit Rate@5和Recall@5的区别，完美回答了问题，因此相关性为1.0。"
+    }, {
+      "questionId" : "PGV-012",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 1.0,
+      "reason" : "待评答案与检索上下文的第一条完全一致，所有声明均被上下文直接支持，因此faithfulness为1.0。待评答案直接解释了性能数字受数据量、硬件等因素影响，不标注前提则不可复现，完美回答了‘为什么性能数字要标注数据规模和硬件’的问题，因此answer_relevance为1.0。"
+    }, {
+      "questionId" : "PGV-013",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 0.5,
+      "reason" : "答案内容完全来源于检索上下文（第一段），无幻觉，忠实度为1.0；但问题仅询问 probes 参数的影响，答案虽然包含了 probes 影响召回和延迟的正确信息，却混入了大量与问题无关的冗余内容（如 HNSW 的特性、IVFFlat 的聚类列表和训练要求），导致答案不够聚焦，因此答案相关性降低。"
+    }, {
+      "questionId" : "PGV-014",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 1.0,
+      "reason" : "待评答案的内容完全来自检索上下文的第一段，没有任何超出上下文的幻觉信息，忠实度为1.0；待评答案准确解释了ef_search参数高低对召回和延迟的影响，并给出了结合评测和P95延迟进行取舍的具体建议，完美回答了问题，相关性为1.0。"
+    }, {
+      "questionId" : "PGV-015",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 1.0,
+      "reason" : "待评答案与检索上下文的第一段完全一致，所有陈述均被上下文直接支持，因此faithfulness为1.0；待评答案直接且准确地解释了缓存key包含配置hash的原因（配置变化会改变结果，避免返回旧策略结果），完美回答了问题，因此answer_relevance为1.0。"
+    }, {
+      "questionId" : "PGV-016",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 1.0,
+      "reason" : "待评答案与检索上下文的第一段完全一致，所有陈述均被上下文直接支持，无编造内容，因此faithfulness为1.0；待评答案直接且准确地回答了问题，解释了faithfulness的衡量目标，因此answer_relevance为1.0。"
+    }, {
+      "questionId" : "PGV-017",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 1.0,
+      "reason" : "待评答案与检索上下文的第一段内容完全一致，没有任何编造或偏离上下文的内容，因此faithfulness为1.0；待评答案直接且准确地回答了问题'Answer relevance想衡量什么'，因此answer_relevance为1.0。"
+    }, {
+      "questionId" : "PGV-018",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 1.0,
+      "reason" : "待评答案与检索上下文的第一段内容完全一致，所有陈述均被上下文直接支持，因此faithfulness为1.0；待评答案直接解释了需要baseline的原因（提供改造前的可量化参照以证明后续改造的提升幅度），精准回答了问题，因此answer_relevance为1.0。"
+    }, {
+      "questionId" : "PGV-019",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 1.0,
+      "reason" : "待评答案与检索上下文的第一段内容完全一致，所有陈述均被上下文直接支持，因此忠实度为1.0；待评答案直接且准确地解释了为什么不能只看平均延迟（掩盖长尾、依赖P95/P99、外部抖动），完美回答了问题，因此答案相关性为1.0。"
+    }, {
+      "questionId" : "PGV-020",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 1.0,
+      "reason" : "待评答案的内容与检索上下文的第一段完全一致，所有陈述均被上下文完全支持，因此faithfulness为1.0；待评答案准确指出了simple配置的限制（不做中文分词和复杂词形还原，依赖embedding或预分词），直接且充分地回答了问题，因此answer_relevance为1.0。"
+    }, {
+      "questionId" : "JVM-001",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 1.0,
+      "reason" : "待评答案的内容与检索上下文的第一段完全一致，所有陈述均被上下文直接支持，无任何幻觉或无关信息，因此忠实度为1.0；待评答案准确解释了不建议使用无界队列的核心原因（内存上涨、延迟不可控）以及应对策略，完全切中问题意图，因此答案相关性为1.0。"
+    }, {
+      "questionId" : "JVM-002",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 1.0,
+      "reason" : "待评答案与检索上下文片段1的内容完全一致，所有陈述均被上下文直接支持，因此faithfulness为1.0；待评答案准确指出了CompletableFuture在SSE流式响应中的风险（客户端断开但任务未取消导致后台继续调用LLM消耗资源）及应对措施（监听断连并取消任务），完全切中问题核心，因此answer_relevance为1.0。"
+    }, {
+      "questionId" : "JVM-003",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 1.0,
+      "reason" : "待评答案与检索上下文的第一段完全一致，所有声明均被上下文直接支持，无任何幻觉或无关信息，因此忠实度为1.0；待评答案直接且完整地回答了'JVM压测为什么要关注P99'的问题，与标准答案完全匹配，因此答案相关性为1.0。"
+    }, {
+      "questionId" : "JVM-004",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 1.0,
+      "reason" : "待评答案与检索上下文的第一段内容完全一致，没有任何幻觉或脱离上下文的陈述，因此faithfulness为1.0；待评答案直接且完整地回答了问题中关于ObjectMapper应该复用的原因，因此answer_relevance为1.0。"
+    }, {
+      "questionId" : "JVM-005",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 1.0,
+      "reason" : "待评答案与检索上下文的第一段内容完全一致，所有陈述均被上下文直接支持，faithfulness为1.0；待评答案直接解释了批量embedding提升吞吐的原因（减少HTTP往返和服务端固定开销），并指出了相关约束，完美回答了问题，answer_relevance为1.0。"
+    }, {
+      "questionId" : "JVM-006",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 1.0,
+      "reason" : "待评答案的核心陈述与检索上下文第一段完全一致，所有声明均被上下文充分支持；待评答案直接且准确地回答了问题中关于如何避免阻塞拖垮接口线程的方法，与标准答案完全匹配。"
+    }, {
+      "questionId" : "JVM-007",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 1.0,
+      "reason" : "待评答案与检索上下文的第一段完全一致，完全被上下文支持，faithfulness为1.0；待评答案直接解释了缓存一致性比缓存层数更重要的原因（层数多导致失效复杂，旧答案命中会将性能问题转化为正确性问题），完美回答了问题，answer_relevance为1.0。"
+    }, {
+      "questionId" : "JVM-008",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 1.0,
+      "reason" : "待评答案的内容完全由检索上下文的第一段支持，没有任何幻觉或无关扩展；同时，答案直接且完整地回答了问题中关于JMH和k6适用场景的询问，与问题高度相关。"
+    }, {
+      "questionId" : "JVM-009",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 1.0,
+      "reason" : "待评答案与检索上下文的第一段内容完全一致，因此答案完全被上下文支持，faithfulness为1.0；待评答案准确回答了'背压在文档处理流水线中解决什么'的问题，指出了调节速度和避免OOM的作用，与标准答案一致，answer_relevance为1.0。"
+    }, {
+      "questionId" : "JVM-010",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 1.0,
+      "reason" : "待评答案与检索上下文的第一条内容完全一致，所有陈述均被上下文直接支持，因此faithfulness为1.0；待评答案准确且完整地回答了关于Redis SETNX过期时间风险的问题，与标准答案一致，因此answer_relevance为1.0。"
+    }, {
+      "questionId" : "JVM-011",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 0.5,
+      "reason" : "待评答案的内容完全来源于检索上下文的第一段，没有产生幻觉，忠实度为1.0。但问题询问的是数据库唯一约束“为什么”是幂等兜底，标准答案指出了原因（Redis可能故障或锁过期），而待评答案仅描述了幂等处理的流程（先用Redis SETNX抢占，再用数据库唯一约束兜底），未直接解释其作为兜底的根本原因，因此答案相关性部分得分，为0.5。"
+    }, {
+      "questionId" : "JVM-012",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 1.0,
+      "reason" : "待评答案的内容与检索上下文的第一条完全一致，因此答案完全被上下文支持，faithfulness为1.0；待评答案直接解释了Java服务调用外部LLM API设置超时的原因（网络抖动或限流，未设置会占满线程并放大故障），精准回答了问题，answer_relevance为1.0。"
+    }, {
+      "questionId" : "JVM-013",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 1.0,
+      "reason" : "待评答案的内容与检索上下文的第一段完全一致，所有陈述均被上下文直接支持，无任何幻觉或偏离；待评答案直接指出了单元测试和压测在验证目标（逻辑正确性 vs 容量、延迟和稳定性）和运行环境上的不同，完美回答了'为什么要区分'的问题，与标准答案完全一致。"
+    }, {
+      "questionId" : "JVM-014",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 1.0,
+      "reason" : "待评答案的内容与检索上下文的第一段完全一致，所有陈述均被上下文直接支持，因此faithfulness为1.0；待评答案准确且完整地回答了问题中关于'为什么要限制上下文token'的原因（增加成本、延迟、挤占空间、引入噪声），与问题高度相关，因此answer_relevance为1.0。"
+    }, {
+      "questionId" : "JVM-015",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 1.0,
+      "reason" : "待评答案与检索上下文的第一段内容完全一致，所有陈述均被上下文完全支持，因此忠实度为1.0；待评答案直接回答了Java中record是否适合表达评测数据的问题，明确指出了其作为不可变数据载体及简化golden case等只读结构定义的作用，与问题高度相关，因此相关性为1.0。"
+    }, {
+      "questionId" : "JVM-016",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 1.0,
+      "reason" : "待评答案与标准答案完全一致，直接且完整地回答了为什么使用 JSONL 的原因。检索上下文的第一段内容与待评答案完全匹配，充分支持了答案中的所有陈述，因此忠实度和答案相关性均为满分。"
+    }, {
+      "questionId" : "JVM-017",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 1.0,
+      "reason" : "待评答案与检索上下文的第一段完全一致，所有陈述均被上下文直接支持，faithfulness为1.0；待评答案准确回答了问题中'为什么压测报告要保存原始结果'的原因，与标准答案完全匹配，answer_relevance为1.0。"
+    }, {
+      "questionId" : "JVM-018",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 1.0,
+      "reason" : "待评答案与检索上下文的第一段完全一致，所有陈述均被上下文直接支持，因此忠实度为满分。待评答案准确且完整地回答了“缓存 sanity check 的目的是什么”这一问题，指出了其降低误命中和假阳性的作用，与问题高度相关，因此答案相关性为满分。"
+    }, {
+      "questionId" : "JVM-019",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 1.0,
+      "reason" : "待评答案与检索上下文的第一段内容完全一致，所有信息均被上下文直接支持，因此faithfulness为1.0；待评答案直接解释了不引入Python服务的原因（即目标岗位是Java后端，保持单体能突出Spring等Java技术栈和工程化能力），完美回答了问题，因此answer_relevance为1.0。"
+    }, {
+      "questionId" : "JVM-020",
+      "faithfulness" : 1.0,
+      "answerRelevance" : 1.0,
+      "reason" : "待评答案与检索上下文1完全一致，所有陈述均被上下文直接支持，faithfulness为1.0；待评答案准确解释了RAG改动后跑评测的原因（策略改动可能带来伤害，需固定评测集发现回归），完美回答了问题，answer_relevance为1.0。"
+    } ],
+    "retrieval" : {
+      "k" : 5,
+      "totalQuestions" : 60,
+      "recallAtK" : 1.0,
+      "mrr" : 0.9805555555555556,
+      "hitRateAtK" : 1.0,
+      "questionScores" : [ {
+        "questionId" : "SPR-001",
+        "domain" : "spring-boot-rabbitmq",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 1.0,
+        "hit" : true,
+        "retrievedChunkIds" : [ "C-SPR-001", "C-JVM-019", "C-JVM-004", "C-SPR-010", "C-SPR-006" ],
+        "relevantChunkIds" : [ "C-SPR-001" ]
+      }, {
+        "questionId" : "SPR-002",
+        "domain" : "spring-boot-rabbitmq",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 1.0,
+        "hit" : true,
+        "retrievedChunkIds" : [ "C-SPR-002", "C-JVM-019", "C-SPR-009", "C-JVM-006", "C-SPR-001" ],
+        "relevantChunkIds" : [ "C-SPR-002" ]
+      }, {
+        "questionId" : "SPR-003",
+        "domain" : "spring-boot-rabbitmq",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 1.0,
+        "hit" : true,
+        "retrievedChunkIds" : [ "C-SPR-003", "C-SPR-020", "C-JVM-011", "C-SPR-004", "C-SPR-006" ],
+        "relevantChunkIds" : [ "C-SPR-003" ]
+      }, {
+        "questionId" : "SPR-004",
+        "domain" : "spring-boot-rabbitmq",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 1.0,
+        "hit" : true,
+        "retrievedChunkIds" : [ "C-SPR-004", "C-SPR-020", "C-SPR-011", "C-SPR-006", "C-SPR-003" ],
+        "relevantChunkIds" : [ "C-SPR-004" ]
+      }, {
+        "questionId" : "SPR-005",
+        "domain" : "spring-boot-rabbitmq",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 1.0,
+        "hit" : true,
+        "retrievedChunkIds" : [ "C-SPR-005", "C-JVM-011", "C-JVM-019", "C-JVM-010", "C-SPR-006" ],
+        "relevantChunkIds" : [ "C-SPR-005" ]
+      }, {
+        "questionId" : "SPR-006",
+        "domain" : "spring-boot-rabbitmq",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 1.0,
+        "hit" : true,
+        "retrievedChunkIds" : [ "C-SPR-006", "C-SPR-017", "C-JVM-006", "C-SPR-007", "C-JVM-009" ],
+        "relevantChunkIds" : [ "C-SPR-006" ]
+      }, {
+        "questionId" : "SPR-007",
+        "domain" : "spring-boot-rabbitmq",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 1.0,
+        "hit" : true,
+        "retrievedChunkIds" : [ "C-SPR-007", "C-SPR-014", "C-SPR-016", "C-SPR-009", "C-JVM-006" ],
+        "relevantChunkIds" : [ "C-SPR-007" ]
+      }, {
+        "questionId" : "SPR-008",
+        "domain" : "spring-boot-rabbitmq",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 1.0,
+        "hit" : true,
+        "retrievedChunkIds" : [ "C-SPR-008", "C-SPR-018", "C-JVM-020", "C-PGV-015", "C-PGV-014" ],
+        "relevantChunkIds" : [ "C-SPR-008" ]
+      }, {
+        "questionId" : "SPR-009",
+        "domain" : "spring-boot-rabbitmq",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 1.0,
+        "hit" : true,
+        "retrievedChunkIds" : [ "C-SPR-009", "C-PGV-005", "C-SPR-018", "C-SPR-008", "C-JVM-020" ],
+        "relevantChunkIds" : [ "C-SPR-009" ]
+      }, {
+        "questionId" : "SPR-010",
+        "domain" : "spring-boot-rabbitmq",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 1.0,
+        "hit" : true,
+        "retrievedChunkIds" : [ "C-SPR-010", "C-JVM-013", "C-JVM-017", "C-JVM-008", "C-JVM-003" ],
+        "relevantChunkIds" : [ "C-SPR-010" ]
+      }, {
+        "questionId" : "SPR-011",
+        "domain" : "spring-boot-rabbitmq",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 1.0,
+        "hit" : true,
+        "retrievedChunkIds" : [ "C-SPR-011", "C-SPR-006", "C-SPR-004", "C-SPR-020", "C-SPR-003" ],
+        "relevantChunkIds" : [ "C-SPR-011" ]
+      }, {
+        "questionId" : "SPR-012",
+        "domain" : "spring-boot-rabbitmq",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 1.0,
+        "hit" : true,
+        "retrievedChunkIds" : [ "C-SPR-012", "C-SPR-006", "C-JVM-006", "C-SPR-003", "C-JVM-009" ],
+        "relevantChunkIds" : [ "C-SPR-012" ]
+      }, {
+        "questionId" : "SPR-013",
+        "domain" : "spring-boot-rabbitmq",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 1.0,
+        "hit" : true,
+        "retrievedChunkIds" : [ "C-SPR-013", "C-SPR-010", "C-PGV-015", "C-JVM-004", "C-PGV-020" ],
+        "relevantChunkIds" : [ "C-SPR-013" ]
+      }, {
+        "questionId" : "SPR-014",
+        "domain" : "spring-boot-rabbitmq",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 1.0,
+        "hit" : true,
+        "retrievedChunkIds" : [ "C-SPR-014", "C-SPR-016", "C-PGV-008", "C-SPR-009", "C-JVM-020" ],
+        "relevantChunkIds" : [ "C-SPR-014" ]
+      }, {
+        "questionId" : "SPR-015",
+        "domain" : "spring-boot-rabbitmq",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 1.0,
+        "hit" : true,
+        "retrievedChunkIds" : [ "C-SPR-015", "C-PGV-012", "C-SPR-014", "C-JVM-015", "C-SPR-018" ],
+        "relevantChunkIds" : [ "C-SPR-015" ]
+      }, {
+        "questionId" : "SPR-016",
+        "domain" : "spring-boot-rabbitmq",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 1.0,
+        "hit" : true,
+        "retrievedChunkIds" : [ "C-SPR-016", "C-JVM-018", "C-JVM-007", "C-SPR-018", "C-JVM-020" ],
+        "relevantChunkIds" : [ "C-SPR-016" ]
+      }, {
+        "questionId" : "SPR-017",
+        "domain" : "spring-boot-rabbitmq",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 1.0,
+        "hit" : true,
+        "retrievedChunkIds" : [ "C-SPR-017", "C-SPR-006", "C-JVM-006", "C-JVM-009", "C-SPR-012" ],
+        "relevantChunkIds" : [ "C-SPR-017" ]
+      }, {
+        "questionId" : "SPR-018",
+        "domain" : "spring-boot-rabbitmq",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 1.0,
+        "hit" : true,
+        "retrievedChunkIds" : [ "C-SPR-018", "C-JVM-019", "C-SPR-009", "C-SPR-010", "C-JVM-013" ],
+        "relevantChunkIds" : [ "C-SPR-018" ]
+      }, {
+        "questionId" : "SPR-019",
+        "domain" : "spring-boot-rabbitmq",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 1.0,
+        "hit" : true,
+        "retrievedChunkIds" : [ "C-SPR-019", "C-JVM-018", "C-JVM-007", "C-PGV-011", "C-SPR-016" ],
+        "relevantChunkIds" : [ "C-SPR-019" ]
+      }, {
+        "questionId" : "SPR-020",
+        "domain" : "spring-boot-rabbitmq",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 1.0,
+        "hit" : true,
+        "retrievedChunkIds" : [ "C-SPR-020", "C-SPR-011", "C-SPR-004", "C-SPR-003", "C-JVM-018" ],
+        "relevantChunkIds" : [ "C-SPR-020" ]
+      }, {
+        "questionId" : "PGV-001",
+        "domain" : "postgres-pgvector-rag",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 1.0,
+        "hit" : true,
+        "retrievedChunkIds" : [ "C-PGV-001", "C-PGV-013", "C-SPR-015", "C-SPR-018", "C-PGV-004" ],
+        "relevantChunkIds" : [ "C-PGV-001" ]
+      }, {
+        "questionId" : "PGV-002",
+        "domain" : "postgres-pgvector-rag",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 1.0,
+        "hit" : true,
+        "retrievedChunkIds" : [ "C-PGV-002", "C-PGV-004", "C-PGV-005", "C-PGV-013", "C-PGV-015" ],
+        "relevantChunkIds" : [ "C-PGV-002" ]
+      }, {
+        "questionId" : "PGV-003",
+        "domain" : "postgres-pgvector-rag",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 1.0,
+        "hit" : true,
+        "retrievedChunkIds" : [ "C-PGV-003", "C-PGV-005", "C-SPR-018", "C-PGV-020", "C-PGV-012" ],
+        "relevantChunkIds" : [ "C-PGV-003" ]
+      }, {
+        "questionId" : "PGV-004",
+        "domain" : "postgres-pgvector-rag",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 1.0,
+        "hit" : true,
+        "retrievedChunkIds" : [ "C-PGV-004", "C-PGV-002", "C-PGV-015", "C-PGV-011", "C-PGV-005" ],
+        "relevantChunkIds" : [ "C-PGV-004" ]
+      }, {
+        "questionId" : "PGV-005",
+        "domain" : "postgres-pgvector-rag",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 1.0,
+        "hit" : true,
+        "retrievedChunkIds" : [ "C-PGV-005", "C-PGV-004", "C-PGV-002", "C-PGV-015", "C-PGV-018" ],
+        "relevantChunkIds" : [ "C-PGV-005" ]
+      }, {
+        "questionId" : "PGV-006",
+        "domain" : "postgres-pgvector-rag",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 1.0,
+        "hit" : true,
+        "retrievedChunkIds" : [ "C-PGV-006", "C-SPR-008", "C-SPR-018", "C-JVM-020", "C-SPR-016" ],
+        "relevantChunkIds" : [ "C-PGV-006" ]
+      }, {
+        "questionId" : "PGV-007",
+        "domain" : "postgres-pgvector-rag",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 1.0,
+        "hit" : true,
+        "retrievedChunkIds" : [ "C-PGV-007", "C-PGV-018", "C-PGV-015", "C-JVM-015", "C-PGV-005" ],
+        "relevantChunkIds" : [ "C-PGV-007" ]
+      }, {
+        "questionId" : "PGV-008",
+        "domain" : "postgres-pgvector-rag",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 1.0,
+        "hit" : true,
+        "retrievedChunkIds" : [ "C-PGV-008", "C-JVM-020", "C-PGV-011", "C-PGV-018", "C-SPR-018" ],
+        "relevantChunkIds" : [ "C-PGV-008" ]
+      }, {
+        "questionId" : "PGV-009",
+        "domain" : "postgres-pgvector-rag",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 1.0,
+        "hit" : true,
+        "retrievedChunkIds" : [ "C-PGV-009", "C-PGV-011", "C-PGV-004", "C-PGV-014", "C-JVM-020" ],
+        "relevantChunkIds" : [ "C-PGV-009" ]
+      }, {
+        "questionId" : "PGV-010",
+        "domain" : "postgres-pgvector-rag",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 1.0,
+        "hit" : true,
+        "retrievedChunkIds" : [ "C-PGV-010", "C-PGV-009", "C-PGV-008", "C-PGV-011", "C-PGV-015" ],
+        "relevantChunkIds" : [ "C-PGV-010" ]
+      }, {
+        "questionId" : "PGV-011",
+        "domain" : "postgres-pgvector-rag",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 1.0,
+        "hit" : true,
+        "retrievedChunkIds" : [ "C-PGV-011", "C-PGV-009", "C-PGV-014", "C-PGV-002", "C-PGV-004" ],
+        "relevantChunkIds" : [ "C-PGV-011" ]
+      }, {
+        "questionId" : "PGV-012",
+        "domain" : "postgres-pgvector-rag",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 1.0,
+        "hit" : true,
+        "retrievedChunkIds" : [ "C-PGV-012", "C-JVM-017", "C-JVM-013", "C-PGV-011", "C-SPR-018" ],
+        "relevantChunkIds" : [ "C-PGV-012" ]
+      }, {
+        "questionId" : "PGV-013",
+        "domain" : "postgres-pgvector-rag",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 0.3333333333333333,
+        "hit" : true,
+        "retrievedChunkIds" : [ "C-PGV-001", "C-SPR-015", "C-PGV-013", "C-PGV-012", "C-SPR-018" ],
+        "relevantChunkIds" : [ "C-PGV-013" ]
+      }, {
+        "questionId" : "PGV-014",
+        "domain" : "postgres-pgvector-rag",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 1.0,
+        "hit" : true,
+        "retrievedChunkIds" : [ "C-PGV-014", "C-PGV-001", "C-SPR-018", "C-PGV-015", "C-PGV-004" ],
+        "relevantChunkIds" : [ "C-PGV-014" ]
+      }, {
+        "questionId" : "PGV-015",
+        "domain" : "postgres-pgvector-rag",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 1.0,
+        "hit" : true,
+        "retrievedChunkIds" : [ "C-PGV-015", "C-SPR-016", "C-SPR-014", "C-SPR-009", "C-PGV-009" ],
+        "relevantChunkIds" : [ "C-PGV-015" ]
+      }, {
+        "questionId" : "PGV-016",
+        "domain" : "postgres-pgvector-rag",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 1.0,
+        "hit" : true,
+        "retrievedChunkIds" : [ "C-PGV-016", "C-SPR-018", "C-PGV-017", "C-PGV-009", "C-JVM-020" ],
+        "relevantChunkIds" : [ "C-PGV-016" ]
+      }, {
+        "questionId" : "PGV-017",
+        "domain" : "postgres-pgvector-rag",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 1.0,
+        "hit" : true,
+        "retrievedChunkIds" : [ "C-PGV-017", "C-PGV-016", "C-PGV-009", "C-PGV-011", "C-PGV-010" ],
+        "relevantChunkIds" : [ "C-PGV-017" ]
+      }, {
+        "questionId" : "PGV-018",
+        "domain" : "postgres-pgvector-rag",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 1.0,
+        "hit" : true,
+        "retrievedChunkIds" : [ "C-PGV-018", "C-JVM-020", "C-JVM-017", "C-JVM-016", "C-SPR-018" ],
+        "relevantChunkIds" : [ "C-PGV-018" ]
+      }, {
+        "questionId" : "PGV-019",
+        "domain" : "postgres-pgvector-rag",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 1.0,
+        "hit" : true,
+        "retrievedChunkIds" : [ "C-PGV-019", "C-PGV-012", "C-SPR-014", "C-PGV-014", "C-PGV-005" ],
+        "relevantChunkIds" : [ "C-PGV-019" ]
+      }, {
+        "questionId" : "PGV-020",
+        "domain" : "postgres-pgvector-rag",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 1.0,
+        "hit" : true,
+        "retrievedChunkIds" : [ "C-PGV-020", "C-PGV-005", "C-PGV-015", "C-PGV-002", "C-PGV-004" ],
+        "relevantChunkIds" : [ "C-PGV-020" ]
+      }, {
+        "questionId" : "JVM-001",
+        "domain" : "java-jvm-concurrency",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 1.0,
+        "hit" : true,
+        "retrievedChunkIds" : [ "C-JVM-001", "C-JVM-006", "C-SPR-020", "C-JVM-010", "C-SPR-006" ],
+        "relevantChunkIds" : [ "C-JVM-001" ]
+      }, {
+        "questionId" : "JVM-002",
+        "domain" : "java-jvm-concurrency",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 1.0,
+        "hit" : true,
+        "retrievedChunkIds" : [ "C-JVM-002", "C-SPR-008", "C-SPR-017", "C-JVM-010", "C-JVM-012" ],
+        "relevantChunkIds" : [ "C-JVM-002" ]
+      }, {
+        "questionId" : "JVM-003",
+        "domain" : "java-jvm-concurrency",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 1.0,
+        "hit" : true,
+        "retrievedChunkIds" : [ "C-JVM-003", "C-PGV-019", "C-SPR-010", "C-JVM-008", "C-JVM-013" ],
+        "relevantChunkIds" : [ "C-JVM-003" ]
+      }, {
+        "questionId" : "JVM-004",
+        "domain" : "java-jvm-concurrency",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 1.0,
+        "hit" : true,
+        "retrievedChunkIds" : [ "C-JVM-004", "C-SPR-005", "C-SPR-009", "C-JVM-007", "C-JVM-006" ],
+        "relevantChunkIds" : [ "C-JVM-004" ]
+      }, {
+        "questionId" : "JVM-005",
+        "domain" : "java-jvm-concurrency",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 1.0,
+        "hit" : true,
+        "retrievedChunkIds" : [ "C-JVM-005", "C-SPR-006", "C-SPR-012", "C-JVM-009", "C-SPR-017" ],
+        "relevantChunkIds" : [ "C-JVM-005" ]
+      }, {
+        "questionId" : "JVM-006",
+        "domain" : "java-jvm-concurrency",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 1.0,
+        "hit" : true,
+        "retrievedChunkIds" : [ "C-JVM-006", "C-SPR-006", "C-SPR-009", "C-JVM-012", "C-JVM-019" ],
+        "relevantChunkIds" : [ "C-JVM-006" ]
+      }, {
+        "questionId" : "JVM-007",
+        "domain" : "java-jvm-concurrency",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 1.0,
+        "hit" : true,
+        "retrievedChunkIds" : [ "C-JVM-007", "C-SPR-019", "C-SPR-018", "C-SPR-016", "C-JVM-018" ],
+        "relevantChunkIds" : [ "C-JVM-007" ]
+      }, {
+        "questionId" : "JVM-008",
+        "domain" : "java-jvm-concurrency",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 1.0,
+        "hit" : true,
+        "retrievedChunkIds" : [ "C-JVM-008", "C-JVM-013", "C-SPR-010", "C-PGV-015", "C-PGV-011" ],
+        "relevantChunkIds" : [ "C-JVM-008" ]
+      }, {
+        "questionId" : "JVM-009",
+        "domain" : "java-jvm-concurrency",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 1.0,
+        "hit" : true,
+        "retrievedChunkIds" : [ "C-JVM-009", "C-SPR-006", "C-JVM-006", "C-SPR-016", "C-SPR-012" ],
+        "relevantChunkIds" : [ "C-JVM-009" ]
+      }, {
+        "questionId" : "JVM-010",
+        "domain" : "java-jvm-concurrency",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 1.0,
+        "hit" : true,
+        "retrievedChunkIds" : [ "C-JVM-010", "C-SPR-003", "C-JVM-011", "C-SPR-016", "C-JVM-007" ],
+        "relevantChunkIds" : [ "C-JVM-010" ]
+      }, {
+        "questionId" : "JVM-011",
+        "domain" : "java-jvm-concurrency",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 0.5,
+        "hit" : true,
+        "retrievedChunkIds" : [ "C-SPR-003", "C-JVM-011", "C-SPR-020", "C-SPR-005", "C-JVM-015" ],
+        "relevantChunkIds" : [ "C-JVM-011" ]
+      }, {
+        "questionId" : "JVM-012",
+        "domain" : "java-jvm-concurrency",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 1.0,
+        "hit" : true,
+        "retrievedChunkIds" : [ "C-JVM-012", "C-JVM-006", "C-SPR-017", "C-JVM-002", "C-JVM-010" ],
+        "relevantChunkIds" : [ "C-JVM-012" ]
+      }, {
+        "questionId" : "JVM-013",
+        "domain" : "java-jvm-concurrency",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 1.0,
+        "hit" : true,
+        "retrievedChunkIds" : [ "C-JVM-013", "C-SPR-010", "C-JVM-017", "C-JVM-008", "C-PGV-012" ],
+        "relevantChunkIds" : [ "C-JVM-013" ]
+      }, {
+        "questionId" : "JVM-014",
+        "domain" : "java-jvm-concurrency",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 1.0,
+        "hit" : true,
+        "retrievedChunkIds" : [ "C-JVM-014", "C-SPR-008", "C-PGV-008", "C-PGV-016", "C-JVM-005" ],
+        "relevantChunkIds" : [ "C-JVM-014" ]
+      }, {
+        "questionId" : "JVM-015",
+        "domain" : "java-jvm-concurrency",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 1.0,
+        "hit" : true,
+        "retrievedChunkIds" : [ "C-JVM-015", "C-JVM-016", "C-JVM-020", "C-JVM-008", "C-JVM-017" ],
+        "relevantChunkIds" : [ "C-JVM-015" ]
+      }, {
+        "questionId" : "JVM-016",
+        "domain" : "java-jvm-concurrency",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 1.0,
+        "hit" : true,
+        "retrievedChunkIds" : [ "C-JVM-016", "C-JVM-017", "C-SPR-009", "C-PGV-015", "C-SPR-006" ],
+        "relevantChunkIds" : [ "C-JVM-016" ]
+      }, {
+        "questionId" : "JVM-017",
+        "domain" : "java-jvm-concurrency",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 1.0,
+        "hit" : true,
+        "retrievedChunkIds" : [ "C-JVM-017", "C-JVM-016", "C-SPR-007", "C-JVM-013", "C-PGV-012" ],
+        "relevantChunkIds" : [ "C-JVM-017" ]
+      }, {
+        "questionId" : "JVM-018",
+        "domain" : "java-jvm-concurrency",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 1.0,
+        "hit" : true,
+        "retrievedChunkIds" : [ "C-JVM-018", "C-SPR-019", "C-SPR-016", "C-SPR-010", "C-JVM-013" ],
+        "relevantChunkIds" : [ "C-JVM-018" ]
+      }, {
+        "questionId" : "JVM-019",
+        "domain" : "java-jvm-concurrency",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 1.0,
+        "hit" : true,
+        "retrievedChunkIds" : [ "C-JVM-019", "C-SPR-009", "C-SPR-005", "C-SPR-006", "C-JVM-006" ],
+        "relevantChunkIds" : [ "C-JVM-019" ]
+      }, {
+        "questionId" : "JVM-020",
+        "domain" : "java-jvm-concurrency",
+        "recallAtK" : 1.0,
+        "reciprocalRank" : 1.0,
+        "hit" : true,
+        "retrievedChunkIds" : [ "C-JVM-020", "C-SPR-018", "C-PGV-015", "C-JVM-016", "C-PGV-018" ],
+        "relevantChunkIds" : [ "C-JVM-020" ]
+      } ]
+    }
+  }
+}

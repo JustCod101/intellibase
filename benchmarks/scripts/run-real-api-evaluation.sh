@@ -9,6 +9,13 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 REPO_ROOT="$(cd "${SCRIPT_DIR}/../.." && pwd)"
 cd "${REPO_ROOT}"
 
+if [[ -f .env ]]; then
+  set -a
+  # shellcheck disable=SC1091
+  source .env
+  set +a
+fi
+
 : "${OPENAI_API_KEY:?Set OPENAI_API_KEY to run real embedding evaluation}"
 : "${OPENAI_BASE_URL:=https://api.openai.com/v1}"
 : "${REAL_EVAL_PG_PORT:=55437}"
@@ -60,6 +67,10 @@ mvn_args=(
   -Dllm.api-key="${OPENAI_API_KEY}"
   -Dllm.base-url="${OPENAI_BASE_URL}"
   -Dllm.model-name="${LLM_MODEL_NAME:-gpt-4o-mini}"
+  -Devaluation.llm-judge.concurrency="${EVALUATION_LLM_JUDGE_CONCURRENCY:-4}"
+  -Dspring.rabbitmq.listener.simple.auto-startup=false
+  -Dspring.rabbitmq.listener.direct.auto-startup=false
+  -Dmybatis-plus.configuration.log-impl=org.apache.ibatis.logging.nologging.NoLoggingImpl
 )
 
 if [[ -n "${RAG_QUERY_REWRITE_ENABLED:-}" ]]; then
@@ -93,6 +104,12 @@ cp intellibase-server/target/evaluation/real-api-comparison-report.md \
 cp intellibase-server/target/evaluation/real-api-comparison-metrics.json \
   "${metrics}"
 
+if [[ -n "${RAG_RERANK_API_URL:-}" && -n "${RAG_RERANK_API_KEY:-}" ]]; then
+  rerank_external_scenario_included="yes"
+else
+  rerank_external_scenario_included="no"
+fi
+
 {
   echo "# Real API Evaluation Run Metadata"
   echo
@@ -114,13 +131,15 @@ cp intellibase-server/target/evaluation/real-api-comparison-metrics.json \
   echo "| llm_model | ${LLM_MODEL_NAME:-gpt-4o-mini} |"
   echo "| query_rewrite_enabled | ${RAG_QUERY_REWRITE_ENABLED:-false} |"
   echo "| hyde_enabled | ${RAG_HYDE_ENABLED:-false} |"
-  echo "| rerank_external_enabled | ${RAG_RERANK_EXTERNAL_ENABLED:-false} |"
+  echo "| rerank_external_enabled | ${rerank_external_scenario_included} |"
+  echo "| rerank_external_config_enabled | ${RAG_RERANK_EXTERNAL_ENABLED:-false} |"
   echo "| rerank_api_url_set | $(if [[ -n "${RAG_RERANK_API_URL:-}" ]]; then echo yes; else echo no; fi) |"
   echo "| rerank_api_key_set | $(if [[ -n "${RAG_RERANK_API_KEY:-}" ]]; then echo yes; else echo no; fi) |"
   echo "| rerank_model | ${RAG_RERANK_MODEL:-bge-reranker-v2-m3} |"
   echo "| llm_judge_api_key_set | $(if [[ -n "${EVALUATION_LLM_JUDGE_API_KEY:-}" ]]; then echo yes; else echo no; fi) |"
   echo "| llm_judge_base_url | ${EVALUATION_LLM_JUDGE_BASE_URL:-https://api.openai.com/v1} |"
   echo "| llm_judge_model | ${EVALUATION_LLM_JUDGE_MODEL:-gpt-4o-mini} |"
+  echo "| llm_judge_concurrency | ${EVALUATION_LLM_JUDGE_CONCURRENCY:-4} |"
   echo
   echo "> Secrets are intentionally redacted; this file records whether keys were set, not their values."
 } > "${metadata}"

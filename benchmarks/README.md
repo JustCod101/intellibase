@@ -14,7 +14,7 @@
 | `scripts/pgvector-index-benchmark.sql` | HNSW / IVFFlat 参数对比 SQL（构建时间、查询延迟、召回候选） |
 | `scripts/pgvector-latency-percentiles.sql` | 多查询 HNSW/GIN P50/P95/P99 延迟采样 SQL |
 | `scripts/k6-chat-stream.js` | SSE `/api/v1/chat/stream` 端到端压测脚本 |
-| `scripts/run-real-api-evaluation.sh` | 真实 embedding / 可选 rewrite / rerank 的质量评测一键 runner |
+| `scripts/run-real-api-evaluation.sh` | 真实 embedding / 可选 rewrite / rerank 的质量评测一键 runner；评测时会禁用 RabbitMQ listener autostart，避免无 broker 环境下重试干扰 |
 | `scripts/run-real-chat-stream-k6.sh` | 真实 `/api/v1/chat/stream` k6 一键 runner |
 | `scripts/real-benchmark-preflight.sh` | 真实质量评测 / SSE k6 的本地环境预检；不触网、不生成结果 |
 | `scripts/check-claim-hygiene.sh` | 检查 README/简历模板是否出现未证实旧性能 claim，防止 mock/seeded 结果被写成真实指标 |
@@ -159,13 +159,13 @@ docker run --rm -i \
 真实检索质量（真实 embedding，按配置可选真实 query rewrite / external rerank）：
 
 ```bash
-export OPENAI_API_KEY=sk-xxx
-export OPENAI_BASE_URL=https://api.openai.com/v1
-export RAG_QUERY_REWRITE_ENABLED=true
-export RAG_RERANK_API_URL=https://api.example.com/v1/rerank
-export RAG_RERANK_API_KEY=sk-xxx
+# 可以直接写入仓库根目录 .env；runner/preflight 会自动加载 .env。
+# 也可以用 export 覆盖当前 shell 环境。
 
 benchmarks/scripts/real-benchmark-preflight.sh retrieval
+
+# 可选：默认 4 并发调用 LLM-as-judge；如果供应商限流明显，可调低。
+export EVALUATION_LLM_JUDGE_CONCURRENCY=4
 
 benchmarks/scripts/run-real-api-evaluation.sh
 ```
@@ -173,11 +173,8 @@ benchmarks/scripts/run-real-api-evaluation.sh
 真实 SSE 端到端压测前，先用真实 `OPENAI_BASE_URL` / `OPENAI_API_KEY` / `RAG_RERANK_API_URL` / `RAG_RERANK_API_KEY` 启动 IntelliBase，并准备好 `AUTH_TOKEN`、`CONVERSATION_ID`。然后运行：
 
 ```bash
-export AUTH_TOKEN=xxx
-export CONVERSATION_ID=91001
-export BASE_URL=http://localhost:8080
-export VUS=10
-export DURATION=1m
+# 可以直接写入仓库根目录 .env；runner/preflight 会自动加载 .env。
+# 也可以用 export 覆盖当前 shell 环境。
 
 benchmarks/scripts/real-benchmark-preflight.sh sse
 

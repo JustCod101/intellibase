@@ -21,7 +21,12 @@ import java.util.Map;
 
 /**
  * 二阶段外部 Rerank。兼容常见 rerank API 形态：
- * request: {model, query, documents, top_n}; response: {results:[{index,relevance_score}]}。
+ * <ul>
+ *   <li>OpenAI/Cohere/SiliconFlow-like: request {model, query, documents, top_n};
+ *       response {results:[{index,relevance_score}]}</li>
+ *   <li>DashScope qwen/gte rerank: request {model, input:{query,documents}, parameters:{top_n}};
+ *       response {output:{results:[{index,relevance_score}]}}</li>
+ * </ul>
  * 默认关闭，失败时回退本地 RRF/规则排序。
  */
 @Slf4j
@@ -43,6 +48,9 @@ public class ExternalRerankService {
     @Value("${rag.rerank.model:bge-reranker-v2-m3}")
     private String model;
 
+    @Value("${rag.rerank.api-format:auto}")
+    private String apiFormat;
+
     private final HttpClient httpClient = HttpClient.newBuilder()
             .connectTimeout(Duration.ofSeconds(10))
             .build();
@@ -60,12 +68,8 @@ public class ExternalRerankService {
         }
         try {
             List<String> documents = candidates.stream().map(RetrievalResult::getContent).toList();
-            Map<String, Object> body = Map.of(
-                    "model", model,
-                    "query", query,
-                    "documents", documents,
-                    "top_n", Math.min(finalTopK, candidates.size())
-            );
+            int topN = Math.min(finalTopK, candidates.size());
+            Map<String, Object> body = buildRequestBody(query, documents, topN);
             HttpRequest request = HttpRequest.newBuilder(URI.create(apiUrl))
                     .timeout(Duration.ofSeconds(60))
                     .header("Authorization", "Bearer " + apiKey)
@@ -78,14 +82,51 @@ public class ExternalRerankService {
             }
             return applyRerankResponse(candidates, response.body(), finalTopK);
         } catch (Exception e) {
-            log.warn("外部 rerank 失败，回退本地排序: candidates={}", candidates.size(), e);
+            log.warn("外部 rerank 失败，回退本地排序: candidates={}, reason={}", candidates.size(), e.toString());
+            log.debug("外部 rerank 失败详情", e);
             return candidates.stream().limit(finalTopK).toList();
         }
     }
 
+    private Map<String, Object> buildRequestBody(String query, List<String> documents, int topN) {
+        if (useDashScopeFormat()) {
+            return Map.of(
+                    "model", model,
+                    "input", Map.of(
+                            "query", query,
+                            "documents", documents
+                    ),
+                    "parameters", Map.of(
+                            "top_n", topN,
+                            "return_documents", false
+                    )
+            );
+        }
+        return Map.of(
+                "model", model,
+                "query", query,
+                "documents", documents,
+                "top_n", topN
+        );
+    }
+
+    private boolean useDashScopeFormat() {
+        if ("dashscope".equalsIgnoreCase(apiFormat)) {
+            return true;
+        }
+        if (!"auto".equalsIgnoreCase(apiFormat)) {
+            return false;
+        }
+        String normalizedUrl = apiUrl == null ? "" : apiUrl.toLowerCase();
+        String normalizedModel = model == null ? "" : model.toLowerCase();
+        return normalizedUrl.contains("dashscope.aliyuncs.com")
+                || normalizedModel.startsWith("qwen")
+                || normalizedModel.startsWith("gte-rerank");
+    }
+
     private List<RetrievalResult> applyRerankResponse(List<RetrievalResult> candidates, String responseBody, int finalTopK) throws Exception {
         Map<String, Object> parsed = objectMapper.readValue(responseBody, new TypeReference<>() {});
-        List<Map<String, Object>> results = (List<Map<String, Object>>) parsed.getOrDefault("results", List.of());
+        List<Map<String, Object>> results = extractResults(parsed);
         Map<Integer, Double> scoreByIndex = new HashMap<>();
         for (Map<String, Object> result : results) {
             int index = ((Number) result.get("index")).intValue();
@@ -111,5 +152,20 @@ public class ExternalRerankService {
                 .sorted(Comparator.comparingDouble(RetrievalResult::getScore).reversed())
                 .limit(finalTopK)
                 .toList();
+    }
+
+    @SuppressWarnings("unchecked")
+    private List<Map<String, Object>> extractResults(Map<String, Object> parsed) {
+        Object results = parsed.get("results");
+        if (results == null && parsed.get("output") instanceof Map<?, ?> output) {
+            results = ((Map<String, Object>) output).get("results");
+        }
+        if (results == null) {
+            results = parsed.get("data");
+        }
+        if (results instanceof List<?> list) {
+            return (List<Map<String, Object>>) list;
+        }
+        return List.of();
     }
 }

@@ -12,6 +12,17 @@ set -euo pipefail
 mode="${1:-all}"
 failures=0
 
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+REPO_ROOT="$(cd "${SCRIPT_DIR}/../.." && pwd)"
+cd "${REPO_ROOT}"
+
+if [[ -f .env ]]; then
+  set -a
+  # shellcheck disable=SC1091
+  source .env
+  set +a
+fi
+
 usage() {
   cat <<'USAGE'
 Usage: benchmarks/scripts/real-benchmark-preflight.sh [all|retrieval|sse]
