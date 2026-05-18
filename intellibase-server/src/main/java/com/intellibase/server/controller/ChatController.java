@@ -11,6 +11,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
@@ -28,7 +29,7 @@ public class ChatController {
     @PostMapping("/conversations")
     public Result<ConversationVO> createConversation(@Valid @RequestBody CreateConversationRequest request,
                                                      Authentication authentication) {
-        Long userId = Long.valueOf(authentication.getPrincipal().toString());
+        Long userId = currentUserId(authentication);
         ConversationVO vo = chatService.createConversation(request, userId);
         return Result.ok(vo);
     }
@@ -41,7 +42,7 @@ public class ChatController {
     public SseEmitter streamChat(@RequestParam Long conversationId,
                                  @RequestParam String question,
                                  Authentication authentication) {
-        Long userId = Long.valueOf(authentication.getPrincipal().toString());
+        Long userId = currentUserId(authentication);
         Long kbId = chatService.getKbId(conversationId, userId);
         SseEmitter emitter = new SseEmitter(120_000L);
         ragService.streamChat(question, kbId, conversationId, emitter);
@@ -56,7 +57,7 @@ public class ChatController {
             @RequestParam(defaultValue = "1") Integer page,
             @RequestParam(defaultValue = "20") Integer size,
             Authentication authentication) {
-        Long userId = Long.valueOf(authentication.getPrincipal().toString());
+        Long userId = currentUserId(authentication);
         IPage<ConversationVO> result = chatService.getConversations(userId, page, size);
         return Result.ok(result);
     }
@@ -70,7 +71,7 @@ public class ChatController {
             @RequestParam(defaultValue = "1") Integer page,
             @RequestParam(defaultValue = "50") Integer size,
             Authentication authentication) {
-        Long userId = Long.valueOf(authentication.getPrincipal().toString());
+        Long userId = currentUserId(authentication);
         IPage<ChatMessageVO> result = chatService.getMessages(id, page, size, userId);
         return Result.ok(result);
     }
@@ -81,9 +82,17 @@ public class ChatController {
     @DeleteMapping("/conversations/{id}")
     public Result<Void> deleteConversation(@PathVariable Long id,
                                            Authentication authentication) {
-        Long userId = Long.valueOf(authentication.getPrincipal().toString());
+        Long userId = currentUserId(authentication);
         chatService.deleteConversation(id, userId);
         return Result.ok();
+    }
+
+    private Long currentUserId(Authentication authentication) {
+        Object principal = authentication.getPrincipal();
+        if (principal instanceof UserDetails userDetails) {
+            return Long.valueOf(userDetails.getUsername());
+        }
+        return Long.valueOf(principal.toString());
     }
 
 }
