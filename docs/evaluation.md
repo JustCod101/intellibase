@@ -149,3 +149,40 @@ JAVA_HOME=$(/usr/libexec/java_home -v 17.0.18) \
 | hybrid-rerank-query-rewrite | 100.00% | 95.28% | 100.00% | 100.00% | 93.75% | deterministic rewrite 模拟检索友好 query |
 
 补充实现细节：PostgreSQL sparse recall 使用应用层 tokenizer 预分词，`buildLexicalQuery` 生成 OR 型 `tsquery`（`token1 | token2 | ...`），避免 `plainto_tsquery` 对长问题做全 AND 匹配导致粗召回过窄；精排阶段再用 RRF / rerank 控制噪声。
+
+## 8. Real API 版本对比 Runner
+
+已新增 `RealApiRetrievalEvaluationIT`，用于生成可写入 README/简历的真实质量数字。它会：
+
+1. 使用 `golden_qa.jsonl` 的 reference answer / keywords 构建 60 条评测语料；
+2. 通过配置的真实 embedding API 生成 chunk 向量和 query 向量；
+3. 在真实 PostgreSQL/pgvector 上依次运行 dense-only、hybrid RRF、local rerank；
+4. 如果配置 `RAG_RERANK_API_URL` / `RAG_RERANK_API_KEY`，追加 external rerank 场景；
+5. 如果开启 `RAG_QUERY_REWRITE_ENABLED=true`，追加真实 LLM query rewrite 场景；
+6. 输出 `target/evaluation/real-api-comparison-report.md`、`real-api-comparison-metrics.json` 和每个版本的 run JSONL。
+
+运行命令示例：
+
+```bash
+docker run -d --name intellibase-real-eval-postgres \
+  -e POSTGRES_DB=intellibase -e POSTGRES_USER=postgres -e POSTGRES_PASSWORD=postgres \
+  -p 55437:5432 \
+  -v "$PWD/sql/schema.sql:/docker-entrypoint-initdb.d/01-schema.sql:ro" \
+  pgvector/pgvector:pg16
+
+export OPENAI_API_KEY=sk-xxx
+export OPENAI_BASE_URL=https://api.openai.com/v1
+export RAG_QUERY_REWRITE_ENABLED=true
+# 可选：真实 rerank API
+# export RAG_RERANK_API_URL=https://api.siliconflow.cn/v1/rerank
+# export RAG_RERANK_API_KEY=sk-xxx
+# export RAG_RERANK_EXTERNAL_ENABLED=true
+
+JAVA_HOME=$(/usr/libexec/java_home -v 17.0.18) \
+  mvn -pl intellibase-server \
+  -Dtest=RealApiRetrievalEvaluationIT \
+  -Devaluation.real-api.enabled=true \
+  -Dspring.datasource.url=jdbc:postgresql://127.0.0.1:55437/intellibase test
+```
+
+注意：该 runner 会真实消耗 embedding / LLM / rerank API quota。只有把本 runner 的原始输出复制到 `benchmarks/raw-results/real-api-evaluation-*.md/json` 后，才允许把对应 Recall@5 / MRR / Hit Rate 写入 README 或简历。

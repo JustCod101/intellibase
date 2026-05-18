@@ -271,6 +271,7 @@ JAVA_HOME=$(/usr/libexec/java_home -v 17.0.18) mvn -Dtest=RetrievalEvaluationTes
 
 - `DbBackedRetrievalEvaluationIT`：真实 PostgreSQL/pgvector + seeded deterministic corpus，已验证 Recall@5/MRR/Hit Rate = 100.00%（仅证明 DB-backed runner 可用）。
 - `VersionedRetrievalEvaluationIT`：同库切换 dense-only / hybrid RRF / local rerank / query rewrite 配置，seeded matrix 结果为 0.00% → 98.33% → 98.33% → 100.00% Recall@5，原始文件见 `benchmarks/raw-results/versioned-evaluation-report-20260518-232618.md`。
+- `RealApiRetrievalEvaluationIT`：真实 embedding API + PostgreSQL/pgvector 的版本对比 runner，可选接入真实 query rewrite / external rerank API；默认关闭，运行命令见 `docs/evaluation.md`。
 
 以上 seeded 结果不作为真实线上质量 claim；真实文档 + 真实 embedding + 外部 rerank API 的版本对比会追加到 [docs/evaluation.md](docs/evaluation.md)。
 
