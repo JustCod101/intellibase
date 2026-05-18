@@ -94,7 +94,8 @@
 | `JAVA_HOME=$(/usr/libexec/java_home -v 17.0.18) mvn -pl intellibase-server test` | 91 tests, 0 failures, 0 errors, 0 skipped | 本地单元/默认集成测试通过 |
 | `node benchmarks/scripts/verify-benchmark-artifacts.mjs --strict` | `strict_verifier_exit=1`；已有 raw result 通过内容校验，但缺 `real API retrieval matrix` 与 `real SSE k6 benchmark` | 总目标不能完成 |
 | `benchmarks/scripts/real-benchmark-preflight.sh` | 真实 API retrieval / SSE k6 运行前环境预检；只查本地配置，不触网 | 降低真实运行前置条件遗漏风险 |
-| `benchmarks/scripts/final-acceptance-gate.sh` | 新增最终门禁：单测、脚本语法、golden QA 数量、strict artifact verifier；当前因同样两个真实 artifact 缺失而失败 | 总目标不能完成 |
+| `benchmarks/scripts/check-claim-hygiene.sh` | README/简历模板 claim hygiene 检查：禁止旧裸 claim，要求 seeded/mock/DB-only 前提说明 | 防止最终文档回归到不可复现表述 |
+| `benchmarks/scripts/final-acceptance-gate.sh` | 新增最终门禁：claim hygiene、单测、脚本语法、golden QA 数量、strict artifact verifier；当前因同样两个真实 artifact 缺失而失败 | 总目标不能完成 |
 | `find docs/adr -name '*.md'` | 3 个 ADR：评测先行、性能数据、现代 RAG/缓存 | ADR 要求已有最小覆盖 |
 | `find . -maxdepth 4 -type f \( -name '*.py' -o -name 'requirements.txt' \)` | 仅发现旧的 `intellibase-server/scripts/system_test/*` 测试脚本 | 未发现新增 Python 服务；运行时仍为 Java app + 基础设施 |
 
@@ -158,7 +159,8 @@ benchmarks/scripts/final-acceptance-gate.sh
 1. JDK 可用性检查；
 2. `golden_qa.jsonl` 数量必须在 50–100；
 3. benchmark shell / Node.js 脚本语法检查；
-4. `mvn -pl intellibase-server test`；
-5. `node benchmarks/scripts/verify-benchmark-artifacts.mjs --strict`。
+4. `benchmarks/scripts/check-claim-hygiene.sh`，防止 README/简历模板出现未证实性能 claim；
+5. `mvn -pl intellibase-server test`；
+6. `node benchmarks/scripts/verify-benchmark-artifacts.mjs --strict`。
 
 在真实 API retrieval matrix 与真实 SSE k6 benchmark raw result 缺失前，该脚本必须失败，不能作为完成信号。

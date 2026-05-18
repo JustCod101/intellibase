@@ -39,12 +39,15 @@ fi
 run bash -n benchmarks/scripts/run-real-api-evaluation.sh
 run bash -n benchmarks/scripts/run-real-chat-stream-k6.sh
 run bash -n benchmarks/scripts/real-benchmark-preflight.sh
+run bash -n benchmarks/scripts/check-claim-hygiene.sh
 run bash -n benchmarks/scripts/final-acceptance-gate.sh
 run node --check benchmarks/scripts/generate-benchmark-jwt.mjs
 run node --check benchmarks/scripts/generate-realtext-pgvector-fixtures.mjs
 run node --check benchmarks/scripts/k6-chat-stream.js
 run node --check benchmarks/scripts/mock-openai-server.mjs
 run node --check benchmarks/scripts/verify-benchmark-artifacts.mjs
+
+run benchmarks/scripts/check-claim-hygiene.sh
 
 run mvn -pl intellibase-server test
 

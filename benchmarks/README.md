@@ -17,8 +17,9 @@
 | `scripts/run-real-api-evaluation.sh` | 真实 embedding / 可选 rewrite / rerank 的质量评测一键 runner |
 | `scripts/run-real-chat-stream-k6.sh` | 真实 `/api/v1/chat/stream` k6 一键 runner |
 | `scripts/real-benchmark-preflight.sh` | 真实质量评测 / SSE k6 的本地环境预检；不触网、不生成结果 |
+| `scripts/check-claim-hygiene.sh` | 检查 README/简历模板是否出现未证实旧性能 claim，防止 mock/seeded 结果被写成真实指标 |
 | `scripts/verify-benchmark-artifacts.mjs` | 检查 raw-results 是否覆盖验收所需 artifact 类别，并对最新文件做关键内容校验；`--strict` 缺失或内容不合格时返回非零 |
-| `scripts/final-acceptance-gate.sh` | 最终本地验收门禁：单测、脚本语法、golden set 数量和 strict artifact verifier |
+| `scripts/final-acceptance-gate.sh` | 最终本地验收门禁：claim hygiene、单测、脚本语法、golden set 数量和 strict artifact verifier |
 | `raw-results/` | 保存每次压测原始输出，禁止只贴结论 |
 
 ## 前置条件
@@ -221,7 +222,7 @@ benchmarks/scripts/real-benchmark-preflight.sh all
 benchmarks/scripts/final-acceptance-gate.sh
 ```
 
-`real-benchmark-preflight.sh` 只检查本地环境变量和 runner 可用性，不调用外部 API；`final-acceptance-gate.sh` 会检查 JDK/Maven 单测、脚本语法、golden QA 数量，并以 `verify-benchmark-artifacts.mjs --strict` 作为硬门禁。当前在真实 API retrieval matrix 和真实 SSE k6 raw result 缺失时会故意失败。
+`real-benchmark-preflight.sh` 只检查本地环境变量和 runner 可用性，不调用外部 API；`final-acceptance-gate.sh` 会检查 README/简历 claim hygiene、JDK/Maven 单测、脚本语法、golden QA 数量，并以 `verify-benchmark-artifacts.mjs --strict` 作为硬门禁。当前在真实 API retrieval matrix 和真实 SSE k6 raw result 缺失时会故意失败。
 
 ## 当前状态
 
