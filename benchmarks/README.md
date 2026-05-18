@@ -16,7 +16,7 @@
 | `scripts/k6-chat-stream.js` | SSE `/api/v1/chat/stream` 端到端压测脚本 |
 | `scripts/run-real-api-evaluation.sh` | 真实 embedding / 可选 rewrite / rerank 的质量评测一键 runner |
 | `scripts/run-real-chat-stream-k6.sh` | 真实 `/api/v1/chat/stream` k6 一键 runner |
-| `scripts/verify-benchmark-artifacts.mjs` | 检查 raw-results 是否覆盖验收所需 artifact 类别；`--strict` 缺失时返回非零 |
+| `scripts/verify-benchmark-artifacts.mjs` | 检查 raw-results 是否覆盖验收所需 artifact 类别，并对最新文件做关键内容校验；`--strict` 缺失或内容不合格时返回非零 |
 | `scripts/final-acceptance-gate.sh` | 最终本地验收门禁：单测、脚本语法、golden set 数量和 strict artifact verifier |
 | `raw-results/` | 保存每次压测原始输出，禁止只贴结论 |
 
@@ -196,7 +196,7 @@ node benchmarks/scripts/verify-benchmark-artifacts.mjs
 node benchmarks/scripts/verify-benchmark-artifacts.mjs --strict
 ```
 
-该检查只验证 raw result 文件类别是否齐全，不会证明数字本身合理；发布前仍需人工核对每个原始文件的模型、供应商、硬件、数据规模和命令。
+该检查会验证 raw result 文件类别是否齐全，并检查最新文件中是否包含关键规模/指标/场景证据（例如 100000 chunks、P50/P95/P99、hybrid/rerank/rewrite 场景、k6 thresholds）。它仍不会证明数字本身合理；发布前仍需人工核对每个原始文件的模型、供应商、硬件、数据规模和命令。
 
 ## 7. 最终验收门禁
 

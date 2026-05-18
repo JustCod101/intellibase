@@ -24,4 +24,13 @@ mock 结果只能证明压测链路和应用内开销，不能作为真实 LLM/E
 versioned evaluation 结果只能证明评测矩阵和检索链路回归断言，不代表真实 embedding / 真实 rerank API / 真实 query rewrite 质量。
 real-api evaluation 可以作为质量指标来源，但必须同时记录 API vendor/model、数据集、PostgreSQL 版本、硬件和运行命令。
 
+`benchmarks/scripts/verify-benchmark-artifacts.mjs` 不只检查文件名，也会对每类最新 raw result 做最低限度内容校验：
+
+- 10 万 fixture 文件必须包含 100000 行导入/生成证据。
+- pgvector latency 文件必须包含 P50/P95/P99 与 200 次采样场景。
+- versioned evaluation 必须包含 baseline / hybrid / rerank / rewrite 四类场景，并标注 seeded deterministic。
+- k6 文件必须包含 thresholds、失败率和流式延迟指标。
+
+该校验是最终验收门禁的一部分，但不能替代人工确认供应商、模型、硬件、并发和原始命令。
+
 未运行真实压测前，不在 README 或简历中写实测性能数字。
