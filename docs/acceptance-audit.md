@@ -132,7 +132,7 @@
 | `benchmarks/` | 脚本与 raw-results 存在 | 部分满足：真实 API/k6 raw result 缺失 |
 | `docs/resume-snippet.md` 去虚化带前提 | 文件存在，明确不要夸大 seeded/mock | 部分满足：缺真实 API 指标后只能作为保守模板 |
 | docker compose / `.env` 暴露真实 rewrite/rerank 配置 | `.env.example`、`docker-compose.yml`、`benchmarks/README.md` | 已满足：真实 k6 前可通过环境变量启用外部 rewrite/rerank |
-| embedding 模型/维度可复现配置 | `EMBEDDING_MODEL_NAME`、`EMBEDDING_DIMENSIONS`、`application.yml`、`application-docker.yml`、runner metadata | 已满足：真实质量/性能结果会记录 embedding 前提 |
+| embedding 模型/维度可复现配置 | `EMBEDDING_MODEL_NAME`、`EMBEDDING_DIMENSIONS`、`application.yml`、`application-docker.yml`、runner metadata、`EmbeddingServiceTest` 维度保护用例 | 已满足：真实质量/性能结果会记录 embedding 前提；启动时校验必须匹配 `vector(1536)` schema |
 
 ### 9.4 不能完成的阻塞项
 

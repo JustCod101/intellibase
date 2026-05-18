@@ -73,4 +73,27 @@ class EmbeddingServiceTest {
         String str = EmbeddingService.toVectorString(vector);
         assertEquals("[0.1,-0.5,0.0]", str);
     }
+
+    @Test
+    @DisplayName("配置校验 - embedding 维度匹配 pgvector schema")
+    void validateDimensions_WhenMatched_DoesNotThrow() {
+        ReflectionTestUtils.setField(embeddingService, "dimensions", 1536);
+        ReflectionTestUtils.setField(embeddingService, "schemaDimensions", 1536);
+
+        assertDoesNotThrow(() -> embeddingService.validateDimensions());
+    }
+
+    @Test
+    @DisplayName("配置校验 - embedding 维度必须匹配 pgvector schema")
+    void validateDimensions_WhenMismatch_Throws() {
+        ReflectionTestUtils.setField(embeddingService, "dimensions", 1024);
+        ReflectionTestUtils.setField(embeddingService, "schemaDimensions", 1536);
+
+        IllegalStateException exception = assertThrows(
+                IllegalStateException.class,
+                () -> embeddingService.validateDimensions()
+        );
+
+        assertTrue(exception.getMessage().contains("vector(N) schema migration"));
+    }
 }

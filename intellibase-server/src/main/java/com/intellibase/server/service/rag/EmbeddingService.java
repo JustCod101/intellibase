@@ -37,6 +37,10 @@ public class EmbeddingService {
     @Value("${embedding.dimensions}")
     private int dimensions;
 
+    // 当前 SQL schema 固定为 vector(1536)；如果未来迁移 schema，可同步调整该值。
+    @Value("${embedding.schema-dimensions:1536}")
+    private int schemaDimensions;
+
     // LangChain4j 提供的统一模型接口
     private EmbeddingModel embeddingModel;
 
@@ -45,6 +49,7 @@ public class EmbeddingService {
      */
     @PostConstruct
     public void init() {
+        validateDimensions();
         this.embeddingModel = OpenAiEmbeddingModel.builder()
                 .apiKey(apiKey)
                 .baseUrl(baseUrl)
@@ -52,6 +57,14 @@ public class EmbeddingService {
                 .dimensions(dimensions)
                 .build();
         log.info("EmbeddingService 初始化完成: 使用模型={}, 维度={}", modelName, dimensions);
+    }
+
+    void validateDimensions() {
+        if (dimensions != schemaDimensions) {
+            throw new IllegalStateException("Embedding dimensions (" + dimensions
+                    + ") must match PostgreSQL pgvector schema dimension (" + schemaDimensions
+                    + "). Update EMBEDDING_DIMENSIONS only together with a vector(N) schema migration.");
+        }
     }
 
     /**

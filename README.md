@@ -95,6 +95,7 @@ OPENAI_API_KEY=sk-xxxx
 OPENAI_BASE_URL=https://api.openai.com/v1
 LLM_MODEL_NAME=gpt-4o-mini
 EMBEDDING_MODEL_NAME=text-embedding-v4
+# 必须与 PostgreSQL schema 中的 vector(1536) 一致；更换维度需同时做 schema migration。
 EMBEDDING_DIMENSIONS=1536
 
 # Query rewrite / HyDE（默认关闭，真实评测或压测时按需开启）
