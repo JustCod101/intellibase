@@ -6,10 +6,8 @@ import type { ApiResponse, PageResult, AdminUser, CacheLevelStats } from '../typ
 import '../styles/admin.css';
 
 interface CacheStatsData {
-  l0_local_cache: CacheLevelStats;
   l1_semantic_cache: CacheLevelStats;
   l2_retrieval_cache: CacheLevelStats;
-  l3_chunk_cache: CacheLevelStats;
   db_queries: number;
   overall_cache_hit_rate: string;
 }
@@ -204,10 +202,8 @@ const AdminUsers: React.FC = () => {
           <div className="loading-text">加载中...</div>
         ) : cacheStats ? (
           <div className="cache-grid">
-            <CacheCard label="L0 本地缓存" data={cacheStats.l0_local_cache} color="#f59e0b" />
             <CacheCard label="L1 语义缓存" data={cacheStats.l1_semantic_cache} color="#3b82f6" />
             <CacheCard label="L2 检索缓存" data={cacheStats.l2_retrieval_cache} color="#8b5cf6" />
-            <CacheCard label="L3 文档缓存" data={cacheStats.l3_chunk_cache} color="#10b981" />
             <div className="cache-summary-card">
               <div className="cache-summary-item">
                 <span className="cache-summary-label">整体命中率</span>

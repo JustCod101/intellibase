@@ -2,10 +2,7 @@ package com.intellibase.server.service.rag;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.github.benmanes.caffeine.cache.Cache;
-import com.github.benmanes.caffeine.cache.Caffeine;
 import com.intellibase.server.domain.vo.RetrievalResult;
-import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -23,10 +20,9 @@ import java.util.concurrent.TimeUnit;
 /**
  * 【二级缓存】检索结果缓存服务 (L2 Retrieval Cache Service)
  * <p>
- * 缓存层级：L0 (Caffeine JVM本地) → L2 (Redis)
+ * 缓存层级：L2 (Redis)
  * <p>
- * L0 本地缓存拦截在 Redis 之前，对于近期最热的查询可以做到零网络延迟返回。
- * L2 Redis 缓存作为跨实例共享的二级缓存，保证多实例部署时的缓存一致性。
+ * Redis 缓存作为跨实例共享的检索结果缓存，避免 L0 本地缓存导致多实例一致性和失效复杂度。
  */
 @Slf4j
 @Service
@@ -35,57 +31,26 @@ public class RetrievalCacheService {
 
     private final StringRedisTemplate redisTemplate;
     private final ObjectMapper objectMapper;
-    private final CacheStatsService cacheStatsService;
 
     private static final String KEY_PREFIX = "retrieval_cache:";
 
     @Value("${rag.l2-retrieval-cache-ttl-minutes:30}")
     private int ttlMinutes;
 
-    @Value("${rag.l0-local-cache-ttl-minutes:10}")
-    private int l0TtlMinutes;
-
-    @Value("${rag.l0-local-cache-max-size:1000}")
-    private int l0MaxSize;
-
     @Value("${rag.hybrid.pipeline-version:1}")
     private int pipelineVersion;
 
-    /** L0: JVM 进程内 Caffeine 本地缓存，Key 格式同 Redis Key */
-    private Cache<String, List<RetrievalResult>> localCache;
-
-    @PostConstruct
-    public void init() {
-        localCache = Caffeine.newBuilder()
-                .maximumSize(l0MaxSize)
-                .expireAfterWrite(l0TtlMinutes, TimeUnit.MINUTES)
-                .build();
-        log.info("L0 本地检索缓存已初始化: maxSize={}, ttl={}min", l0MaxSize, l0TtlMinutes);
-    }
-
     /**
-     * 尝试获取缓存的检索结果：L0 (Caffeine) → L2 (Redis)
+     * 尝试获取缓存的检索结果：L2 (Redis)
      */
     public Optional<List<RetrievalResult>> tryGetCachedResults(String query, Long kbId, String configHash) {
         String key = buildKey(query, kbId, configHash);
 
-        // L0: 先查 JVM 本地缓存（零网络延迟）
-        List<RetrievalResult> l0Result = localCache.getIfPresent(key);
-        if (l0Result != null) {
-            cacheStatsService.recordL0Hit();
-            log.debug("L0 本地检索缓存命中: key={}", key);
-            return Optional.of(l0Result);
-        }
-        cacheStatsService.recordL0Miss();
-
-        // L2: 本地没有，查 Redis
         try {
             String json = redisTemplate.opsForValue().get(key);
             if (json != null) {
                 List<RetrievalResult> results = objectMapper.readValue(
                         json, new TypeReference<List<RetrievalResult>>() {});
-                // 回填 L0 本地缓存
-                localCache.put(key, results);
                 log.debug("L2 检索缓存命中: key={}", key);
                 return Optional.of(results);
             }
@@ -96,13 +61,10 @@ public class RetrievalCacheService {
     }
 
     /**
-     * 写入检索结果缓存：同时写入 L0 (Caffeine) 和 L2 (Redis)
+     * 写入检索结果缓存：L2 (Redis)
      */
     public void cacheResults(String query, Long kbId, String configHash, List<RetrievalResult> results) {
         String key = buildKey(query, kbId, configHash);
-
-        // 写入 L0 本地缓存
-        localCache.put(key, results);
 
         // 写入 L2 Redis
         try {
@@ -115,13 +77,9 @@ public class RetrievalCacheService {
     }
 
     /**
-     * 清除指定知识库的所有检索缓存（L0 + L2）
+     * 清除指定知识库的所有检索缓存（L2）
      */
     public void invalidateByKbId(Long kbId) {
-        // L0: 清除本地缓存中属于该知识库的条目
-        String prefix = KEY_PREFIX + kbId + ":";
-        localCache.asMap().keySet().removeIf(key -> key.startsWith(prefix));
-
         // L2: 清除 Redis
         try {
             String pattern = KEY_PREFIX + kbId + ":*";
