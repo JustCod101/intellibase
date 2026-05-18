@@ -104,6 +104,8 @@ const checks = [
         ...[
           [/Real API Retrieval Evaluation/, 'must be a real API evaluation report'],
           [/Real API Evaluation Run Metadata/, 'must include run metadata with model/vendor/config context'],
+          [/embedding_model/, 'must include embedding model metadata'],
+          [/embedding_dimensions/, 'must include embedding dimension metadata'],
           [/baseline-dense-only/, 'must include baseline scenario'],
           [/hybrid-rrf/, 'must include hybrid scenario'],
           [/Recall@5/, 'must include Recall@5 metric'],
@@ -126,6 +128,8 @@ const checks = [
           [/Real SSE k6 Run Metadata/, 'must include run metadata with concurrency/model/config context'],
           [/vus\s*\|/, 'must include VUS metadata'],
           [/duration\s*\|/, 'must include duration metadata'],
+          [/embedding_model/, 'must include embedding model metadata'],
+          [/embedding_dimensions/, 'must include embedding dimension metadata'],
           [/THRESHOLDS/, 'must include k6 thresholds'],
           [/rag_stream_latency/, 'must include custom stream latency metric'],
           [/http_req_duration[\s\S]*p\(95\)/, 'must include HTTP p95 latency'],

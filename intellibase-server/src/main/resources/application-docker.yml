@@ -35,6 +35,8 @@ llm:
 embedding:
   api-key: ${OPENAI_API_KEY}
   base-url: ${OPENAI_BASE_URL}
+  model-name: ${EMBEDDING_MODEL_NAME:text-embedding-v4}
+  dimensions: ${EMBEDDING_DIMENSIONS:1536}
 
 management:
   endpoints:

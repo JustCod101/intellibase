@@ -99,8 +99,8 @@ rag:
 embedding:
   api-key: ${OPENAI_API_KEY:test-openai-key}
   base-url: ${OPENAI_BASE_URL:http://localhost:11434/v1}
-  model-name: text-embedding-v4
-  dimensions: 1536
+  model-name: ${EMBEDDING_MODEL_NAME:text-embedding-v4}
+  dimensions: ${EMBEDDING_DIMENSIONS:1536}
 
 ocr:
   enabled: ${OCR_ENABLED:true}

@@ -54,6 +54,8 @@ fi
   echo "| sleep_seconds | ${SLEEP_SECONDS:-1} |"
   echo "| openai_base_url | ${OPENAI_BASE_URL:-not_captured_by_runner} |"
   echo "| llm_model | ${LLM_MODEL_NAME:-not_captured_by_runner} |"
+  echo "| embedding_model | ${EMBEDDING_MODEL_NAME:-not_captured_by_runner} |"
+  echo "| embedding_dimensions | ${EMBEDDING_DIMENSIONS:-not_captured_by_runner} |"
   echo "| query_rewrite_enabled | ${RAG_QUERY_REWRITE_ENABLED:-not_captured_by_runner} |"
   echo "| hyde_enabled | ${RAG_HYDE_ENABLED:-not_captured_by_runner} |"
   echo "| rerank_external_enabled | ${RAG_RERANK_EXTERNAL_ENABLED:-not_captured_by_runner} |"

@@ -55,8 +55,11 @@ mvn_args=(
   -Dspring.datasource.url="${SPRING_DATASOURCE_URL}"
   -Dembedding.api-key="${OPENAI_API_KEY}"
   -Dembedding.base-url="${OPENAI_BASE_URL}"
+  -Dembedding.model-name="${EMBEDDING_MODEL_NAME:-text-embedding-v4}"
+  -Dembedding.dimensions="${EMBEDDING_DIMENSIONS:-1536}"
   -Dllm.api-key="${OPENAI_API_KEY}"
   -Dllm.base-url="${OPENAI_BASE_URL}"
+  -Dllm.model-name="${LLM_MODEL_NAME:-gpt-4o-mini}"
 )
 
 if [[ -n "${RAG_QUERY_REWRITE_ENABLED:-}" ]]; then
@@ -107,6 +110,7 @@ cp intellibase-server/target/evaluation/real-api-comparison-metrics.json \
   echo "| openai_base_url | ${OPENAI_BASE_URL} |"
   echo "| openai_api_key_set | yes |"
   echo "| embedding_model | ${EMBEDDING_MODEL_NAME:-text-embedding-v4} |"
+  echo "| embedding_dimensions | ${EMBEDDING_DIMENSIONS:-1536} |"
   echo "| llm_model | ${LLM_MODEL_NAME:-gpt-4o-mini} |"
   echo "| query_rewrite_enabled | ${RAG_QUERY_REWRITE_ENABLED:-false} |"
   echo "| hyde_enabled | ${RAG_HYDE_ENABLED:-false} |"
