@@ -37,7 +37,7 @@ required_readme_patterns=(
   '所有性能数字必须能追溯到'
   'seeded 结果不作为真实线上质量 claim'
   '不包含 HTTP、真实 Embedding、真实 Rerank、真实 LLM'
-  '真实 P50/P95/P99 需按 `benchmarks/scripts/run-real-chat-stream-k6.sh` 接真实 API 后再填写'
+  'SSE 真实端到端结果使用 seeded benchmark KB、query rewrite/HyDE 关闭、external rerank 开启'
 )
 
 for pattern in "${required_readme_patterns[@]}"; do
@@ -51,7 +51,7 @@ required_resume_patterns=(
   '当前可量化口径（不要夸大）'
   '不作为真实 embedding / 外部 rerank API 质量 claim'
   'deterministic fixture vector'
-  '真实 LLM/Embedding/Rerank 延迟仍需接真实 API 后填写'
+  '真实端到端在 5 VUs/1m/220 requests'
 )
 
 for pattern in "${required_resume_patterns[@]}"; do

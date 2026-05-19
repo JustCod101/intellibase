@@ -178,9 +178,12 @@ const checks = [
           [/duration\s*\|/, 'must include duration metadata'],
           [/embedding_model/, 'must include embedding model metadata'],
           [/embedding_dimensions/, 'must include embedding dimension metadata'],
+          [/rerank_external_enabled\s*\|\s*true/, 'must record external rerank enabled for the real SSE run'],
           [/THRESHOLDS/, 'must include k6 thresholds'],
           [/rag_stream_latency/, 'must include custom stream latency metric'],
           [/http_req_duration[\s\S]*p\(95\)/, 'must include HTTP p95 latency'],
+          [/http_req_duration[\s\S]*p\(99\)/, 'must include HTTP p99 latency'],
+          [/rag_stream_latency[\s\S]*p\(99\)/, 'must include stream p99 latency'],
           [/http_req_failed[\s\S]*0\.00%/, 'must have zero HTTP failures in saved run'],
         ].filter(([pattern]) => !pattern.test(content)).map(([, message]) => message),
         ...validateJsonCompanion(files, `k6-chat-stream-real-summary-${ts}.json`, (json) => {

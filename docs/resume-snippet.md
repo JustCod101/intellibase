@@ -21,7 +21,7 @@ IntelliBase 是一个基于 Spring Boot 3.2、LangChain4j、PostgreSQL/pgvector�
 - RealApiRetrievalEvaluationIT：真实 `text-embedding-v4` + PostgreSQL/pgvector + DashScope `qwen3-rerank` + LLM-as-judge 已跑通；60 条 golden QA 下 dense-only / hybrid RRF / local rerank / external rerank 的 Recall@5 均为 100.00%，MRR 为 94.64% / 98.33% / 99.17% / 98.06%。前提：golden QA 语料，不代表生产流量；raw result `benchmarks/raw-results/real-api-evaluation-report-20260519-035801.md`。
 - pgvector 基准：100,000 条 1536 维向量 fixture；HNSW Top-20（`ef_search=40`）单查询 `EXPLAIN ANALYZE` 0.426ms；200 次采样 HNSW Top-20 P50/P95/P99 = 0.189/0.290/1.039ms；IVFFlat(`lists=100, probes=20`) 单查询 150.876ms。前提：本机 Docker PostgreSQL 16 + pgvector，不含 HTTP/Embedding/Rerank/LLM。
 - real-text 数据规模：已提供从仓库真实代码/文档/SQL 切分并平铺到 100,000 chunks 的脚本，实测导入 57.040s；去重 chunk 文本 708 个，向量仍为 deterministic fixture vector，因此只作为规模/索引压测数据，不作为语义质量证明。
-- SSE 压测：mock OpenAI-compatible API 下 1 VU/5s/500 chunks 链路已跑通，`http_req_failed=0%`；真实 LLM/Embedding/Rerank 延迟仍需接真实 API 后填写。
+- SSE 压测：mock OpenAI-compatible API 下 1 VU/5s/500 chunks 链路已跑通，`http_req_failed=0%`；真实端到端在 5 VUs/1m/220 requests、DashScope-compatible `qwen3.6-plus` + `text-embedding-v4` + `qwen3-rerank`、seeded benchmark KB、query rewrite/HyDE 关闭前提下，`http_req_failed=0%`，流式延迟 P50/P95/P99 = 203.5ms/1.613s/2.627s（raw `benchmarks/raw-results/k6-chat-stream-real-20260519-163217.txt`）。
 
 ## 面试展开点
 

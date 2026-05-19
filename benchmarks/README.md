@@ -170,12 +170,15 @@ export EVALUATION_LLM_JUDGE_CONCURRENCY=4
 benchmarks/scripts/run-real-api-evaluation.sh
 ```
 
-真实 SSE 端到端压测前，先用真实 `OPENAI_BASE_URL` / `OPENAI_API_KEY` / `RAG_RERANK_API_URL` / `RAG_RERANK_API_KEY` 启动 IntelliBase，并准备好 `AUTH_TOKEN`、`CONVERSATION_ID`。然后运行：
+真实 SSE 端到端压测前，先用真实 `OPENAI_BASE_URL` / `OPENAI_API_KEY` / `RAG_RERANK_API_URL` / `RAG_RERANK_API_KEY` 启动 IntelliBase，并准备好 `AUTH_TOKEN`、`CONVERSATION_ID`。如果没有现成用户/会话，可在应用数据库可访问时先 seed benchmark 用户、KB、文档块、会话并生成 JWT：
 
 ```bash
 # 可以直接写入仓库根目录 .env；runner/preflight 会自动加载 .env。
 # 也可以用 export 覆盖当前 shell 环境。
 
+benchmarks/scripts/prepare-real-sse-benchmark-env.sh
+
+# prepare 脚本默认写入 .env.real-sse；preflight/runner 会自动加载它。
 benchmarks/scripts/real-benchmark-preflight.sh sse
 
 benchmarks/scripts/run-real-chat-stream-k6.sh
@@ -219,7 +222,7 @@ benchmarks/scripts/real-benchmark-preflight.sh all
 benchmarks/scripts/final-acceptance-gate.sh
 ```
 
-`real-benchmark-preflight.sh` 只检查本地环境变量和 runner 可用性，不调用外部 API；`final-acceptance-gate.sh` 会检查 README/简历 claim hygiene、JDK/Maven 单测、脚本语法、golden QA 数量，并以 `verify-benchmark-artifacts.mjs --strict` 作为硬门禁。当前在真实 API retrieval matrix 和真实 SSE k6 raw result 缺失时会故意失败。
+`real-benchmark-preflight.sh` 只检查本地环境变量和 runner 可用性，不调用外部 API；`final-acceptance-gate.sh` 会检查 README/简历 claim hygiene、JDK/Maven 单测、脚本语法、golden QA 数量，并以 `verify-benchmark-artifacts.mjs --strict` 作为硬门禁。当前要求真实 API retrieval matrix 和真实 SSE k6 raw result 都存在；缺失任一类时会故意失败。
 
 ## 当前状态
 
@@ -228,5 +231,5 @@ benchmarks/scripts/final-acceptance-gate.sh
 - 已有 real-text fixture 10 万导入结果：是，`raw-results/realtext-generate-100k-20260518-231500.txt`（100000 chunks，196 个源码/文档文件，708 个去重 chunk 文本；导入耗时 57.040s，向量为 deterministic fixture vector）。
 - 已有 SSE 冒烟结果：是，`raw-results/sse-smoke-mock-500chunks-20260518-230700.txt` 证明 mock API 下链路可跑通。
 - 已有 mock 端到端 k6 SSE 压测结果：是，`raw-results/k6-chat-stream-mock-1vu-500chunks-20260518-231000.txt`（1 VU / 5s / 500 chunks / mock API，仅验证链路与脚本）。
-- 已有真实 LLM/Embedding/Rerank 端到端 k6 SSE 压测结果：否；需按 5.3 指向真实 API 后运行并落盘。
+- 已有真实 LLM/Embedding/Rerank 端到端 k6 SSE 压测结果：是，`raw-results/k6-chat-stream-real-20260519-163217.txt`（5 VUs / 1m / 220 requests / DashScope-compatible `qwen3.6-plus` + `text-embedding-v4` + `qwen3-rerank` / seeded benchmark KB；`http_req_failed=0%`，流式延迟 P50/P95/P99 = 203.5ms/1.613s/2.627s）。
 - README/简历只能引用已保存到 `raw-results/` 的数字；端到端延迟在 k6 结果生成前不得写成“已实测”。

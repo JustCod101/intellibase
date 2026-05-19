@@ -115,7 +115,7 @@ JAVA_HOME=$(/usr/libexec/java_home -v 17.0.18) \
 - `intellibase-server/target/evaluation/db-backed-current-metrics.json`
 - `intellibase-server/target/evaluation/db-backed-current-run.jsonl`
 
-本机验证结果（2026-05-18，独立 `pgvector/pgvector:pg16` 容器，seeded deterministic corpus）：Recall@5 / MRR / Hit Rate 均为 100.00%。该结果只证明 DB-backed runner 能真实调用 RetrievalService + PostgreSQL/pgvector；真实文档和真实 embedding 的版本对比仍需继续补充。
+本机验证结果（2026-05-18，独立 `pgvector/pgvector:pg16` 容器，seeded deterministic corpus）：Recall@5 / MRR / Hit Rate 均为 100.00%。该结果只证明 DB-backed runner 能真实调用 RetrievalService + PostgreSQL/pgvector；真实 embedding / external rerank 的质量数字以第 8 节 RealApiRetrievalEvaluationIT 和 raw-results 报告为准。
 
 后续要把 baseline → +hybrid → +rerank → +query rewrite 的提升幅度复现，需要：
 
@@ -201,3 +201,21 @@ benchmarks/scripts/run-real-api-evaluation.sh
 ```
 
 注意：`real-benchmark-preflight.sh` 只做本地环境预检，不调用外部 API；真正的 runner 会真实消耗 embedding / LLM / rerank API quota。只有把本 runner 的原始输出复制到 `benchmarks/raw-results/real-api-evaluation-*.md/json` 后，才允许把对应 Recall@5 / MRR / Hit Rate 写入 README 或简历。本仓库当前真实 API 结果为 `benchmarks/raw-results/real-api-evaluation-report-20260519-035801.md`。
+
+## 9. 真实 SSE k6 前置数据
+
+`run-real-chat-stream-k6.sh` 需要一个可访问的 IntelliBase 实例、一个 bearer token，以及一个绑定到已填充知识库的 conversation。若没有现成数据，可先启动应用依赖和应用，再在同一数据库中 seed benchmark 数据：
+
+```bash
+# 应用和 PostgreSQL 已启动后执行；默认优先使用 docker compose postgres，
+# 也支持 DATABASE_URL 或 DB_HOST/DB_PORT/DB_USERNAME/DB_PASSWORD/DB_NAME。
+benchmarks/scripts/prepare-real-sse-benchmark-env.sh
+
+# 脚本生成 .env.real-sse，preflight 和 k6 runner 会自动加载。
+benchmarks/scripts/real-benchmark-preflight.sh sse
+benchmarks/scripts/run-real-chat-stream-k6.sh
+```
+
+该 seed 脚本只准备压测账号、KB、文档块、conversation 和 JWT，不调用 LLM/Embedding/Rerank API；真实 token 流式调用发生在 k6 runner 中。
+
+当前已落盘真实 SSE 结果：`benchmarks/raw-results/k6-chat-stream-real-20260519-163217.txt`。前提为 5 VUs / 1m / 220 requests，Docker k6 → IntelliBase app → DashScope-compatible `qwen3.6-plus` + `text-embedding-v4` + `qwen3-rerank`，seeded benchmark KB，query rewrite/HyDE 关闭，external rerank 开启；`http_req_failed=0%`，流式延迟 P50/P95/P99 = 203.5ms/1.613s/2.627s。

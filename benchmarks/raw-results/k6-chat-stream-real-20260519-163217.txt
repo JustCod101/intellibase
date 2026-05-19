@@ -1,0 +1,284 @@
+# Real SSE k6 Run Metadata
+
+| Field | Value |
+|---|---|
+| timestamp | 20260519-163217 |
+| command | benchmarks/scripts/run-real-chat-stream-k6.sh |
+| os | Darwin Mac-mini.local 25.5.0 Darwin Kernel Version 25.5.0: Mon Apr 27 20:41:26 PDT 2026; root:xnu-12377.121.6~2/RELEASE_ARM64_T8132 arm64 |
+| k6_runner | docker:grafana/k6 |
+| base_url | http://host.docker.internal:8080 |
+| auth_token_set | yes |
+| conversation_id | 91001 |
+| vus | 5 |
+| duration | 1m |
+| timeout | 120s |
+| sleep_seconds | 1 |
+| openai_base_url | https://dashscope.aliyuncs.com/compatible-mode/v1 |
+| llm_model | qwen3.6-plus |
+| embedding_model | text-embedding-v4 |
+| embedding_dimensions | 1536 |
+| query_rewrite_enabled | false |
+| hyde_enabled | false |
+| rerank_external_enabled | true |
+| rerank_api_url_set | yes |
+| rerank_model | qwen3-rerank |
+
+> Secrets are intentionally redacted; this file records whether credentials were set, not their values.
+
+# k6 output
+
+
+         /\      Grafana   /‾‾/  
+    /\  /  \     |\  __   /  /   
+   /  \/    \    | |/ /  /   ‾‾\ 
+  /          \   |   (  |  (‾)  |
+ / __________ \  |_|\_\  \_____/ 
+
+
+     execution: local
+        script: benchmarks/scripts/k6-chat-stream.js
+        output: -
+
+     scenarios: (100.00%) 1 scenario, 5 max VUs, 1m30s max duration (incl. graceful stop):
+              * chat_stream_smoke: 5 looping VUs for 1m0s (gracefulStop: 30s)
+
+
+running (0m01.0s), 5/5 VUs, 0 complete and 0 interrupted iterations
+chat_stream_smoke   [   2% ] 5 VUs  0m01.0s/1m0s
+
+running (0m02.0s), 5/5 VUs, 5 complete and 0 interrupted iterations
+chat_stream_smoke   [   3% ] 5 VUs  0m02.0s/1m0s
+
+running (0m03.0s), 5/5 VUs, 9 complete and 0 interrupted iterations
+chat_stream_smoke   [   5% ] 5 VUs  0m03.0s/1m0s
+
+running (0m04.0s), 5/5 VUs, 12 complete and 0 interrupted iterations
+chat_stream_smoke   [   7% ] 5 VUs  0m04.0s/1m0s
+
+running (0m05.0s), 5/5 VUs, 15 complete and 0 interrupted iterations
+chat_stream_smoke   [   8% ] 5 VUs  0m05.0s/1m0s
+
+running (0m06.0s), 5/5 VUs, 19 complete and 0 interrupted iterations
+chat_stream_smoke   [  10% ] 5 VUs  0m06.0s/1m0s
+
+running (0m07.0s), 5/5 VUs, 22 complete and 0 interrupted iterations
+chat_stream_smoke   [  12% ] 5 VUs  0m07.0s/1m0s
+
+running (0m08.0s), 5/5 VUs, 25 complete and 0 interrupted iterations
+chat_stream_smoke   [  13% ] 5 VUs  0m08.0s/1m0s
+
+running (0m09.0s), 5/5 VUs, 27 complete and 0 interrupted iterations
+chat_stream_smoke   [  15% ] 5 VUs  0m09.0s/1m0s
+
+running (0m10.0s), 5/5 VUs, 28 complete and 0 interrupted iterations
+chat_stream_smoke   [  17% ] 5 VUs  0m10.0s/1m0s
+
+running (0m11.0s), 5/5 VUs, 32 complete and 0 interrupted iterations
+chat_stream_smoke   [  18% ] 5 VUs  0m11.0s/1m0s
+
+running (0m12.0s), 5/5 VUs, 36 complete and 0 interrupted iterations
+chat_stream_smoke   [  20% ] 5 VUs  0m12.0s/1m0s
+
+running (0m13.0s), 5/5 VUs, 38 complete and 0 interrupted iterations
+chat_stream_smoke   [  22% ] 5 VUs  0m13.0s/1m0s
+
+running (0m14.0s), 5/5 VUs, 43 complete and 0 interrupted iterations
+chat_stream_smoke   [  23% ] 5 VUs  0m14.0s/1m0s
+
+running (0m15.0s), 5/5 VUs, 46 complete and 0 interrupted iterations
+chat_stream_smoke   [  25% ] 5 VUs  0m15.0s/1m0s
+
+running (0m16.0s), 5/5 VUs, 49 complete and 0 interrupted iterations
+chat_stream_smoke   [  27% ] 5 VUs  0m16.0s/1m0s
+
+running (0m17.0s), 5/5 VUs, 53 complete and 0 interrupted iterations
+chat_stream_smoke   [  28% ] 5 VUs  0m17.0s/1m0s
+
+running (0m18.0s), 5/5 VUs, 56 complete and 0 interrupted iterations
+chat_stream_smoke   [  30% ] 5 VUs  0m18.0s/1m0s
+
+running (0m19.0s), 5/5 VUs, 60 complete and 0 interrupted iterations
+chat_stream_smoke   [  32% ] 5 VUs  0m19.0s/1m0s
+
+running (0m20.0s), 5/5 VUs, 64 complete and 0 interrupted iterations
+chat_stream_smoke   [  33% ] 5 VUs  0m20.0s/1m0s
+
+running (0m21.0s), 5/5 VUs, 68 complete and 0 interrupted iterations
+chat_stream_smoke   [  35% ] 5 VUs  0m21.0s/1m0s
+
+running (0m22.0s), 5/5 VUs, 72 complete and 0 interrupted iterations
+chat_stream_smoke   [  37% ] 5 VUs  0m22.0s/1m0s
+
+running (0m23.0s), 5/5 VUs, 74 complete and 0 interrupted iterations
+chat_stream_smoke   [  38% ] 5 VUs  0m23.0s/1m0s
+
+running (0m24.0s), 5/5 VUs, 79 complete and 0 interrupted iterations
+chat_stream_smoke   [  40% ] 5 VUs  0m24.0s/1m0s
+
+running (0m25.0s), 5/5 VUs, 84 complete and 0 interrupted iterations
+chat_stream_smoke   [  42% ] 5 VUs  0m25.0s/1m0s
+
+running (0m26.0s), 5/5 VUs, 87 complete and 0 interrupted iterations
+chat_stream_smoke   [  43% ] 5 VUs  0m26.0s/1m0s
+
+running (0m27.0s), 5/5 VUs, 92 complete and 0 interrupted iterations
+chat_stream_smoke   [  45% ] 5 VUs  0m27.0s/1m0s
+
+running (0m28.0s), 5/5 VUs, 95 complete and 0 interrupted iterations
+chat_stream_smoke   [  47% ] 5 VUs  0m28.0s/1m0s
+
+running (0m29.0s), 5/5 VUs, 98 complete and 0 interrupted iterations
+chat_stream_smoke   [  48% ] 5 VUs  0m29.0s/1m0s
+
+running (0m30.0s), 5/5 VUs, 101 complete and 0 interrupted iterations
+chat_stream_smoke   [  50% ] 5 VUs  0m30.0s/1m0s
+
+running (0m31.0s), 5/5 VUs, 106 complete and 0 interrupted iterations
+chat_stream_smoke   [  52% ] 5 VUs  0m31.0s/1m0s
+
+running (0m32.0s), 5/5 VUs, 110 complete and 0 interrupted iterations
+chat_stream_smoke   [  53% ] 5 VUs  0m32.0s/1m0s
+
+running (0m33.0s), 5/5 VUs, 113 complete and 0 interrupted iterations
+chat_stream_smoke   [  55% ] 5 VUs  0m33.0s/1m0s
+
+running (0m34.0s), 5/5 VUs, 116 complete and 0 interrupted iterations
+chat_stream_smoke   [  57% ] 5 VUs  0m34.0s/1m0s
+
+running (0m35.0s), 5/5 VUs, 119 complete and 0 interrupted iterations
+chat_stream_smoke   [  58% ] 5 VUs  0m35.0s/1m0s
+
+running (0m36.0s), 5/5 VUs, 123 complete and 0 interrupted iterations
+chat_stream_smoke   [  60% ] 5 VUs  0m36.0s/1m0s
+
+running (0m37.0s), 5/5 VUs, 128 complete and 0 interrupted iterations
+chat_stream_smoke   [  62% ] 5 VUs  0m37.0s/1m0s
+
+running (0m38.0s), 5/5 VUs, 132 complete and 0 interrupted iterations
+chat_stream_smoke   [  63% ] 5 VUs  0m38.0s/1m0s
+
+running (0m39.0s), 5/5 VUs, 136 complete and 0 interrupted iterations
+chat_stream_smoke   [  65% ] 5 VUs  0m39.0s/1m0s
+
+running (0m40.0s), 5/5 VUs, 138 complete and 0 interrupted iterations
+chat_stream_smoke   [  67% ] 5 VUs  0m40.0s/1m0s
+
+running (0m41.0s), 5/5 VUs, 142 complete and 0 interrupted iterations
+chat_stream_smoke   [  68% ] 5 VUs  0m41.0s/1m0s
+
+running (0m42.0s), 5/5 VUs, 147 complete and 0 interrupted iterations
+chat_stream_smoke   [  70% ] 5 VUs  0m42.0s/1m0s
+
+running (0m43.0s), 5/5 VUs, 152 complete and 0 interrupted iterations
+chat_stream_smoke   [  72% ] 5 VUs  0m43.0s/1m0s
+
+running (0m44.0s), 5/5 VUs, 156 complete and 0 interrupted iterations
+chat_stream_smoke   [  73% ] 5 VUs  0m44.0s/1m0s
+
+running (0m45.0s), 5/5 VUs, 159 complete and 0 interrupted iterations
+chat_stream_smoke   [  75% ] 5 VUs  0m45.0s/1m0s
+
+running (0m46.0s), 5/5 VUs, 162 complete and 0 interrupted iterations
+chat_stream_smoke   [  77% ] 5 VUs  0m46.0s/1m0s
+
+running (0m47.0s), 5/5 VUs, 167 complete and 0 interrupted iterations
+chat_stream_smoke   [  78% ] 5 VUs  0m47.0s/1m0s
+
+running (0m48.0s), 5/5 VUs, 172 complete and 0 interrupted iterations
+chat_stream_smoke   [  80% ] 5 VUs  0m48.0s/1m0s
+
+running (0m49.0s), 5/5 VUs, 177 complete and 0 interrupted iterations
+chat_stream_smoke   [  82% ] 5 VUs  0m49.0s/1m0s
+
+running (0m50.0s), 5/5 VUs, 180 complete and 0 interrupted iterations
+chat_stream_smoke   [  83% ] 5 VUs  0m50.0s/1m0s
+
+running (0m51.0s), 5/5 VUs, 183 complete and 0 interrupted iterations
+chat_stream_smoke   [  85% ] 5 VUs  0m51.0s/1m0s
+
+running (0m52.0s), 5/5 VUs, 187 complete and 0 interrupted iterations
+chat_stream_smoke   [  87% ] 5 VUs  0m52.0s/1m0s
+
+running (0m53.0s), 5/5 VUs, 191 complete and 0 interrupted iterations
+chat_stream_smoke   [  88% ] 5 VUs  0m53.0s/1m0s
+
+running (0m54.0s), 5/5 VUs, 196 complete and 0 interrupted iterations
+chat_stream_smoke   [  90% ] 5 VUs  0m54.0s/1m0s
+
+running (0m55.0s), 5/5 VUs, 200 complete and 0 interrupted iterations
+chat_stream_smoke   [  92% ] 5 VUs  0m55.0s/1m0s
+
+running (0m56.0s), 5/5 VUs, 203 complete and 0 interrupted iterations
+chat_stream_smoke   [  93% ] 5 VUs  0m56.0s/1m0s
+
+running (0m57.0s), 5/5 VUs, 206 complete and 0 interrupted iterations
+chat_stream_smoke   [  95% ] 5 VUs  0m57.0s/1m0s
+
+running (0m58.0s), 5/5 VUs, 209 complete and 0 interrupted iterations
+chat_stream_smoke   [  97% ] 5 VUs  0m58.0s/1m0s
+
+running (0m59.0s), 5/5 VUs, 212 complete and 0 interrupted iterations
+chat_stream_smoke   [  98% ] 5 VUs  0m59.0s/1m0s
+
+running (1m00.0s), 5/5 VUs, 215 complete and 0 interrupted iterations
+chat_stream_smoke   [ 100% ] 5 VUs  1m00.0s/1m0s
+
+running (1m01.0s), 1/5 VUs, 219 complete and 0 interrupted iterations
+chat_stream_smoke ↓ [ 100% ] 5 VUs  1m0s
+
+running (1m02.0s), 1/5 VUs, 219 complete and 0 interrupted iterations
+chat_stream_smoke ↓ [ 100% ] 5 VUs  1m0s
+
+running (1m03.0s), 1/5 VUs, 219 complete and 0 interrupted iterations
+chat_stream_smoke ↓ [ 100% ] 5 VUs  1m0s
+
+running (1m04.0s), 1/5 VUs, 219 complete and 0 interrupted iterations
+chat_stream_smoke ↓ [ 100% ] 5 VUs  1m0s
+
+
+  █ THRESHOLDS 
+
+    http_req_failed
+    ✓ 'rate<0.05' rate=0.00%
+
+    rag_stream_latency
+    ✓ 'p(95)<120000' p(95)=1612.8
+
+    rag_stream_status_ok
+    ✓ 'rate>0.95' rate=100.00%
+
+
+  █ TOTAL RESULTS 
+
+    checks_total.......: 440     6.870284/s
+    checks_succeeded...: 100.00% 440 out of 440
+    checks_failed......: 0.00%   0 out of 440
+
+    ✓ status is 200
+    ✓ contains token or sources event
+
+    CUSTOM
+    rag_stream_latency.............: avg=387.895455 min=157      med=203.5    max=3461  p(90)=791.3    p(95)=1612.8 p(99)=2627.39
+    rag_stream_status_ok...........: 100.00% 220 out of 220
+
+    HTTP
+    http_req_duration..............: avg=387.61ms   min=156.69ms med=203.41ms max=3.46s p(90)=791.31ms p(95)=1.61s  p(99)=2.62s  
+      { expected_response:true }...: avg=387.61ms   min=156.69ms med=203.41ms max=3.46s p(90)=791.31ms p(95)=1.61s  p(99)=2.62s  
+    http_req_failed................: 0.00%   0 out of 220
+    http_reqs......................: 220     3.435142/s
+
+    EXECUTION
+    iteration_duration.............: avg=1.38s      min=1.15s    med=1.2s     max=4.46s p(90)=1.79s    p(95)=2.61s  p(99)=3.62s  
+    iterations.....................: 220     3.435142/s
+    vus............................: 1       min=1          max=5
+    vus_max........................: 5       min=5          max=5
+
+    NETWORK
+    data_received..................: 194 kB  3.0 kB/s
+    data_sent......................: 119 kB  1.9 kB/s
+
+
+
+
+running (1m04.0s), 0/5 VUs, 220 complete and 0 interrupted iterations
+chat_stream_smoke ✓ [ 100% ] 5 VUs  1m0s

@@ -23,6 +23,7 @@
 *.log
 
 .env
+.env.real-sse
 *.env
 .python-version
 .remember/

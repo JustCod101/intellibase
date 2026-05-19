@@ -9,15 +9,33 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 REPO_ROOT="$(cd "${SCRIPT_DIR}/../.." && pwd)"
 cd "${REPO_ROOT}"
 
-if [[ -f .env ]]; then
-  set -a
-  # shellcheck disable=SC1091
-  source .env
-  set +a
-fi
+load_env_defaults() {
+  local file="$1"
+  local line key value
+  [[ -f "${file}" ]] || return 0
+  while IFS= read -r line || [[ -n "${line}" ]]; do
+    line="${line#"${line%%[![:space:]]*}"}"
+    line="${line%"${line##*[![:space:]]}"}"
+    [[ -z "${line}" || "${line}" == \#* ]] && continue
+    [[ "${line}" == export\ * ]] && line="${line#export }"
+    key="${line%%=*}"
+    [[ "${key}" =~ ^[A-Za-z_][A-Za-z0-9_]*$ ]] || continue
+    if [[ -z "${!key+x}" ]]; then
+      value="${line#*=}"
+      value="${value%$'\r'}"
+      if [[ ( "${value}" == \"*\" && "${value}" == *\" ) || ( "${value}" == \'*\' && "${value}" == *\' ) ]]; then
+        value="${value:1:${#value}-2}"
+      fi
+      export "${key}=${value}"
+    fi
+  done < "${file}"
+}
 
-: "${AUTH_TOKEN:?Set AUTH_TOKEN for the benchmark user}"
-: "${CONVERSATION_ID:?Set CONVERSATION_ID to an existing conversation bound to a populated KB}"
+load_env_defaults .env
+load_env_defaults .env.real-sse
+
+: "${AUTH_TOKEN:?Set AUTH_TOKEN for the benchmark user, or run benchmarks/scripts/prepare-real-sse-benchmark-env.sh}"
+: "${CONVERSATION_ID:?Set CONVERSATION_ID to an existing conversation bound to a populated KB, or run benchmarks/scripts/prepare-real-sse-benchmark-env.sh}"
 : "${BASE_URL:=http://localhost:8080}"
 : "${VUS:=5}"
 : "${DURATION:=1m}"

@@ -3,6 +3,7 @@ import { check, sleep } from 'k6';
 import { Trend, Rate } from 'k6/metrics';
 
 export const options = {
+  summaryTrendStats: ['avg', 'min', 'med', 'max', 'p(90)', 'p(95)', 'p(99)'],
   scenarios: {
     chat_stream_smoke: {
       executor: 'constant-vus',

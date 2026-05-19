@@ -110,7 +110,7 @@ psql postgresql://postgres:postgres@localhost:5432/intellibase \
 - 参数策略：
   - HNSW：默认 `ef_search` 使用数据库默认值；在压测场景中再按 Recall@K 与 P95 延迟调高。
   - IVFFlat：暂不作为默认，仅保留 benchmark 脚本用于候选方案对比。
-- README/简历口径：只写能追溯到 `benchmarks/raw-results/` 的数字，并标注数据规模、TopK、运行环境；端到端 SSE 性能未跑出前不写 P95/P99。
+- README/简历口径：只写能追溯到 `benchmarks/raw-results/` 的数字，并标注数据规模、TopK、运行环境；端到端 SSE 单独引用 k6 真实结果，不把 DB-only pgvector 延迟等同为接口延迟。
 
 ## 7. 数据验证与后续计划
 
@@ -120,8 +120,10 @@ psql postgresql://postgres:postgres@localhost:5432/intellibase \
 - HNSW/IVFFlat/GIN 的原始 EXPLAIN 结果已保存；
 - 默认 HNSW 索引在脚本结束后会恢复，避免影响后续开发。
 
+已补充端到端验证：`k6-chat-stream-real-20260519-163217.txt` 在 5 VUs / 1m / 220 requests、DashScope-compatible `qwen3.6-plus` + `text-embedding-v4` + `qwen3-rerank`、seeded benchmark KB、query rewrite/HyDE 关闭前提下，流式延迟 P50/P95/P99 = 203.5ms/1.613s/2.627s。该结果用于接口层性能口径，不能反推出 pgvector 索引单项耗时。
+
 待补充：
 
-1. 使用真实领域文本和真实 embedding 替换确定性 fixture，评估召回质量；
+1. 使用真实领域文本和真实 embedding 替换确定性 fixture，评估 10 万真实语义向量质量；
 2. 将索引参数变化接入 `docs/evaluation.md` 的 Recall@5/MRR 对比；
-3. 跑 k6 SSE 端到端压测，将 LLM API、并发、硬件写入结果表。
+3. 在更高并发和更大真实 KB 上复跑 k6，记录供应商限流、Token 输出长度和成本。

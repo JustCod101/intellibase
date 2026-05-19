@@ -303,7 +303,7 @@ JAVA_HOME=$(/usr/libexec/java_home -v 17.0.18) mvn -Dtest=RetrievalEvaluationTes
 
 ## 性能基准与可复现口径
 
-所有性能数字必须能追溯到 [benchmarks/raw-results](benchmarks/raw-results)。当前已完成 **pgvector 10 万向量单查询索引基准和 200 次采样分位数基准**；同时补充了从仓库真实代码/文档/SQL 切分生成 10 万 real-text chunks 的导入脚本与原始输出。端到端 SSE 的 mock 链路已跑通，真实 LLM/Embedding/Rerank SSE 压测仍需提供 `AUTH_TOKEN` 和 `CONVERSATION_ID` 后运行。
+所有性能数字必须能追溯到 [benchmarks/raw-results](benchmarks/raw-results)。当前已完成 **pgvector 10 万向量单查询索引基准和 200 次采样分位数基准**；同时补充了从仓库真实代码/文档/SQL 切分生成 10 万 real-text chunks 的导入脚本与原始输出。端到端 SSE 已分别完成 mock 链路验证和真实 LLM/Embedding API k6 压测。
 
 | 场景 | 数据规模/条件 | 结果 | 原始文件 |
 |---|---|---:|---|
@@ -316,8 +316,9 @@ JAVA_HOME=$(/usr/libexec/java_home -v 17.0.18) mvn -Dtest=RetrievalEvaluationTes
 | HNSW 多查询分位数 | 200 samples，Top-20，`ef_search=40` | P50 0.189ms / P95 0.290ms / P99 1.039ms | `pgvector-latency-20260518-233100.txt` |
 | GIN 多查询分位数 | 200 samples，固定关键词，Top-20 | P50 18.204ms / P95 24.994ms / P99 29.200ms | `pgvector-latency-20260518-233100.txt` |
 | SSE mock 端到端 | 1 VU / 5s / 500 chunks / mock OpenAI-compatible API | `http_req_failed=0%`，P95≈8ms | `k6-chat-stream-mock-1vu-500chunks-20260518-231000.txt` |
+| SSE 真实端到端 | 5 VUs / 1m / 220 requests；Docker k6 → IntelliBase app → DashScope-compatible `qwen3.6-plus` + `text-embedding-v4` + `qwen3-rerank`；seeded benchmark KB | `http_req_failed=0%`，P50 203.5ms / P95 1.613s / P99 2.627s | `k6-chat-stream-real-20260519-163217.txt` |
 
-> pgvector 表格不是端到端问答延迟；不包含 HTTP、真实 Embedding、真实 Rerank、真实 LLM 流式输出。SSE mock 结果只证明链路和脚本可运行，不代表真实模型延迟。`/api/v1/chat/stream` 的真实 P50/P95/P99 需按 `benchmarks/scripts/run-real-chat-stream-k6.sh` 接真实 API 后再填写。
+> pgvector 表格不是端到端问答延迟；不包含 HTTP、真实 Embedding、真实 Rerank、真实 LLM 流式输出。SSE mock 结果只证明链路和脚本可运行，不代表真实模型延迟。SSE 真实端到端结果使用 seeded benchmark KB、query rewrite/HyDE 关闭、external rerank 开启与当前模型/供应商配置，只能在相同前提下引用。
 
 真实质量评测或真实 SSE k6 前可先运行：
 

@@ -38,6 +38,7 @@ fi
 
 run bash -n benchmarks/scripts/run-real-api-evaluation.sh
 run bash -n benchmarks/scripts/run-real-chat-stream-k6.sh
+run bash -n benchmarks/scripts/prepare-real-sse-benchmark-env.sh
 run bash -n benchmarks/scripts/real-benchmark-preflight.sh
 run bash -n benchmarks/scripts/check-claim-hygiene.sh
 run bash -n benchmarks/scripts/final-acceptance-gate.sh

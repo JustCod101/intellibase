@@ -16,12 +16,30 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 REPO_ROOT="$(cd "${SCRIPT_DIR}/../.." && pwd)"
 cd "${REPO_ROOT}"
 
-if [[ -f .env ]]; then
-  set -a
-  # shellcheck disable=SC1091
-  source .env
-  set +a
-fi
+load_env_defaults() {
+  local file="$1"
+  local line key value
+  [[ -f "${file}" ]] || return 0
+  while IFS= read -r line || [[ -n "${line}" ]]; do
+    line="${line#"${line%%[![:space:]]*}"}"
+    line="${line%"${line##*[![:space:]]}"}"
+    [[ -z "${line}" || "${line}" == \#* ]] && continue
+    [[ "${line}" == export\ * ]] && line="${line#export }"
+    key="${line%%=*}"
+    [[ "${key}" =~ ^[A-Za-z_][A-Za-z0-9_]*$ ]] || continue
+    if [[ -z "${!key+x}" ]]; then
+      value="${line#*=}"
+      value="${value%$'\r'}"
+      if [[ ( "${value}" == \"*\" && "${value}" == *\" ) || ( "${value}" == \'*\' && "${value}" == *\' ) ]]; then
+        value="${value:1:${#value}-2}"
+      fi
+      export "${key}=${value}"
+    fi
+  done < "${file}"
+}
+
+load_env_defaults .env
+load_env_defaults .env.real-sse
 
 usage() {
   cat <<'USAGE'
@@ -95,8 +113,8 @@ check_retrieval() {
 check_sse() {
   echo
   echo "==> Real SSE k6 benchmark"
-  require_env "AUTH_TOKEN" "benchmark user bearer token"
-  require_env "CONVERSATION_ID" "existing conversation bound to a populated KB"
+  require_env "AUTH_TOKEN" "benchmark user bearer token; run prepare-real-sse-benchmark-env.sh or set manually"
+  require_env "CONVERSATION_ID" "existing conversation bound to a populated KB; run prepare-real-sse-benchmark-env.sh or set manually"
   optional_env "BASE_URL" "defaults to http://localhost:8080"
   optional_env "VUS" "defaults to 5"
   optional_env "DURATION" "defaults to 1m"
